@@ -2,40 +2,55 @@ package com.buterfleoge.whale.eo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
 
 /**
  * entity object for user table
  * 
- * @author xiezhenzong
+ * @author dongjunpeng
  *
  */
 @Entity
+@Table(name="user")
 public class User extends BaseObject {
 
     @Id
-    private Long userid;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="user_id")
+    private Long userId;
 
-    @Column(nullable = false)
+    @Column(name="email")
     private String email;
 
-    @Column(nullable = false)
+    @Column(name="password")
     private String password;
 
+    @Column(name="qq_openid")
+    private String qqOpenid;
+    
+    @Column(name="weixin_openid")
+    private String weixinOpenid;
+    
+    @Column(name="cellphone")
+    private String cellphone;
+    
     /**
-     * @return the userid
+     * @return the userId
      */
-    public Long getUserid() {
-        return userid;
+    public Long getUserId() {
+        return userId;
     }
 
     /**
      * @param userid the userid to set
      */
-    public void setUserid(Long userid) {
-        this.userid = userid;
+    public void setUserid(Long userId) {
+        this.userId = userId;
     }
 
     /**
@@ -66,4 +81,35 @@ public class User extends BaseObject {
         this.password = password;
     }
 
+	public String getQqOpenid() {
+		return qqOpenid;
+	}
+
+	public void setQqOpenid(String qqOpenid) {
+		this.qqOpenid = qqOpenid;
+	}
+
+	public String getWeixinOpenid() {
+		return weixinOpenid;
+	}
+
+	public void setWeixinOpenid(String weixinOpenid) {
+		this.weixinOpenid = weixinOpenid;
+	}
+
+	public String getCellphone() {
+		return cellphone;
+	}
+
+	public void setCellphone(String cellphone) {
+		this.cellphone = cellphone;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+    
+    
+    
 }
