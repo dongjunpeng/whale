@@ -1,6 +1,6 @@
 package com.buterfleoge.whale.dao;
 
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
 
 import com.buterfleoge.whale.eo.User;
 
@@ -8,11 +8,13 @@ import com.buterfleoge.whale.eo.User;
  * 
  * repository bean for user
  * 
- * @author xiezhenzong
+ * @author dongjunpeng
  *
  */
-public interface UserRepository extends Repository<User, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
-    User findOne(Long userid);
+	User findOne(Long userid);
+
+	long countByEmail(String email);
 
 }
