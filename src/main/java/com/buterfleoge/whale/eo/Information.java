@@ -1,7 +1,5 @@
 package com.buterfleoge.whale.eo;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,7 +9,7 @@ import com.buterfleoge.whale.BaseObject;
 
 @Entity
 @Table(name = "information")
-public class Information extends BaseObject {
+public class Information extends BaseObject implements Cloneable {
 
 	@Id
 	@Column(name = "user_id")
@@ -58,4 +56,8 @@ public class Information extends BaseObject {
 		this.birthday = birthday;
 	}
 
+	public Information clone() throws CloneNotSupportedException {
+		Information information = (Information) super.clone();
+		return information;
+	}
 }

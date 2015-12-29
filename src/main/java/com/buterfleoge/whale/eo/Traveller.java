@@ -11,33 +11,33 @@ import com.buterfleoge.whale.BaseObject;
 
 @Entity
 @Table(name = "traveller")
-public class Traveller extends BaseObject {
-	
+public class Traveller extends BaseObject implements Cloneable {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "traveller_id")
 	private Long travellerId;
-	
-    @Column(name="user_id")
-    private long userId;
-    
-    @Column(name="identification")
-    private String identification;
-    
-    @Column(name="id_type")
-    private String idType;
-    
-    @Column(name="name")
-    private String name;
-    
-    @Column(name="cellphone")
-    private String cellphone;
-    
-    @Column(name="emergency_contact")
-    private String emergencyContact;
-    
-    @Column(name="emergency_phone")
-    private String emergencyPhone;
+
+	@Column(name = "user_id")
+	private long userId;
+
+	@Column(name = "identification")
+	private String identification;
+
+	@Column(name = "id_type")
+	private String idType;
+
+	@Column(name = "name")
+	private String name;
+
+	@Column(name = "cellphone")
+	private String cellphone;
+
+	@Column(name = "emergency_contact")
+	private String emergencyContact;
+
+	@Column(name = "emergency_phone")
+	private String emergencyPhone;
 
 	public Long getTravellerId() {
 		return travellerId;
@@ -102,7 +102,10 @@ public class Traveller extends BaseObject {
 	public void setEmergencyPhone(String emergencyPhone) {
 		this.emergencyPhone = emergencyPhone;
 	}
-    
-    
+
+	public Traveller clone() throws CloneNotSupportedException {
+		Traveller traveller = (Traveller) super.clone();
+		return traveller;
+	}
 
 }
