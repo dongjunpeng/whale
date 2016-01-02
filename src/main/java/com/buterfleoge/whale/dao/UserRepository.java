@@ -16,5 +16,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	User findOne(Long userid);
 
 	long countByEmail(String email);
+	
+	User findByEmail(String email);
+	
+	User findByUserId(long userId);
 
 }
