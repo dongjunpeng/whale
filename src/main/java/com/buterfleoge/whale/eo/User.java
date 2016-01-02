@@ -17,7 +17,7 @@ import com.buterfleoge.whale.BaseObject;
  */
 @Entity
 @Table(name="user")
-public class User extends BaseObject {
+public class User extends BaseObject implements Cloneable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -109,6 +109,10 @@ public class User extends BaseObject {
 		this.userId = userId;
 	}
 
+	public User clone() throws CloneNotSupportedException {
+		User user = (User) super.clone();
+		return user;
+	}
     
     
     
