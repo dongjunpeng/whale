@@ -19,7 +19,7 @@ public class Traveller extends BaseObject implements Cloneable {
 	private Long travellerId;
 
 	@Column(name = "user_id")
-	private long userId;
+	private long userid;
 
 	@Column(name = "identification")
 	private String identification;
@@ -47,12 +47,12 @@ public class Traveller extends BaseObject implements Cloneable {
 		this.travellerId = travellerId;
 	}
 
-	public long getUserId() {
-		return userId;
+	public long getUserid() {
+		return userid;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setUserid(long userid) {
+		this.userid = userid;
 	}
 
 	public String getIdentification() {

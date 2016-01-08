@@ -1,5 +1,7 @@
 package com.buterfleoge.whale.dao;
 
+import java.util.Iterator;
+
 import org.springframework.data.repository.CrudRepository;
 import com.buterfleoge.whale.eo.Traveller;
 
@@ -8,5 +10,8 @@ import com.buterfleoge.whale.eo.Traveller;
  *
  */
 public interface TravellerRepository extends CrudRepository<Traveller, Long> {
+	Iterable<Traveller> findByUserid(long userid);
+	
+	Traveller findByTravellerId(long travellerId);
 
 }
