@@ -18,7 +18,7 @@ public class Traveller extends BaseObject implements Cloneable {
 	@Column(name = "traveller_id")
 	private Long travellerId;
 
-	@Column(name = "user_id")
+	@Column(name = "userid")
 	private long userid;
 
 	@Column(name = "identification")

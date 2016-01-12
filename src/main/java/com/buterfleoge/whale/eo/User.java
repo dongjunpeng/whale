@@ -21,7 +21,7 @@ public class User extends BaseObject implements Cloneable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
+    @Column(name="userid")
     private Long userid;
 
     @Column(name="email")

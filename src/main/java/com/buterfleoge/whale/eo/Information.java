@@ -12,7 +12,7 @@ import com.buterfleoge.whale.BaseObject;
 public class Information extends BaseObject implements Cloneable {
 
 	@Id
-	@Column(name = "user_id")
+	@Column(name = "userid")
 	private Long userid;
 
 	@Column(name = "nickname")
