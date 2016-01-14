@@ -12,8 +12,8 @@ import com.buterfleoge.whale.BaseObject;
 public class Information extends BaseObject implements Cloneable {
 
 	@Id
-	@Column(name = "user_id")
-	private Long userId;
+	@Column(name = "userid")
+	private Long userid;
 
 	@Column(name = "nickname")
 	private String nickname;
@@ -24,12 +24,12 @@ public class Information extends BaseObject implements Cloneable {
 	@Column(name = "birthday")
 	private String birthday;
 
-	public Long getUserId() {
-		return userId;
+	public Long getUserid() {
+		return userid;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setUserid(Long userid) {
+		this.userid = userid;
 	}
 
 	public String getNickname() {

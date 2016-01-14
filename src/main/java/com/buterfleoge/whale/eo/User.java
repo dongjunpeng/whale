@@ -21,8 +21,8 @@ public class User extends BaseObject implements Cloneable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_id")
-    private Long userId;
+    @Column(name="userid")
+    private Long userid;
 
     @Column(name="email")
     private String email;
@@ -40,17 +40,17 @@ public class User extends BaseObject implements Cloneable{
     private String cellphone;
     
     /**
-     * @return the userId
+     * @return the userid
      */
-    public Long getUserId() {
-        return userId;
+    public Long getUserid() {
+        return userid;
     }
 
     /**
      * @param userid the userid to set
      */
-    public void setUserid(Long userId) {
-        this.userId = userId;
+    public void setUserid(Long userid) {
+        this.userid = userid;
     }
 
     /**
@@ -105,9 +105,7 @@ public class User extends BaseObject implements Cloneable{
 		this.cellphone = cellphone;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+
 
 	public User clone() throws CloneNotSupportedException {
 		User user = (User) super.clone();
