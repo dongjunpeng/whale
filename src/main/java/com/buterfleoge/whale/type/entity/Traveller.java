@@ -1,4 +1,4 @@
-package com.buterfleoge.whale.eo;
+package com.buterfleoge.whale.type.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
