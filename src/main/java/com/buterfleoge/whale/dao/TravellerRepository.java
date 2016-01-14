@@ -3,7 +3,8 @@ package com.buterfleoge.whale.dao;
 import java.util.Iterator;
 
 import org.springframework.data.repository.CrudRepository;
-import com.buterfleoge.whale.eo.Traveller;
+
+import com.buterfleoge.whale.type.entity.Traveller;
 
 /**
  * @author dongjunpeng
