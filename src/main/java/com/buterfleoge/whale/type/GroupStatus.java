@@ -1,36 +1,49 @@
+/**
+ * 
+ */
 package com.buterfleoge.whale.type;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 账户状态
- *
- * @author xiezhenzong
+ * 发团状态
+ * 
+ * @author Brent24
  *
  */
-public enum AccountStatus {
+public enum GroupStatus {
+	
+	/**
+	 * 未发布
+	 */
+	UNPUBLISHED(0),
 
 	/**
-	 * 刚注册,等待邮件验证
+	 * 招募中
 	 */
-	WAIT_ACTIVE(0),
+	OPEN(1),
+	
+	/**
+	 * 未成行关闭
+	 */
+	CLOSE(2),
 
 	/**
-	 * 账户正常
+	 * 满员
 	 */
-	OK(1),
-
+	FULL(3),
+	
 	/**
-	 * 账户注销
+	 * 结束
 	 */
-	LOG_OFF(2),
+	FINISH(4),
 
 	;
 
 	private int status;
 
-	private AccountStatus(int status) {
+	private GroupStatus(int status) {
 		this.status = status;
 	}
 

@@ -19,7 +19,7 @@ import com.buterfleoge.whale.util.Utils;
 @Service("accountBiz")
 public class AccountBizImpl implements AccountBiz {
 
-    private static final AccountStatus INIT_STATUS = AccountStatus.wait_active;
+    private static final AccountStatus INIT_STATUS = AccountStatus.WAIT_ACTIVE;
 
     @Autowired
     private AccountInfoRepository accountInfoRepository;
@@ -36,7 +36,7 @@ public class AccountBizImpl implements AccountBiz {
         Utils.rejectIfNull(type, "type can't be null");
 
         AccountInfo info = new AccountInfo();
-        info.setAtype(type);
+        info.setType(type);
         info.setStatus(INIT_STATUS);
         info.setEmail(email);
         info.setPassword(password);

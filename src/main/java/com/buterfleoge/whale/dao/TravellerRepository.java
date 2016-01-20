@@ -3,16 +3,15 @@ package com.buterfleoge.whale.dao;
 import java.util.Iterator;
 
 import org.springframework.data.repository.CrudRepository;
-
-import com.buterfleoge.whale.type.entity.Traveller;
+import com.buterfleoge.whale.type.entity.TravellerInfo;
 
 /**
  * @author dongjunpeng
  *
  */
-public interface TravellerRepository extends CrudRepository<Traveller, Long> {
-	Iterable<Traveller> findByUserid(long userid);
+public interface TravellerRepository extends CrudRepository<TravellerInfo, Long> {
+	Iterable<TravellerInfo> findByUserid(long userid);
 	
-	Traveller findByTravellerId(long travellerId);
+	TravellerInfo findByTravellerId(long travellerId);
 
 }
