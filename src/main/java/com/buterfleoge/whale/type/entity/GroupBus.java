@@ -32,59 +32,59 @@ public class GroupBus extends BaseObject {
 	private long groupid;
 
 	@Column(name = "plate_number")
-	private String plateNumber;
+	private String plateNumber = "";
 
 	@Column(name = "manager")
-	private String manager;
+	private String manager = "";
 
 	@Column(name = "manager_mobile")
-	private String managerMobile;
+	private String managerMobile = "";
 
 	@Column(name = "driver")
-	private String driver;
+	private String driver = "";
 
 	@Column(name = "driver_mobile")
-	private String driverMobile;
+	private String driverMobile = "";
 
 	@Column(name = "assistant")
-	private String assistant;
+	private String assistant = "";
 
 	@Column(name = "assistant_mobile")
-	private String assistantMobile;
+	private String assistantMobile = "";
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "daily_rent")
-	private long dailyRent;
+	private long dailyRent = 0;
 
 	@Column(name = "days")
-	private int days;
+	private int days = 0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "gas")
-	private long gas;
+	private long gas = 0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "road_toll")
-	private long roadToll;
+	private long roadToll = 0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "food")
-	private long food;
+	private long food = 0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "room")
-	private long room;
+	private long room = 0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "other")
-	private long other;
+	private long other = 0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "total")
-	private long total;
-	
+	private long total = 0;
+
 	@Column(name = "remark")
-	private String remark;
+	private String remark = "";
 
 	public long getBusid() {
 		return busid;
@@ -229,7 +229,5 @@ public class GroupBus extends BaseObject {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
-	
 
 }

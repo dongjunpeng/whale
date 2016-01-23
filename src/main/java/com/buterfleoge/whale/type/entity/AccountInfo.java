@@ -28,40 +28,40 @@ public class AccountInfo extends BaseObject {
 	private long accountid;
 
 	@Column(name = "name")
-	private String name;
+	private String name = "";
 
 	@Column(name = "password")
-	private String password;
+	private String password = "";
 
 	@Column(name = "type")
-	private AccountType type;
+	private AccountType type = AccountType.COMMON;
 
 	@Column(name = "status")
-	private AccountStatus status;
+	private AccountStatus status = AccountStatus.WAIT_ACTIVE;
 
 	@Column(name = "id")
-	private String id;
+	private String id = "";
 
 	@Column(name = "email")
-	private String email;
+	private String email = "";
 
 	@Column(name = "wxid")
-	private String wxid;
+	private String wxid = "";
 
 	@Column(name = "qqid")
-	private String qqid;
+	private String qqid = "";
 
 	@Column(name = "wbid")
-	private String wbid;
+	private String wbid = "";
 
 	@Column(name = "mobile")
-	private String mobile;
+	private String mobile = "";
 
 	@Column(name = "add_time")
-	private String addTime;
+	private String addTime = "";
 
 	@Column(name = "mod_time")
-	private String modTime;
+	private String modTime = "";
 
 	public long getAccountid() {
 		return accountid;
@@ -166,8 +166,5 @@ public class AccountInfo extends BaseObject {
 	public void setModTime(String modTime) {
 		this.modTime = modTime;
 	}
-
-	
-	
 
 }

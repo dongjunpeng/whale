@@ -32,43 +32,43 @@ public class TravellerInfo extends BaseObject {
 	private long accountid;
 
 	@Column(name = "name")
-	private String name;
+	private String name="";
 
 	@Column(name = "id")
-	private String id;
+	private String id="";
 
 	@Column(name = "id_type")
-	private IdType idType;
+	private IdType idType=IdType.IDENTIFICATION;
 
 	@Column(name = "gender")
-	private Gender gender;
+	private Gender gender=Gender.UNKNOW;
 
 	@Column(name = "birthday")
-	private String birthday;
+	private String birthday="";
 
 	@Column(name = "mobile")
-	private String mobile;
+	private String mobile="";
 
 	@Column(name = "email")
-	private String email;
+	private String email="";
 
 	@Column(name = "wxid")
-	private String wxid;
+	private String wxid="";
 
 	@Column(name = "address")
-	private String address;
+	private String address="";
 
 	@Column(name = "emergency_contact")
-	private String emergencyContact;
+	private String emergencyContact="";
 
 	@Column(name = "emergency_phone")
-	private String emergencyPhone;
+	private String emergencyPhone="";
 
 	@Column(name = "add_time")
-	private String addTime;
+	private String addTime="";
 
 	@Column(name = "mod_time")
-	private String modTime;
+	private String modTime="";
 
 	public long getTravellerid() {
 		return travellerid;

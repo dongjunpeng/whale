@@ -36,39 +36,39 @@ public class GroupLeader extends BaseObject {
 	private long leaderid;
 
 	@Column(name = "role")
-	private LeaderRole role;
+	private LeaderRole role = LeaderRole.LEADER;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "traffic")
-	private long traffic;
+	private long traffic = 0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "room")
-	private long room;
+	private long room = 0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "ticket")
-	private long ticket;
+	private long ticket = 0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "food")
-	private long food;
+	private long food = 0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "equipment")
-	private long equipment;
+	private long equipment = 0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "salary")
-	private long salary;
-	
+	private long salary = 0;
+
 	// 单位为分，数据库存取需要转换
 	@Column(name = "other")
-	private long other;
+	private long other = 0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "total")
-	private long total;
+	private long total = 0;
 
 	public long getBusid() {
 		return busid;
@@ -165,7 +165,5 @@ public class GroupLeader extends BaseObject {
 	public void setTotal(long total) {
 		this.total = total;
 	}
-	
-	
 
 }

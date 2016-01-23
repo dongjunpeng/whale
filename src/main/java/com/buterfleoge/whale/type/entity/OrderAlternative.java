@@ -30,7 +30,7 @@ public class OrderAlternative {
 	private long alternativeTravellerid;
 
 	@Column(name = "remark")
-	private String remark;
+	private String remark="";
 
 	public long getAlternativeid() {
 		return alternativeid;

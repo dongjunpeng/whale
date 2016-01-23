@@ -32,10 +32,10 @@ public class LeaderInfo extends BaseObject {
 	private long accountid;
 
 	@Column(name = "special")
-	private String special;
+	private String special="";
 
 	@Column(name = "remark")
-	private String remark;
+	private String remark="";
 
 	public long getLeaderid() {
 		return leaderid;

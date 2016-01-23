@@ -33,14 +33,14 @@ public class GroupAdditionalCost extends BaseObject {
 	private long groupid;
 
 	@Column(name = "item")
-	private String item;
+	private String item="";
 
 	@Column(name = "remark")
-	private String remark;
+	private String remark="";
 	
 	//单位为分，数据库存取需要转换
 	@Column(name = "total")
-	private long total;
+	private long total=0;
 
 	public long getCostid() {
 		return costid;

@@ -13,5 +13,7 @@ public interface AccountBiz {
     boolean isEmailExist(String email) throws Exception;
 
     void createAccount(String email, String password, AccountType type) throws Exception;
+    
+    boolean emailLogin(String email, String password) throws Exception;
 
 }

@@ -31,19 +31,19 @@ public class OrderRefound extends BaseObject {
 	private long refoundid;
 
 	@Column(name = "type")
-	private RefoundType type;
+	private RefoundType type=RefoundType.PERSONAL;
 
 	@Column(name = "calculation")
-	private RefoundCalculation calculation;
+	private RefoundCalculation calculation=RefoundCalculation.MINUS;
 
 	// 价格单位为分，存储类型为long，尽可能不用百分比计算，否则计算问题处理非常麻烦
 	// 定义为long只支持MINUS类型优惠
 	// 涉及百分比优惠需要修改
 	@Column(name = "value")
-	private long value;
+	private long value=0;
 
 	@Column(name = "description")
-	private String description;
+	private String description="";
 
 	public long getRefoundid() {
 		return refoundid;

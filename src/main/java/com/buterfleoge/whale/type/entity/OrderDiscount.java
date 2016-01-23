@@ -31,19 +31,19 @@ public class OrderDiscount extends BaseObject {
 	private long discountid;
 
 	@Column(name = "type")
-	private DiscountType type;
+	private DiscountType type = DiscountType.DISPOSABLE;
 
 	@Column(name = "calculation")
-	private DiscountCalculation calculation;
+	private DiscountCalculation calculation = DiscountCalculation.MINUS;
 
 	// 价格单位为分，存储类型为long，尽可能不用百分比优惠，否则计算问题处理非常麻烦
 	// 定义为long只支持MINUS类型优惠
 	// 涉及百分比优惠需要修改
 	@Column(name = "value")
-	private long value;
+	private long value = 0;
 
 	@Column(name = "description")
-	private String description;
+	private String description = "";
 
 	public long getDiscountid() {
 		return discountid;

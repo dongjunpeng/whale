@@ -14,32 +14,32 @@ public enum TravelType {
 	/**
 	 * 未知
 	 */
-	unknow(0),
+	UNKNOW(0),
 
 	/**
 	 * 城市
 	 */
-	city_walk(1),
+	CITY_WALK(1),
 
 	/**
 	 * 近郊
 	 */
-	suburb(2),
+	SUBURB(2),
 	
 	/**
 	 * 短途
 	 */
-	short_trip(3),
+	SHORT_TRIP(3),
 	
 	/**
 	 * 长途
 	 */
-	long_trip(4),
+	LONG_TRIP(4),
 	
 	/**
 	 * 国际
 	 */
-	international(5),
+	INTERNATIONAL(5),
 
 	;
 

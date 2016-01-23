@@ -29,31 +29,31 @@ public class TravelRoute extends BaseObject {
 	private long routeid;
 
 	@Column(name = "title")
-	private String title;
+	private String title="";
 
 	@Column(name = "type")
-	private TravelType type;
+	private TravelType type=TravelType.LONG_TRIP;
 
 	@Column(name = "days")
-	private int days;
+	private int days=0;
 
 	@Column(name = "scope")
-	private TravelScope scope;
+	private TravelScope scope=TravelScope.UNKNOW;
 
 	@Column(name = "start_place")
-	private String startPlace;
+	private String startPlace="";
 
 	@Column(name = "end_place")
-	private String endPlace;
+	private String endPlace="";
 
 	@Column(name = "views")
-	private String views;
+	private String views="";
 
 	@Column(name = "price_interval")
-	private String priceInterval;
+	private String priceInterval="";
 
 	@Column(name = "description")
-	private String description;
+	private String description="";
 
 	public long getRouteid() {
 		return routeid;

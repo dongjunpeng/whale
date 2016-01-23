@@ -6,5 +6,5 @@ import com.buterfleoge.whale.type.entity.AccountSetting;
 
 
 public interface InformationRepository extends CrudRepository<AccountSetting, Long> {
-	AccountSetting findByUserid(Long userid);
+	AccountSetting findByAccountid(Long accountid);
 }

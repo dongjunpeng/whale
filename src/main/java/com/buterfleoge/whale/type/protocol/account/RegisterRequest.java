@@ -12,8 +12,6 @@ import com.buterfleoge.whale.BaseObject;
  */
 public class RegisterRequest extends BaseObject implements Serializable {
 
-
-
 	/**
 	 * serial version uid
 	 */
@@ -21,35 +19,43 @@ public class RegisterRequest extends BaseObject implements Serializable {
 
 	private String email;
 	private String password;
+	private String wxid;
+	private String qqid;
 
-	/**
-	 * @return the email
-	 */
 	public String getEmail() {
 		return email;
 	}
 
-	/**
-	 * @param email
-	 *            the email to set
-	 */
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	/**
-	 * @return the password
-	 */
 	public String getPassword() {
 		return password;
 	}
 
-	/**
-	 * @param password
-	 *            the password to set
-	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getWxid() {
+		return wxid;
+	}
+
+	public void setWxid(String wxid) {
+		this.wxid = wxid;
+	}
+
+	public String getQqid() {
+		return qqid;
+	}
+
+	public void setQqid(String qqid) {
+		this.qqid = qqid;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 }

@@ -19,34 +19,34 @@ import com.buterfleoge.whale.type.Gender;
 @Entity
 @Table(name = "account_setting")
 public class AccountSetting extends BaseObject {
-	
+
 	@Id
 	@Column(name = "accountid")
 	private long accountid;
-	
+
 	@Column(name = "nickname")
-	private String nickname;
-	
+	private String nickname = "";
+
 	@Column(name = "wxname")
-	private String wxname;
-	
+	private String wxname = "";
+
 	@Column(name = "qqname")
-	private String qqname;
-	
+	private String qqname = "";
+
 	@Column(name = "wbname")
-	private String wbname;
-	
+	private String wbname = "";
+
 	@Column(name = "gender")
-	private Gender gender;
-	
+	private Gender gender = Gender.UNKNOW;
+
 	@Column(name = "birthday")
-	private String birthday;
-	
+	private String birthday = "";
+
 	@Column(name = "avatar_url")
-	private String avatarUrl;
-	
+	private String avatarUrl = "";
+
 	@Column(name = "mod_time")
-	private String modTime;
+	private String modTime = "";
 
 	public long getAccountid() {
 		return accountid;
@@ -119,7 +119,5 @@ public class AccountSetting extends BaseObject {
 	public void setModTime(String modTime) {
 		this.modTime = modTime;
 	}
-	
-
 
 }

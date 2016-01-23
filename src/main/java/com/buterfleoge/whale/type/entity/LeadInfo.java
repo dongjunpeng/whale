@@ -26,9 +26,41 @@ public class LeadInfo {
 	private long accountid;
 
 	@Column(name = "special")
-	private String special;
+	private String special = "";
 
 	@Column(name = "remark")
-	private String remark;
+	private String remark = "";
+
+	public long getLeaderid() {
+		return leaderid;
+	}
+
+	public void setLeaderid(long leaderid) {
+		this.leaderid = leaderid;
+	}
+
+	public long getAccountid() {
+		return accountid;
+	}
+
+	public void setAccountid(long accountid) {
+		this.accountid = accountid;
+	}
+
+	public String getSpecial() {
+		return special;
+	}
+
+	public void setSpecial(String special) {
+		this.special = special;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 
 }

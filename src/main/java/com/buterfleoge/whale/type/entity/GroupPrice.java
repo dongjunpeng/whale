@@ -31,17 +31,17 @@ public class GroupPrice extends BaseObject {
 	private long groupid;
 
 	@Column(name = "start_place")
-	private String startPlace;
-	
+	private String startPlace = "";
+
 	@Column(name = "end_place")
-	private String endPlace;
+	private String endPlace = "";
 
 	@Column(name = "channel")
-	private TravellerChannel channel;
+	private TravellerChannel channel = TravellerChannel.UNKNOW;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "price")
-	private long price;
+	private long price = 0;
 
 	public long getPriceid() {
 		return priceid;
@@ -90,6 +90,5 @@ public class GroupPrice extends BaseObject {
 	public void setPrice(long price) {
 		this.price = price;
 	}
-	
-	
+
 }

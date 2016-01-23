@@ -17,7 +17,7 @@ public enum TravelScope {
 	/**
 	 * 未知
 	 */
-	unknow(0),
+	UNKNOW(0),
 
 	/**
 	 * 西北
@@ -27,7 +27,7 @@ public enum TravelScope {
 	/**
 	 * 东北
 	 */
-	NoRTHEAST(2),
+	NORTHEAST(2),
 
 	/**
 	 * 西南

@@ -10,8 +10,8 @@ import com.buterfleoge.whale.type.entity.TravellerInfo;
  *
  */
 public interface TravellerRepository extends CrudRepository<TravellerInfo, Long> {
-	Iterable<TravellerInfo> findByUserid(long userid);
+	Iterable<TravellerInfo> findByAccountid(long accountid);
 	
-	TravellerInfo findByTravellerId(long travellerId);
+	TravellerInfo findByTravellerid(long travellerid);
 
 }

@@ -35,75 +35,75 @@ public class TravelOrder extends BaseObject {
 	private long travellerid;
 
 	@Column(name = "name")
-	private String name;
+	private String name="";
 
 	@Column(name = "id")
-	private String id;
+	private String id="";
 
 	@Column(name = "id_type")
-	private IdType idType;
+	private IdType idType=IdType.IDENTIFICATION;
 
 	@Column(name = "gender")
-	private Gender gender;
+	private Gender gender=Gender.UNKNOW;
 
 	@Column(name = "birthday")
-	private String birthday;
+	private String birthday="";
 
 	@Column(name = "mobile")
-	private String mobile;
+	private String mobile="";
 
 	@Column(name = "email")
-	private String email;
+	private String email="";
 
 	@Column(name = "wxid")
-	private String wxid;
+	private String wxid="";
 
 	@Column(name = "address")
-	private String address;
+	private String address="";
 
 	@Column(name = "emergency_contact")
-	private String emergencyContact;
+	private String emergencyContact="";
 
 	@Column(name = "emergency_phone")
-	private String emergencyPhone;
+	private String emergencyPhone="";
 
 	@Column(name = "groupid")
-	private long groupid;
+	private long groupid=0;
 
 	@Column(name = "start_date")
-	private String startDate;
+	private String startDate="";
 
 	@Column(name = "end_date")
-	private String endDate;
+	private String endDate="";
 
 	@Column(name = "priceid")
-	private long priceid;
+	private long priceid=0;
 
 	@Column(name = "start_place")
-	private String startPlace;
+	private String startPlace="";
 
 	@Column(name = "end_place")
-	private String endPlace;
+	private String endPlace="";
 
 	@Column(name = "channel")
 	private TravellerChannel channel;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "price")
-	private long price;
+	private long price=0;
 
 	@Column(name = "status")
 	private OrderStatus status;
 
 	@Column(name = "discountid")
-	private long discountid;
+	private long discountid=0;
 
 	@Column(name = "refoundid")
-	private long refoundid;
+	private long refoundid=0;
 
 	// 单位为分，数据库存取需要转换
 	@Column(name = "actual_price")
-	private long actualPrice;
+	private long actualPrice=0;
 
 	public long getOrderid() {
 		return orderid;

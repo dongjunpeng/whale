@@ -22,27 +22,27 @@ import com.buterfleoge.whale.type.GroupStatus;
 
 @Entity
 @Table(name = "travel_group")
-public class TravelGroup extends BaseObject{
-	
+public class TravelGroup extends BaseObject {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "groupid")
 	private long groupid;
 
 	@Column(name = "status")
-	private GroupStatus status;
+	private GroupStatus status = GroupStatus.UNPUBLISHED;
 
 	@Column(name = "start_date")
-	private String startDate;
-	
+	private String startDate = "";
+
 	@Column(name = "end_date")
-	private String endDate;
+	private String endDate = "";
 
 	@Column(name = "max_number")
-	private int maxNumber;
-	
+	private int maxNumber = 0;
+
 	@Column(name = "actual_number")
-	private int actualNumber;
+	private int actualNumber = 0;
 
 	public long getGroupid() {
 		return groupid;
@@ -91,9 +91,5 @@ public class TravelGroup extends BaseObject{
 	public void setActualNumber(int actualNumber) {
 		this.actualNumber = actualNumber;
 	}
-	
-	
-
-
 
 }

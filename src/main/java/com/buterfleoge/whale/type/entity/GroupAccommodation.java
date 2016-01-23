@@ -14,7 +14,6 @@ import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.type.AccommodationStatus;
 import com.buterfleoge.whale.type.RoomType;
 
-
 /**
  * 住宿信息
  * 
@@ -24,8 +23,8 @@ import com.buterfleoge.whale.type.RoomType;
 
 @Entity
 @Table(name = "group_accommodation")
-public class GroupAccommodation extends BaseObject{
-	
+public class GroupAccommodation extends BaseObject {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "accommodationid")
@@ -35,39 +34,39 @@ public class GroupAccommodation extends BaseObject{
 	private long groupid;
 
 	@Column(name = "status")
-	private AccommodationStatus status;
+	private AccommodationStatus status = AccommodationStatus.RESERVED;
 
 	@Column(name = "date")
-	private String date;
+	private String date = "";
 
 	@Column(name = "city")
-	private String city;
+	private String city = "";
 
 	@Column(name = "name")
-	private String name;
-	
+	private String name = "";
+
 	@Column(name = "address")
-	private String address;
-	
+	private String address = "";
+
 	@Column(name = "phone")
-	private String phone;
-	
+	private String phone = "";
+
 	@Column(name = "room_type")
-	private RoomType roomType;
-	
-	//单位为分，数据库存取需要转换
+	private RoomType roomType = RoomType.DOUBLE_ROOM;
+
+	// 单位为分，数据库存取需要转换
 	@Column(name = "room_price")
-	private long roomPrice;
-	
+	private long roomPrice = 0;
+
 	@Column(name = "room_quantity")
-	private int roomQuantity;
-	
-	//单位为分，数据库存取需要转换
+	private int roomQuantity = 0;
+
+	// 单位为分，数据库存取需要转换
 	@Column(name = "total")
-	private long total;
-	
+	private long total = 0;
+
 	@Column(name = "remark")
-	private String remark;
+	private String remark = "";
 
 	public long getAccommodationid() {
 		return accommodationid;
@@ -172,7 +171,5 @@ public class GroupAccommodation extends BaseObject{
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
-	
 
 }
