@@ -12,15 +12,29 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public enum AccountType {
 
     /**
-     * 普通用户
+     * 普通账户
      */
-    user(0),
+    COMMON(0),
 
     /**
-     * 普通客户
+     * 领队
      */
-    custom(1),
-
+    LEADER(1),
+    
+    /**
+     * 管理员
+     */
+    MANAGER(2),
+    
+    /**
+     * 合作伙伴
+     */
+    PARTNER(3),
+    
+    /**
+     * 代理商
+     */
+    AGENT(4),
     ;
 
     private int type;
@@ -29,16 +43,10 @@ public enum AccountType {
         this.type = type;
     }
 
-    /**
-     * @return the type
-     */
     public int getType() {
         return type;
     }
 
-    /**
-     * @param type the type to set
-     */
     public void setType(int type) {
         this.type = type;
     }

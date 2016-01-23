@@ -1,36 +1,48 @@
+/**
+ * 
+ */
 package com.buterfleoge.whale.type;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 账户状态
- *
- * @author xiezhenzong
+ * 订单状态
+ * 
+ * @author Brent24
  *
  */
-public enum AccountStatus {
+public enum OrderStatus {
+	/**
+	 * 生成
+	 */
+	CREATED(0),
 
 	/**
-	 * 刚注册,等待邮件验证
+	 * 已付款
 	 */
-	WAIT_ACTIVE(0),
+	PAID(1),
+	
+	/**
+	 * 换人
+	 */
+	ALTERNATIVE(2),
 
 	/**
-	 * 账户正常
+	 * 退款
 	 */
-	OK(1),
-
+	REFOUNDED(3),
+	
 	/**
-	 * 账户注销
+	 * 结束
 	 */
-	LOG_OFF(2),
+	FINISH(4),
 
 	;
 
 	private int status;
 
-	private AccountStatus(int status) {
+	private OrderStatus(int status) {
 		this.status = status;
 	}
 
@@ -46,5 +58,4 @@ public enum AccountStatus {
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
-
 }
