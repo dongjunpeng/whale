@@ -25,64 +25,64 @@ import com.buterfleoge.whale.type.RefoundType;
 @Table(name = "order_refound")
 public class OrderRefound extends BaseObject {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "refoundid")
-	private long refoundid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "refoundid")
+    private long refoundid;
 
-	@Column(name = "type")
-	private RefoundType type=RefoundType.PERSONAL;
+    @Column(name = "type")
+    private RefoundType type = RefoundType.PERSONAL;
 
-	@Column(name = "calculation")
-	private RefoundCalculation calculation=RefoundCalculation.MINUS;
+    @Column(name = "calculation")
+    private RefoundCalculation calculation = RefoundCalculation.MINUS;
 
-	// 价格单位为分，存储类型为long，尽可能不用百分比计算，否则计算问题处理非常麻烦
-	// 定义为long只支持MINUS类型优惠
-	// 涉及百分比优惠需要修改
-	@Column(name = "value")
-	private long value=0;
+    // 价格单位为分，存储类型为long，尽可能不用百分比计算，否则计算问题处理非常麻烦
+    // 定义为long只支持MINUS类型优惠
+    // 涉及百分比优惠需要修改
+    @Column(name = "value")
+    private long value = 0;
 
-	@Column(name = "description")
-	private String description="";
+    @Column(name = "description")
+    private String description = "";
 
-	public long getRefoundid() {
-		return refoundid;
-	}
+    public long getRefoundid() {
+        return refoundid;
+    }
 
-	public void setRefoundid(long refoundid) {
-		this.refoundid = refoundid;
-	}
+    public void setRefoundid(long refoundid) {
+        this.refoundid = refoundid;
+    }
 
-	public RefoundType getType() {
-		return type;
-	}
+    public RefoundType getType() {
+        return type;
+    }
 
-	public void setType(RefoundType type) {
-		this.type = type;
-	}
+    public void setType(RefoundType type) {
+        this.type = type;
+    }
 
-	public RefoundCalculation getCalculation() {
-		return calculation;
-	}
+    public RefoundCalculation getCalculation() {
+        return calculation;
+    }
 
-	public void setCalculation(RefoundCalculation calculation) {
-		this.calculation = calculation;
-	}
+    public void setCalculation(RefoundCalculation calculation) {
+        this.calculation = calculation;
+    }
 
-	public long getValue() {
-		return value;
-	}
+    public long getValue() {
+        return value;
+    }
 
-	public void setValue(long value) {
-		this.value = value;
-	}
+    public void setValue(long value) {
+        this.value = value;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 }

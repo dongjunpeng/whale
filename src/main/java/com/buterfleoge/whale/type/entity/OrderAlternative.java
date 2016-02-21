@@ -17,52 +17,51 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "order_alternative")
 public class OrderAlternative {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "alternativeid")
-	private long alternativeid;
 
-	@Column(name = "orderid")
-	private long orderid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "alternativeid")
+    private long alternativeid;
 
-	@Column(name = "alternative_travellerid")
-	private long alternativeTravellerid;
+    @Column(name = "orderid")
+    private long orderid;
 
-	@Column(name = "remark")
-	private String remark="";
+    @Column(name = "alternative_travellerid")
+    private long alternativeTravellerid;
 
-	public long getAlternativeid() {
-		return alternativeid;
-	}
+    @Column(name = "remark")
+    private String remark = "";
 
-	public void setAlternativeid(long alternativeid) {
-		this.alternativeid = alternativeid;
-	}
+    public long getAlternativeid() {
+        return alternativeid;
+    }
 
-	public long getOrderid() {
-		return orderid;
-	}
+    public void setAlternativeid(long alternativeid) {
+        this.alternativeid = alternativeid;
+    }
 
-	public void setOrderid(long orderid) {
-		this.orderid = orderid;
-	}
+    public long getOrderid() {
+        return orderid;
+    }
 
-	public long getAlternativeTravellerid() {
-		return alternativeTravellerid;
-	}
+    public void setOrderid(long orderid) {
+        this.orderid = orderid;
+    }
 
-	public void setAlternativeTravellerid(long alternativeTravellerid) {
-		this.alternativeTravellerid = alternativeTravellerid;
-	}
+    public long getAlternativeTravellerid() {
+        return alternativeTravellerid;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public void setAlternativeTravellerid(long alternativeTravellerid) {
+        this.alternativeTravellerid = alternativeTravellerid;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
 }

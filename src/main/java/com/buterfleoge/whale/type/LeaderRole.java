@@ -14,48 +14,48 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public enum LeaderRole {
 
-	/**
-	 * 主领队
-	 */
-	LEADER(0),
+    /**
+     * 主领队
+     */
+    LEADER(0),
 
-	/**
-	 * 副领队
-	 */
-	ASSISTANT(1),
+    /**
+     * 副领队
+     */
+    ASSISTANT(1),
 
-	/**
-	 * 实习领队
-	 */
-	INTERNSHIP(2),
+    /**
+     * 实习领队
+     */
+    INTERNSHIP(2),
 
-	/**
-	 * 摄影师
-	 */
-	PHOTOGRAPHER(3),
+    /**
+     * 摄影师
+     */
+    PHOTOGRAPHER(3),
 
-	/**
-	 * 亲友
-	 */
-	FRIEND(4),;
+    /**
+     * 亲友
+     */
+    FRIEND(4),;
 
-	private int role;
+    private int role;
 
-	private LeaderRole(int role) {
-		this.role = role;
-	}
+    private LeaderRole(int role) {
+        this.role = role;
+    }
 
-	public int getRole() {
-		return role;
-	}
+    public int getRole() {
+        return role;
+    }
 
-	public void setRole(int role) {
-		this.role = role;
-	}
+    public void setRole(int role) {
+        this.role = role;
+    }
 
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 
 }

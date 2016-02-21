@@ -24,72 +24,72 @@ import com.buterfleoge.whale.type.GroupStatus;
 @Table(name = "travel_group")
 public class TravelGroup extends BaseObject {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "groupid")
-	private long groupid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "groupid")
+    private long groupid;
 
-	@Column(name = "status")
-	private GroupStatus status = GroupStatus.UNPUBLISHED;
+    @Column(name = "status")
+    private GroupStatus status = GroupStatus.UNPUBLISHED;
 
-	@Column(name = "start_date")
-	private String startDate = "";
+    @Column(name = "start_date")
+    private String startDate = "";
 
-	@Column(name = "end_date")
-	private String endDate = "";
+    @Column(name = "end_date")
+    private String endDate = "";
 
-	@Column(name = "max_number")
-	private int maxNumber = 0;
+    @Column(name = "max_number")
+    private int maxNumber = 0;
 
-	@Column(name = "actual_number")
-	private int actualNumber = 0;
+    @Column(name = "actual_number")
+    private int actualNumber = 0;
 
-	public long getGroupid() {
-		return groupid;
-	}
+    public long getGroupid() {
+        return groupid;
+    }
 
-	public void setGroupid(long groupid) {
-		this.groupid = groupid;
-	}
+    public void setGroupid(long groupid) {
+        this.groupid = groupid;
+    }
 
-	public GroupStatus getStatus() {
-		return status;
-	}
+    public GroupStatus getStatus() {
+        return status;
+    }
 
-	public void setStatus(GroupStatus status) {
-		this.status = status;
-	}
+    public void setStatus(GroupStatus status) {
+        this.status = status;
+    }
 
-	public String getStartDate() {
-		return startDate;
-	}
+    public String getStartDate() {
+        return startDate;
+    }
 
-	public void setStartDate(String startDate) {
-		this.startDate = startDate;
-	}
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
 
-	public String getEndDate() {
-		return endDate;
-	}
+    public String getEndDate() {
+        return endDate;
+    }
 
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
-	}
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
+    }
 
-	public int getMaxNumber() {
-		return maxNumber;
-	}
+    public int getMaxNumber() {
+        return maxNumber;
+    }
 
-	public void setMaxNumber(int maxNumber) {
-		this.maxNumber = maxNumber;
-	}
+    public void setMaxNumber(int maxNumber) {
+        this.maxNumber = maxNumber;
+    }
 
-	public int getActualNumber() {
-		return actualNumber;
-	}
+    public int getActualNumber() {
+        return actualNumber;
+    }
 
-	public void setActualNumber(int actualNumber) {
-		this.actualNumber = actualNumber;
-	}
+    public void setActualNumber(int actualNumber) {
+        this.actualNumber = actualNumber;
+    }
 
 }

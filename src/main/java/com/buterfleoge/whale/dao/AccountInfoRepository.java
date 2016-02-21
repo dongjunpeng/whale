@@ -5,8 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import com.buterfleoge.whale.type.entity.AccountInfo;
 
 /**
- *
- *
+ * repository for account_info table
  *
  * @author xiezhenzong
  *

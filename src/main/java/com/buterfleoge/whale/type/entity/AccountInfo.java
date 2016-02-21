@@ -17,154 +17,231 @@ import com.buterfleoge.whale.type.AccountType;
  * @author xiezhenzong
  *
  */
-
 @Entity
 @Table(name = "account_info")
 public class AccountInfo extends BaseObject {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "accountid")
-	private long accountid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "accountid")
+    private long accountid;
 
-	@Column(name = "name")
-	private String name = "";
+    @Column(name = "name")
+    private String name = "";
 
-	@Column(name = "password")
-	private String password = "";
+    @Column(name = "password")
+    private String password = "";
 
-	@Column(name = "type")
-	private AccountType type = AccountType.COMMON;
+    @Column(name = "type")
+    private AccountType type = AccountType.USER;
 
-	@Column(name = "status")
-	private AccountStatus status = AccountStatus.WAIT_ACTIVE;
+    @Column(name = "status")
+    private AccountStatus status = AccountStatus.WAIT_ACTIVE;
 
-	@Column(name = "id")
-	private String id = "";
+    @Column(name = "id")
+    private String id = "";
 
-	@Column(name = "email")
-	private String email = "";
+    @Column(name = "email")
+    private String email = "";
 
-	@Column(name = "wxid")
-	private String wxid = "";
+    @Column(name = "wxid")
+    private String wxid = "";
 
-	@Column(name = "qqid")
-	private String qqid = "";
+    @Column(name = "qqid")
+    private String qqid = "";
 
-	@Column(name = "wbid")
-	private String wbid = "";
+    @Column(name = "wbid")
+    private String wbid = "";
 
-	@Column(name = "mobile")
-	private String mobile = "";
+    @Column(name = "mobile")
+    private String mobile = "";
 
-	@Column(name = "add_time")
-	private String addTime = "";
+    @Column(name = "add_time")
+    private long addTime = 0;
 
-	@Column(name = "mod_time")
-	private String modTime = "";
+    @Column(name = "mod_time")
+    private long modTime = 0;
 
-	public long getAccountid() {
-		return accountid;
-	}
+    /**
+     * @return the accountid
+     */
+    public long getAccountid() {
+        return accountid;
+    }
 
-	public void setAccountid(long accountid) {
-		this.accountid = accountid;
-	}
+    /**
+     * @param accountid the accountid to set
+     */
+    public void setAccountid(long accountid) {
+        this.accountid = accountid;
+    }
 
-	public String getName() {
-		return name;
-	}
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getPassword() {
-		return password;
-	}
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
-	public AccountType getType() {
-		return type;
-	}
+    /**
+     * @return the type
+     */
+    public AccountType getType() {
+        return type;
+    }
 
-	public void setType(AccountType type) {
-		this.type = type;
-	}
+    /**
+     * @param type the type to set
+     */
+    public void setType(AccountType type) {
+        this.type = type;
+    }
 
-	public AccountStatus getStatus() {
-		return status;
-	}
+    /**
+     * @return the status
+     */
+    public AccountStatus getStatus() {
+        return status;
+    }
 
-	public void setStatus(AccountStatus status) {
-		this.status = status;
-	}
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(AccountStatus status) {
+        this.status = status;
+    }
 
-	public String getId() {
-		return id;
-	}
+    /**
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    /**
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getWxid() {
-		return wxid;
-	}
+    /**
+     * @return the wxid
+     */
+    public String getWxid() {
+        return wxid;
+    }
 
-	public void setWxid(String wxid) {
-		this.wxid = wxid;
-	}
+    /**
+     * @param wxid the wxid to set
+     */
+    public void setWxid(String wxid) {
+        this.wxid = wxid;
+    }
 
-	public String getQqid() {
-		return qqid;
-	}
+    /**
+     * @return the qqid
+     */
+    public String getQqid() {
+        return qqid;
+    }
 
-	public void setQqid(String qqid) {
-		this.qqid = qqid;
-	}
+    /**
+     * @param qqid the qqid to set
+     */
+    public void setQqid(String qqid) {
+        this.qqid = qqid;
+    }
 
-	public String getWbid() {
-		return wbid;
-	}
+    /**
+     * @return the wbid
+     */
+    public String getWbid() {
+        return wbid;
+    }
 
-	public void setWbid(String wbid) {
-		this.wbid = wbid;
-	}
+    /**
+     * @param wbid the wbid to set
+     */
+    public void setWbid(String wbid) {
+        this.wbid = wbid;
+    }
 
-	public String getMobile() {
-		return mobile;
-	}
+    /**
+     * @return the mobile
+     */
+    public String getMobile() {
+        return mobile;
+    }
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+    /**
+     * @param mobile the mobile to set
+     */
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-	public String getAddTime() {
-		return addTime;
-	}
+    /**
+     * @return the addTime
+     */
+    public long getAddTime() {
+        return addTime;
+    }
 
-	public void setAddTime(String addTime) {
-		this.addTime = addTime;
-	}
+    /**
+     * @param addTime the addTime to set
+     */
+    public void setAddTime(long addTime) {
+        this.addTime = addTime;
+    }
 
-	public String getModTime() {
-		return modTime;
-	}
+    /**
+     * @return the modTime
+     */
+    public long getModTime() {
+        return modTime;
+    }
 
-	public void setModTime(String modTime) {
-		this.modTime = modTime;
-	}
+    /**
+     * @param modTime the modTime to set
+     */
+    public void setModTime(long modTime) {
+        this.modTime = modTime;
+    }
 
 }

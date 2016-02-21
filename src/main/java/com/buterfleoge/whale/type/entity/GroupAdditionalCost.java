@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
 
-
 /**
  * 其他支出表
  * 
@@ -23,65 +22,63 @@ import com.buterfleoge.whale.BaseObject;
 @Entity
 @Table(name = "group_additional_cost")
 public class GroupAdditionalCost extends BaseObject {
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "costid")
-	private long costid;
 
-	@Column(name = "groupid")
-	private long groupid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "costid")
+    private long costid;
 
-	@Column(name = "item")
-	private String item="";
+    @Column(name = "groupid")
+    private long groupid;
 
-	@Column(name = "remark")
-	private String remark="";
-	
-	//单位为分，数据库存取需要转换
-	@Column(name = "total")
-	private long total=0;
+    @Column(name = "item")
+    private String item = "";
 
-	public long getCostid() {
-		return costid;
-	}
+    @Column(name = "remark")
+    private String remark = "";
 
-	public void setCostid(long costid) {
-		this.costid = costid;
-	}
+    // 单位为分，数据库存取需要转换
+    @Column(name = "total")
+    private long total = 0;
 
-	public long getGroupid() {
-		return groupid;
-	}
+    public long getCostid() {
+        return costid;
+    }
 
-	public void setGroupid(long groupid) {
-		this.groupid = groupid;
-	}
+    public void setCostid(long costid) {
+        this.costid = costid;
+    }
 
-	public String getItem() {
-		return item;
-	}
+    public long getGroupid() {
+        return groupid;
+    }
 
-	public void setItem(String item) {
-		this.item = item;
-	}
+    public void setGroupid(long groupid) {
+        this.groupid = groupid;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public String getItem() {
+        return item;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public void setItem(String item) {
+        this.item = item;
+    }
 
-	public long getTotal() {
-		return total;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public void setTotal(long total) {
-		this.total = total;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
 
 }

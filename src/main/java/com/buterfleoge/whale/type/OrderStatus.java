@@ -13,49 +13,49 @@ import org.apache.commons.lang.builder.ToStringStyle;
  *
  */
 public enum OrderStatus {
-	/**
-	 * 生成
-	 */
-	CREATED(0),
+    /**
+     * 生成
+     */
+    CREATED(0),
 
-	/**
-	 * 已付款
-	 */
-	PAID(1),
-	
-	/**
-	 * 换人
-	 */
-	ALTERNATIVE(2),
+    /**
+     * 已付款
+     */
+    PAID(1),
 
-	/**
-	 * 退款
-	 */
-	REFOUNDED(3),
-	
-	/**
-	 * 结束
-	 */
-	FINISH(4),
+    /**
+     * 换人
+     */
+    ALTERNATIVE(2),
 
-	;
+    /**
+     * 退款
+     */
+    REFOUNDED(3),
 
-	private int status;
+    /**
+     * 结束
+     */
+    FINISH(4),
 
-	private OrderStatus(int status) {
-		this.status = status;
-	}
+    ;
 
-	public int getStatus() {
-		return status;
-	}
+    private int status;
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
+    private OrderStatus(int status) {
+        this.status = status;
+    }
 
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }
