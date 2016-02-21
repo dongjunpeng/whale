@@ -23,117 +23,116 @@ import com.buterfleoge.whale.type.TravelType;
 @Table(name = "traveller_route")
 public class TravelRoute extends BaseObject {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "routeid")
-	private long routeid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "routeid")
+    private long routeid;
 
-	@Column(name = "title")
-	private String title="";
+    @Column(name = "title")
+    private String title = "";
 
-	@Column(name = "type")
-	private TravelType type=TravelType.LONG_TRIP;
+    @Column(name = "type")
+    private TravelType type = TravelType.LONG_TRIP;
 
-	@Column(name = "days")
-	private int days=0;
+    @Column(name = "days")
+    private int days = 0;
 
-	@Column(name = "scope")
-	private TravelScope scope=TravelScope.UNKNOW;
+    @Column(name = "scope")
+    private TravelScope scope = TravelScope.UNKNOW;
 
-	@Column(name = "start_place")
-	private String startPlace="";
+    @Column(name = "start_place")
+    private String startPlace = "";
 
-	@Column(name = "end_place")
-	private String endPlace="";
+    @Column(name = "end_place")
+    private String endPlace = "";
 
-	@Column(name = "views")
-	private String views="";
+    @Column(name = "views")
+    private String views = "";
 
-	@Column(name = "price_interval")
-	private String priceInterval="";
+    @Column(name = "price_interval")
+    private String priceInterval = "";
 
-	@Column(name = "description")
-	private String description="";
+    @Column(name = "description")
+    private String description = "";
 
-	public long getRouteid() {
-		return routeid;
-	}
+    public long getRouteid() {
+        return routeid;
+    }
 
-	public void setRouteid(long routeid) {
-		this.routeid = routeid;
-	}
+    public void setRouteid(long routeid) {
+        this.routeid = routeid;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public TravelType getType() {
-		return type;
-	}
+    public TravelType getType() {
+        return type;
+    }
 
-	public void setType(TravelType type) {
-		this.type = type;
-	}
+    public void setType(TravelType type) {
+        this.type = type;
+    }
 
-	public int getDays() {
-		return days;
-	}
+    public int getDays() {
+        return days;
+    }
 
-	public void setDays(int days) {
-		this.days = days;
-	}
+    public void setDays(int days) {
+        this.days = days;
+    }
 
-	public TravelScope getScope() {
-		return scope;
-	}
+    public TravelScope getScope() {
+        return scope;
+    }
 
-	public void setScope(TravelScope scope) {
-		this.scope = scope;
-	}
+    public void setScope(TravelScope scope) {
+        this.scope = scope;
+    }
 
-	public String getStartPlace() {
-		return startPlace;
-	}
+    public String getStartPlace() {
+        return startPlace;
+    }
 
-	public void setStartPlace(String startPlace) {
-		this.startPlace = startPlace;
-	}
+    public void setStartPlace(String startPlace) {
+        this.startPlace = startPlace;
+    }
 
-	public String getEndPlace() {
-		return endPlace;
-	}
+    public String getEndPlace() {
+        return endPlace;
+    }
 
-	public void setEndPlace(String endPlace) {
-		this.endPlace = endPlace;
-	}
+    public void setEndPlace(String endPlace) {
+        this.endPlace = endPlace;
+    }
 
-	public String getViews() {
-		return views;
-	}
+    public String getViews() {
+        return views;
+    }
 
-	public void setViews(String views) {
-		this.views = views;
-	}
+    public void setViews(String views) {
+        this.views = views;
+    }
 
-	public String getPriceInterval() {
-		return priceInterval;
-	}
+    public String getPriceInterval() {
+        return priceInterval;
+    }
 
-	public void setPriceInterval(String priceInterval) {
-		this.priceInterval = priceInterval;
-	}
+    public void setPriceInterval(String priceInterval) {
+        this.priceInterval = priceInterval;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

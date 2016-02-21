@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.buterfleoge.whale.type;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
@@ -13,51 +10,51 @@ import org.apache.commons.lang.builder.ToStringStyle;
  *
  */
 public enum GroupStatus {
-	
-	/**
-	 * 未发布
-	 */
-	UNPUBLISHED(0),
 
-	/**
-	 * 招募中
-	 */
-	OPEN(1),
-	
-	/**
-	 * 未成行关闭
-	 */
-	CLOSE(2),
+    /**
+     * 未发布
+     */
+    UNPUBLISHED(0),
 
-	/**
-	 * 满员
-	 */
-	FULL(3),
-	
-	/**
-	 * 结束
-	 */
-	FINISH(4),
+    /**
+     * 招募中
+     */
+    OPEN(1),
 
-	;
+    /**
+     * 未成行关闭
+     */
+    CLOSE(2),
 
-	private int status;
+    /**
+     * 满员
+     */
+    FULL(3),
 
-	private GroupStatus(int status) {
-		this.status = status;
-	}
+    /**
+     * 结束
+     */
+    FINISH(4),
 
-	public int getStatus() {
-		return status;
-	}
+    ;
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
+    private int status;
 
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    private GroupStatus(int status) {
+        this.status = status;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 
 }

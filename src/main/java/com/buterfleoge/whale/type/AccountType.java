@@ -14,28 +14,27 @@ public enum AccountType {
     /**
      * 普通账户
      */
-    COMMON(0),
+    USER(0),
 
     /**
      * 领队
      */
     LEADER(1),
-    
+
     /**
      * 管理员
      */
     MANAGER(2),
-    
+
     /**
      * 合作伙伴
      */
     PARTNER(3),
-    
+
     /**
      * 代理商
      */
-    AGENT(4),
-    ;
+    AGENT(4),;
 
     private int type;
 

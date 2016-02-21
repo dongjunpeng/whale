@@ -25,64 +25,64 @@ import com.buterfleoge.whale.type.DiscountType;
 @Table(name = "order_discount")
 public class OrderDiscount extends BaseObject {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "discountid")
-	private long discountid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "discountid")
+    private long discountid;
 
-	@Column(name = "type")
-	private DiscountType type = DiscountType.DISPOSABLE;
+    @Column(name = "type")
+    private DiscountType type = DiscountType.DISPOSABLE;
 
-	@Column(name = "calculation")
-	private DiscountCalculation calculation = DiscountCalculation.MINUS;
+    @Column(name = "calculation")
+    private DiscountCalculation calculation = DiscountCalculation.MINUS;
 
-	// 价格单位为分，存储类型为long，尽可能不用百分比优惠，否则计算问题处理非常麻烦
-	// 定义为long只支持MINUS类型优惠
-	// 涉及百分比优惠需要修改
-	@Column(name = "value")
-	private long value = 0;
+    // 价格单位为分，存储类型为long，尽可能不用百分比优惠，否则计算问题处理非常麻烦
+    // 定义为long只支持MINUS类型优惠
+    // 涉及百分比优惠需要修改
+    @Column(name = "value")
+    private long value = 0;
 
-	@Column(name = "description")
-	private String description = "";
+    @Column(name = "description")
+    private String description = "";
 
-	public long getDiscountid() {
-		return discountid;
-	}
+    public long getDiscountid() {
+        return discountid;
+    }
 
-	public void setDiscountid(long discountid) {
-		this.discountid = discountid;
-	}
+    public void setDiscountid(long discountid) {
+        this.discountid = discountid;
+    }
 
-	public DiscountType getType() {
-		return type;
-	}
+    public DiscountType getType() {
+        return type;
+    }
 
-	public void setType(DiscountType type) {
-		this.type = type;
-	}
+    public void setType(DiscountType type) {
+        this.type = type;
+    }
 
-	public DiscountCalculation getCalculation() {
-		return calculation;
-	}
+    public DiscountCalculation getCalculation() {
+        return calculation;
+    }
 
-	public void setCalculation(DiscountCalculation calculation) {
-		this.calculation = calculation;
-	}
+    public void setCalculation(DiscountCalculation calculation) {
+        this.calculation = calculation;
+    }
 
-	public long getValue() {
-		return value;
-	}
+    public long getValue() {
+        return value;
+    }
 
-	public void setValue(long value) {
-		this.value = value;
-	}
+    public void setValue(long value) {
+        this.value = value;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 }

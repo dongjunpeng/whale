@@ -11,40 +11,40 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public enum AccountStatus {
 
-	/**
-	 * 刚注册,等待邮件验证
-	 */
-	WAIT_ACTIVE(0),
+    /**
+     * 刚注册,等待邮件验证
+     */
+    WAIT_ACTIVE(0),
 
-	/**
-	 * 账户正常
-	 */
-	OK(1),
+    /**
+     * 账户正常
+     */
+    OK(1),
 
-	/**
-	 * 账户注销
-	 */
-	LOG_OFF(2),
+    /**
+     * 账户注销
+     */
+    LOG_OFF(2),
 
-	;
+    ;
 
-	private int status;
+    private int status;
 
-	private AccountStatus(int status) {
-		this.status = status;
-	}
+    private AccountStatus(int status) {
+        this.status = status;
+    }
 
-	public int getStatus() {
-		return status;
-	}
+    public int getStatus() {
+        return status;
+    }
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 
 }

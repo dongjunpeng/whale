@@ -13,36 +13,36 @@ import org.apache.commons.lang.builder.ToStringStyle;
  *
  */
 public enum RefoundType {
-	
-	/**
-	 * 个人原因
-	 */
-	PERSONAL(0),
 
-	/**
-	 * 形成取消
-	 */
-	CANCELlED(1),
+    /**
+     * 个人原因
+     */
+    PERSONAL(0),
 
-	;
+    /**
+     * 形成取消
+     */
+    CANCELlED(1),
 
-	private int type;
+    ;
 
-	private RefoundType(int type) {
-		this.type = type;
-	}
+    private int type;
 
-	public int getType() {
-		return type;
-	}
+    private RefoundType(int type) {
+        this.type = type;
+    }
 
-	public void setType(int type) {
-		this.type = type;
-	}
+    public int getType() {
+        return type;
+    }
 
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 
 }

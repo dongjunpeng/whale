@@ -17,50 +17,50 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "leader_info")
 public class LeadInfo {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "leaderid")
-	private long leaderid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "leaderid")
+    private long leaderid;
 
-	@Column(name = "accountid")
-	private long accountid;
+    @Column(name = "accountid")
+    private long accountid;
 
-	@Column(name = "special")
-	private String special = "";
+    @Column(name = "special")
+    private String special = "";
 
-	@Column(name = "remark")
-	private String remark = "";
+    @Column(name = "remark")
+    private String remark = "";
 
-	public long getLeaderid() {
-		return leaderid;
-	}
+    public long getLeaderid() {
+        return leaderid;
+    }
 
-	public void setLeaderid(long leaderid) {
-		this.leaderid = leaderid;
-	}
+    public void setLeaderid(long leaderid) {
+        this.leaderid = leaderid;
+    }
 
-	public long getAccountid() {
-		return accountid;
-	}
+    public long getAccountid() {
+        return accountid;
+    }
 
-	public void setAccountid(long accountid) {
-		this.accountid = accountid;
-	}
+    public void setAccountid(long accountid) {
+        this.accountid = accountid;
+    }
 
-	public String getSpecial() {
-		return special;
-	}
+    public String getSpecial() {
+        return special;
+    }
 
-	public void setSpecial(String special) {
-		this.special = special;
-	}
+    public void setSpecial(String special) {
+        this.special = special;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
 }

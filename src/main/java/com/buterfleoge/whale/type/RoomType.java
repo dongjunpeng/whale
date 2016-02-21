@@ -14,40 +14,40 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public enum RoomType {
 
-	/**
-	 * 2人标准间
-	 */
-	DOUBLE_ROOM(0),
+    /**
+     * 2人标准间
+     */
+    DOUBLE_ROOM(0),
 
-	/**
-	 * 单人间
-	 */
-	SINGLE_ROOM(1),
+    /**
+     * 单人间
+     */
+    SINGLE_ROOM(1),
 
-	/**
-	 * 三人间
-	 */
-	TRIPLE_ROOM(2),
+    /**
+     * 三人间
+     */
+    TRIPLE_ROOM(2),
 
-	;
+    ;
 
-	private int type;
+    private int type;
 
-	private RoomType(int type) {
-		this.type = type;
-	}
+    private RoomType(int type) {
+        this.type = type;
+    }
 
-	public int getType() {
-		return type;
-	}
+    public int getType() {
+        return type;
+    }
 
-	public void setType(int type) {
-		this.type = type;
-	}
+    public void setType(int type) {
+        this.type = type;
+    }
 
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
-	
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
 }

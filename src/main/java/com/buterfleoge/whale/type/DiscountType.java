@@ -14,40 +14,40 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public enum DiscountType {
 
-	/**
-	 * 一次性优惠
-	 */
-	DISPOSABLE(0),
+    /**
+     * 一次性优惠
+     */
+    DISPOSABLE(0),
 
-	/**
-	 * 优惠券
-	 */
-	COUPON(1),
+    /**
+     * 优惠券
+     */
+    COUPON(1),
 
-	/**
-	 * 多人优惠
-	 */
-	MULTIPLE(2),
+    /**
+     * 多人优惠
+     */
+    MULTIPLE(2),
 
-	;
+    ;
 
-	private int type;
+    private int type;
 
-	private DiscountType(int type) {
-		this.type = type;
-	}
+    private DiscountType(int type) {
+        this.type = type;
+    }
 
-	public int getType() {
-		return type;
-	}
+    public int getType() {
+        return type;
+    }
 
-	public void setType(int type) {
-		this.type = type;
-	}
+    public void setType(int type) {
+        this.type = type;
+    }
 
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 
 }

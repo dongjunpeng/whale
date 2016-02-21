@@ -24,171 +24,171 @@ import com.buterfleoge.whale.type.TravellerChannel;
 @Table(name = "traveller_additional")
 public class TravellerAdational extends BaseObject {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "travellerid")
-	private long travellerid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "travellerid")
+    private long travellerid;
 
-	@Column(name = "channel")
-	private TravellerChannel channel = TravellerChannel.UNKNOW;
+    @Column(name = "channel")
+    private TravellerChannel channel = TravellerChannel.UNKNOW;
 
-	@Column(name = "name")
-	private String name = "";
+    @Column(name = "name")
+    private String name = "";
 
-	@Column(name = "id")
-	private String id = "";
+    @Column(name = "id")
+    private String id = "";
 
-	@Column(name = "id_type")
-	private IdType idType = IdType.IDENTIFICATION;
+    @Column(name = "id_type")
+    private IdType idType = IdType.IDENTIFICATION;
 
-	@Column(name = "gender")
-	private Gender gender = Gender.UNKNOW;
+    @Column(name = "gender")
+    private Gender gender = Gender.UNKNOW;
 
-	@Column(name = "birthday")
-	private String birthday = "";
+    @Column(name = "birthday")
+    private String birthday = "";
 
-	@Column(name = "mobile")
-	private String mobile = "";
+    @Column(name = "mobile")
+    private String mobile = "";
 
-	@Column(name = "email")
-	private String email = "";
+    @Column(name = "email")
+    private String email = "";
 
-	@Column(name = "wxid")
-	private String wxid = "";
+    @Column(name = "wxid")
+    private String wxid = "";
 
-	@Column(name = "address")
-	private String address = "";
+    @Column(name = "address")
+    private String address = "";
 
-	@Column(name = "emergency_contact")
-	private String emergencyContact = "";
+    @Column(name = "emergency_contact")
+    private String emergencyContact = "";
 
-	@Column(name = "emergency_phone")
-	private String emergencyPhone = "";
+    @Column(name = "emergency_phone")
+    private String emergencyPhone = "";
 
-	@Column(name = "add_time")
-	private String addTime = "";
+    @Column(name = "add_time")
+    private String addTime = "";
 
-	@Column(name = "mod_time")
-	private String modTime = "";
+    @Column(name = "mod_time")
+    private String modTime = "";
 
-	public long getTravellerid() {
-		return travellerid;
-	}
+    public long getTravellerid() {
+        return travellerid;
+    }
 
-	public void setTravellerid(long travellerid) {
-		this.travellerid = travellerid;
-	}
+    public void setTravellerid(long travellerid) {
+        this.travellerid = travellerid;
+    }
 
-	public TravellerChannel getChannel() {
-		return channel;
-	}
+    public TravellerChannel getChannel() {
+        return channel;
+    }
 
-	public void setChannel(TravellerChannel channel) {
-		this.channel = channel;
-	}
+    public void setChannel(TravellerChannel channel) {
+        this.channel = channel;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public IdType getIdType() {
-		return idType;
-	}
+    public IdType getIdType() {
+        return idType;
+    }
 
-	public void setIdType(IdType idType) {
-		this.idType = idType;
-	}
+    public void setIdType(IdType idType) {
+        this.idType = idType;
+    }
 
-	public Gender getGender() {
-		return gender;
-	}
+    public Gender getGender() {
+        return gender;
+    }
 
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 
-	public String getBirthday() {
-		return birthday;
-	}
+    public String getBirthday() {
+        return birthday;
+    }
 
-	public void setBirthday(String birthday) {
-		this.birthday = birthday;
-	}
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
 
-	public String getMobile() {
-		return mobile;
-	}
+    public String getMobile() {
+        return mobile;
+    }
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getWxid() {
-		return wxid;
-	}
+    public String getWxid() {
+        return wxid;
+    }
 
-	public void setWxid(String wxid) {
-		this.wxid = wxid;
-	}
+    public void setWxid(String wxid) {
+        this.wxid = wxid;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public String getEmergencyContact() {
-		return emergencyContact;
-	}
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
 
-	public void setEmergencyContact(String emergencyContact) {
-		this.emergencyContact = emergencyContact;
-	}
+    public void setEmergencyContact(String emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
 
-	public String getEmergencyPhone() {
-		return emergencyPhone;
-	}
+    public String getEmergencyPhone() {
+        return emergencyPhone;
+    }
 
-	public void setEmergencyPhone(String emergencyPhone) {
-		this.emergencyPhone = emergencyPhone;
-	}
+    public void setEmergencyPhone(String emergencyPhone) {
+        this.emergencyPhone = emergencyPhone;
+    }
 
-	public String getAddTime() {
-		return addTime;
-	}
+    public String getAddTime() {
+        return addTime;
+    }
 
-	public void setAddTime(String addTime) {
-		this.addTime = addTime;
-	}
+    public void setAddTime(String addTime) {
+        this.addTime = addTime;
+    }
 
-	public String getModTime() {
-		return modTime;
-	}
+    public String getModTime() {
+        return modTime;
+    }
 
-	public void setModTime(String modTime) {
-		this.modTime = modTime;
-	}
+    public void setModTime(String modTime) {
+        this.modTime = modTime;
+    }
 
 }

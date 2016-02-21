@@ -25,151 +25,151 @@ import com.buterfleoge.whale.type.RoomType;
 @Table(name = "group_accommodation")
 public class GroupAccommodation extends BaseObject {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "accommodationid")
-	private long accommodationid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "accommodationid")
+    private long accommodationid;
 
-	@Column(name = "groupid")
-	private long groupid;
+    @Column(name = "groupid")
+    private long groupid;
 
-	@Column(name = "status")
-	private AccommodationStatus status = AccommodationStatus.RESERVED;
+    @Column(name = "status")
+    private AccommodationStatus status = AccommodationStatus.RESERVED;
 
-	@Column(name = "date")
-	private String date = "";
+    @Column(name = "date")
+    private String date = "";
 
-	@Column(name = "city")
-	private String city = "";
+    @Column(name = "city")
+    private String city = "";
 
-	@Column(name = "name")
-	private String name = "";
+    @Column(name = "name")
+    private String name = "";
 
-	@Column(name = "address")
-	private String address = "";
+    @Column(name = "address")
+    private String address = "";
 
-	@Column(name = "phone")
-	private String phone = "";
+    @Column(name = "phone")
+    private String phone = "";
 
-	@Column(name = "room_type")
-	private RoomType roomType = RoomType.DOUBLE_ROOM;
+    @Column(name = "room_type")
+    private RoomType roomType = RoomType.DOUBLE_ROOM;
 
-	// 单位为分，数据库存取需要转换
-	@Column(name = "room_price")
-	private long roomPrice = 0;
+    // 单位为分，数据库存取需要转换
+    @Column(name = "room_price")
+    private long roomPrice = 0;
 
-	@Column(name = "room_quantity")
-	private int roomQuantity = 0;
+    @Column(name = "room_quantity")
+    private int roomQuantity = 0;
 
-	// 单位为分，数据库存取需要转换
-	@Column(name = "total")
-	private long total = 0;
+    // 单位为分，数据库存取需要转换
+    @Column(name = "total")
+    private long total = 0;
 
-	@Column(name = "remark")
-	private String remark = "";
+    @Column(name = "remark")
+    private String remark = "";
 
-	public long getAccommodationid() {
-		return accommodationid;
-	}
+    public long getAccommodationid() {
+        return accommodationid;
+    }
 
-	public void setAccommodationid(long accommodationid) {
-		this.accommodationid = accommodationid;
-	}
+    public void setAccommodationid(long accommodationid) {
+        this.accommodationid = accommodationid;
+    }
 
-	public long getGroupid() {
-		return groupid;
-	}
+    public long getGroupid() {
+        return groupid;
+    }
 
-	public void setGroupid(long groupid) {
-		this.groupid = groupid;
-	}
+    public void setGroupid(long groupid) {
+        this.groupid = groupid;
+    }
 
-	public AccommodationStatus getStatus() {
-		return status;
-	}
+    public AccommodationStatus getStatus() {
+        return status;
+    }
 
-	public void setStatus(AccommodationStatus status) {
-		this.status = status;
-	}
+    public void setStatus(AccommodationStatus status) {
+        this.status = status;
+    }
 
-	public String getDate() {
-		return date;
-	}
+    public String getDate() {
+        return date;
+    }
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public RoomType getRoomType() {
-		return roomType;
-	}
+    public RoomType getRoomType() {
+        return roomType;
+    }
 
-	public void setRoomType(RoomType roomType) {
-		this.roomType = roomType;
-	}
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
+    }
 
-	public long getRoomPrice() {
-		return roomPrice;
-	}
+    public long getRoomPrice() {
+        return roomPrice;
+    }
 
-	public void setRoomPrice(long roomPrice) {
-		this.roomPrice = roomPrice;
-	}
+    public void setRoomPrice(long roomPrice) {
+        this.roomPrice = roomPrice;
+    }
 
-	public int getRoomQuantity() {
-		return roomQuantity;
-	}
+    public int getRoomQuantity() {
+        return roomQuantity;
+    }
 
-	public void setRoomQuantity(int roomQuantity) {
-		this.roomQuantity = roomQuantity;
-	}
+    public void setRoomQuantity(int roomQuantity) {
+        this.roomQuantity = roomQuantity;
+    }
 
-	public long getTotal() {
-		return total;
-	}
+    public long getTotal() {
+        return total;
+    }
 
-	public void setTotal(long total) {
-		this.total = total;
-	}
+    public void setTotal(long total) {
+        this.total = total;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
 }
