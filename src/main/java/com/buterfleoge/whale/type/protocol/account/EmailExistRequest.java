@@ -2,7 +2,7 @@ package com.buterfleoge.whale.type.protocol.account;
 
 import org.hibernate.validator.constraints.Email;
 
-import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.protocol.Request;
 
 /**
  * email 是否存在请求项
@@ -10,7 +10,7 @@ import com.buterfleoge.whale.BaseObject;
  * @author xiezhenzong
  *
  */
-public class EmailExistRequestItem extends BaseObject {
+public class EmailExistRequest extends Request {
 
     @Email
     private String email;
@@ -18,13 +18,13 @@ public class EmailExistRequestItem extends BaseObject {
     /**
      *
      */
-    public EmailExistRequestItem() {
+    public EmailExistRequest() {
     }
 
     /**
      * @param email
      */
-    public EmailExistRequestItem(String email) {
+    public EmailExistRequest(String email) {
         this.email = email;
     }
 

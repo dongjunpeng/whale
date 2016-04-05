@@ -1,11 +1,10 @@
 package com.buterfleoge.whale.biz.account;
 
-import com.buterfleoge.whale.type.entity.AccountInfo;
-import com.buterfleoge.whale.type.protocol.Request;
 import com.buterfleoge.whale.type.protocol.Response;
-import com.buterfleoge.whale.type.protocol.account.EmailExistRequestItem;
-import com.buterfleoge.whale.type.protocol.account.LoginRequestItem;
-import com.buterfleoge.whale.type.protocol.account.RegisterRequestItem;
+import com.buterfleoge.whale.type.protocol.account.EmailExistRequest;
+import com.buterfleoge.whale.type.protocol.account.RegisterRequest;
+import com.buterfleoge.whale.type.protocol.account.RegisterResponse;
+import com.buterfleoge.whale.type.protocol.account.ValidateEmailRequest;
 
 /**
  * 账户相关的操作
@@ -15,10 +14,12 @@ import com.buterfleoge.whale.type.protocol.account.RegisterRequestItem;
  */
 public interface AccountBiz {
 
-    void isEmailExist(Request<EmailExistRequestItem> request, Response<Void> response) throws Exception;
+    void isEmailExist(EmailExistRequest request, Response response) throws Exception;
 
-    void registerByEmail(Request<RegisterRequestItem> request, Response<Void> response) throws Exception;
+    void registerByEmail(RegisterRequest request, RegisterResponse response) throws Exception;
 
-    void loginByEmail(Request<LoginRequestItem> request, Response<AccountInfo> response) throws Exception;
+    void validateEmail(ValidateEmailRequest request, Response response) throws Exception;
+
+    // void loginByEmail(LoginRequest request, Response response) throws Exception;
 
 }

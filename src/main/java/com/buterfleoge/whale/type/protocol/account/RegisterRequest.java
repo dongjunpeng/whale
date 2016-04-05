@@ -2,20 +2,21 @@ package com.buterfleoge.whale.type.protocol.account;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.type.AccountType;
+import com.buterfleoge.whale.type.protocol.Request;
 
 /**
- * 登陆请求
+ * 注册请求
  *
  * @author xiezhenzong
  *
  */
-public class LoginRequestItem extends BaseObject {
+public class RegisterRequest extends Request {
 
     @NotBlank
     private String password;
 
+    @NotBlank
     private String email;
 
     private AccountType type;

@@ -11,14 +11,13 @@ import com.buterfleoge.whale.BaseObject;
  * @author xiezhenzong
  *
  */
-public class Response<T> extends BaseObject {
+public class Response extends BaseObject {
 
     /**
      * 响应状态， 如果业务失败的话，则添加Error对象
      */
     private int status;
     private List<Error> errors = new ArrayList<Error>(3);
-    private List<T> data = new ArrayList<T>(3);
 
     /**
      * @return the status
@@ -48,30 +47,22 @@ public class Response<T> extends BaseObject {
         this.errors = errors;
     }
 
+    /**
+     * add error
+     * 
+     * @param error the error to add
+     */
     public void addError(Error error) {
         errors.add(error);
     }
 
+    /**
+     * has any error in response
+     * 
+     * @return
+     */
     public boolean hasError() {
         return errors.size() > 0;
-    }
-
-    /**
-     * @return the data
-     */
-    public List<T> getData() {
-        return data;
-    }
-
-    /**
-     * @param data the data to set
-     */
-    public void setData(List<T> data) {
-        this.data = data;
-    }
-
-    public void addData(T item) {
-        data.add(item);
     }
 
 }

@@ -10,6 +10,8 @@ import org.aopalliance.intercept.MethodInvocation;
  */
 public interface MinorTagCreator {
 
+    String DEFAULT_MINOR_TAG_CREATOR = "minorTagCreator";
+
     /**
      * 根据调用信息来创建minor tag
      * 
