@@ -1,4 +1,4 @@
-package com.buterfleoge.whale.log;
+package com.buterfleoge.whale;
 
 /**
  * 返回null的response异常

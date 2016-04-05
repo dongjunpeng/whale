@@ -1,4 +1,4 @@
-package com.buterfleoge.whale.log;
+package com.buterfleoge.whale.log.interceptor;
 
 import java.lang.reflect.Method;
 import java.util.Map;

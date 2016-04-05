@@ -1,4 +1,4 @@
-package com.buterfleoge.whale.log;
+package com.buterfleoge.whale.log.interceptor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,6 +9,9 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
+import com.buterfleoge.whale.NullResponseException;
+import com.buterfleoge.whale.StatusRegistry;
+import com.buterfleoge.whale.log.LogProxy;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,15 +21,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author xiezhenzong
  * 
  */
-public class LogInterceptor extends LogProxyConfig implements MethodInterceptor, InitializingBean {
+public class LogInterceptor extends AutoLogAttribute implements MethodInterceptor, InitializingBean {
 
     private static final Long DEFAULT_ACCOUNTID = Long.valueOf(0L);
 
     @Override
     public void afterPropertiesSet() {
         Assert.notNull(getLogger(), "LogInterceptor requires not null logger");
-        Assert.notNull(getLogger(), "LogInterceptor requires not null minorTagCreator");
-        Assert.notNull(getLogger(), "LogInterceptor requires not null statusRegistry");
+        Assert.notNull(getMinorTagCreator(), "LogInterceptor requires not null minorTagCreator");
+        Assert.notNull(getStatusRegistry(), "LogInterceptor requires not null statusRegistry");
     }
 
     /**
@@ -38,7 +41,7 @@ public class LogInterceptor extends LogProxyConfig implements MethodInterceptor,
      */
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
-        Logger logger = getLogger();
+        LogProxy logProxy = getLogger();
         StatusRegistry statusRegistry = getStatusRegistry();
         Object response = null;
         int status = -1;
@@ -55,14 +58,14 @@ public class LogInterceptor extends LogProxyConfig implements MethodInterceptor,
             return response;
         } catch (Exception e) {
             status = statusRegistry.getStatusCode(e);
-            logger.logError(invocation, e);
+            // logProxy.logError(invocation, e);
             failedInvoke(invocation, e, status);
             throw e;
         } finally {
             endTime = System.currentTimeMillis();
-            if (logger.isInvokeLogAllowed()) {
+            if (logProxy.isInvokeLogAllowed()) {
                 String invokeLog = createInvokeLog(invocation, response, startTime, endTime, status);
-                logger.logInvoke(invokeLog);
+                logProxy.logInvoke(null);
             }
         }
     }

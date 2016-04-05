@@ -1,4 +1,8 @@
-package com.buterfleoge.whale.log;
+package com.buterfleoge.whale.log.interceptor;
+
+import com.buterfleoge.whale.StatusRegistry;
+import com.buterfleoge.whale.log.LogProxy;
+import com.buterfleoge.whale.log.MinorTagCreator;
 
 /**
  * 默认的日志切面配置
@@ -8,17 +12,17 @@ package com.buterfleoge.whale.log;
  * @see LogProxyCreator
  * 
  */
-public class LogProxyConfig {
+public class AutoLogAttribute {
 
     private String majorTag;
 
-    private MinorTagCreator minorTagCreator = new DefaultMinortagCreator();
+    private MinorTagCreator minorTagCreator;
 
-    private boolean isResponseNullable = false;
+    private boolean isResponseNullable;
 
-    private StatusRegistry statusRegistry = new DefaultStatusRegistry();
+    private StatusRegistry statusRegistry;
 
-    private Logger logger = new DefaultLogger();
+    private LogProxy logProxy;
 
     /**
      * @return the majorTag
@@ -79,15 +83,15 @@ public class LogProxyConfig {
     /**
      * @return the logger
      */
-    public Logger getLogger() {
-        return logger;
+    public LogProxy getLogger() {
+        return logProxy;
     }
 
     /**
-     * @param logger the logger to set
+     * @param logProxy the logger to set
      */
-    public void setLogger(Logger logger) {
-        this.logger = logger;
+    public void setLogger(LogProxy logProxy) {
+        this.logProxy = logProxy;
     }
 
 }

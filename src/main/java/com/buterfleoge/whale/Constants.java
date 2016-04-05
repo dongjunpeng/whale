@@ -1,4 +1,4 @@
-package com.buterfleoge.whale.constant;
+package com.buterfleoge.whale;
 
 import com.buterfleoge.whale.type.protocol.Response;
 
@@ -114,6 +114,16 @@ public interface Constants {
          * 错误账户类型
          */
         int WRONG_ACCOUNT_TYPE = 4;
+
+        /**
+         * 密码不合法
+         */
+        int INVALID_PASSWORD = 5;
+
+        /**
+         * 验证码错误
+         */
+        int INVALID_VALID_CODE = 6;
     }
 
     /**
@@ -130,6 +140,10 @@ public interface Constants {
         String EMAIL_NO_EXIST = "邮箱不存在";
 
         String WRONG_ACCOUNT_TYPE = "错误账户类型";
+
+        String INVALID_PASSWORD = "密码不合法";
+
+        String INVALID_VALID_CODE = "验证码错误";
     }
 
     /**
@@ -141,6 +155,54 @@ public interface Constants {
     public interface Pattern {
 
         String DATE_TIME = "yyyy-MM-dd mm:ss";
+
+    }
+
+    /**
+     * session key
+     *
+     * @author xiezhenzong
+     *
+     */
+    public interface SessionKey {
+
+        String ACCOUNT_BASIC_INF = "account_basic_info";
+
+    }
+
+    /**
+     * default value
+     *
+     * @author xiezhenzong
+     *
+     */
+    public interface DefaultValue {
+
+        long VALID_MAIL_INVALID_PERIOD = 60 * 1000;
+
+        String EMAIL_FROM = "zhenzong.peng@icloud.com";
+
+    }
+
+    /**
+     * prefix
+     *
+     * @author xiezhenzong
+     *
+     */
+    public interface Prefix {
+        String VALID_MAIL_CACHE_PREFIX = "valid_mail_";
+    }
+
+    /**
+     * key
+     *
+     * @author xiezhenzong
+     *
+     */
+    public interface Key {
+
+        String VALID_MAIL_VALID_CODE = "valid_code";
 
     }
 

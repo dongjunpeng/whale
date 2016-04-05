@@ -1,11 +1,11 @@
-package com.buterfleoge.whale.log;
+package com.buterfleoge.whale;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.util.Assert;
 
-import com.buterfleoge.whale.constant.Constants.Status;
+import com.buterfleoge.whale.Constants.Status;
 
 /**
  * 
@@ -14,7 +14,15 @@ import com.buterfleoge.whale.constant.Constants.Status;
  * @author xiezhenzong
  * 
  */
-public class DefaultStatusRegistry implements StatusRegistry {
+public class SimpleStatusRegistry implements StatusRegistry {
+
+    private static class DefaultStatusRegistryHolder {
+        public static final SimpleStatusRegistry INSTANCE = new SimpleStatusRegistry();
+    }
+
+    public static SimpleStatusRegistry instance() {
+        return DefaultStatusRegistryHolder.INSTANCE;
+    }
 
     /**
      * exception type to status

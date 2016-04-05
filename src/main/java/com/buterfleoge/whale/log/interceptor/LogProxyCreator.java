@@ -1,4 +1,4 @@
-package com.buterfleoge.whale.log;
+package com.buterfleoge.whale.log.interceptor;
 
 import java.util.Set;
 
@@ -10,6 +10,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+import com.buterfleoge.whale.StatusRegistry;
+import com.buterfleoge.whale.log.LogProxy;
+import com.buterfleoge.whale.log.MinorTagCreator;
+
 /**
  * 创建log proxy
  * 
@@ -17,7 +21,7 @@ import org.springframework.util.StringUtils;
  * @author xiezhenzong
  * 
  * @see LogProxyCreator
- * @see LogProxyConfig
+ * @see AutoLogAttribute
  */
 public class LogProxyCreator extends AbstractAutoProxyCreator implements InitializingBean {
 
@@ -175,15 +179,15 @@ public class LogProxyCreator extends AbstractAutoProxyCreator implements Initial
     /**
      * @return the logger
      */
-    public Logger getLogger() {
+    public LogProxy getLogger() {
         return logInterceptor.getLogger();
     }
 
     /**
-     * @param logger the logger to set
+     * @param logProxy the logger to set
      */
-    public void setLogger(Logger logger) {
-        logInterceptor.setLogger(logger);
+    public void setLogger(LogProxy logProxy) {
+        logInterceptor.setLogger(logProxy);
     }
 
 }
