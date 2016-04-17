@@ -1,138 +1,242 @@
-/**
- * 
- */
 package com.buterfleoge.whale.type.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.TravelScope;
+import com.buterfleoge.whale.type.TravelArea;
 import com.buterfleoge.whale.type.TravelType;
 
 /**
  * @author Brent24
  *
  */
-
 @Entity
-@Table(name = "traveller_route")
+@Table(name = "travel_route")
 public class TravelRoute extends BaseObject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "routeid")
-    private long routeid;
+    private Long routeid;
 
-    @Column(name = "title")
-    private String title = "";
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "type")
-    private TravelType type = TravelType.LONG_TRIP;
+    private TravelType type;
 
     @Column(name = "days")
-    private int days = 0;
+    private Integer days;
 
-    @Column(name = "scope")
-    private TravelScope scope = TravelScope.UNKNOW;
+    @Column(name = "area")
+    private TravelArea area;
 
-    @Column(name = "start_place")
-    private String startPlace = "";
+    @Column(name = "departure")
+    private String departure;
 
-    @Column(name = "end_place")
-    private String endPlace = "";
+    @Column(name = "distination")
+    private String distination;
 
-    @Column(name = "views")
-    private String views = "";
+    @Column(name = "route")
+    private String route;
 
-    @Column(name = "price_interval")
-    private String priceInterval = "";
+    @Column(name = "min_price")
+    private Long minPrice;
 
-    @Column(name = "description")
-    private String description = "";
+    @Column(name = "max_price")
+    private Long maxPrice;
 
-    public long getRouteid() {
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "desc")
+    private String desc;
+
+    @Column(name = "imgs")
+    private String imgs;
+
+    /**
+     * @return the routeid
+     */
+    public Long getRouteid() {
         return routeid;
     }
 
-    public void setRouteid(long routeid) {
+    /**
+     * @param routeid the routeid to set
+     */
+    public void setRouteid(Long routeid) {
         this.routeid = routeid;
     }
 
-    public String getTitle() {
-        return title;
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
+    /**
+     * @return the type
+     */
     public TravelType getType() {
         return type;
     }
 
+    /**
+     * @param type the type to set
+     */
     public void setType(TravelType type) {
         this.type = type;
     }
 
-    public int getDays() {
+    /**
+     * @return the days
+     */
+    public Integer getDays() {
         return days;
     }
 
-    public void setDays(int days) {
+    /**
+     * @param days the days to set
+     */
+    public void setDays(Integer days) {
         this.days = days;
     }
 
-    public TravelScope getScope() {
-        return scope;
+    /**
+     * @return the area
+     */
+    public TravelArea getArea() {
+        return area;
     }
 
-    public void setScope(TravelScope scope) {
-        this.scope = scope;
+    /**
+     * @param area the area to set
+     */
+    public void setArea(TravelArea area) {
+        this.area = area;
     }
 
-    public String getStartPlace() {
-        return startPlace;
+    /**
+     * @return the departure
+     */
+    public String getDeparture() {
+        return departure;
     }
 
-    public void setStartPlace(String startPlace) {
-        this.startPlace = startPlace;
+    /**
+     * @param departure the departure to set
+     */
+    public void setDeparture(String departure) {
+        this.departure = departure;
     }
 
-    public String getEndPlace() {
-        return endPlace;
+    /**
+     * @return the distination
+     */
+    public String getDistination() {
+        return distination;
     }
 
-    public void setEndPlace(String endPlace) {
-        this.endPlace = endPlace;
+    /**
+     * @param distination the distination to set
+     */
+    public void setDistination(String distination) {
+        this.distination = distination;
     }
 
-    public String getViews() {
-        return views;
+    /**
+     * @return the route
+     */
+    public String getRoute() {
+        return route;
     }
 
-    public void setViews(String views) {
-        this.views = views;
+    /**
+     * @param route the route to set
+     */
+    public void setRoute(String route) {
+        this.route = route;
     }
 
-    public String getPriceInterval() {
-        return priceInterval;
+    /**
+     * @return the minPrice
+     */
+    public Long getMinPrice() {
+        return minPrice;
     }
 
-    public void setPriceInterval(String priceInterval) {
-        this.priceInterval = priceInterval;
+    /**
+     * @param minPrice the minPrice to set
+     */
+    public void setMinPrice(Long minPrice) {
+        this.minPrice = minPrice;
     }
 
-    public String getDescription() {
-        return description;
+    /**
+     * @return the maxPrice
+     */
+    public Long getMaxPrice() {
+        return maxPrice;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    /**
+     * @param maxPrice the maxPrice to set
+     */
+    public void setMaxPrice(Long maxPrice) {
+        this.maxPrice = maxPrice;
+    }
+
+    /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * @return the desc
+     */
+    public String getDesc() {
+        return desc;
+    }
+
+    /**
+     * @param desc the desc to set
+     */
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    /**
+     * @return the imgs
+     */
+    public String getImgs() {
+        return imgs;
+    }
+
+    /**
+     * @param imgs the imgs to set
+     */
+    public void setImgs(String imgs) {
+        this.imgs = imgs;
     }
 
 }

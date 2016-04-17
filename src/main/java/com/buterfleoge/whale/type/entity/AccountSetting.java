@@ -9,8 +9,9 @@ import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.type.Gender;
 
 /**
+ * 账户的设置信息
+ * 
  * @author Brent24
- *
  */
 @Entity
 @Table(name = "account_setting")
@@ -18,101 +19,257 @@ public class AccountSetting extends BaseObject {
 
     @Id
     @Column(name = "accountid")
-    private long accountid;
+    private Long accountid;
 
     @Column(name = "nickname")
-    private String nickname = "";
+    private String nickname;
+
+    @Column(name = "wxid")
+    private String wxid;
 
     @Column(name = "wxname")
-    private String wxname = "";
+    private String wxname;
+
+    @Column(name = "qqid")
+    private String qqid;
 
     @Column(name = "qqname")
-    private String qqname = "";
+    private String qqname;
+
+    @Column(name = "wbid")
+    private String wbid;
 
     @Column(name = "wbname")
-    private String wbname = "";
+    private String wbname;
 
     @Column(name = "gender")
-    private Gender gender = Gender.UNKNOW;
+    private Gender gender;
 
     @Column(name = "birthday")
-    private String birthday = "";
+    private Long birthday;
+
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "avatar_url")
-    private String avatarUrl = "";
+    private String avatarUrl;
+
+    @Column(name = "emergency_contact")
+    private String emergencyContact;
+
+    @Column(name = "emergency_mobile")
+    private String emergencyMobile;
 
     @Column(name = "mod_time")
-    private String modTime = "";
+    private Long modTime;
 
-    public long getAccountid() {
+    /**
+     * @return the accountid
+     */
+    public Long getAccountid() {
         return accountid;
     }
 
-    public void setAccountid(long accountid) {
+    /**
+     * @param accountid the accountid to set
+     */
+    public void setAccountid(Long accountid) {
         this.accountid = accountid;
     }
 
+    /**
+     * @return the nickname
+     */
     public String getNickname() {
         return nickname;
     }
 
+    /**
+     * @param nickname the nickname to set
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
+    /**
+     * @return the wxid
+     */
+    public String getWxid() {
+        return wxid;
+    }
+
+    /**
+     * @param wxid the wxid to set
+     */
+    public void setWxid(String wxid) {
+        this.wxid = wxid;
+    }
+
+    /**
+     * @return the wxname
+     */
     public String getWxname() {
         return wxname;
     }
 
+    /**
+     * @param wxname the wxname to set
+     */
     public void setWxname(String wxname) {
         this.wxname = wxname;
     }
 
+    /**
+     * @return the qqid
+     */
+    public String getQqid() {
+        return qqid;
+    }
+
+    /**
+     * @param qqid the qqid to set
+     */
+    public void setQqid(String qqid) {
+        this.qqid = qqid;
+    }
+
+    /**
+     * @return the qqname
+     */
     public String getQqname() {
         return qqname;
     }
 
+    /**
+     * @param qqname the qqname to set
+     */
     public void setQqname(String qqname) {
         this.qqname = qqname;
     }
 
+    /**
+     * @return the wbid
+     */
+    public String getWbid() {
+        return wbid;
+    }
+
+    /**
+     * @param wbid the wbid to set
+     */
+    public void setWbid(String wbid) {
+        this.wbid = wbid;
+    }
+
+    /**
+     * @return the wbname
+     */
     public String getWbname() {
         return wbname;
     }
 
+    /**
+     * @param wbname the wbname to set
+     */
     public void setWbname(String wbname) {
         this.wbname = wbname;
     }
 
+    /**
+     * @return the gender
+     */
     public Gender getGender() {
         return gender;
     }
 
+    /**
+     * @param gender the gender to set
+     */
     public void setGender(Gender gender) {
         this.gender = gender;
     }
 
-    public String getBirthday() {
+    /**
+     * @return the birthday
+     */
+    public Long getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    /**
+     * @param birthday the birthday to set
+     */
+    public void setBirthday(Long birthday) {
         this.birthday = birthday;
     }
 
+    /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    /**
+     * @return the avatarUrl
+     */
     public String getAvatarUrl() {
         return avatarUrl;
     }
 
+    /**
+     * @param avatarUrl the avatarUrl to set
+     */
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
 
-    public String getModTime() {
+    /**
+     * @return the emergencyContact
+     */
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    /**
+     * @param emergencyContact the emergencyContact to set
+     */
+    public void setEmergencyContact(String emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
+
+    /**
+     * @return the emergencyMobile
+     */
+    public String getEmergencyMobile() {
+        return emergencyMobile;
+    }
+
+    /**
+     * @param emergencyMobile the emergencyMobile to set
+     */
+    public void setEmergencyMobile(String emergencyMobile) {
+        this.emergencyMobile = emergencyMobile;
+    }
+
+    /**
+     * @return the modTime
+     */
+    public Long getModTime() {
         return modTime;
     }
 
-    public void setModTime(String modTime) {
+    /**
+     * @param modTime the modTime to set
+     */
+    public void setModTime(Long modTime) {
         this.modTime = modTime;
     }
 

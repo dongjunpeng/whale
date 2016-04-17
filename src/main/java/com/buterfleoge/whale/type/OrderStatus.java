@@ -1,22 +1,27 @@
-/**
- * 
- */
 package com.buterfleoge.whale.type;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 订单状态
+ * 订单状态，几种流程：有可能需要更加细化一点
+ * 
+ * <ol>
+ * <li>CREATE -> CANCEL
+ * <li>CREATE -> PAID -> FINISH
+ * <li>CREATE -> PAID -> REFOUNDING -> REFOUNDED
+ * <li>
+ * </ol>
  * 
  * @author Brent24
  *
  */
 public enum OrderStatus {
+
     /**
      * 生成
      */
-    CREATED(0),
+    CREATE(0),
 
     /**
      * 已付款
@@ -24,19 +29,24 @@ public enum OrderStatus {
     PAID(1),
 
     /**
-     * 换人
-     */
-    ALTERNATIVE(2),
-
-    /**
-     * 退款
-     */
-    REFOUNDED(3),
-
-    /**
      * 结束
      */
-    FINISH(4),
+    FINISH(2),
+
+    /**
+     * 退款中，表示之前要付款，现在取消了
+     */
+    REFOUNDING(3),
+
+    /**
+     * 退款成功
+     */
+    REFOUNDED(4),
+
+    /**
+     * 取消
+     */
+    CANCEL(5)
 
     ;
 

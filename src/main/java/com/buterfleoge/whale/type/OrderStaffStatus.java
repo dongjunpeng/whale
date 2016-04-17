@@ -4,33 +4,25 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 住宿状态
- * 
- * @author Brent24
+ * 订单中人员的状态
+ *
+ * @author xiezhenzong
  *
  */
-public enum AccommodationStatus {
+public enum OrderStaffStatus {
+
+    OK(0),
 
     /**
-     * 预定
+     * 删除了这个人
      */
-    RESERVED(0),
-
-    /**
-     * 付定金
-     */
-    PAID(1),
-
-    /**
-     * 结束
-     */
-    FINISH(2),
+    CANCEL(1)
 
     ;
 
     private int status;
 
-    private AccommodationStatus(int status) {
+    private OrderStaffStatus(int status) {
         this.status = status;
     }
 

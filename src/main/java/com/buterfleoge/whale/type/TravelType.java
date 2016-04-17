@@ -39,7 +39,7 @@ public enum TravelType {
     /**
      * 国际
      */
-    INTERNATIONAL(5),
+    INTERNATIONAL(5)
 
     ;
 

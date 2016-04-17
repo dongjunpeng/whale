@@ -4,34 +4,28 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 优惠计算方式
+ * 退款原因
  * 
  * @author Brent24
  *
  */
-public enum DiscountCalculation {
-    // 价格单位为分，存储类型为long，尽可能不用百分比优惠，否则计算问题处理非常麻烦。
+public enum RefoundReason {
 
     /**
-     * 减少(付款=原价-n)
+     * 个人原因
      */
-    MINUS(0),
+    PERSONAL(0),
 
     /**
-     * 百分比(付款=原价*n%)
+     * 行程取消
      */
-    PERCENTAGE(1),
-
-    /**
-     * 减百分比(付款=原价*(1-n%)),
-     */
-    PERCENTAGE_OFF(2),
+    CANCEL(1)
 
     ;
 
     private int calculation;
 
-    private DiscountCalculation(int calculation) {
+    private RefoundReason(int calculation) {
         this.calculation = calculation;
     }
 
@@ -47,5 +41,4 @@ public enum DiscountCalculation {
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
-
 }

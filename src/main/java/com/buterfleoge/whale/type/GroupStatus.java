@@ -34,7 +34,7 @@ public enum GroupStatus {
     /**
      * 结束
      */
-    FINISH(4),
+    FINISH(4)
 
     ;
 
