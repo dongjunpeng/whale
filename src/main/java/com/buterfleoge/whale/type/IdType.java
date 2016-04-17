@@ -29,7 +29,7 @@ public enum IdType {
     /**
      * 台胞证
      */
-    T_PASSER(3),
+    T_PASSER(3)
 
     ;
 

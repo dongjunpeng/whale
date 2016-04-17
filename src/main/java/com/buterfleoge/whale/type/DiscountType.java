@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.buterfleoge.whale.type;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
@@ -27,7 +24,7 @@ public enum DiscountType {
     /**
      * 多人优惠
      */
-    MULTIPLE(2),
+    MULTIPLE(2)
 
     ;
 

@@ -23,7 +23,7 @@ public enum Gender {
     /**
      * 女
      */
-    FEMALE(2),
+    FEMALE(2)
 
     ;
 

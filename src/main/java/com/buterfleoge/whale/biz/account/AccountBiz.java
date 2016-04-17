@@ -2,6 +2,10 @@ package com.buterfleoge.whale.biz.account;
 
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.account.EmailExistRequest;
+import com.buterfleoge.whale.type.protocol.account.GetContactsRequest;
+import com.buterfleoge.whale.type.protocol.account.GetContactsResponse;
+import com.buterfleoge.whale.type.protocol.account.PostContactsRequest;
+import com.buterfleoge.whale.type.protocol.account.PostContactsRespose;
 import com.buterfleoge.whale.type.protocol.account.RegisterRequest;
 import com.buterfleoge.whale.type.protocol.account.RegisterResponse;
 import com.buterfleoge.whale.type.protocol.account.ValidateEmailRequest;
@@ -19,6 +23,10 @@ public interface AccountBiz {
     void registerByEmail(RegisterRequest request, RegisterResponse response) throws Exception;
 
     void validateEmail(ValidateEmailRequest request, Response response) throws Exception;
+
+    void getContacts(GetContactsRequest request, GetContactsResponse response) throws Exception;
+
+    void postContacts(PostContactsRequest request, PostContactsRespose response) throws Exception;
 
     // void loginByEmail(LoginRequest request, Response response) throws Exception;
 

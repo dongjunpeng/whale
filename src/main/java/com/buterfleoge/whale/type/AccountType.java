@@ -34,7 +34,14 @@ public enum AccountType {
     /**
      * 代理商
      */
-    AGENT(4),;
+    AGENT(4),
+
+    /**
+     * 超级管理员
+     */
+    ROOT(100)
+
+    ;
 
     private int type;
 

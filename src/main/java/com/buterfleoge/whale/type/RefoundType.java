@@ -15,14 +15,19 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public enum RefoundType {
 
     /**
-     * 个人原因
+     * 扣除后退款(退款=付款-n)
      */
-    PERSONAL(0),
+    MINUS(0),
 
     /**
-     * 形成取消
+     * 百分比后退还(退款=付款*n%)
      */
-    CANCELlED(1),
+    PERCENTAGE(1),
+
+    /**
+     * 扣除百分比后退还(退款=付款*(1-n%))
+     */
+    PERCENTAGE_OFF(2)
 
     ;
 

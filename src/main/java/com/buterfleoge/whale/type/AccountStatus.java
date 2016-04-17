@@ -24,7 +24,7 @@ public enum AccountStatus {
     /**
      * 账户注销
      */
-    LOG_OFF(2),
+    DELETE(2)
 
     ;
 

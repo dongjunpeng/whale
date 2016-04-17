@@ -1,18 +1,15 @@
-/**
- * 
- */
 package com.buterfleoge.whale.type;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 旅行范围
+ * 旅行地区
  * 
  * @author Brent24
  *
  */
-public enum TravelScope {
+public enum TravelArea {
 
     /**
      * 未知
@@ -47,13 +44,13 @@ public enum TravelScope {
     /**
      * 西藏
      */
-    TIBET(4),
+    TIBET(4)
 
     ;
 
     private int scope;
 
-    private TravelScope(int scope) {
+    private TravelArea(int scope) {
         this.scope = scope;
     }
 

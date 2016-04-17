@@ -5,13 +5,10 @@ package com.buterfleoge.whale.type.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.DiscountCalculation;
 import com.buterfleoge.whale.type.DiscountType;
 
 /**
@@ -20,69 +17,94 @@ import com.buterfleoge.whale.type.DiscountType;
  * @author Brent24
  *
  */
-
 @Entity
 @Table(name = "order_discount")
 public class OrderDiscount extends BaseObject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "discountid")
-    private long discountid;
+    private Long discountid;
+
+    @Column(name = "orderid")
+    private Long orderid;
 
     @Column(name = "type")
-    private DiscountType type = DiscountType.DISPOSABLE;
+    private DiscountType type;
 
-    @Column(name = "calculation")
-    private DiscountCalculation calculation = DiscountCalculation.MINUS;
+    @Column(name = "discount_price")
+    private Long discountPrice;
 
-    // 价格单位为分，存储类型为long，尽可能不用百分比优惠，否则计算问题处理非常麻烦
-    // 定义为long只支持MINUS类型优惠
-    // 涉及百分比优惠需要修改
-    @Column(name = "value")
-    private long value = 0;
+    @Column(name = "desc")
+    private String desc;
 
-    @Column(name = "description")
-    private String description = "";
-
-    public long getDiscountid() {
+    /**
+     * @return the discountid
+     */
+    public Long getDiscountid() {
         return discountid;
     }
 
-    public void setDiscountid(long discountid) {
+    /**
+     * @param discountid the discountid to set
+     */
+    public void setDiscountid(Long discountid) {
         this.discountid = discountid;
     }
 
+    /**
+     * @return the orderid
+     */
+    public Long getOrderid() {
+        return orderid;
+    }
+
+    /**
+     * @param orderid the orderid to set
+     */
+    public void setOrderid(Long orderid) {
+        this.orderid = orderid;
+    }
+
+    /**
+     * @return the type
+     */
     public DiscountType getType() {
         return type;
     }
 
+    /**
+     * @param type the type to set
+     */
     public void setType(DiscountType type) {
         this.type = type;
     }
 
-    public DiscountCalculation getCalculation() {
-        return calculation;
+    /**
+     * @return the discountPrice
+     */
+    public Long getDiscountPrice() {
+        return discountPrice;
     }
 
-    public void setCalculation(DiscountCalculation calculation) {
-        this.calculation = calculation;
+    /**
+     * @param discountPrice the discountPrice to set
+     */
+    public void setDiscountPrice(Long discountPrice) {
+        this.discountPrice = discountPrice;
     }
 
-    public long getValue() {
-        return value;
+    /**
+     * @return the desc
+     */
+    public String getDesc() {
+        return desc;
     }
 
-    public void setValue(long value) {
-        this.value = value;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    /**
+     * @param desc the desc to set
+     */
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
 }

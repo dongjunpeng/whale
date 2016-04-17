@@ -1,17 +1,12 @@
-/**
- * 
- */
 package com.buterfleoge.whale.type.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.RefoundCalculation;
+import com.buterfleoge.whale.type.RefoundReason;
 import com.buterfleoge.whale.type.RefoundType;
 
 /**
@@ -20,69 +15,111 @@ import com.buterfleoge.whale.type.RefoundType;
  * @author Brent24
  *
  */
-
 @Entity
 @Table(name = "order_refound")
 public class OrderRefound extends BaseObject {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "refoundid")
-    private long refoundid;
+    private Long refoundid;
+
+    @Column(name = "orderid")
+    private Long orderid;
 
     @Column(name = "type")
-    private RefoundType type = RefoundType.PERSONAL;
+    private RefoundType type;
 
-    @Column(name = "calculation")
-    private RefoundCalculation calculation = RefoundCalculation.MINUS;
+    @Column(name = "reason")
+    private RefoundReason reason;
 
-    // 价格单位为分，存储类型为long，尽可能不用百分比计算，否则计算问题处理非常麻烦
-    // 定义为long只支持MINUS类型优惠
-    // 涉及百分比优惠需要修改
-    @Column(name = "value")
-    private long value = 0;
+    @Column(name = "desc")
+    private String desc;
 
-    @Column(name = "description")
-    private String description = "";
+    @Column(name = "refound")
+    private Long refound;
 
-    public long getRefoundid() {
+    /**
+     * @return the refoundid
+     */
+    public Long getRefoundid() {
         return refoundid;
     }
 
-    public void setRefoundid(long refoundid) {
+    /**
+     * @param refoundid the refoundid to set
+     */
+    public void setRefoundid(Long refoundid) {
         this.refoundid = refoundid;
     }
 
+    /**
+     * @return the orderid
+     */
+    public Long getOrderid() {
+        return orderid;
+    }
+
+    /**
+     * @param orderid the orderid to set
+     */
+    public void setOrderid(Long orderid) {
+        this.orderid = orderid;
+    }
+
+    /**
+     * @return the type
+     */
     public RefoundType getType() {
         return type;
     }
 
+    /**
+     * @param type the type to set
+     */
     public void setType(RefoundType type) {
         this.type = type;
     }
 
-    public RefoundCalculation getCalculation() {
-        return calculation;
+    /**
+     * @return the reason
+     */
+    public RefoundReason getReason() {
+        return reason;
     }
 
-    public void setCalculation(RefoundCalculation calculation) {
-        this.calculation = calculation;
+    /**
+     * @param reason the reason to set
+     */
+    public void setReason(RefoundReason reason) {
+        this.reason = reason;
     }
 
-    public long getValue() {
-        return value;
+    /**
+     * @return the desc
+     */
+    public String getDesc() {
+        return desc;
     }
 
-    public void setValue(long value) {
-        this.value = value;
+    /**
+     * @param desc the desc to set
+     */
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public String getDescription() {
-        return description;
+    /**
+     * @return the refound
+     */
+    public Long getRefound() {
+        return refound;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    /**
+     * @param refound the refound to set
+     */
+    public void setRefound(Long refound) {
+        this.refound = refound;
     }
 
 }

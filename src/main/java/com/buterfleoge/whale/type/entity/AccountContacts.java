@@ -6,35 +6,28 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.AccountStatus;
-import com.buterfleoge.whale.type.AccountType;
+import com.buterfleoge.whale.type.Gender;
 import com.buterfleoge.whale.type.IdType;
 
 /**
- * 账户的基本信息
+ * 账户的联系人
  *
  * @author xiezhenzong
  *
  */
 @Entity
-@Table(name = "account_info")
-public class AccountInfo extends BaseObject {
+@Table(name = "account_contacts")
+public class AccountContacts extends BaseObject {
 
     @Id
+    @Column(name = "contactid")
+    private Long contactid;
+
     @Column(name = "accountid")
     private Long accountid;
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "type")
-    private AccountType type;
-
-    @Column(name = "status")
-    private AccountStatus status;
 
     @Column(name = "id")
     private String id;
@@ -48,11 +41,40 @@ public class AccountInfo extends BaseObject {
     @Column(name = "mobile")
     private String mobile;
 
+    @Column(name = "gender")
+    private Gender gender;
+
+    @Column(name = "birthday")
+    private Long birthday;
+
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "emergency_contact")
+    private String emergencyContact;
+
+    @Column(name = "emergency_mobile")
+    private String emergencyMobile;
+
     @Column(name = "add_time")
     private Long addTime;
 
     @Column(name = "mod_time")
     private Long modTime;
+
+    /**
+     * @return the contactid
+     */
+    public Long getContactid() {
+        return contactid;
+    }
+
+    /**
+     * @param contactid the contactid to set
+     */
+    public void setContactid(Long contactid) {
+        this.contactid = contactid;
+    }
 
     /**
      * @return the accountid
@@ -80,48 +102,6 @@ public class AccountInfo extends BaseObject {
      */
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * @return the password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * @return the type
-     */
-    public AccountType getType() {
-        return type;
-    }
-
-    /**
-     * @param type the type to set
-     */
-    public void setType(AccountType type) {
-        this.type = type;
-    }
-
-    /**
-     * @return the status
-     */
-    public AccountStatus getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(AccountStatus status) {
-        this.status = status;
     }
 
     /**
@@ -178,6 +158,76 @@ public class AccountInfo extends BaseObject {
      */
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    /**
+     * @return the gender
+     */
+    public Gender getGender() {
+        return gender;
+    }
+
+    /**
+     * @param gender the gender to set
+     */
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    /**
+     * @return the birthday
+     */
+    public Long getBirthday() {
+        return birthday;
+    }
+
+    /**
+     * @param birthday the birthday to set
+     */
+    public void setBirthday(Long birthday) {
+        this.birthday = birthday;
+    }
+
+    /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    /**
+     * @return the emergencyContact
+     */
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    /**
+     * @param emergencyContact the emergencyContact to set
+     */
+    public void setEmergencyContact(String emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
+
+    /**
+     * @return the emergencyMobile
+     */
+    public String getEmergencyMobile() {
+        return emergencyMobile;
+    }
+
+    /**
+     * @param emergencyMobile the emergencyMobile to set
+     */
+    public void setEmergencyMobile(String emergencyMobile) {
+        this.emergencyMobile = emergencyMobile;
     }
 
     /**
