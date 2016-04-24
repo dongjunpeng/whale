@@ -18,7 +18,7 @@ import com.buterfleoge.whale.type.protocol.account.ValidateEmailRequest;
  */
 public interface AccountBiz {
 
-    void isEmailExist(EmailExistRequest request, Response response) throws Exception;
+	void isEmailExist(EmailExistRequest request, Response response) throws Exception;
 
     void registerByEmail(RegisterRequest request, RegisterResponse response) throws Exception;
 
