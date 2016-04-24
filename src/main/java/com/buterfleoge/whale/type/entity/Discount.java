@@ -20,50 +20,31 @@ import com.buterfleoge.whale.type.DiscountType;
  *
  */
 @Entity
-@Table(name = "order_discount")
-public class OrderDiscount extends BaseObject {
+@Table(name = "discount")
+public class Discount extends BaseObject {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "order_discountid")
-	private Long orderDiscountid;
-
-	@Column(name = "orderid")
-	private Long orderid;
-
 	@Column(name = "discountid")
 	private Long discountid;
 
 	@Column(name = "type")
 	private DiscountType type;
 
-	@Column(name = "discount_code")
-	private Long discountCode;
-
-	@Column(name = "discount_price")
-	private Long discountPrice;
+	@Column(name = "value")
+	private Long value;
 
 	@Column(name = "desc")
 	private String desc;
 
+	@Column(name = "start_time")
+	private Long startTime;
+
+	@Column(name = "end_time")
+	private Long endTime;
+
 	@Column(name = "add_time")
 	private Long addTime;
-
-	public Long getOrderDiscountid() {
-		return orderDiscountid;
-	}
-
-	public void setOrderDiscountid(Long orderDiscountid) {
-		this.orderDiscountid = orderDiscountid;
-	}
-
-	public Long getOrderid() {
-		return orderid;
-	}
-
-	public void setOrderid(Long orderid) {
-		this.orderid = orderid;
-	}
 
 	public Long getDiscountid() {
 		return discountid;
@@ -81,20 +62,12 @@ public class OrderDiscount extends BaseObject {
 		this.type = type;
 	}
 
-	public Long getDiscountCode() {
-		return discountCode;
+	public Long getValue() {
+		return value;
 	}
 
-	public void setDiscountCode(Long discountCode) {
-		this.discountCode = discountCode;
-	}
-
-	public Long getDiscountPrice() {
-		return discountPrice;
-	}
-
-	public void setDiscountPrice(Long discountPrice) {
-		this.discountPrice = discountPrice;
+	public void setValue(Long value) {
+		this.value = value;
 	}
 
 	public String getDesc() {
@@ -103,6 +76,22 @@ public class OrderDiscount extends BaseObject {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public Long getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Long startTime) {
+		this.startTime = startTime;
+	}
+
+	public Long getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Long endTime) {
+		this.endTime = endTime;
 	}
 
 	public Long getAddTime() {

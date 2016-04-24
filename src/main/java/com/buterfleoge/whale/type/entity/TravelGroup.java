@@ -2,6 +2,8 @@ package com.buterfleoge.whale.type.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -18,192 +20,201 @@ import com.buterfleoge.whale.type.GroupStatus;
 @Table(name = "travel_group")
 public class TravelGroup extends BaseObject {
 
-    @Id
-    @Column(name = "groupid")
-    private Long groupid;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "groupid")
+	private Long groupid;
 
-    @Column(name = "routeid")
-    private Long routeid;
+	@Column(name = "routeid")
+	private Long routeid;
 
-    @Column(name = "status")
-    private GroupStatus status;
+	@Column(name = "price")
+	private Long price;
 
-    @Column(name = "start_date")
-    private Long startDate;
+	@Column(name = "status")
+	private GroupStatus status;
 
-    @Column(name = "end_date")
-    private Long endDate;
+	@Column(name = "start_date")
+	private Long startDate;
 
-    @Column(name = "min_count")
-    private Integer minCount;
+	@Column(name = "end_date")
+	private Long endDate;
 
-    @Column(name = "max_count")
-    private Integer maxCount = 0;
+	@Column(name = "min_count")
+	private Integer minCount;
 
-    @Column(name = "actual_count")
-    private Integer actualCount = 0;
+	@Column(name = "max_count")
+	private Integer maxCount = 0;
 
-    @Column(name = "imgtext")
-    private String imgtext;
+	@Column(name = "actual_count")
+	private Integer actualCount = 0;
 
-    @Column(name = "wx_link")
-    private String wxLink;
+	@Column(name = "wx_qrcode")
+	private String wxQrcode;
 
-    @Column(name = "wx_qrcode")
-    private String wxQrcode;
+	@Column(name = "add_time")
+	private Long addTime;
 
-    /**
-     * @return the groupid
-     */
-    public Long getGroupid() {
-        return groupid;
-    }
+	@Column(name = "mod_time")
+	private Long modTime;
 
-    /**
-     * @param groupid the groupid to set
-     */
-    public void setGroupid(Long groupid) {
-        this.groupid = groupid;
-    }
+	/**
+	 * @return the groupid
+	 */
+	public Long getGroupid() {
+		return groupid;
+	}
 
-    /**
-     * @return the routeid
-     */
-    public Long getRouteid() {
-        return routeid;
-    }
+	/**
+	 * @param groupid
+	 *            the groupid to set
+	 */
+	public void setGroupid(Long groupid) {
+		this.groupid = groupid;
+	}
 
-    /**
-     * @param routeid the routeid to set
-     */
-    public void setRouteid(Long routeid) {
-        this.routeid = routeid;
-    }
+	/**
+	 * @return the routeid
+	 */
+	public Long getRouteid() {
+		return routeid;
+	}
 
-    /**
-     * @return the status
-     */
-    public GroupStatus getStatus() {
-        return status;
-    }
+	/**
+	 * @param routeid
+	 *            the routeid to set
+	 */
+	public void setRouteid(Long routeid) {
+		this.routeid = routeid;
+	}
 
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(GroupStatus status) {
-        this.status = status;
-    }
+	/**
+	 * @return the status
+	 */
+	public GroupStatus getStatus() {
+		return status;
+	}
 
-    /**
-     * @return the startDate
-     */
-    public Long getStartDate() {
-        return startDate;
-    }
+	/**
+	 * @param status
+	 *            the status to set
+	 */
+	public void setStatus(GroupStatus status) {
+		this.status = status;
+	}
 
-    /**
-     * @param startDate the startDate to set
-     */
-    public void setStartDate(Long startDate) {
-        this.startDate = startDate;
-    }
+	/**
+	 * @return the startDate
+	 */
+	public Long getStartDate() {
+		return startDate;
+	}
 
-    /**
-     * @return the endDate
-     */
-    public Long getEndDate() {
-        return endDate;
-    }
+	/**
+	 * @param startDate
+	 *            the startDate to set
+	 */
+	public void setStartDate(Long startDate) {
+		this.startDate = startDate;
+	}
 
-    /**
-     * @param endDate the endDate to set
-     */
-    public void setEndDate(Long endDate) {
-        this.endDate = endDate;
-    }
+	/**
+	 * @return the endDate
+	 */
+	public Long getEndDate() {
+		return endDate;
+	}
 
-    /**
-     * @return the minCount
-     */
-    public Integer getMinCount() {
-        return minCount;
-    }
+	/**
+	 * @param endDate
+	 *            the endDate to set
+	 */
+	public void setEndDate(Long endDate) {
+		this.endDate = endDate;
+	}
 
-    /**
-     * @param minCount the minCount to set
-     */
-    public void setMinCount(Integer minCount) {
-        this.minCount = minCount;
-    }
+	/**
+	 * @return the minCount
+	 */
+	public Integer getMinCount() {
+		return minCount;
+	}
 
-    /**
-     * @return the maxCount
-     */
-    public Integer getMaxCount() {
-        return maxCount;
-    }
+	/**
+	 * @param minCount
+	 *            the minCount to set
+	 */
+	public void setMinCount(Integer minCount) {
+		this.minCount = minCount;
+	}
 
-    /**
-     * @param maxCount the maxCount to set
-     */
-    public void setMaxCount(Integer maxCount) {
-        this.maxCount = maxCount;
-    }
+	/**
+	 * @return the maxCount
+	 */
+	public Integer getMaxCount() {
+		return maxCount;
+	}
 
-    /**
-     * @return the actualCount
-     */
-    public Integer getActualCount() {
-        return actualCount;
-    }
+	/**
+	 * @param maxCount
+	 *            the maxCount to set
+	 */
+	public void setMaxCount(Integer maxCount) {
+		this.maxCount = maxCount;
+	}
 
-    /**
-     * @param actualCount the actualCount to set
-     */
-    public void setActualCount(Integer actualCount) {
-        this.actualCount = actualCount;
-    }
+	/**
+	 * @return the actualCount
+	 */
+	public Integer getActualCount() {
+		return actualCount;
+	}
 
-    /**
-     * @return the imgtext
-     */
-    public String getImgtext() {
-        return imgtext;
-    }
+	/**
+	 * @param actualCount
+	 *            the actualCount to set
+	 */
+	public void setActualCount(Integer actualCount) {
+		this.actualCount = actualCount;
+	}
 
-    /**
-     * @param imgtext the imgtext to set
-     */
-    public void setImgtext(String imgtext) {
-        this.imgtext = imgtext;
-    }
+	/**
+	 * @return the wxQrcode
+	 */
+	public String getWxQrcode() {
+		return wxQrcode;
+	}
 
-    /**
-     * @return the wxLink
-     */
-    public String getWxLink() {
-        return wxLink;
-    }
+	/**
+	 * @param wxQrcode
+	 *            the wxQrcode to set
+	 */
+	public void setWxQrcode(String wxQrcode) {
+		this.wxQrcode = wxQrcode;
+	}
 
-    /**
-     * @param wxLink the wxLink to set
-     */
-    public void setWxLink(String wxLink) {
-        this.wxLink = wxLink;
-    }
+	public Long getPrice() {
+		return price;
+	}
 
-    /**
-     * @return the wxQrcode
-     */
-    public String getWxQrcode() {
-        return wxQrcode;
-    }
+	public void setPrice(Long price) {
+		this.price = price;
+	}
 
-    /**
-     * @param wxQrcode the wxQrcode to set
-     */
-    public void setWxQrcode(String wxQrcode) {
-        this.wxQrcode = wxQrcode;
-    }
+	public Long getAddTime() {
+		return addTime;
+	}
+
+	public void setAddTime(Long addTime) {
+		this.addTime = addTime;
+	}
+
+	public Long getModTime() {
+		return modTime;
+	}
+
+	public void setModTime(Long modTime) {
+		this.modTime = modTime;
+	}
 
 }
