@@ -2,6 +2,8 @@ package com.buterfleoge.whale.type.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -17,260 +19,240 @@ import com.buterfleoge.whale.type.Gender;
 @Table(name = "account_setting")
 public class AccountSetting extends BaseObject {
 
-    @Id
-    @Column(name = "accountid")
-    private Long accountid;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "accountid")
+	private Long accountid;
 
-    @Column(name = "nickname")
-    private String nickname;
+	@Column(name = "nickname")
+	private String nickname;
 
-    @Column(name = "wxid")
-    private String wxid;
+	@Column(name = "wxid")
+	private String wxid;
 
-    @Column(name = "wxname")
-    private String wxname;
+	@Column(name = "wxname")
+	private String wxname;
 
-    @Column(name = "qqid")
-    private String qqid;
+	@Column(name = "qqid")
+	private String qqid;
 
-    @Column(name = "qqname")
-    private String qqname;
+	@Column(name = "qqname")
+	private String qqname;
 
-    @Column(name = "wbid")
-    private String wbid;
+	@Column(name = "wbid")
+	private String wbid;
 
-    @Column(name = "wbname")
-    private String wbname;
+	@Column(name = "wbname")
+	private String wbname;
 
-    @Column(name = "gender")
-    private Gender gender;
+	@Column(name = "gender")
+	private Gender gender;
 
-    @Column(name = "birthday")
-    private Long birthday;
+	@Column(name = "birthday")
+	private Long birthday;
 
-    @Column(name = "address")
-    private String address;
+	@Column(name = "address")
+	private String address;
 
-    @Column(name = "avatar_url")
-    private String avatarUrl;
+	@Column(name = "avatar_url")
+	private String avatarUrl;
 
-    @Column(name = "emergency_contact")
-    private String emergencyContact;
+	@Column(name = "mod_time")
+	private Long modTime;
 
-    @Column(name = "emergency_mobile")
-    private String emergencyMobile;
+	/**
+	 * @return the accountid
+	 */
+	public Long getAccountid() {
+		return accountid;
+	}
 
-    @Column(name = "mod_time")
-    private Long modTime;
+	/**
+	 * @param accountid
+	 *            the accountid to set
+	 */
+	public void setAccountid(Long accountid) {
+		this.accountid = accountid;
+	}
 
-    /**
-     * @return the accountid
-     */
-    public Long getAccountid() {
-        return accountid;
-    }
+	/**
+	 * @return the nickname
+	 */
+	public String getNickname() {
+		return nickname;
+	}
 
-    /**
-     * @param accountid the accountid to set
-     */
-    public void setAccountid(Long accountid) {
-        this.accountid = accountid;
-    }
+	/**
+	 * @param nickname
+	 *            the nickname to set
+	 */
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
 
-    /**
-     * @return the nickname
-     */
-    public String getNickname() {
-        return nickname;
-    }
+	/**
+	 * @return the wxid
+	 */
+	public String getWxid() {
+		return wxid;
+	}
 
-    /**
-     * @param nickname the nickname to set
-     */
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
+	/**
+	 * @param wxid
+	 *            the wxid to set
+	 */
+	public void setWxid(String wxid) {
+		this.wxid = wxid;
+	}
 
-    /**
-     * @return the wxid
-     */
-    public String getWxid() {
-        return wxid;
-    }
+	/**
+	 * @return the wxname
+	 */
+	public String getWxname() {
+		return wxname;
+	}
 
-    /**
-     * @param wxid the wxid to set
-     */
-    public void setWxid(String wxid) {
-        this.wxid = wxid;
-    }
+	/**
+	 * @param wxname
+	 *            the wxname to set
+	 */
+	public void setWxname(String wxname) {
+		this.wxname = wxname;
+	}
 
-    /**
-     * @return the wxname
-     */
-    public String getWxname() {
-        return wxname;
-    }
+	/**
+	 * @return the qqid
+	 */
+	public String getQqid() {
+		return qqid;
+	}
 
-    /**
-     * @param wxname the wxname to set
-     */
-    public void setWxname(String wxname) {
-        this.wxname = wxname;
-    }
+	/**
+	 * @param qqid
+	 *            the qqid to set
+	 */
+	public void setQqid(String qqid) {
+		this.qqid = qqid;
+	}
 
-    /**
-     * @return the qqid
-     */
-    public String getQqid() {
-        return qqid;
-    }
+	/**
+	 * @return the qqname
+	 */
+	public String getQqname() {
+		return qqname;
+	}
 
-    /**
-     * @param qqid the qqid to set
-     */
-    public void setQqid(String qqid) {
-        this.qqid = qqid;
-    }
+	/**
+	 * @param qqname
+	 *            the qqname to set
+	 */
+	public void setQqname(String qqname) {
+		this.qqname = qqname;
+	}
 
-    /**
-     * @return the qqname
-     */
-    public String getQqname() {
-        return qqname;
-    }
+	/**
+	 * @return the wbid
+	 */
+	public String getWbid() {
+		return wbid;
+	}
 
-    /**
-     * @param qqname the qqname to set
-     */
-    public void setQqname(String qqname) {
-        this.qqname = qqname;
-    }
+	/**
+	 * @param wbid
+	 *            the wbid to set
+	 */
+	public void setWbid(String wbid) {
+		this.wbid = wbid;
+	}
 
-    /**
-     * @return the wbid
-     */
-    public String getWbid() {
-        return wbid;
-    }
+	/**
+	 * @return the wbname
+	 */
+	public String getWbname() {
+		return wbname;
+	}
 
-    /**
-     * @param wbid the wbid to set
-     */
-    public void setWbid(String wbid) {
-        this.wbid = wbid;
-    }
+	/**
+	 * @param wbname
+	 *            the wbname to set
+	 */
+	public void setWbname(String wbname) {
+		this.wbname = wbname;
+	}
 
-    /**
-     * @return the wbname
-     */
-    public String getWbname() {
-        return wbname;
-    }
+	/**
+	 * @return the gender
+	 */
+	public Gender getGender() {
+		return gender;
+	}
 
-    /**
-     * @param wbname the wbname to set
-     */
-    public void setWbname(String wbname) {
-        this.wbname = wbname;
-    }
+	/**
+	 * @param gender
+	 *            the gender to set
+	 */
+	public void setGender(Gender gender) {
+		this.gender = gender;
+	}
 
-    /**
-     * @return the gender
-     */
-    public Gender getGender() {
-        return gender;
-    }
+	/**
+	 * @return the birthday
+	 */
+	public Long getBirthday() {
+		return birthday;
+	}
 
-    /**
-     * @param gender the gender to set
-     */
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
+	/**
+	 * @param birthday
+	 *            the birthday to set
+	 */
+	public void setBirthday(Long birthday) {
+		this.birthday = birthday;
+	}
 
-    /**
-     * @return the birthday
-     */
-    public Long getBirthday() {
-        return birthday;
-    }
+	/**
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
+	}
 
-    /**
-     * @param birthday the birthday to set
-     */
-    public void setBirthday(Long birthday) {
-        this.birthday = birthday;
-    }
+	/**
+	 * @param address
+	 *            the address to set
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    /**
-     * @return the address
-     */
-    public String getAddress() {
-        return address;
-    }
+	/**
+	 * @return the avatarUrl
+	 */
+	public String getAvatarUrl() {
+		return avatarUrl;
+	}
 
-    /**
-     * @param address the address to set
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	/**
+	 * @param avatarUrl
+	 *            the avatarUrl to set
+	 */
+	public void setAvatarUrl(String avatarUrl) {
+		this.avatarUrl = avatarUrl;
+	}
 
-    /**
-     * @return the avatarUrl
-     */
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
+	/**
+	 * @return the modTime
+	 */
+	public Long getModTime() {
+		return modTime;
+	}
 
-    /**
-     * @param avatarUrl the avatarUrl to set
-     */
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
-    /**
-     * @return the emergencyContact
-     */
-    public String getEmergencyContact() {
-        return emergencyContact;
-    }
-
-    /**
-     * @param emergencyContact the emergencyContact to set
-     */
-    public void setEmergencyContact(String emergencyContact) {
-        this.emergencyContact = emergencyContact;
-    }
-
-    /**
-     * @return the emergencyMobile
-     */
-    public String getEmergencyMobile() {
-        return emergencyMobile;
-    }
-
-    /**
-     * @param emergencyMobile the emergencyMobile to set
-     */
-    public void setEmergencyMobile(String emergencyMobile) {
-        this.emergencyMobile = emergencyMobile;
-    }
-
-    /**
-     * @return the modTime
-     */
-    public Long getModTime() {
-        return modTime;
-    }
-
-    /**
-     * @param modTime the modTime to set
-     */
-    public void setModTime(Long modTime) {
-        this.modTime = modTime;
-    }
+	/**
+	 * @param modTime
+	 *            the modTime to set
+	 */
+	public void setModTime(Long modTime) {
+		this.modTime = modTime;
+	}
 
 }

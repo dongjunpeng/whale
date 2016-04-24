@@ -15,19 +15,29 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public enum RefoundType {
 
     /**
-     * 扣除后退款(退款=付款-n)
+     * 全额退款
      */
-    MINUS(0),
+    FULL(0),
 
     /**
-     * 百分比后退还(退款=付款*n%)
+     * 20天以上退还95%
      */
-    PERCENTAGE(1),
+    PERCENTAGE_95(1),
 
     /**
-     * 扣除百分比后退还(退款=付款*(1-n%))
+     * 20天-7天退还80
      */
-    PERCENTAGE_OFF(2)
+    PERCENTAGE_80(2),
+    
+    /**
+     * 7天退还50
+     */
+    PERCENTAGE_50(3),
+    
+    /**
+     * 未到达不退
+     */
+    NONE(4)
 
     ;
 

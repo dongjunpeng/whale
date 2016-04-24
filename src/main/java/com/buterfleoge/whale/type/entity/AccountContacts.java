@@ -2,6 +2,8 @@ package com.buterfleoge.whale.type.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -20,11 +22,15 @@ import com.buterfleoge.whale.type.IdType;
 public class AccountContacts extends BaseObject {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "contactid")
     private Long contactid;
 
     @Column(name = "accountid")
     private Long accountid;
+    
+    @Column(name = "is_default")
+    private boolean isDefault;
 
     @Column(name = "name")
     private String name;
@@ -90,7 +96,16 @@ public class AccountContacts extends BaseObject {
         this.accountid = accountid;
     }
 
-    /**
+    
+    public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean isDefault) {
+		this.isDefault = isDefault;
+	}
+
+	/**
      * @return the name
      */
     public String getName() {
