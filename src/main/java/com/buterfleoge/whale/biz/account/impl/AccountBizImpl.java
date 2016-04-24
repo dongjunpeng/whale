@@ -82,8 +82,8 @@ public class AccountBizImpl implements AccountBiz {
 
     @Override
     public void registerByEmail(RegisterRequest request, RegisterResponse response) throws Exception {
-        EmailExistRequest emailEmailRequest = createEmailExistRequestFromRegisterRequest(request);
-        isEmailExist(emailEmailRequest, response);
+        EmailExistRequest emailExistRequest = createEmailExistRequestFromRegisterRequest(request);
+        isEmailExist(emailExistRequest, response);
         if (response.hasError()) {
             return;
         }
@@ -131,9 +131,9 @@ public class AccountBizImpl implements AccountBiz {
      */
     private EmailExistRequest createEmailExistRequestFromRegisterRequest(RegisterRequest request) {
         String email = request.getEmail();
-        EmailExistRequest emailEmailRequest = new EmailExistRequest();
-        emailEmailRequest.setEmail(email);
-        return emailEmailRequest;
+        EmailExistRequest emailExistRequest = new EmailExistRequest();
+        emailExistRequest.setEmail(email);
+        return emailExistRequest;
     }
 
     @Override
