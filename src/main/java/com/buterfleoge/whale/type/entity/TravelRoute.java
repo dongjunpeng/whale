@@ -30,6 +30,9 @@ public class TravelRoute extends BaseObject {
 	@Column(name = "title")
 	private String title;
 
+	@Column(name = "visible")
+	private Boolean visible;
+
 	@Column(name = "type")
 	private TravelType type;
 
@@ -94,6 +97,14 @@ public class TravelRoute extends BaseObject {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Boolean getVisible() {
+		return visible;
+	}
+
+	public void setVisible(Boolean visible) {
+		this.visible = visible;
 	}
 
 	/**

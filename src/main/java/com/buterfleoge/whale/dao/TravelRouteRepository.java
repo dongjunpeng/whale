@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
+import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 
 /**
@@ -15,8 +16,13 @@ import com.buterfleoge.whale.type.entity.TravelRoute;
  */
 public interface TravelRouteRepository extends CrudRepository<TravelRoute, Long> {
 
-	List<TravelRoute> findByRouteid(Long routeid);
+	List<TravelRoute> findByRouteidAndVisibleTrue(Long routeid);
+	
+	List<TravelRoute> findByNameAndVisibleTrue(String name);
 
-	List<TravelRoute> findAll();
+	List<TravelRoute> findByVisibleTrue();
+	
+	TravelRoute findByName(String name);
+
 
 }

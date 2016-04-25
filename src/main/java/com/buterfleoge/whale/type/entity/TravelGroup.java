@@ -28,17 +28,20 @@ public class TravelGroup extends BaseObject {
 	@Column(name = "routeid")
 	private Long routeid;
 
-	@Column(name = "price")
-	private Long price;
-
-	@Column(name = "status")
-	private GroupStatus status;
-
 	@Column(name = "start_date")
 	private Long startDate;
 
 	@Column(name = "end_date")
 	private Long endDate;
+
+	@Column(name = "title")
+	private String title;
+
+	@Column(name = "price")
+	private Long price;
+
+	@Column(name = "status")
+	private GroupStatus status;
 
 	@Column(name = "min_count")
 	private Integer minCount;
@@ -58,139 +61,44 @@ public class TravelGroup extends BaseObject {
 	@Column(name = "mod_time")
 	private Long modTime;
 
-	/**
-	 * @return the groupid
-	 */
 	public Long getGroupid() {
 		return groupid;
 	}
 
-	/**
-	 * @param groupid
-	 *            the groupid to set
-	 */
 	public void setGroupid(Long groupid) {
 		this.groupid = groupid;
 	}
 
-	/**
-	 * @return the routeid
-	 */
 	public Long getRouteid() {
 		return routeid;
 	}
 
-	/**
-	 * @param routeid
-	 *            the routeid to set
-	 */
 	public void setRouteid(Long routeid) {
 		this.routeid = routeid;
 	}
 
-	/**
-	 * @return the status
-	 */
-	public GroupStatus getStatus() {
-		return status;
-	}
-
-	/**
-	 * @param status
-	 *            the status to set
-	 */
-	public void setStatus(GroupStatus status) {
-		this.status = status;
-	}
-
-	/**
-	 * @return the startDate
-	 */
 	public Long getStartDate() {
 		return startDate;
 	}
 
-	/**
-	 * @param startDate
-	 *            the startDate to set
-	 */
 	public void setStartDate(Long startDate) {
 		this.startDate = startDate;
 	}
 
-	/**
-	 * @return the endDate
-	 */
 	public Long getEndDate() {
 		return endDate;
 	}
 
-	/**
-	 * @param endDate
-	 *            the endDate to set
-	 */
 	public void setEndDate(Long endDate) {
 		this.endDate = endDate;
 	}
 
-	/**
-	 * @return the minCount
-	 */
-	public Integer getMinCount() {
-		return minCount;
+	public String getTitle() {
+		return title;
 	}
 
-	/**
-	 * @param minCount
-	 *            the minCount to set
-	 */
-	public void setMinCount(Integer minCount) {
-		this.minCount = minCount;
-	}
-
-	/**
-	 * @return the maxCount
-	 */
-	public Integer getMaxCount() {
-		return maxCount;
-	}
-
-	/**
-	 * @param maxCount
-	 *            the maxCount to set
-	 */
-	public void setMaxCount(Integer maxCount) {
-		this.maxCount = maxCount;
-	}
-
-	/**
-	 * @return the actualCount
-	 */
-	public Integer getActualCount() {
-		return actualCount;
-	}
-
-	/**
-	 * @param actualCount
-	 *            the actualCount to set
-	 */
-	public void setActualCount(Integer actualCount) {
-		this.actualCount = actualCount;
-	}
-
-	/**
-	 * @return the wxQrcode
-	 */
-	public String getWxQrcode() {
-		return wxQrcode;
-	}
-
-	/**
-	 * @param wxQrcode
-	 *            the wxQrcode to set
-	 */
-	public void setWxQrcode(String wxQrcode) {
-		this.wxQrcode = wxQrcode;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Long getPrice() {
@@ -199,6 +107,46 @@ public class TravelGroup extends BaseObject {
 
 	public void setPrice(Long price) {
 		this.price = price;
+	}
+
+	public GroupStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(GroupStatus status) {
+		this.status = status;
+	}
+
+	public Integer getMinCount() {
+		return minCount;
+	}
+
+	public void setMinCount(Integer minCount) {
+		this.minCount = minCount;
+	}
+
+	public Integer getMaxCount() {
+		return maxCount;
+	}
+
+	public void setMaxCount(Integer maxCount) {
+		this.maxCount = maxCount;
+	}
+
+	public Integer getActualCount() {
+		return actualCount;
+	}
+
+	public void setActualCount(Integer actualCount) {
+		this.actualCount = actualCount;
+	}
+
+	public String getWxQrcode() {
+		return wxQrcode;
+	}
+
+	public void setWxQrcode(String wxQrcode) {
+		this.wxQrcode = wxQrcode;
 	}
 
 	public Long getAddTime() {
@@ -216,5 +164,7 @@ public class TravelGroup extends BaseObject {
 	public void setModTime(Long modTime) {
 		this.modTime = modTime;
 	}
+
+	
 
 }
