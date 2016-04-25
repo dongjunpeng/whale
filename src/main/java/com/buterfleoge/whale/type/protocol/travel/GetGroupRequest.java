@@ -9,11 +9,19 @@ import com.buterfleoge.whale.type.protocol.Request;
  * @author Brent24
  *
  */
-public class GetRouteRequest extends Request {
+public class GetGroupRequest extends Request {
 
+	private Long groupid;
 	private Long routeid;
-
 	private String name;
+
+	public Long getGroupid() {
+		return groupid;
+	}
+
+	public void setGroupid(Long groupid) {
+		this.groupid = groupid;
+	}
 
 	public Long getRouteid() {
 		return routeid;

@@ -3,6 +3,8 @@
  */
 package com.buterfleoge.whale.dao;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 
@@ -11,5 +13,9 @@ import com.buterfleoge.whale.type.entity.TravelGroup;
  *
  */
 public interface TravelGroupRepository extends CrudRepository<TravelGroup, Long> {
+
+	List<TravelGroup> findByGroupid(Long groupid);
+
+	List<TravelGroup> findByRouteidAndEndDateGreaterThan(Long routeid,Long endDate);
 
 }
