@@ -2,6 +2,7 @@ CREATE TABLE `elephant`.`account_contacts` (
     `contactid` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '出行人id',
     `accountid` BIGINT(20) NOT NULL COMMENT '账户id',
     `is_default` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否默认出行人',
+    `valid` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '是否有效',
     `name` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '真实姓名',
     `id` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '证件号码',
     `id_type` SMALLINT(4) NOT NULL DEFAULT 0 COMMENT '证件类型:身份证0,护照1,港澳通行证2,台胞证3',
