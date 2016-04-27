@@ -15,5 +15,7 @@ public interface AccountInfoRepository extends CrudRepository<AccountInfo, Long>
     long countByEmail(String email);
 
     AccountInfo findByEmail(String email);
+    
+    AccountInfo findByAccountid(Long accountid);
 
 }

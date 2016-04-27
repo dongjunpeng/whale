@@ -9,6 +9,7 @@ import com.buterfleoge.whale.type.protocol.account.PostContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.PostContactsResponse;
 import com.buterfleoge.whale.type.protocol.account.RegisterRequest;
 import com.buterfleoge.whale.type.protocol.account.RegisterResponse;
+import com.buterfleoge.whale.type.protocol.account.UpdateBasicInfoRequest;
 import com.buterfleoge.whale.type.protocol.account.ValidateEmailRequest;
 
 /**
@@ -21,16 +22,19 @@ public interface AccountBiz {
 
 	void isEmailExist(EmailExistRequest request, Response response) throws Exception;
 
-    void registerByEmail(RegisterRequest request, RegisterResponse response) throws Exception;
+	void registerByEmail(RegisterRequest request, RegisterResponse response) throws Exception;
 
-    void validateEmail(ValidateEmailRequest request, Response response) throws Exception;
+	void validateEmail(ValidateEmailRequest request, Response response) throws Exception;
 
-    void getContacts(GetContactsRequest request, GetContactsResponse response) throws Exception;
+	void updateBasicInfo(UpdateBasicInfoRequest request,Response response) throws Exception;
 
-    void postContacts(PostContactsRequest request, PostContactsResponse response) throws Exception;
-    
-    void deleteContacts(DeleteContactsRequest request, Response response) throws Exception;
+	void getContacts(GetContactsRequest request, GetContactsResponse response) throws Exception;
 
-    // void loginByEmail(LoginRequest request, Response response) throws Exception;
+	void postContacts(PostContactsRequest request, PostContactsResponse response) throws Exception;
+
+	void deleteContacts(DeleteContactsRequest request, Response response) throws Exception;
+
+	// void loginByEmail(LoginRequest request, Response response) throws
+	// Exception;
 
 }
