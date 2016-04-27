@@ -10,5 +10,7 @@ import com.buterfleoge.whale.type.entity.AccountSetting;
  *
  */
 public interface AccountSettingRepository extends CrudRepository<AccountSetting, Long> {
+	
+	AccountSetting findByAccountid(Long accountid);
 
 }

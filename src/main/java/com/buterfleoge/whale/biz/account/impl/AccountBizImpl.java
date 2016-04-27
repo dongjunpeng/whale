@@ -3,6 +3,7 @@ package com.buterfleoge.whale.biz.account.impl;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,11 +25,13 @@ import com.buterfleoge.whale.Utils;
 import com.buterfleoge.whale.biz.account.AccountBiz;
 import com.buterfleoge.whale.dao.AccountContactsRepository;
 import com.buterfleoge.whale.dao.AccountInfoRepository;
+import com.buterfleoge.whale.dao.AccountSettingRepository;
 import com.buterfleoge.whale.service.MailService;
 import com.buterfleoge.whale.service.mail.MailInfo;
 import com.buterfleoge.whale.type.AccountStatus;
 import com.buterfleoge.whale.type.entity.AccountContacts;
 import com.buterfleoge.whale.type.entity.AccountInfo;
+import com.buterfleoge.whale.type.entity.AccountSetting;
 import com.buterfleoge.whale.type.protocol.Error;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.account.DeleteContactsRequest;
@@ -39,6 +42,7 @@ import com.buterfleoge.whale.type.protocol.account.PostContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.PostContactsResponse;
 import com.buterfleoge.whale.type.protocol.account.RegisterRequest;
 import com.buterfleoge.whale.type.protocol.account.RegisterResponse;
+import com.buterfleoge.whale.type.protocol.account.UpdateBasicInfoRequest;
 import com.buterfleoge.whale.type.protocol.account.ValidateEmailRequest;
 
 /**
@@ -55,6 +59,9 @@ public class AccountBizImpl implements AccountBiz {
 
 	@Autowired
 	private AccountInfoRepository accountInfoRepository;
+
+	@Autowired
+	private AccountSettingRepository accountSettingRepository;
 
 	@Autowired
 	private AccountContactsRepository accountContactsRepository;
@@ -103,9 +110,17 @@ public class AccountBizImpl implements AccountBiz {
 		info.setType(request.getType());
 		info.setAddTime(System.currentTimeMillis());
 		info.setModTime(info.getAddTime());
+
 		try {
 			AccountInfo accountInfo = accountInfoRepository.save(info);
 			response.setAccountInfo(accountInfo);
+
+			// TODO
+			// 这个地方改了
+			AccountSetting setting = new AccountSetting();
+			setting.setAccountid(accountInfo.getAccountid());
+			accountSettingRepository.save(setting);
+
 			response.setStatus(Status.OK);
 
 			InetAddress address = Utils.getAddress();
@@ -158,6 +173,63 @@ public class AccountBizImpl implements AccountBiz {
 			response.setStatus(Status.BIZ_ERROR);
 			response.addError(new Error(BizCode.INVALID_VALID_CODE, ErrorMsg.INVALID_VALID_CODE));
 		}
+	}
+
+	@Override
+	public void updateBasicInfo(UpdateBasicInfoRequest request, Response response) throws Exception {
+
+		AccountInfo accountInfo;
+		AccountSetting accountSetting;
+		Date now;
+
+		Long accountid = request.getAccountid();
+
+		try {
+
+			// 每次更新，必须同时提交么？还是可以只提交一个？
+			if (request.getAccountid() != null) {
+
+				accountInfo = accountInfoRepository.findByAccountid(accountid);
+				accountSetting = accountSettingRepository.findByAccountid(accountid);
+
+				//TODO
+				//如何setNull?
+				accountInfo.setEmail(request.getEmail());
+				accountInfo.setId(request.getId());
+				accountInfo.setIdType(request.getIdType());
+				accountInfo.setMobile(request.getMobile());
+				accountInfo.setName(request.getName());
+				accountInfo.setPassword(request.getPassword());// password是不是要单独搞？
+
+				accountSetting.setAddress(request.getAddress());
+				accountSetting.setAvatarUrl(request.getAvatarUrl());
+				accountSetting.setBirthday(request.getBirthday());
+				accountSetting.setGender(request.getGender());
+				accountSetting.setNickname(request.getNickname());
+				accountSetting.setQqid(request.getQqid());
+				accountSetting.setQqname(request.getQqname());
+				accountSetting.setWbid(request.getWbid());
+				accountSetting.setWbname(request.getWbname());
+				accountSetting.setWxid(request.getWxid());
+				accountSetting.setWxname(request.getWxname());
+
+				now = new Date();
+				accountInfo.setModTime(now.getTime() / 1000);
+				accountSetting.setModTime(now.getTime() / 1000);
+
+				accountInfoRepository.save(accountInfo);
+				accountSettingRepository.save(accountSetting);
+
+				response.setStatus(Status.OK);
+			} else {
+				response.setStatus(Status.PARAM_ERROR);
+
+			}
+		} catch (Exception e) {
+			LOG.error("update basicInfo failed", e);
+			response.setStatus(Status.DB_ERROR);
+		}
+
 	}
 
 	@Override
@@ -271,7 +343,7 @@ public class AccountBizImpl implements AccountBiz {
 		} catch (Exception e) {
 			LOG.error("delete contacts failed", e);
 			response.setStatus(Status.DB_ERROR);
-		}	
+		}
 	}
 
 	private Map<Long, AccountContacts> findUpdateContacts(List<AccountContacts> contacts) {
