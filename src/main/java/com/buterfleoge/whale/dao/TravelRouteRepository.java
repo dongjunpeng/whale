@@ -4,10 +4,10 @@
 package com.buterfleoge.whale.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 
 /**
@@ -23,6 +23,8 @@ public interface TravelRouteRepository extends CrudRepository<TravelRoute, Long>
 	List<TravelRoute> findByVisibleTrue();
 	
 	TravelRoute findByName(String name);
+
+    List<TravelRoute> findByRouteidInAndVisibleTrue(Set<Long> routeid);
 
 
 }

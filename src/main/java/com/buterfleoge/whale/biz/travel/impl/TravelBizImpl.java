@@ -1,10 +1,8 @@
-/**
- * 
- */
 package com.buterfleoge.whale.biz.travel.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -52,39 +50,40 @@ public class TravelBizImpl implements TravelBiz {
 	@Override
 	public void getRoute(GetRouteRequest request, GetRouteResponse response) throws Exception {
 
-		Long routeid = request.getRouteid();
+		List<Long> routeids = request.getRouteids();
 		String name = request.getName();
 		int isImgtextRequired = request.getIsImgtextRequired();
 
-		List<TravelRoute> route = null;
+		List<TravelRoute> routes = null;
 		Imgtext imgtext = null;
 
 		try {
-			if (routeid != null) {
-				route = travelRouteRepository.findByRouteidAndVisibleTrue(routeid);
-				if (isImgtextRequired == 1) {
-					imgtext = getImgtextInJson(route.get(0).getImgtext());
+			if (routeids != null) {
+				if (routeids.size() == 1) {
+					routes = travelRouteRepository.findByRouteidAndVisibleTrue(routeids.get(0));
+				} else {
+					routes = travelRouteRepository.findByRouteidInAndVisibleTrue(new HashSet<Long>(routeids));
+					if (isImgtextRequired == 1) {
+						imgtext = getImgtextInJson(routes.get(0).getImgtext());
+					}
 				}
 			} else {
 				if (name != null) {
-					route = travelRouteRepository.findByNameAndVisibleTrue(name);
+					routes = travelRouteRepository.findByNameAndVisibleTrue(name);
 					if (isImgtextRequired == 1) {
-						imgtext = getImgtextInJson(route.get(0).getImgtext());
+						imgtext = getImgtextInJson(routes.get(0).getImgtext());
 					}
-
 				} else {
-					route = travelRouteRepository.findByVisibleTrue();
+					routes = travelRouteRepository.findByVisibleTrue();
 				}
 			}
-
-			if (route.isEmpty()) {
+			if (routes.isEmpty()) {
 				response.setStatus(Status.PARAM_ERROR);
 			} else {
-				response.setRoute(route);
+				response.setRoutes(routes);
 				response.setImgtext(imgtext);
 				response.setStatus(Status.OK);
 			}
-
 		} catch (Exception e) {
 			LOG.error("find route failed", e);
 			response.setStatus(Status.DB_ERROR);
@@ -93,6 +92,8 @@ public class TravelBizImpl implements TravelBiz {
 
 	@Override
 	public void getRouteByCondition(Request request, GetRouteResponse response) throws Exception {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override

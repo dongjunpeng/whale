@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.buterfleoge.whale.type.protocol.travel;
 
 import java.util.List;
@@ -15,15 +12,22 @@ import com.buterfleoge.whale.type.protocol.travel.imgtext.Imgtext;
  */
 public class GetRouteResponse extends Response {
 
-	private List<TravelRoute> route;
+	private List<TravelRoute> routes;
 	private Imgtext imgtext;
 
-	public List<TravelRoute> getRoute() {
-		return route;
+	/**
+	 * @return the routes
+	 */
+	public List<TravelRoute> getRoutes() {
+		return routes;
 	}
 
-	public void setRoute(List<TravelRoute> route) {
-		this.route = route;
+	/**
+	 * @param routes
+	 *            the routes to set
+	 */
+	public void setRoutes(List<TravelRoute> routes) {
+		this.routes = routes;
 	}
 
 	public Imgtext getImgtext() {

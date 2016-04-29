@@ -3,6 +3,8 @@
  */
 package com.buterfleoge.whale.type.protocol.travel;
 
+import java.util.List;
+
 import com.buterfleoge.whale.type.protocol.Request;
 
 /**
@@ -11,18 +13,18 @@ import com.buterfleoge.whale.type.protocol.Request;
  */
 public class GetRouteRequest extends Request {
 
-	private Long routeid;
+	private List<Long> routeids;
 
 	private String name;
 
 	private int isImgtextRequired;
 
-	public Long getRouteid() {
-		return routeid;
+	public List<Long> getRouteids() {
+		return routeids;
 	}
 
-	public void setRouteid(Long routeid) {
-		this.routeid = routeid;
+	public void setRouteids(List<Long> routeids) {
+		this.routeids = routeids;
 	}
 
 	public String getName() {
