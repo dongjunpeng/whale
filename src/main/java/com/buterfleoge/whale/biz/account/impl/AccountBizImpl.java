@@ -1,12 +1,9 @@
 package com.buterfleoge.whale.biz.account.impl;
 
 import java.net.InetAddress;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -39,7 +36,7 @@ import com.buterfleoge.whale.type.protocol.account.EmailExistRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsResponse;
 import com.buterfleoge.whale.type.protocol.account.PostContactsRequest;
-import com.buterfleoge.whale.type.protocol.account.PostContactsResponse;
+import com.buterfleoge.whale.type.protocol.account.PutContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.RegisterRequest;
 import com.buterfleoge.whale.type.protocol.account.RegisterResponse;
 import com.buterfleoge.whale.type.protocol.account.UpdateBasicInfoRequest;
@@ -192,8 +189,8 @@ public class AccountBizImpl implements AccountBiz {
 				accountInfo = accountInfoRepository.findByAccountid(accountid);
 				accountSetting = accountSettingRepository.findByAccountid(accountid);
 
-				//TODO
-				//如何setNull?
+				// TODO
+
 				accountInfo.setEmail(request.getEmail());
 				accountInfo.setId(request.getId());
 				accountInfo.setIdType(request.getIdType());
@@ -236,100 +233,165 @@ public class AccountBizImpl implements AccountBiz {
 	public void getContacts(GetContactsRequest request, GetContactsResponse response) throws Exception {
 		Long contactid = request.getContactid();
 		Long accountid = request.getAccountid();
+		Boolean isDefault = request.getIsDefault();
 
 		try {
-			if (contactid != null && accountid != null) {
-				AccountContacts contact = accountContactsRepository.findByContactidAndAccountidAndValidTrue(contactid,
-						accountid);
+			if (contactid != null) {
+				AccountContacts contact = accountContactsRepository.findByContactidAndValidTrue(contactid);
 				response.setContacts(Arrays.asList(contact));
-			} else if (contactid != null) {
-				AccountContacts contact = accountContactsRepository.findOne(contactid);
-				response.setContacts(Arrays.asList(contact));
+				response.setStatus(Status.OK);
 			} else {
-				List<AccountContacts> contacts = accountContactsRepository.findByAccountidAndValidTrue(accountid);
-				response.setContacts(contacts);
+				if (accountid != null) {
+					if (isDefault) {
+						AccountContacts contact = accountContactsRepository
+								.findByAccountidAndValidTrueAndIsDefaultTrue(accountid);
+						response.setContacts(Arrays.asList(contact));
+						response.setStatus(Status.OK);
+					} else {
+						List<AccountContacts> contacts = accountContactsRepository
+								.findByAccountidAndValidTrue(accountid);
+						response.setContacts(contacts);
+						response.setStatus(Status.OK);
+					}
+				} else {
+					response.setStatus(Status.PARAM_ERROR);
+				}
 			}
-			response.setStatus(Status.OK);
+
 		} catch (Exception e) {
 			LOG.error("find contacts failed", e);
 			response.setStatus(Status.DB_ERROR);
 		}
 	}
 
+	// @Override
+	// public void postContacts(PostContactsRequest request,
+	// PostContactsResponse response) throws Exception {
+	// Long accountid = request.getAccountid();
+	// List<AccountContacts> contacts = request.getContacts();
+	// List<AccountContacts> insertContacts = findInsertContacts(contacts);
+	// Map<Long, AccountContacts> updateContactsMap =
+	// findUpdateContacts(contacts);
+	//
+	// List<AccountContacts> ret = new
+	// ArrayList<AccountContacts>(contacts.size());
+	// if (insertContacts.size() != 0) {
+	// try {
+	// Iterable<AccountContacts> iterable =
+	// accountContactsRepository.save(insertContacts);
+	// for (AccountContacts accountContacts : iterable) {
+	// ret.add(accountContacts);
+	// }
+	// } catch (Exception e) {
+	// LOG.error("insert contacts failed", e);
+	// response.setStatus(Status.DB_ERROR);
+	// return;
+	// }
+	// }
+	//
+	// if (updateContactsMap.size() != 0) {
+	// try {
+	// Iterable<AccountContacts> iterable = accountContactsRepository
+	// .findByContactidInAndAccountidAndValidTrue(updateContactsMap.keySet(),
+	// accountid);
+	// for (AccountContacts target : iterable) {
+	// AccountContacts from = updateContactsMap.get(target.getContactid());
+	//
+	// if (from.getName() != null) {
+	// target.setName(from.getName());
+	// }
+	//
+	// if (from.getId() != null) {
+	// target.setId(from.getId());
+	// target.setIdType(from.getIdType());
+	// }
+	//
+	// if (from.getGender() != null) {
+	// target.setGender(from.getGender());
+	// }
+	//
+	// if (from.getBirthday() != null) {
+	// target.setBirthday(from.getBirthday());
+	// }
+	//
+	// if (from.getMobile() != null) {
+	// target.setMobile(from.getMobile());
+	// }
+	//
+	// if (from.getEmail() != null) {
+	// target.setEmail(from.getEmail());
+	// }
+	//
+	// target.setModTime(System.currentTimeMillis());
+	// updateContactsMap.remove(target.getContactid());
+	// }
+	//
+	// iterable = accountContactsRepository.save(iterable);
+	// for (AccountContacts accountContacts : iterable) {
+	// ret.add(accountContacts);
+	// }
+	//
+	// if (updateContactsMap.size() != 0) {
+	// throw new Exception("存在没有更新的");
+	// }
+	//
+	// } catch (Exception e) {
+	// LOG.error("update contacts failed", e);
+	// response.setStatus(Status.DB_ERROR);
+	// return;
+	// }
+	// }
+	// response.setContacts(ret);
+	// response.setStatus(Status.OK);
+	// }
 	@Override
-	public void postContacts(PostContactsRequest request, PostContactsResponse response) throws Exception {
-		Long accountid = request.getAccountid();
-		List<AccountContacts> contacts = request.getContacts();
-		List<AccountContacts> insertContacts = findInsertContacts(contacts);
-		Map<Long, AccountContacts> updateContactsMap = findUpdateContacts(contacts);
+	public void postContacts(PostContactsRequest request, Response response) throws Exception {
+		AccountContacts contact = new AccountContacts();
+		try {
+			contact.setAccountid(request.getAccountid());
+			contact.setAddress(request.getAddress());
+			contact.setBirthday(request.getBirthday());
+			contact.setEmail(request.getEmail());
+			contact.setEmergencyContact(request.getEmergencyContact());
+			contact.setEmergencyMobile(request.getEmergencyMobile());
+			contact.setGender(request.getGender());
+			contact.setId(request.getId());
+			contact.setIdType(request.getIdType());
+			contact.setIsDefault(request.getIsDefault());
+			contact.setMobile(request.getMobile());
+			contact.setName(request.getName());
+			contact.setAddTime(System.currentTimeMillis() / 1000);
+			contact.setModTime(System.currentTimeMillis() / 1000);
+			contact.setValid(true);
+			accountContactsRepository.save(contact);
+		} catch (Exception e) {
+			LOG.error("post contacts failed", e);
+			response.setStatus(Status.DB_ERROR);
+		}
+	}
 
-		List<AccountContacts> ret = new ArrayList<AccountContacts>(contacts.size());
-		if (insertContacts.size() != 0) {
-			try {
-				Iterable<AccountContacts> iterable = accountContactsRepository.save(insertContacts);
-				for (AccountContacts accountContacts : iterable) {
-					ret.add(accountContacts);
-				}
-			} catch (Exception e) {
-				LOG.error("insert contacts failed", e);
-				response.setStatus(Status.DB_ERROR);
-				return;
-			}
+	@Override
+	public void putContacts(PutContactsRequest request, Response response) throws Exception {
+		try {
+			AccountContacts contact = accountContactsRepository.findByContactidAndValidTrue(request.getContactid());
+			contact.setAddress(request.getAddress());
+			contact.setBirthday(request.getBirthday());
+			contact.setEmail(request.getEmail());
+			contact.setEmergencyContact(request.getEmergencyContact());
+			contact.setEmergencyMobile(request.getEmergencyMobile());
+			contact.setGender(request.getGender());
+			contact.setId(request.getId());
+			contact.setIdType(request.getIdType());
+			contact.setIsDefault(request.getIsDefault());
+			contact.setMobile(request.getMobile());
+			contact.setName(request.getName());
+			contact.setModTime(System.currentTimeMillis() / 1000);
+			accountContactsRepository.save(contact);
+		} catch (Exception e) {
+			LOG.error("post contacts failed", e);
+			response.setStatus(Status.DB_ERROR);
 		}
 
-		if (updateContactsMap.size() != 0) {
-			try {
-				Iterable<AccountContacts> iterable = accountContactsRepository
-						.findByContactidInAndAccountidAndValidTrue(updateContactsMap.keySet(), accountid);
-				for (AccountContacts target : iterable) {
-					AccountContacts from = updateContactsMap.get(target.getContactid());
-
-					if (from.getName() != null) {
-						target.setName(from.getName());
-					}
-
-					if (from.getId() != null) {
-						target.setId(from.getId());
-						target.setIdType(from.getIdType());
-					}
-
-					if (from.getGender() != null) {
-						target.setGender(from.getGender());
-					}
-
-					if (from.getBirthday() != null) {
-						target.setBirthday(from.getBirthday());
-					}
-
-					if (from.getMobile() != null) {
-						target.setMobile(from.getMobile());
-					}
-
-					if (from.getEmail() != null) {
-						target.setEmail(from.getEmail());
-					}
-
-					target.setModTime(System.currentTimeMillis());
-					updateContactsMap.remove(target.getContactid());
-				}
-
-				iterable = accountContactsRepository.save(iterable);
-				for (AccountContacts accountContacts : iterable) {
-					ret.add(accountContacts);
-				}
-
-				if (updateContactsMap.size() != 0) {
-					throw new Exception("存在没有更新的");
-				}
-
-			} catch (Exception e) {
-				LOG.error("update contacts failed", e);
-				response.setStatus(Status.DB_ERROR);
-				return;
-			}
-		}
-		response.setContacts(ret);
-		response.setStatus(Status.OK);
 	}
 
 	@Override
@@ -346,25 +408,29 @@ public class AccountBizImpl implements AccountBiz {
 		}
 	}
 
-	private Map<Long, AccountContacts> findUpdateContacts(List<AccountContacts> contacts) {
-		Map<Long, AccountContacts> updateContacts = new HashMap<Long, AccountContacts>(contacts.size());
-		for (AccountContacts accountContacts : contacts) {
-			if (accountContacts.getContactid() != 0) {
-				updateContacts.put(accountContacts.getContactid(), accountContacts);
-			}
-		}
-		return updateContacts;
-	}
+	// private Map<Long, AccountContacts>
+	// findUpdateContacts(List<AccountContacts> contacts) {
+	// Map<Long, AccountContacts> updateContacts = new HashMap<Long,
+	// AccountContacts>(contacts.size());
+	// for (AccountContacts accountContacts : contacts) {
+	// if (accountContacts.getContactid() != 0) {
+	// updateContacts.put(accountContacts.getContactid(), accountContacts);
+	// }
+	// }
+	// return updateContacts;
+	// }
 
-	private List<AccountContacts> findInsertContacts(List<AccountContacts> contacts) {
-		List<AccountContacts> insertContacts = new ArrayList<AccountContacts>(contacts.size());
-		for (AccountContacts accountContacts : contacts) {
-			if (accountContacts.getContactid() == 0) {
-				insertContacts.add(accountContacts);
-			}
-		}
-		return insertContacts;
-	}
+	// private List<AccountContacts> findInsertContacts(List<AccountContacts>
+	// contacts) {
+	// List<AccountContacts> insertContacts = new
+	// ArrayList<AccountContacts>(contacts.size());
+	// for (AccountContacts accountContacts : contacts) {
+	// if (accountContacts.getContactid() == 0) {
+	// insertContacts.add(accountContacts);
+	// }
+	// }
+	// return insertContacts;
+	// }
 
 	/*
 	 * (non-Javadoc)

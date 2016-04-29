@@ -9,14 +9,13 @@ import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.protocol.Request;
 
 /**
- *
- * @author xiezhenzong
+ * @author Brent24
  *
  */
-public class PostContactsRequest extends Request {
+public class PutContactsRequest extends Request {
 
 	@NotNull
-	private Long accountid;
+	private Long contactid;
 
 	@NotNull
 	private Boolean isDefault;
@@ -51,19 +50,19 @@ public class PostContactsRequest extends Request {
 	@NotBlank
 	private String emergencyMobile;
 
-	public Long getAccountid() {
-		return accountid;
+	public Long getContactid() {
+		return contactid;
 	}
 
-	public void setAccountid(Long accountid) {
-		this.accountid = accountid;
+	public void setContactid(Long contactid) {
+		this.contactid = contactid;
 	}
 
-	public boolean isDefault() {
+	public Boolean getIsDefault() {
 		return isDefault;
 	}
 
-	public void setDefault(boolean isDefault) {
+	public void setIsDefault(Boolean isDefault) {
 		this.isDefault = isDefault;
 	}
 
@@ -145,14 +144,6 @@ public class PostContactsRequest extends Request {
 
 	public void setEmergencyMobile(String emergencyMobile) {
 		this.emergencyMobile = emergencyMobile;
-	}
-
-	public Boolean getIsDefault() {
-		return isDefault;
-	}
-
-	public void setIsDefault(Boolean isDefault) {
-		this.isDefault = isDefault;
 	}
 
 }
