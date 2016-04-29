@@ -3,12 +3,14 @@
  */
 package com.buterfleoge.whale.biz.travel.impl;
 
-import java.util.Date;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.buterfleoge.whale.Constants.Status;
@@ -19,10 +21,14 @@ import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 import com.buterfleoge.whale.type.protocol.Error;
 import com.buterfleoge.whale.type.protocol.Request;
-import com.buterfleoge.whale.type.protocol.travel.GetRouteResponse;
 import com.buterfleoge.whale.type.protocol.travel.GetGroupRequest;
 import com.buterfleoge.whale.type.protocol.travel.GetGroupResponse;
 import com.buterfleoge.whale.type.protocol.travel.GetRouteRequest;
+import com.buterfleoge.whale.type.protocol.travel.GetRouteResponse;
+import com.buterfleoge.whale.type.protocol.travel.imgtext.Imgtext;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Brent24
@@ -34,6 +40,9 @@ public class TravelBizImpl implements TravelBiz {
 
 	private static final Logger LOG = LoggerFactory.getLogger(TravelBizImpl.class);
 
+	@Value("${route.imgtext.path}")
+	private String routeImgtextPath;
+
 	@Autowired
 	private TravelRouteRepository travelRouteRepository;
 
@@ -42,15 +51,27 @@ public class TravelBizImpl implements TravelBiz {
 
 	@Override
 	public void getRoute(GetRouteRequest request, GetRouteResponse response) throws Exception {
+
 		Long routeid = request.getRouteid();
 		String name = request.getName();
+		int isImgtextRequired = request.getIsImgtextRequired();
+
 		List<TravelRoute> route = null;
+		Imgtext imgtext = null;
+
 		try {
 			if (routeid != null) {
 				route = travelRouteRepository.findByRouteidAndVisibleTrue(routeid);
+				if (isImgtextRequired == 1) {
+					imgtext = getImgtextInJson(route.get(0).getImgtext());
+				}
 			} else {
 				if (name != null) {
 					route = travelRouteRepository.findByNameAndVisibleTrue(name);
+					if (isImgtextRequired == 1) {
+						imgtext = getImgtextInJson(route.get(0).getImgtext());
+					}
+
 				} else {
 					route = travelRouteRepository.findByVisibleTrue();
 				}
@@ -60,6 +81,7 @@ public class TravelBizImpl implements TravelBiz {
 				response.setStatus(Status.PARAM_ERROR);
 			} else {
 				response.setRoute(route);
+				response.setImgtext(imgtext);
 				response.setStatus(Status.OK);
 			}
 
@@ -71,8 +93,6 @@ public class TravelBizImpl implements TravelBiz {
 
 	@Override
 	public void getRouteByCondition(Request request, GetRouteResponse response) throws Exception {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -115,6 +135,14 @@ public class TravelBizImpl implements TravelBiz {
 			response.setStatus(Status.DB_ERROR);
 		}
 
+	}
+
+	public Imgtext getImgtextInJson(String jsonName) throws JsonParseException, JsonMappingException, IOException {
+
+		File file = new File(routeImgtextPath + jsonName);
+		ObjectMapper mapper = new ObjectMapper();
+
+		return mapper.readValue(org.apache.commons.io.FileUtils.readFileToString(file, "UTF-8"), Imgtext.class);
 	}
 
 }

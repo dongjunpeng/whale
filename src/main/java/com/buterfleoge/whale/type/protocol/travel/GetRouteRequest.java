@@ -15,6 +15,8 @@ public class GetRouteRequest extends Request {
 
 	private String name;
 
+	private int isImgtextRequired;
+
 	public Long getRouteid() {
 		return routeid;
 	}
@@ -29,6 +31,14 @@ public class GetRouteRequest extends Request {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public int getIsImgtextRequired() {
+		return isImgtextRequired;
+	}
+
+	public void setIsImgtextRequired(int isImgtextRequired) {
+		this.isImgtextRequired = isImgtextRequired;
 	}
 
 }
