@@ -4,7 +4,7 @@ package com.buterfleoge.whale.type.protocol.travel.imgtext;
  * @author Brent24
  *
  */
-public class Cost {
+public class Expense {
 	
 	private String include;
 	private String exclude;

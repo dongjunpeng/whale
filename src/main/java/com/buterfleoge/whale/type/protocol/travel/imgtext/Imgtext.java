@@ -10,7 +10,7 @@ public class Imgtext {
 
 	private List<Day> days;
 	private Notice notice;
-	private Cost cost;
+	private Expense expense;
 
 	public List<Day> getDays() {
 		return days;
@@ -28,12 +28,12 @@ public class Imgtext {
 		this.notice = notice;
 	}
 
-	public Cost getCost() {
-		return cost;
+	public Expense getExpense() {
+		return expense;
 	}
 
-	public void setCost(Cost cost) {
-		this.cost = cost;
+	public void setExpense(Expense expense) {
+		this.expense = expense;
 	}
 
 }
