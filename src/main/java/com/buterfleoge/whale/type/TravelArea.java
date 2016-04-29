@@ -11,60 +11,60 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public enum TravelArea {
 
-    /**
-     * 未知
-     */
-    UNKNOW(0),
+	/**
+	 * 未知
+	 */
+	UNKNOW(0),
 
-    /**
-     * 西北
-     */
-    NORTHWEST(1),
+	/**
+	 * 西北
+	 */
+	NORTHWEST(1),
 
-    /**
-     * 东北
-     */
-    NORTHEAST(2),
+	/**
+	 * 东北
+	 */
+	NORTHEAST(2),
 
-    /**
-     * 西南
-     */
-    SOUTHWEST(3),
+	/**
+	 * 西南
+	 */
+	SOUTHWEST(3),
 
-    /**
-     * 东南
-     */
-    SOUTHEST(4),
+	/**
+	 * 东南
+	 */
+	SOUTHEST(4),
 
-    /**
-     * 沿海
-     */
-    COAST(4),
+	/**
+	 * 沿海
+	 */
+	COAST(5),
 
-    /**
-     * 西藏
-     */
-    TIBET(4)
+	/**
+	 * 西藏
+	 */
+	TIBET(6)
 
-    ;
+	;
 
-    private int scope;
+	private int scope;
 
-    private TravelArea(int scope) {
-        this.scope = scope;
-    }
+	private TravelArea(int scope) {
+		this.scope = scope;
+	}
 
-    public int getScope() {
-        return scope;
-    }
+	public int getScope() {
+		return scope;
+	}
 
-    public void setScope(int scope) {
-        this.scope = scope;
-    }
+	public void setScope(int scope) {
+		this.scope = scope;
+	}
 
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
+	@Override
+	public String toString() {
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
 
 }

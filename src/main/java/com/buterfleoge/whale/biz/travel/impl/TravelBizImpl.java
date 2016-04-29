@@ -52,7 +52,7 @@ public class TravelBizImpl implements TravelBiz {
 
 		List<Long> routeids = request.getRouteids();
 		String name = request.getName();
-		int isImgtextRequired = request.getIsImgtextRequired();
+		Boolean isImgtextRequired = request.getIsImgtextRequired();
 
 		List<TravelRoute> routes = null;
 		Imgtext imgtext = null;
@@ -63,14 +63,14 @@ public class TravelBizImpl implements TravelBiz {
 					routes = travelRouteRepository.findByRouteidAndVisibleTrue(routeids.get(0));
 				} else {
 					routes = travelRouteRepository.findByRouteidInAndVisibleTrue(new HashSet<Long>(routeids));
-					if (isImgtextRequired == 1) {
+					if (isImgtextRequired) {
 						imgtext = getImgtextInJson(routes.get(0).getImgtext());
 					}
 				}
 			} else {
 				if (name != null) {
 					routes = travelRouteRepository.findByNameAndVisibleTrue(name);
-					if (isImgtextRequired == 1) {
+					if (isImgtextRequired) {
 						imgtext = getImgtextInJson(routes.get(0).getImgtext());
 					}
 				} else {
