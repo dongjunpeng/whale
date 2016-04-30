@@ -103,9 +103,6 @@ public class TravelBizImpl implements TravelBiz {
 		Long groupid = request.getGroupid();
 		String name = request.getName();
 
-		// Long now=new Date().getTime()/1000;
-		Long now = 20160425L;// 先写死测试，后面用系统获取时间
-
 		List<TravelGroup> group = null;
 
 		try {
@@ -113,11 +110,12 @@ public class TravelBizImpl implements TravelBiz {
 				group = travelGroupRepository.findByGroupid(groupid);
 			} else {
 				if (routeid != null) {
-					group = travelGroupRepository.findByRouteidAndEndDateGreaterThan(routeid, now);
+					group = travelGroupRepository.findByRouteidAndEndDateGreaterThan(routeid,
+							System.currentTimeMillis());
 				} else {
 					if (name != null) {
 						group = travelGroupRepository.findByRouteidAndEndDateGreaterThan(
-								travelRouteRepository.findByName(name).getRouteid(), now);
+								travelRouteRepository.findByName(name).getRouteid(), System.currentTimeMillis());
 					} else {
 						response.setStatus(Status.PARAM_ERROR);
 					}
