@@ -8,9 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.AccountStatus;
-import com.buterfleoge.whale.type.AccountType;
-import com.buterfleoge.whale.type.IdType;
+import com.buterfleoge.whale.type.enums.AccountStatus;
+import com.buterfleoge.whale.type.enums.AccountType;
+import com.buterfleoge.whale.type.enums.IdType;
 
 /**
  * 账户的基本信息

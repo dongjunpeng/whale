@@ -1,51 +1,49 @@
-package com.buterfleoge.whale.type;
+/**
+ * 
+ */
+package com.buterfleoge.whale.type.enums;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 旅行类型
+ * 退款类型
  * 
  * @author Brent24
  *
  */
-public enum TravelType {
+public enum RefoundType {
 
     /**
-     * 未知
+     * 全额退款
      */
-    UNKNOW(0),
+    FULL(0),
 
     /**
-     * 城市
+     * 20天以上退还95%
      */
-    CITY_WALK(1),
+    PERCENTAGE_95(1),
 
     /**
-     * 近郊
+     * 20天-7天退还80
      */
-    SUBURB(2),
-
+    PERCENTAGE_80(2),
+    
     /**
-     * 短途
+     * 7天退还50
      */
-    SHORT_TRIP(3),
-
+    PERCENTAGE_50(3),
+    
     /**
-     * 长途
+     * 未到达不退
      */
-    LONG_TRIP(4),
-
-    /**
-     * 国际
-     */
-    INTERNATIONAL(5)
+    NONE(4)
 
     ;
 
     private int type;
 
-    private TravelType(int type) {
+    private RefoundType(int type) {
         this.type = type;
     }
 

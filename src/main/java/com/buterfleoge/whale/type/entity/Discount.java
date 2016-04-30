@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.DiscountType;
+import com.buterfleoge.whale.type.enums.DiscountType;
 
 /**
  * 订单优惠表

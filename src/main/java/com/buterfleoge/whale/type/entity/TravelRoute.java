@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.TravelArea;
-import com.buterfleoge.whale.type.TravelType;
+import com.buterfleoge.whale.type.enums.TravelArea;
+import com.buterfleoge.whale.type.enums.TravelType;
 
 /**
  * @author Brent24

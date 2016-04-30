@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.OrderStaffStatus;
+import com.buterfleoge.whale.type.enums.OrderStaffStatus;
 
 /**
  *

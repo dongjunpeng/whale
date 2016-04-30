@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.RefoundReason;
-import com.buterfleoge.whale.type.RefoundType;
+import com.buterfleoge.whale.type.enums.RefoundReason;
+import com.buterfleoge.whale.type.enums.RefoundType;
 
 /**
  * 订单退款表

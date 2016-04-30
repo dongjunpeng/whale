@@ -105,7 +105,6 @@
             <groupId>com.sun.mail</groupId>
             <artifactId>javax.mail</artifactId>
         </dependency>
-
         <!-- test -->
         <dependency>
             <groupId>junit</groupId>
