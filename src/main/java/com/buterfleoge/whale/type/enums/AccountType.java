@@ -1,49 +1,51 @@
-/**
- * 
- */
-package com.buterfleoge.whale.type;
+package com.buterfleoge.whale.type.enums;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 退款类型
- * 
- * @author Brent24
+ * 账户类型
+ *
+ * @author xiezhenzong
  *
  */
-public enum RefoundType {
+public enum AccountType {
 
     /**
-     * 全额退款
+     * 普通账户
      */
-    FULL(0),
+    USER(0),
 
     /**
-     * 20天以上退还95%
+     * 领队
      */
-    PERCENTAGE_95(1),
+    LEADER(1),
 
     /**
-     * 20天-7天退还80
+     * 管理员
      */
-    PERCENTAGE_80(2),
-    
+    MANAGER(2),
+
     /**
-     * 7天退还50
+     * 合作伙伴
      */
-    PERCENTAGE_50(3),
-    
+    PARTNER(3),
+
     /**
-     * 未到达不退
+     * 代理商
      */
-    NONE(4)
+    AGENT(4),
+
+    /**
+     * 超级管理员
+     */
+    ROOT(100)
 
     ;
 
     private int type;
 
-    private RefoundType(int type) {
+    private AccountType(int type) {
         this.type = type;
     }
 

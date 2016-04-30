@@ -2,7 +2,7 @@ package com.buterfleoge.whale.type.protocol.account;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.buterfleoge.whale.type.AccountType;
+import com.buterfleoge.whale.type.enums.AccountType;
 import com.buterfleoge.whale.type.protocol.Request;
 
 /**

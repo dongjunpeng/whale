@@ -1,51 +1,41 @@
-package com.buterfleoge.whale.type;
+package com.buterfleoge.whale.type.enums;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 账户类型
- *
- * @author xiezhenzong
+ * 证件类型
+ * 
+ * @author Brent24
  *
  */
-public enum AccountType {
+public enum IdType {
 
     /**
-     * 普通账户
+     * 身份证
      */
-    USER(0),
+    IDENTIFICATION(0),
 
     /**
-     * 领队
+     * 护照
      */
-    LEADER(1),
+    PASSPORT(1),
 
     /**
-     * 管理员
+     * 港澳通行证
      */
-    MANAGER(2),
+    H_PASSER(2),
 
     /**
-     * 合作伙伴
+     * 台胞证
      */
-    PARTNER(3),
-
-    /**
-     * 代理商
-     */
-    AGENT(4),
-
-    /**
-     * 超级管理员
-     */
-    ROOT(100)
+    T_PASSER(3)
 
     ;
 
     private int type;
 
-    private AccountType(int type) {
+    private IdType(int type) {
         this.type = type;
     }
 
@@ -61,5 +51,4 @@ public enum AccountType {
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
-
 }
