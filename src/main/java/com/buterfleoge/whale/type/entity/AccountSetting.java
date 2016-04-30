@@ -2,8 +2,6 @@ package com.buterfleoge.whale.type.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -20,42 +18,41 @@ import com.buterfleoge.whale.type.Gender;
 public class AccountSetting extends BaseObject {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "accountid")
 	private Long accountid;
 
 	@Column(name = "nickname")
-	private String nickname;
+	private String nickname = "";
 
 	@Column(name = "wxid")
-	private String wxid;
+	private String wxid = "";
 
 	@Column(name = "wxname")
-	private String wxname;
+	private String wxname = "";
 
 	@Column(name = "qqid")
-	private String qqid;
+	private String qqid = "";
 
 	@Column(name = "qqname")
-	private String qqname;
+	private String qqname = "";
 
 	@Column(name = "wbid")
-	private String wbid;
+	private String wbid = "";
 
 	@Column(name = "wbname")
-	private String wbname;
+	private String wbname = "";
 
 	@Column(name = "gender")
-	private Gender gender;
+	private Gender gender = Gender.UNKNOW;
 
 	@Column(name = "birthday")
-	private Long birthday;
+	private Long birthday = 0L;
 
 	@Column(name = "address")
-	private String address;
+	private String address = "";
 
 	@Column(name = "avatar_url")
-	private String avatarUrl;
+	private String avatarUrl = "";
 
 	@Column(name = "mod_time")
 	private Long modTime;
