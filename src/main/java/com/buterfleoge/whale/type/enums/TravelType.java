@@ -1,41 +1,51 @@
-package com.buterfleoge.whale.type;
+package com.buterfleoge.whale.type.enums;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 证件类型
+ * 旅行类型
  * 
  * @author Brent24
  *
  */
-public enum IdType {
+public enum TravelType {
 
     /**
-     * 身份证
+     * 未知
      */
-    IDENTIFICATION(0),
+    UNKNOW(0),
 
     /**
-     * 护照
+     * 城市
      */
-    PASSPORT(1),
+    CITY_WALK(1),
 
     /**
-     * 港澳通行证
+     * 近郊
      */
-    H_PASSER(2),
+    SUBURB(2),
 
     /**
-     * 台胞证
+     * 短途
      */
-    T_PASSER(3)
+    SHORT_TRIP(3),
+
+    /**
+     * 长途
+     */
+    LONG_TRIP(4),
+
+    /**
+     * 国际
+     */
+    INTERNATIONAL(5)
 
     ;
 
     private int type;
 
-    private IdType(int type) {
+    private TravelType(int type) {
         this.type = type;
     }
 
@@ -51,4 +61,5 @@ public enum IdType {
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
 }

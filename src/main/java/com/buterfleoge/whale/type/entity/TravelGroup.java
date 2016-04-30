@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.GroupStatus;
+import com.buterfleoge.whale.type.enums.GroupStatus;
 
 /**
  * 发团信息

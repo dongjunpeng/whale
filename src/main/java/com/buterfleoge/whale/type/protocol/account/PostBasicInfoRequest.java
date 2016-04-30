@@ -3,10 +3,10 @@
  */
 package com.buterfleoge.whale.type.protocol.account;
 
-import com.buterfleoge.whale.type.AccountStatus;
-import com.buterfleoge.whale.type.AccountType;
-import com.buterfleoge.whale.type.Gender;
-import com.buterfleoge.whale.type.IdType;
+import com.buterfleoge.whale.type.enums.AccountStatus;
+import com.buterfleoge.whale.type.enums.AccountType;
+import com.buterfleoge.whale.type.enums.Gender;
+import com.buterfleoge.whale.type.enums.IdType;
 import com.buterfleoge.whale.type.protocol.Request;
 
 /**

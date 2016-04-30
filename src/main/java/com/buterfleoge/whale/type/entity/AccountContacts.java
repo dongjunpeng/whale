@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.Gender;
-import com.buterfleoge.whale.type.IdType;
+import com.buterfleoge.whale.type.enums.Gender;
+import com.buterfleoge.whale.type.enums.IdType;
 
 /**
  * 账户的联系人
