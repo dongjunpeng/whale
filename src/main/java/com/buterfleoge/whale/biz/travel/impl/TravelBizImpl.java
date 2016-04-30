@@ -45,6 +45,12 @@ public class TravelBizImpl implements TravelBiz {
     @Autowired
     private TravelRouteRepository travelRouteRepository;
 
+    @Override
+    public void getRouteByCondition(Request request, GetRouteResponse response) throws Exception {
+        // TODO Auto-generated method stub
+
+    }
+
     @Autowired
     private TravelGroupRepository travelGroupRepository;
 
@@ -86,12 +92,6 @@ public class TravelBizImpl implements TravelBiz {
             LOG.error("find route failed", e);
             response.setStatus(Status.DB_ERROR);
         }
-    }
-
-    @Override
-    public void getRouteByCondition(Request request, GetRouteResponse response) throws Exception {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

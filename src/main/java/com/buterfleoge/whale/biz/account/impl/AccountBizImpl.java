@@ -2,7 +2,6 @@ package com.buterfleoge.whale.biz.account.impl;
 
 import java.net.InetAddress;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -33,13 +32,15 @@ import com.buterfleoge.whale.type.protocol.Error;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.account.DeleteContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.EmailExistRequest;
+import com.buterfleoge.whale.type.protocol.account.GetBasicInfoRequest;
+import com.buterfleoge.whale.type.protocol.account.GetBasicInfoResponse;
 import com.buterfleoge.whale.type.protocol.account.GetContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsResponse;
+import com.buterfleoge.whale.type.protocol.account.PostBasicInfoRequest;
 import com.buterfleoge.whale.type.protocol.account.PostContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.PutContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.RegisterRequest;
 import com.buterfleoge.whale.type.protocol.account.RegisterResponse;
-import com.buterfleoge.whale.type.protocol.account.UpdateBasicInfoRequest;
 import com.buterfleoge.whale.type.protocol.account.ValidateEmailRequest;
 
 /**
@@ -112,8 +113,6 @@ public class AccountBizImpl implements AccountBiz {
 			AccountInfo accountInfo = accountInfoRepository.save(info);
 			response.setAccountInfo(accountInfo);
 
-			// TODO
-			// 这个地方改了
 			AccountSetting setting = new AccountSetting();
 			setting.setAccountid(accountInfo.getAccountid());
 			accountSettingRepository.save(setting);
@@ -172,61 +171,120 @@ public class AccountBizImpl implements AccountBiz {
 		}
 	}
 
+	// TODO
+
 	@Override
-	public void updateBasicInfo(UpdateBasicInfoRequest request, Response response) throws Exception {
+	public Long createBasicInfo() throws Exception {
+		Long accountid;
+		AccountInfo info = new AccountInfo();
+		AccountSetting setting = new AccountSetting();
 
-		AccountInfo accountInfo;
-		AccountSetting accountSetting;
-		Date now;
+		info.setAddTime(System.currentTimeMillis());
+		info.setModTime(System.currentTimeMillis());
+		info = accountInfoRepository.save(info);
+		accountid = info.getAccountid();
 
+		setting.setAccountid(accountid);
+		setting.setModTime(System.currentTimeMillis());
+		accountSettingRepository.save(setting);
+
+		return accountid;
+	}
+
+	@Override
+	public Long createBasicInfo(AccountInfo info, AccountSetting setting) throws Exception {
+		Long accountid;
+
+		info.setAddTime(System.currentTimeMillis());
+		info.setModTime(System.currentTimeMillis());
+		info = accountInfoRepository.save(info);
+		accountid = info.getAccountid();
+
+		setting.setAccountid(accountid);
+		setting.setModTime(System.currentTimeMillis());
+		accountSettingRepository.save(setting);
+		return accountid;
+	}
+
+	@Override
+	public void getBasicInfo(GetBasicInfoRequest request, GetBasicInfoResponse response) throws Exception {
 		Long accountid = request.getAccountid();
-
 		try {
+			if (accountid != null) {
+				AccountInfo info = accountInfoRepository.findByAccountid(accountid);
+				AccountSetting setting = accountSettingRepository.findByAccountid(accountid);
 
-			// 每次更新，必须同时提交么？还是可以只提交一个？
-			if (request.getAccountid() != null) {
-
-				accountInfo = accountInfoRepository.findByAccountid(accountid);
-				accountSetting = accountSettingRepository.findByAccountid(accountid);
-
-				// TODO
-
-				accountInfo.setEmail(request.getEmail());
-				accountInfo.setId(request.getId());
-				accountInfo.setIdType(request.getIdType());
-				accountInfo.setMobile(request.getMobile());
-				accountInfo.setName(request.getName());
-				accountInfo.setPassword(request.getPassword());// password是不是要单独搞？
-
-				accountSetting.setAddress(request.getAddress());
-				accountSetting.setAvatarUrl(request.getAvatarUrl());
-				accountSetting.setBirthday(request.getBirthday());
-				accountSetting.setGender(request.getGender());
-				accountSetting.setNickname(request.getNickname());
-				accountSetting.setQqid(request.getQqid());
-				accountSetting.setQqname(request.getQqname());
-				accountSetting.setWbid(request.getWbid());
-				accountSetting.setWbname(request.getWbname());
-				accountSetting.setWxid(request.getWxid());
-				accountSetting.setWxname(request.getWxname());
-
-				now = new Date();
-				accountInfo.setModTime(now.getTime() / 1000);
-				accountSetting.setModTime(now.getTime() / 1000);
-
-				accountInfoRepository.save(accountInfo);
-				accountSettingRepository.save(accountSetting);
-
+				response.setAccountInfo(info);
+				response.setAccountSetting(setting);
 				response.setStatus(Status.OK);
 			} else {
 				response.setStatus(Status.PARAM_ERROR);
+			}
+		} catch (Exception e) {
+			LOG.error("get basicInfo failed", e);
+			response.setStatus(Status.DB_ERROR);
+		}
 
+	}
+
+	@Override
+	public void updateBasicInfo(PostBasicInfoRequest request, Response response) throws Exception {
+		AccountInfo accountInfo;
+		AccountSetting accountSetting;
+		Long accountid = request.getAccountid();
+		try {
+			if (accountid != null) {
+				accountInfo = accountInfoRepository.findByAccountid(accountid);
+				accountSetting = accountSettingRepository.findByAccountid(accountid);
+				if (request.getEmail() != null)
+					accountInfo.setEmail(request.getEmail());
+				if (request.getId() != null)
+					accountInfo.setId(request.getId());
+				if (request.getIdType() != null)
+					accountInfo.setIdType(request.getIdType());
+				if (request.getMobile() != null)
+					accountInfo.setMobile(request.getMobile());
+				if (request.getName() != null)
+					accountInfo.setName(request.getName());
+				if (request.getPassword() != null)
+					accountInfo.setPassword(request.getPassword());
+
+				if (request.getAddress() != null)
+					accountSetting.setAddress(request.getAddress());
+				if (request.getAvatarUrl() != null)
+					accountSetting.setAvatarUrl(request.getAvatarUrl());
+				if (request.getBirthday() != null)
+					accountSetting.setBirthday(request.getBirthday());
+				if (request.getGender() != null)
+					accountSetting.setGender(request.getGender());
+				if (request.getNickname() != null)
+					accountSetting.setNickname(request.getNickname());
+				if (request.getQqid() != null)
+					accountSetting.setQqid(request.getQqid());
+				if (request.getQqname() != null)
+					accountSetting.setQqname(request.getQqname());
+				if (request.getWbid() != null)
+					accountSetting.setWbid(request.getWbid());
+				if (request.getWbname() != null)
+					accountSetting.setWbname(request.getWbname());
+				if (request.getWxid() != null)
+					accountSetting.setWxid(request.getWxid());
+				if (request.getWxname() != null)
+					accountSetting.setWxname(request.getWxname());
+
+				accountInfo.setModTime(System.currentTimeMillis());
+				accountSetting.setModTime(System.currentTimeMillis());
+
+				accountInfoRepository.save(accountInfo);
+				accountSettingRepository.save(accountSetting);
+				response.setStatus(Status.OK);
+			} else {
+				response.setStatus(Status.PARAM_ERROR);
 			}
 		} catch (Exception e) {
 			LOG.error("update basicInfo failed", e);
 			response.setStatus(Status.DB_ERROR);
 		}
-
 	}
 
 	@Override
@@ -360,8 +418,8 @@ public class AccountBizImpl implements AccountBiz {
 			contact.setIsDefault(request.getIsDefault());
 			contact.setMobile(request.getMobile());
 			contact.setName(request.getName());
-			contact.setAddTime(System.currentTimeMillis() / 1000);
-			contact.setModTime(System.currentTimeMillis() / 1000);
+			contact.setAddTime(System.currentTimeMillis());
+			contact.setModTime(System.currentTimeMillis());
 			contact.setValid(true);
 			accountContactsRepository.save(contact);
 		} catch (Exception e) {
@@ -385,7 +443,7 @@ public class AccountBizImpl implements AccountBiz {
 			contact.setIsDefault(request.getIsDefault());
 			contact.setMobile(request.getMobile());
 			contact.setName(request.getName());
-			contact.setModTime(System.currentTimeMillis() / 1000);
+			contact.setModTime(System.currentTimeMillis());
 			accountContactsRepository.save(contact);
 		} catch (Exception e) {
 			LOG.error("post contacts failed", e);
