@@ -168,6 +168,34 @@ public interface Constants {
 
         String ACCOUNT_BASIC_INF = "account_basic_info";
 
+        String WX_LOGIN_STATE = "wx.state";
+
+    }
+
+    /**
+     * cookie key
+     *
+     * @author xiezhenzong
+     *
+     */
+    public interface CookieKey {
+
+        String ACCOUNTID = "accountid";
+
+        String TOKEN = "token";
+
+    }
+
+    /**
+     * 
+     *
+     * @author xiezhenzong
+     *
+     */
+    public interface CacheKey {
+
+        String WX_ACCESS_TOKEN_PREFIX = "rabbit_wx_access_token";
+
     }
 
     /**
@@ -180,7 +208,13 @@ public interface Constants {
 
         long VALID_MAIL_INVALID_PERIOD = 60 * 1000;
 
+        String TOKEN = "dkdkdkdkdkdkdk";
+
+        String SEPARATOR = "_";
+
         String EMAIL_FROM = "zhenzong.peng@icloud.com";
+
+        String WX_SCOPE_SEPARATOR = ",";
 
     }
 
