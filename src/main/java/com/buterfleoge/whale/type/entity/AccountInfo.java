@@ -105,6 +105,7 @@ public class AccountInfo extends BaseObject {
     /**
      * @return the type
      */
+
     public AccountType getType() {
         return type;
     }
@@ -120,6 +121,7 @@ public class AccountInfo extends BaseObject {
     /**
      * @return the status
      */
+
     public AccountStatus getStatus() {
         return status;
     }
@@ -150,6 +152,7 @@ public class AccountInfo extends BaseObject {
     /**
      * @return the idType
      */
+
     public IdType getIdType() {
         return idType;
     }

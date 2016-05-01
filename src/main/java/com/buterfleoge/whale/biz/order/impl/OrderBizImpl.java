@@ -59,7 +59,7 @@ public class OrderBizImpl implements OrderBiz {
         ALL.add(OrderStatus.REFOUNDED);
         ALL.add(OrderStatus.FINISH);
         ALL.add(OrderStatus.CANCEl);
-        ALL.add(OrderStatus.CANCELPAID);
+        ALL.add(OrderStatus.CANCELPAYMENT);
         ALL.add(OrderStatus.TIMEOUT);
     }
 
@@ -84,7 +84,7 @@ public class OrderBizImpl implements OrderBiz {
     @Override
     public void getOrder(GetOrdersRequest request, GetOrdersResponse response) throws Exception {
 
-        Long accountid = request.getAccoutid();
+        Long accountid = request.getAccountid();
         String orderType = request.getOrderType();
 
         List<Order> orders = new ArrayList<Order>();

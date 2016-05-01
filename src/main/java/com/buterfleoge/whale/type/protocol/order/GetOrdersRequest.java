@@ -8,15 +8,15 @@ import com.buterfleoge.whale.type.protocol.Request;
  */
 public class GetOrdersRequest extends Request {
 
-    private Long accoutid;
+    private Long accountid;
     private String orderType;
 
-    public Long getAccoutid() {
-        return accoutid;
+    public Long getAccountid() {
+        return accountid;
     }
 
-    public void setAccoutid(Long accoutid) {
-        this.accoutid = accoutid;
+    public void setAccountid(Long accountid) {
+        this.accountid = accountid;
     }
 
     public String getOrderType() {

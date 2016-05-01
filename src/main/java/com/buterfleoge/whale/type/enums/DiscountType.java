@@ -14,17 +14,17 @@ public enum DiscountType {
     /**
      * 优惠券
      */
-    COUPON(10),
+    COUPON(0),
 
     /**
      * 优惠政策
      */
-    POLICY(20),
+    POLICY(1),
 
     /**
      * 双人同行
      */
-    POLICY_DOUBLE(21);
+    POLICY_DOUBLE(2);
 
     private int type;
 

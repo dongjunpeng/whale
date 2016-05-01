@@ -180,6 +180,7 @@ public class AccountSetting extends BaseObject {
     /**
      * @return the gender
      */
+
     public Gender getGender() {
         return gender;
     }
