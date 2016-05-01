@@ -166,9 +166,9 @@ public interface Constants {
      */
     public interface SessionKey {
 
-        String ACCOUNT_BASIC_INF = "account_basic_info";
+        String ACCOUNT_BASIC_INFO = "account_basic_info";
 
-        String WX_LOGIN_STATE = "wx.state";
+        String WX_LOGIN_STATE = "wx_state";
 
     }
 
