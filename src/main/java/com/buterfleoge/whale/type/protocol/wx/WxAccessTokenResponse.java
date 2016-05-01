@@ -1,5 +1,7 @@
 package com.buterfleoge.whale.type.protocol.wx;
 
+import java.io.Serializable;
+
 import com.buterfleoge.whale.BaseObject;
 
 /**
@@ -7,13 +9,19 @@ import com.buterfleoge.whale.BaseObject;
  * @author xiezhenzong
  *
  */
-public class WxAccessTokenResponse extends BaseObject {
+public class WxAccessTokenResponse extends BaseObject implements Serializable {
     
+    /**
+     * serial version uid
+     */
+    private static final long serialVersionUID = -3296339857928180243L;
+
     private String access_token;
     private Long expires_in;
     private String refresh_token;
     private String openid;
     private String scope;
+    private String unionid;
 
     /**
      * @return the access_token
@@ -85,5 +93,18 @@ public class WxAccessTokenResponse extends BaseObject {
         this.scope = scope;
     }
 
+    /**
+     * @return the unionid
+     */
+    public String getUnionid() {
+        return unionid;
+    }
+
+    /**
+     * @param unionid the unionid to set
+     */
+    public void setUnionid(String unionid) {
+        this.unionid = unionid;
+    }
 
 }
