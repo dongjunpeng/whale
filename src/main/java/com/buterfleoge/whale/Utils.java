@@ -3,9 +3,9 @@ package com.buterfleoge.whale;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.security.MessageDigest;
 import java.util.Enumeration;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,24 +47,8 @@ public abstract class Utils {
         return null;
     }
 
-    private static final char[] HEX_DIGITS =
-            { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-
     public static String stringMD5(String input) {
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-            messageDigest.update(input.getBytes("UTF-8"));
-            byte[] resultByteArray = messageDigest.digest();
-            char[] resultCharArray = new char[resultByteArray.length * 2];
-            int index = 0;
-            for (byte b : resultByteArray) {
-                resultCharArray[index++] = HEX_DIGITS[b >>> 4 & 0xf];
-                resultCharArray[index++] = HEX_DIGITS[b & 0xf];
-            }
-            return new String(resultCharArray);
-        } catch (Exception e) {
-            return "";
-        }
+        return DigestUtils.md5Hex(input);
     }
 
     public static void main(String[] args) {

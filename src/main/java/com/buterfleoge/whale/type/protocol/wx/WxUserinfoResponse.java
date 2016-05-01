@@ -11,11 +11,15 @@ import com.buterfleoge.whale.BaseObject;
  */
 public class WxUserinfoResponse extends BaseObject {
 
+    public static final int SEX_UNKNOWN = 0;
+    public static final int SEX_MALE = 1;
+    public static final int SEX_FEMALE = 2;
+
     private String opendid;
 
     private String nickname;
 
-    private String sex;
+    private int sex;
 
     private String province;
 
@@ -60,14 +64,14 @@ public class WxUserinfoResponse extends BaseObject {
     /**
      * @return the sex
      */
-    public String getSex() {
+    public int getSex() {
         return sex;
     }
 
     /**
      * @param sex the sex to set
      */
-    public void setSex(String sex) {
+    public void setSex(int sex) {
         this.sex = sex;
     }
 
