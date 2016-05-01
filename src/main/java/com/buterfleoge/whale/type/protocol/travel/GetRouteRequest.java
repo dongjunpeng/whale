@@ -13,34 +13,34 @@ import com.buterfleoge.whale.type.protocol.Request;
  */
 public class GetRouteRequest extends Request {
 
-	private List<Long> routeids;
+    private List<Long> routeids;
 
-	private String name;
+    private String name;
 
-	private Boolean isImgtextRequired = false;
+    private Boolean isImgtextRequired = false;
 
-	public List<Long> getRouteids() {
-		return routeids;
-	}
+    public List<Long> getRouteids() {
+        return routeids;
+    }
 
-	public void setRouteids(List<Long> routeids) {
-		this.routeids = routeids;
-	}
+    public void setRouteids(List<Long> routeids) {
+        this.routeids = routeids;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Boolean getIsImgtextRequired() {
-		return isImgtextRequired;
-	}
+    public Boolean getIsImgtextRequired() {
+        return isImgtextRequired;
+    }
 
-	public void setIsImgtextRequired(Boolean isImgtextRequired) {
-		this.isImgtextRequired = isImgtextRequired;
-	}
+    public void setIsImgtextRequired(Boolean isImgtextRequired) {
+        this.isImgtextRequired = isImgtextRequired;
+    }
 
 }

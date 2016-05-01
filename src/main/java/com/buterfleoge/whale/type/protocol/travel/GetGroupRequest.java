@@ -11,32 +11,32 @@ import com.buterfleoge.whale.type.protocol.Request;
  */
 public class GetGroupRequest extends Request {
 
-	private Long groupid;
-	private Long routeid;
-	private String name;
+    private Long groupid;
+    private Long routeid;
+    private String name;
 
-	public Long getGroupid() {
-		return groupid;
-	}
+    public Long getGroupid() {
+        return groupid;
+    }
 
-	public void setGroupid(Long groupid) {
-		this.groupid = groupid;
-	}
+    public void setGroupid(Long groupid) {
+        this.groupid = groupid;
+    }
 
-	public Long getRouteid() {
-		return routeid;
-	}
+    public Long getRouteid() {
+        return routeid;
+    }
 
-	public void setRouteid(Long routeid) {
-		this.routeid = routeid;
-	}
+    public void setRouteid(Long routeid) {
+        this.routeid = routeid;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

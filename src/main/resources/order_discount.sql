@@ -3,7 +3,7 @@ CREATE TABLE `elephant`.`order_discount` (
     `orderid` BIGINT(20) NOT NULL COMMENT '订单id',
     `discountid` BIGINT(20) NOT NULL COMMENT '折扣id',
     `type` SMALLINT(4) NOT NULL DEFAULT 0 COMMENT '折扣类型:优惠券,满减,打折',
-    `discount_code` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '优惠码',
+    `discount_code` BIGINT(20) 0 COMMENT '优惠码',
     `discount_price` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '优惠减少的价格',
     `desc` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '优惠描述',
     `add_time` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '创建时间',      

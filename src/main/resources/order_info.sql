@@ -1,6 +1,7 @@
 CREATE TABLE `elephant`.`order_info` (
     `orderid` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '订单id',
     `accountid` BIGINT(20) NOT NULL COMMENT '账户id',
+    `routeid` BIGINT(20) NOT NULL COMMENT '路线id',
     `groupid` BIGINT(20) NOT NULL COMMENT '发团id',
     `status` SMALLINT(4) NOT NULL DEFAULT 0 COMMENT '订单状态:下单待付款,已取消,发起付款,已付款到账,已结束,已退款',
     `count` SMALLINT(4) NOT NULL DEFAULT 0 COMMENT '订单人数',

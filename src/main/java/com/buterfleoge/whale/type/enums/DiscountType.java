@@ -11,55 +11,38 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public enum DiscountType {
 
-	/**
-	 * 优惠券
-	 */
-	COUPON(0),
+    /**
+     * 优惠券
+     */
+    COUPON(0),
 
-	/**
-	 * 单身优惠
-	 */
-	SINGLE(1),
+    /**
+     * 优惠政策
+     */
+    POLICY(1),
 
-	/**
-	 * 双人同行
-	 */
-	DOUBLE(2),
+    /**
+     * 双人同行
+     */
+    POLICY_DOUBLE(2);
 
-	/**
-	 * 三人同行
-	 */
-	TRIPLE(3),
+    private int type;
 
-	/**
-	 * 多人优惠
-	 */
-	MULTIPLE(5),
-	
-	/**
-	 * 原价百分比折扣
-	 */
-	PERCENTAGE(10)
+    private DiscountType(int type) {
+        this.type = type;
+    }
 
-	;
+    public int getType() {
+        return type;
+    }
 
-	private int type;
+    public void setType(int type) {
+        this.type = type;
+    }
 
-	private DiscountType(int type) {
-		this.type = type;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public void setType(int type) {
-		this.type = type;
-	}
-
-	@Override
-	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 
 }

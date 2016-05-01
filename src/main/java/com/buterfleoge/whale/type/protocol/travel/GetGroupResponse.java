@@ -14,14 +14,14 @@ import com.buterfleoge.whale.type.protocol.Response;
  */
 public class GetGroupResponse extends Response {
 
-	private List<TravelGroup> group;
+    private List<TravelGroup> group;
 
-	public List<TravelGroup> getGroup() {
-		return group;
-	}
+    public List<TravelGroup> getGroup() {
+        return group;
+    }
 
-	public void setGroup(List<TravelGroup> group) {
-		this.group = group;
-	}
+    public void setGroup(List<TravelGroup> group) {
+        this.group = group;
+    }
 
 }

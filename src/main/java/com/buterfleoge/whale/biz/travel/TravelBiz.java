@@ -15,9 +15,9 @@ import com.buterfleoge.whale.type.protocol.travel.GetRouteResponse;
  */
 public interface TravelBiz {
 
-	void getRoute(GetRouteRequest request, GetRouteResponse response) throws Exception;
+    void getRoute(GetRouteRequest request, GetRouteResponse response) throws Exception;
 
-	void getRouteByCondition(Request request, GetRouteResponse response) throws Exception;
-	
-	void getGroup(GetGroupRequest request, GetGroupResponse response) throws Exception;
+    void getRouteByCondition(Request request, GetRouteResponse response) throws Exception;
+
+    void getGroup(GetGroupRequest request, GetGroupResponse response) throws Exception;
 }

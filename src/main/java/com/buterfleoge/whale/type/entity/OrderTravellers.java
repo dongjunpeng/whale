@@ -7,7 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.enums.OrderStaffStatus;
+import com.buterfleoge.whale.type.enums.Gender;
+import com.buterfleoge.whale.type.enums.IdType;
 
 /**
  *
@@ -17,78 +18,160 @@ import com.buterfleoge.whale.type.enums.OrderStaffStatus;
 @Entity(name = "order_travellers")
 public class OrderTravellers extends BaseObject {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "travellerid")
-	private Long travellerid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "travellerid")
+    private Long travellerid;
 
-	@Column(name = "orderid")
-	private Long orderid;
+    @Column(name = "orderid")
+    private Long orderid;
 
-	@Column(name = "contactid")
-	private Long contactid;
+    @Column(name = "contactid")
+    private Long contactid;
 
-	@Column(name = "roommate")
-	private String roommate;
+    @Column(name = "name")
+    private String name;
 
-	/**
-	 * @return the travellerid
-	 */
-	public Long getTravellerid() {
-		return travellerid;
-	}
+    @Column(name = "id")
+    private String id;
 
-	/**
-	 * @param travellerid
-	 *            the travellerid to set
-	 */
-	public void setTravellerid(Long travellerid) {
-		this.travellerid = travellerid;
-	}
+    @Column(name = "id_type")
+    private IdType idType;
 
-	/**
-	 * @return the orderid
-	 */
-	public Long getOrderid() {
-		return orderid;
-	}
+    @Column(name = "email")
+    private String email;
 
-	/**
-	 * @param orderid
-	 *            the orderid to set
-	 */
-	public void setOrderid(Long orderid) {
-		this.orderid = orderid;
-	}
+    @Column(name = "mobile")
+    private String mobile;
 
-	/**
-	 * @return the contactid
-	 */
-	public Long getContactid() {
-		return contactid;
-	}
+    @Column(name = "gender")
+    private Gender gender;
 
-	/**
-	 * @param contactid
-	 *            the contactid to set
-	 */
-	public void setContactid(Long contactid) {
-		this.contactid = contactid;
-	}
+    @Column(name = "birthday")
+    private Long birthday;
 
-	/**
-	 * @return the roommate
-	 */
-	public String getRoommate() {
-		return roommate;
-	}
+    @Column(name = "address")
+    private String address;
 
-	/**
-	 * @param roommate
-	 *            the roommate to set
-	 */
-	public void setRoommate(String roommate) {
-		this.roommate = roommate;
-	}
+    @Column(name = "emergency_contact")
+    private String emergencyContact;
+
+    @Column(name = "emergency_mobile")
+    private String emergencyMobile;
+
+    @Column(name = "roommate")
+    private String roommate;
+
+    public Long getTravellerid() {
+        return travellerid;
+    }
+
+    public void setTravellerid(Long travellerid) {
+        this.travellerid = travellerid;
+    }
+
+    public Long getOrderid() {
+        return orderid;
+    }
+
+    public void setOrderid(Long orderid) {
+        this.orderid = orderid;
+    }
+
+    public Long getContactid() {
+        return contactid;
+    }
+
+    public void setContactid(Long contactid) {
+        this.contactid = contactid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public IdType getIdType() {
+        return idType;
+    }
+
+    public void setIdType(IdType idType) {
+        this.idType = idType;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Long getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Long birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    public void setEmergencyContact(String emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
+
+    public String getEmergencyMobile() {
+        return emergencyMobile;
+    }
+
+    public void setEmergencyMobile(String emergencyMobile) {
+        this.emergencyMobile = emergencyMobile;
+    }
+
+    public String getRoommate() {
+        return roommate;
+    }
+
+    public void setRoommate(String roommate) {
+        this.roommate = roommate;
+    }
 
 }

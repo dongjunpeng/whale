@@ -16,15 +16,18 @@ import com.buterfleoge.whale.type.entity.TravelRoute;
  */
 public interface TravelRouteRepository extends CrudRepository<TravelRoute, Long> {
 
-	List<TravelRoute> findByRouteidAndVisibleTrue(Long routeid);
-	
-	List<TravelRoute> findByNameAndVisibleTrue(String name);
+    // 查询用
+    TravelRoute findByRouteidAndVisibleTrue(Long routeid);
 
-	List<TravelRoute> findByVisibleTrue();
-	
-	TravelRoute findByName(String name);
+    TravelRoute findByNameAndVisibleTrue(String name);
 
     List<TravelRoute> findByRouteidInAndVisibleTrue(Set<Long> routeid);
 
+    List<TravelRoute> findByVisibleTrue();
+
+    // 订单用
+    TravelRoute findByRouteid(Long routeid);
+
+    TravelRoute findByName(String name);
 
 }

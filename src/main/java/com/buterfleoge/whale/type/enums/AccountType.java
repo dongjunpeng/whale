@@ -39,7 +39,7 @@ public enum AccountType {
     /**
      * 超级管理员
      */
-    ROOT(100)
+    ROOT(5)
 
     ;
 
