@@ -1,13 +1,14 @@
 package com.buterfleoge.whale.service.cache;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.Assert;
 
 /**
@@ -17,6 +18,7 @@ import org.springframework.util.Assert;
  *
  */
 @Configuration
+@EnableCaching
 @PropertySource("classpath:/redis.properties")
 public class CacheConfig {
 
@@ -26,7 +28,7 @@ public class CacheConfig {
     @Value("${redis.port}")
     private int port;
 
-    @Value("${redis.pass")
+    @Value("${redis.pass}")
     private String pass;
 
     @Bean
@@ -44,10 +46,10 @@ public class CacheConfig {
         return factory;
     }
 
-    @Bean(name = "stringRedisTemplate")
-    public StringRedisTemplate getStringRedisTemplate() {
-        StringRedisTemplate template = new StringRedisTemplate(getRedisConnectionFactory());
-        return template;
+    @Bean(name = "cacheTemplate")
+    public RedisTemplate<String, Object> getRedisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
+        return redisTemplate;
     }
 
     private void checkCacheServerConfig() {
