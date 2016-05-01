@@ -216,6 +216,7 @@ public interface Constants {
 
         String WX_SCOPE_SEPARATOR = ",";
 
+        int COOKIE_EXPIRY = 7 * 24 * 60 * 60;
     }
 
     /**

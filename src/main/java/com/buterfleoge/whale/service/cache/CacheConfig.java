@@ -49,6 +49,7 @@ public class CacheConfig {
     @Bean(name = "cacheTemplate")
     public RedisTemplate<String, Object> getRedisTemplate() {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
+        redisTemplate.setConnectionFactory(getRedisConnectionFactory());
         return redisTemplate;
     }
 
