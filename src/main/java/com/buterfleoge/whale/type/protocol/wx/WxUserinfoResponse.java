@@ -15,7 +15,7 @@ public class WxUserinfoResponse extends BaseObject {
     public static final int SEX_MALE = 1;
     public static final int SEX_FEMALE = 2;
 
-    private String opendid;
+    private String openid;
 
     private String nickname;
 
@@ -36,15 +36,15 @@ public class WxUserinfoResponse extends BaseObject {
     /**
      * @return the opendid
      */
-    public String getOpendid() {
-        return opendid;
+    public String getOpenid() {
+        return openid;
     }
 
     /**
      * @param opendid the opendid to set
      */
-    public void setOpendid(String opendid) {
-        this.opendid = opendid;
+    public void setOpendid(String openid) {
+        this.openid = openid;
     }
 
     /**

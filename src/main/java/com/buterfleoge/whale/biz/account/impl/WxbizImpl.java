@@ -51,7 +51,7 @@ public class WxbizImpl implements WxBiz {
                 .append("?appid=").append(appid) //
                 .append("&redirect_uri=").append(redirectUri) //
                 .append("&response_type=code&score=snsapi_login") //
-                .append("&state=").append(state).append("##wechat_redirect");
+                .append("&state=").append(state).append("#wechat_redirect");
         return sb.toString();
     }
 

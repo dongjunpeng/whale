@@ -28,9 +28,6 @@ public class CacheConfig {
     @Value("${redis.port}")
     private int port;
 
-    @Value("${redis.pass}")
-    private String pass;
-
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
@@ -42,7 +39,6 @@ public class CacheConfig {
         JedisConnectionFactory factory = new JedisConnectionFactory();
         factory.setHostName(host);
         factory.setPort(port);
-        factory.setPassword(pass);
         return factory;
     }
 
@@ -55,7 +51,6 @@ public class CacheConfig {
 
     private void checkCacheServerConfig() {
         Assert.hasText(host, "host can't be empty");
-        Assert.hasText(pass, "pass can't be empty");
         Assert.isTrue(port > 0, "port is invalid, port: " + port);
     }
 
