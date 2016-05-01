@@ -2,6 +2,7 @@ package com.buterfleoge.whale.biz.travel.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -67,13 +68,13 @@ public class TravelBizImpl implements TravelBiz {
         try {
             if (routeids != null) {
                 if (routeids.size() == 1) {
-                    routes = travelRouteRepository.findByRouteidAndVisibleTrue(routeids.get(0));
+                    routes = Arrays.asList(travelRouteRepository.findByRouteidAndVisibleTrue(routeids.get(0)));
                 } else {
                     routes = travelRouteRepository.findByRouteidInAndVisibleTrue(new HashSet<Long>(routeids));
                 }
             } else {
                 if (name != null) {
-                    routes = travelRouteRepository.findByNameAndVisibleTrue(name);
+                    routes = Arrays.asList(travelRouteRepository.findByNameAndVisibleTrue(name));
                 } else {
                     routes = travelRouteRepository.findByVisibleTrue();
                 }
@@ -108,7 +109,7 @@ public class TravelBizImpl implements TravelBiz {
 
         try {
             if (groupid != null) {
-                group = travelGroupRepository.findByGroupid(groupid);
+                group = Arrays.asList(travelGroupRepository.findByGroupid(groupid));
             } else {
                 if (routeid != null) {
                     group = travelGroupRepository.findByRouteidAndEndDateGreaterThan(routeid, now);

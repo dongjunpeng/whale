@@ -7,10 +7,11 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * 订单状态，几种流程：有可能需要更加细化一点
  * 
  * <ol>
- * <li>CREATE -> CANCEL
- * <li>CREATE -> PAID -> FINISH
- * <li>CREATE -> PAID -> REFOUNDING -> REFOUNDED
- * <li>
+ * <li>WATING -> CANCEL
+ * <li>WATING -> TIMEOUT
+ * <li>WATING -> PAYING -> CANCELPAYMENT
+ * <li>WATING -> PAYING -> PAID -> REFOUNDING -> REFOUNDED
+ * <li>WATING -> PAYING -> FINISH
  * </ol>
  * 
  * @author Brent24
@@ -19,34 +20,49 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public enum OrderStatus {
 
     /**
-     * 生成
+     * 生成等待付款
      */
-    CREATE(0),
-
-    /**
-     * 已付款
-     */
-    PAID(1),
-
-    /**
-     * 结束
-     */
-    FINISH(2),
-
-    /**
-     * 退款中，表示之前要付款，现在取消了
-     */
-    REFOUNDING(3),
-
-    /**
-     * 退款成功
-     */
-    REFOUNDED(4),
+    WATING(0),
 
     /**
      * 取消
      */
-    CANCEL(5)
+    CANCEl(1),
+
+    /**
+     * 超时
+     */
+    TIMEOUT(2),
+
+    /**
+     * 取消支付
+     */
+    CANCELPAYMENT(3),
+
+    /**
+     * 取消支付
+     */
+    REFOUNDED(4),
+
+    /**
+     * 付款中
+     */
+    PAYING(5),
+
+    /**
+     * 付款到账
+     */
+    PAID(6),
+
+    /**
+     * 退款中
+     */
+    REFOUNDING(7),
+
+    /**
+     * 开始旅行
+     */
+    FINISH(8)
 
     ;
 

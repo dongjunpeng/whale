@@ -20,171 +20,125 @@ import com.buterfleoge.whale.type.enums.OrderStatus;
 @Table(name = "order_info")
 public class OrderInfo extends BaseObject {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "orderid")
-	private Long orderid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "orderid")
+    private Long orderid;
 
-	@Column(name = "accountid")
-	private Long accountid;
+    @Column(name = "accountid")
+    private Long accountid;
 
-	@Column(name = "groupid")
-	private Long groupid;
+    @Column(name = "routeid")
+    private Long routeid;
 
-	@Column(name = "status")
-	private OrderStatus status;
+    @Column(name = "groupid")
+    private Long groupid;
 
-	/**
-	 * 本订单的人数
-	 */
-	@Column(name = "count")
-	private Integer count;
+    @Column(name = "status")
+    private OrderStatus status;
 
-	/**
-	 * 价格
-	 */
-	@Column(name = "price")
-	private Long price;
+    /**
+     * 本订单的人数
+     */
+    @Column(name = "count")
+    private Integer count;
 
-	/**
-	 * 实际付款
-	 */
-	@Column(name = "actual_price")
-	private Long actualPrice;
+    /**
+     * 价格
+     */
+    @Column(name = "price")
+    private Long price;
 
-	@Column(name = "is_agreement_ok")
-	private Boolean isAgreementOk;
+    /**
+     * 实际付款
+     */
+    @Column(name = "actual_price")
+    private Long actualPrice;
 
-	@Column(name = "add_time")
-	private Long addTime;
+    @Column(name = "is_agreement_ok")
+    private Boolean isAgreementOk;
 
-	/**
-	 * @return the orderid
-	 */
-	public Long getOrderid() {
-		return orderid;
-	}
+    @Column(name = "add_time")
+    private Long addTime;
 
-	/**
-	 * @param orderid
-	 *            the orderid to set
-	 */
-	public void setOrderid(Long orderid) {
-		this.orderid = orderid;
-	}
+    public Long getOrderid() {
+        return orderid;
+    }
 
-	/**
-	 * @return the accountid
-	 */
-	public Long getAccountid() {
-		return accountid;
-	}
+    public void setOrderid(Long orderid) {
+        this.orderid = orderid;
+    }
 
-	/**
-	 * @param accountid
-	 *            the accountid to set
-	 */
-	public void setAccountid(Long accountid) {
-		this.accountid = accountid;
-	}
+    public Long getAccountid() {
+        return accountid;
+    }
 
-	/**
-	 * @return the groupid
-	 */
-	public Long getGroupid() {
-		return groupid;
-	}
+    public void setAccountid(Long accountid) {
+        this.accountid = accountid;
+    }
 
-	/**
-	 * @param groupid
-	 *            the groupid to set
-	 */
-	public void setGroupid(Long groupid) {
-		this.groupid = groupid;
-	}
+    public Long getRouteid() {
+        return routeid;
+    }
 
-	/**
-	 * @return the status
-	 */
-	public OrderStatus getStatus() {
-		return status;
-	}
+    public void setRouteid(Long routeid) {
+        this.routeid = routeid;
+    }
 
-	/**
-	 * @param status
-	 *            the status to set
-	 */
-	public void setStatus(OrderStatus status) {
-		this.status = status;
-	}
+    public Long getGroupid() {
+        return groupid;
+    }
 
-	/**
-	 * @return the count
-	 */
-	public Integer getCount() {
-		return count;
-	}
+    public void setGroupid(Long groupid) {
+        this.groupid = groupid;
+    }
 
-	/**
-	 * @param count
-	 *            the count to set
-	 */
-	public void setCount(Integer count) {
-		this.count = count;
-	}
+    public OrderStatus getStatus() {
+        return status;
+    }
 
-	/**
-	 * @return the price
-	 */
-	public Long getPrice() {
-		return price;
-	}
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 
-	/**
-	 * @param price
-	 *            the price to set
-	 */
-	public void setPrice(Long price) {
-		this.price = price;
-	}
+    public Integer getCount() {
+        return count;
+    }
 
-	/**
-	 * @return the actualPrice
-	 */
-	public Long getActualPrice() {
-		return actualPrice;
-	}
+    public void setCount(Integer count) {
+        this.count = count;
+    }
 
-	/**
-	 * @param actualPrice
-	 *            the actualPrice to set
-	 */
-	public void setActualPrice(Long actualPrice) {
-		this.actualPrice = actualPrice;
-	}
+    public Long getPrice() {
+        return price;
+    }
 
-	/**
-	 * @return the isAgreementOk
-	 */
-	public Boolean getIsAgreementOk() {
-		return isAgreementOk;
-	}
+    public void setPrice(Long price) {
+        this.price = price;
+    }
 
-	/**
-	 * @param isAgreementOk
-	 *            the isAgreementOk to set
-	 */
-	public void setIsAgreementOk(Boolean isAgreementOk) {
-		this.isAgreementOk = isAgreementOk;
-	}
+    public Long getActualPrice() {
+        return actualPrice;
+    }
 
-	public Long getAddTime() {
-		return addTime;
-	}
+    public void setActualPrice(Long actualPrice) {
+        this.actualPrice = actualPrice;
+    }
 
-	public void setAddTime(Long addTime) {
-		this.addTime = addTime;
-	}
-	
+    public Boolean getIsAgreementOk() {
+        return isAgreementOk;
+    }
+
+    public void setIsAgreementOk(Boolean isAgreementOk) {
+        this.isAgreementOk = isAgreementOk;
+    }
+
+    public Long getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(Long addTime) {
+        this.addTime = addTime;
+    }
 
 }

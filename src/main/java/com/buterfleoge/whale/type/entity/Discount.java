@@ -23,83 +23,83 @@ import com.buterfleoge.whale.type.enums.DiscountType;
 @Table(name = "discount")
 public class Discount extends BaseObject {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "discountid")
-	private Long discountid;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "discountid")
+    private Long discountid;
 
-	@Column(name = "type")
-	private DiscountType type;
+    @Column(name = "type")
+    private DiscountType type;
 
-	@Column(name = "value")
-	private Long value;
+    @Column(name = "value")
+    private Long value;
 
-	@Column(name = "desc")
-	private String desc;
+    @Column(name = "desc")
+    private String desc;
 
-	@Column(name = "start_time")
-	private Long startTime;
+    @Column(name = "start_time")
+    private Long startTime;
 
-	@Column(name = "end_time")
-	private Long endTime;
+    @Column(name = "end_time")
+    private Long endTime;
 
-	@Column(name = "add_time")
-	private Long addTime;
+    @Column(name = "add_time")
+    private Long addTime;
 
-	public Long getDiscountid() {
-		return discountid;
-	}
+    public Long getDiscountid() {
+        return discountid;
+    }
 
-	public void setDiscountid(Long discountid) {
-		this.discountid = discountid;
-	}
+    public void setDiscountid(Long discountid) {
+        this.discountid = discountid;
+    }
 
-	public DiscountType getType() {
-		return type;
-	}
+    public DiscountType getType() {
+        return type;
+    }
 
-	public void setType(DiscountType type) {
-		this.type = type;
-	}
+    public void setType(DiscountType type) {
+        this.type = type;
+    }
 
-	public Long getValue() {
-		return value;
-	}
+    public Long getValue() {
+        return value;
+    }
 
-	public void setValue(Long value) {
-		this.value = value;
-	}
+    public void setValue(Long value) {
+        this.value = value;
+    }
 
-	public String getDesc() {
-		return desc;
-	}
+    public String getDesc() {
+        return desc;
+    }
 
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
-	public Long getStartTime() {
-		return startTime;
-	}
+    public Long getStartTime() {
+        return startTime;
+    }
 
-	public void setStartTime(Long startTime) {
-		this.startTime = startTime;
-	}
+    public void setStartTime(Long startTime) {
+        this.startTime = startTime;
+    }
 
-	public Long getEndTime() {
-		return endTime;
-	}
+    public Long getEndTime() {
+        return endTime;
+    }
 
-	public void setEndTime(Long endTime) {
-		this.endTime = endTime;
-	}
+    public void setEndTime(Long endTime) {
+        this.endTime = endTime;
+    }
 
-	public Long getAddTime() {
-		return addTime;
-	}
+    public Long getAddTime() {
+        return addTime;
+    }
 
-	public void setAddTime(Long addTime) {
-		this.addTime = addTime;
-	}
+    public void setAddTime(Long addTime) {
+        this.addTime = addTime;
+    }
 
 }

@@ -7,16 +7,15 @@ import com.buterfleoge.whale.type.protocol.Request;
  *
  */
 public class GetImgTextRequest extends Request {
-	
-	private Long routeid;
 
-	public Long getRouteid() {
-		return routeid;
-	}
+    private Long routeid;
 
-	public void setRouteid(Long routeid) {
-		this.routeid = routeid;
-	}
-	
+    public Long getRouteid() {
+        return routeid;
+    }
+
+    public void setRouteid(Long routeid) {
+        this.routeid = routeid;
+    }
 
 }

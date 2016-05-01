@@ -14,12 +14,12 @@ import com.buterfleoge.whale.type.entity.AccountContacts;
  */
 public interface AccountContactsRepository extends CrudRepository<AccountContacts, Long> {
 
-	AccountContacts findByContactidAndValidTrue(long contactid);
+    AccountContacts findByContactidAndValidTrue(long contactid);
 
-	AccountContacts findByAccountidAndValidTrueAndIsDefaultTrue(long contactid);
+    AccountContacts findByAccountidAndValidTrueAndIsDefaultTrue(long contactid);
 
-	List<AccountContacts> findByAccountidAndValidTrue(long accountid);
+    List<AccountContacts> findByAccountidAndValidTrue(long accountid);
 
-	List<AccountContacts> findByContactidInAndAccountidAndValidTrue(Set<Long> coutactid, long accountid);
+    List<AccountContacts> findByContactidInAndAccountidAndValidTrue(Set<Long> coutactid, long accountid);
 
 }

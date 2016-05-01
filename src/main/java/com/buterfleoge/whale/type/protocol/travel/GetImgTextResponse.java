@@ -8,6 +8,4 @@ import com.buterfleoge.whale.type.protocol.Response;
  */
 public class GetImgTextResponse extends Response {
 
-
-	
 }
