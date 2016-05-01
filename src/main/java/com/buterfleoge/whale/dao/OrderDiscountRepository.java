@@ -10,4 +10,8 @@ import com.buterfleoge.whale.type.entity.OrderDiscount;
  */
 public interface OrderDiscountRepository extends CrudRepository<OrderDiscount, Long> {
 
+    OrderDiscount findByOrderidAndDiscountCodeIsNull(Long orderid);
+
+    OrderDiscount findByOrderidAndDiscountCodeNotNull(Long orderid);
+
 }

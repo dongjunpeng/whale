@@ -61,122 +61,74 @@ public class OrderInfo extends BaseObject {
     @Column(name = "add_time")
     private Long addTime;
 
-    /**
-     * @return the orderid
-     */
     public Long getOrderid() {
         return orderid;
     }
 
-    /**
-     * @param orderid
-     *            the orderid to set
-     */
     public void setOrderid(Long orderid) {
         this.orderid = orderid;
     }
 
-    /**
-     * @return the accountid
-     */
     public Long getAccountid() {
         return accountid;
     }
 
-    /**
-     * @param accountid
-     *            the accountid to set
-     */
     public void setAccountid(Long accountid) {
         this.accountid = accountid;
     }
 
-    /**
-     * @return the groupid
-     */
+    public Long getRouteid() {
+        return routeid;
+    }
+
+    public void setRouteid(Long routeid) {
+        this.routeid = routeid;
+    }
+
     public Long getGroupid() {
         return groupid;
     }
 
-    /**
-     * @param groupid
-     *            the groupid to set
-     */
     public void setGroupid(Long groupid) {
         this.groupid = groupid;
     }
 
-    /**
-     * @return the status
-     */
     public OrderStatus getStatus() {
         return status;
     }
 
-    /**
-     * @param status
-     *            the status to set
-     */
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
-    /**
-     * @return the count
-     */
     public Integer getCount() {
         return count;
     }
 
-    /**
-     * @param count
-     *            the count to set
-     */
     public void setCount(Integer count) {
         this.count = count;
     }
 
-    /**
-     * @return the price
-     */
     public Long getPrice() {
         return price;
     }
 
-    /**
-     * @param price
-     *            the price to set
-     */
     public void setPrice(Long price) {
         this.price = price;
     }
 
-    /**
-     * @return the actualPrice
-     */
     public Long getActualPrice() {
         return actualPrice;
     }
 
-    /**
-     * @param actualPrice
-     *            the actualPrice to set
-     */
     public void setActualPrice(Long actualPrice) {
         this.actualPrice = actualPrice;
     }
 
-    /**
-     * @return the isAgreementOk
-     */
     public Boolean getIsAgreementOk() {
         return isAgreementOk;
     }
 
-    /**
-     * @param isAgreementOk
-     *            the isAgreementOk to set
-     */
     public void setIsAgreementOk(Boolean isAgreementOk) {
         this.isAgreementOk = isAgreementOk;
     }

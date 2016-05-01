@@ -6,9 +6,10 @@ import com.buterfleoge.whale.type.protocol.Request;
  * @author Brent24
  *
  */
-public class GetCurrentOrderRequest extends Request {
+public class GetOrdersRequest extends Request {
 
     private Long accoutid;
+    private String orderType;
 
     public Long getAccoutid() {
         return accoutid;
@@ -16,6 +17,14 @@ public class GetCurrentOrderRequest extends Request {
 
     public void setAccoutid(Long accoutid) {
         this.accoutid = accoutid;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
     }
 
 }

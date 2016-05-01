@@ -10,4 +10,5 @@ import com.buterfleoge.whale.type.entity.DiscountCode;
  */
 public interface DiscountCodeRepository extends CrudRepository<DiscountCode, Long> {
 
+    DiscountCode findByDiscountCode(Long discountCode);
 }

@@ -3,8 +3,8 @@
  */
 package com.buterfleoge.whale.biz.order;
 
-import com.buterfleoge.whale.type.protocol.order.GetCurrentOrderRequest;
-import com.buterfleoge.whale.type.protocol.order.GetCurrentOrderResponse;
+import com.buterfleoge.whale.type.protocol.order.GetOrdersRequest;
+import com.buterfleoge.whale.type.protocol.order.GetOrdersResponse;
 
 /**
  * @author Brent24
@@ -12,6 +12,6 @@ import com.buterfleoge.whale.type.protocol.order.GetCurrentOrderResponse;
  */
 public interface OrderBiz {
 
-    void getCurrentOrder(GetCurrentOrderRequest request, GetCurrentOrderResponse response) throws Exception;
+    void getOrder(GetOrdersRequest request, GetOrdersResponse response) throws Exception;
 
 }

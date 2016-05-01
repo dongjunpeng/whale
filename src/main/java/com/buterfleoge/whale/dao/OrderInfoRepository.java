@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -13,6 +14,6 @@ import com.buterfleoge.whale.type.enums.OrderStatus;
  */
 public interface OrderInfoRepository extends CrudRepository<OrderInfo, Long> {
 
-    List<OrderInfoRepository> findByAccountidAndStatus(Long accountid, OrderStatus status);
+    List<OrderInfo> findByAccountidAndStatusIn(Long accountid, Set<OrderStatus> status);
 
 }

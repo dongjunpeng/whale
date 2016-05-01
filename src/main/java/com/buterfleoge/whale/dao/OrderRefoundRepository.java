@@ -10,4 +10,5 @@ import com.buterfleoge.whale.type.entity.OrderRefound;
  */
 public interface OrderRefoundRepository extends CrudRepository<OrderRefound, Long> {
 
+    OrderRefound findByOrderid(Long orderid);
 }
