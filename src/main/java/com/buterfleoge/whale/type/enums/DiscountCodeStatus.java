@@ -7,31 +7,43 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
+ * 
+ * <ol>
+ * <li>CREATED -> TIMEOUT
+ * <li>CREATED -> VERIFIED -> TIMEOUT
+ * <li>CREATED -> VERIFIED -> OCCUPIED -> USED
+ * <li>CREATED -> VERIFIED -> OCCUPIED -> VERIFIED
+ * </ol>
+ * 
  * @author Brent24
  *
  */
 public enum DiscountCodeStatus {
+
     /**
      * 已生成，等待验证
      */
     CREATED(0),
 
     /**
-     * 用户提交，验证通过，等待订单付款
+     * 已过期
      */
-    PASSED(1),
+    TIMEOUT(1),
+
+    /**
+     * 用户提交，验证通过
+     */
+    VERIFIED(2),
+
+    /**
+     * 用户下单，占用中
+     */
+    OCCUPIED(3),
 
     /**
      * 付款完成，优惠券不再有效
      */
-    USED(2),
-
-    /**
-     * 已过期，优惠券不再有效
-     */
-    EXPIRED(3),
-
-    ;
+    USED(4);
 
     private int status;
 

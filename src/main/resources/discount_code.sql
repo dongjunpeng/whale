@@ -4,7 +4,7 @@ CREATE TABLE `elephant`.`discount_code` (
     `accountid` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '账户id',
     `status` SMALLINT(4) NOT NULL DEFAULT 0 COMMENT '优惠码状态:已发放,已过期,已使用',
     `agent` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '代理id',
-    `discount_price` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '折扣价值',
+    `value` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '折扣价值',
     `start_time` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '生效时间',      
     `end_time` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '结束时间',      
     `add_time` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '创建时间',     

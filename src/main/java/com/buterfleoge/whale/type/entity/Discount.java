@@ -31,6 +31,9 @@ public class Discount extends BaseObject {
     @Column(name = "type")
     private DiscountType type;
 
+    @Column(name = "routeid")
+    private Long routeid;
+
     @Column(name = "value")
     private Long value;
 
@@ -100,6 +103,14 @@ public class Discount extends BaseObject {
 
     public void setAddTime(Long addTime) {
         this.addTime = addTime;
+    }
+
+    public Long getRouteid() {
+        return routeid;
+    }
+
+    public void setRouteid(Long routeid) {
+        this.routeid = routeid;
     }
 
 }

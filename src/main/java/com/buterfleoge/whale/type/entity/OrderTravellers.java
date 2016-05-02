@@ -26,6 +26,9 @@ public class OrderTravellers extends BaseObject {
     @Column(name = "orderid")
     private Long orderid;
 
+    @Column(name = "accountid")
+    private Long accountid;
+
     @Column(name = "contactid")
     private Long contactid;
 
@@ -76,6 +79,14 @@ public class OrderTravellers extends BaseObject {
 
     public void setOrderid(Long orderid) {
         this.orderid = orderid;
+    }
+
+    public Long getAccountid() {
+        return accountid;
+    }
+
+    public void setAccountid(Long accountid) {
+        this.accountid = accountid;
     }
 
     public Long getContactid() {
