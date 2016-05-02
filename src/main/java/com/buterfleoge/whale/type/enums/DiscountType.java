@@ -17,14 +17,48 @@ public enum DiscountType {
     COUPON(0),
 
     /**
-     * 优惠政策
+     * 单人
      */
-    POLICY(1),
+    COUNT_1(1),
 
     /**
-     * 双人同行
+     * 2人同行
      */
-    POLICY_DOUBLE(2);
+    COUNT_2(2),
+
+    /**
+     * 3人同行
+     */
+    COUNT_3(3),
+    /**
+     * 4人同行
+     */
+    COUNT_4(4),
+
+    /**
+     * 5人同行
+     */
+    COUNT_5(5),
+
+    /**
+     * 下单时间优惠
+     */
+    TIME_ORDER(6),
+
+    /**
+     * 出行时间优惠
+     */
+    TIME_TRAVEL(7),
+
+    /**
+     * 路线优惠
+     */
+    ROUTE(8),
+
+    /**
+     * 学生证优惠
+     */
+    STUDENT(9);
 
     private int type;
 

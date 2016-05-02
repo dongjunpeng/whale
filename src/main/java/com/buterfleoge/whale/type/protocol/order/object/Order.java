@@ -1,4 +1,4 @@
-package com.buterfleoge.whale.type;
+package com.buterfleoge.whale.type.protocol.order.object;
 
 import java.util.List;
 
