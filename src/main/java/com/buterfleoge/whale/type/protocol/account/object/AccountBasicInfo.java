@@ -1,4 +1,4 @@
-package com.buterfleoge.whale.type;
+package com.buterfleoge.whale.type.protocol.account.object;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.type.entity.AccountInfo;

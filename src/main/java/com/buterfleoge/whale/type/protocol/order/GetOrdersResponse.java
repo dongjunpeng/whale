@@ -2,8 +2,8 @@ package com.buterfleoge.whale.type.protocol.order;
 
 import java.util.List;
 
-import com.buterfleoge.whale.type.Order;
 import com.buterfleoge.whale.type.protocol.Response;
+import com.buterfleoge.whale.type.protocol.order.object.Order;
 
 /**
  * @author Brent24

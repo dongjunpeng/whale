@@ -1,6 +1,7 @@
 CREATE TABLE `elephant`.`discount` (
     `discountid` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '优惠id',
     `type` SMALLINT(4) NOT NULL DEFAULT 0 COMMENT '折扣类型:优惠券,满减,打折',
+    `routeid` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '路线id',
     `value` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '数值',
     `desc` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '优惠描述',
     `start_time` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '生效时间',      

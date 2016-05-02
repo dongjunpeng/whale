@@ -40,8 +40,8 @@ public class DiscountCode extends BaseObject {
     @Column(name = "agent")
     private Long agent;
 
-    @Column(name = "discount_price")
-    private Long discountPrice;
+    @Column(name = "value")
+    private Long value;
 
     @Column(name = "start_time")
     private Long startTime;
@@ -125,6 +125,14 @@ public class DiscountCode extends BaseObject {
 
     public void setEffectTime(Long effectTime) {
         this.effectTime = effectTime;
+    }
+
+    public Long getValue() {
+        return value;
+    }
+
+    public void setValue(Long value) {
+        this.value = value;
     }
 
 }
