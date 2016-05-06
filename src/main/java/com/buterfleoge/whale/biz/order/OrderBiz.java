@@ -3,6 +3,9 @@
  */
 package com.buterfleoge.whale.biz.order;
 
+import com.buterfleoge.whale.type.protocol.Response;
+import com.buterfleoge.whale.type.protocol.order.CancelOrderRequest;
+import com.buterfleoge.whale.type.protocol.order.CreateOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.GetBriefRequest;
 import com.buterfleoge.whale.type.protocol.order.GetBriefResponse;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
@@ -20,10 +23,14 @@ public interface OrderBiz {
 
     void getOrders(GetOrdersRequest request, GetOrdersResponse response) throws Exception;
 
+    void createOrder(CreateOrderRequest request, Response response) throws Exception;
+
     void getBriefOrders(GetBriefRequest request, GetBriefResponse response) throws Exception;
 
     void getDiscount(GetDiscountRequest request, GetDiscountResponse response) throws Exception;
 
     void validateDiscountCode(ValidateCodeRequest request, ValidateCodeResponse response) throws Exception;
+
+    void cancelOrder(CancelOrderRequest request, Response response) throws Exception;
 
 }

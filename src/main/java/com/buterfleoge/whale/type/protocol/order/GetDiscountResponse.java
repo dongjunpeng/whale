@@ -13,7 +13,7 @@ public class GetDiscountResponse extends Response {
 
     private List<DiscountObject> list;
 
-    private Long studentDiscount;
+    private DiscountObject studentDiscount;
 
     private Long index;
 
@@ -25,11 +25,11 @@ public class GetDiscountResponse extends Response {
         this.list = list;
     }
 
-    public Long getStudentDiscount() {
+    public DiscountObject getStudentDiscount() {
         return studentDiscount;
     }
 
-    public void setStudentDiscount(Long studentDiscount) {
+    public void setStudentDiscount(DiscountObject studentDiscount) {
         this.studentDiscount = studentDiscount;
     }
 

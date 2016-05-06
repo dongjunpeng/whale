@@ -18,4 +18,6 @@ public interface OrderInfoRepository extends CrudRepository<OrderInfo, Long> {
 
     Long countByAccountidAndStatusIn(Long accountid, Set<OrderStatus> status);
 
+    OrderInfo findByOrderid(Long orderid);
+
 }
