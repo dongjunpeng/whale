@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.order.OrderBiz;
+import com.buterfleoge.whale.biz.travel.TravelBiz;
 import com.buterfleoge.whale.dao.AccountSettingRepository;
 import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.dao.DiscountRepository;
@@ -33,7 +34,11 @@ import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 import com.buterfleoge.whale.type.enums.DiscountCodeStatus;
 import com.buterfleoge.whale.type.enums.DiscountType;
+import com.buterfleoge.whale.type.enums.GroupStatus;
 import com.buterfleoge.whale.type.enums.OrderStatus;
+import com.buterfleoge.whale.type.protocol.Response;
+import com.buterfleoge.whale.type.protocol.order.CancelOrderRequest;
+import com.buterfleoge.whale.type.protocol.order.CreateOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.GetBriefRequest;
 import com.buterfleoge.whale.type.protocol.order.GetBriefResponse;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
@@ -112,6 +117,9 @@ public class OrderBizImpl implements OrderBiz {
     @Autowired
     private OrderRefoundRepository orderRefoundRepository;
 
+    @Autowired
+    private TravelBiz travelBiz;
+
     @Override
     public void getOrders(GetOrdersRequest request, GetOrdersResponse response) throws Exception {
 
@@ -181,6 +189,7 @@ public class OrderBizImpl implements OrderBiz {
             TravelRoute travelRoute;
             List<OrderTravellers> orderTravellers;
 
+            // 循环获取用户所有订单信息
             for (OrderInfo tempOrderInfo : orderInfo) {
 
                 Long orderid = tempOrderInfo.getOrderid();
@@ -192,6 +201,7 @@ public class OrderBizImpl implements OrderBiz {
 
                 orderTravellers = orderTravellersRepository.findByOrderid(orderid);
 
+                // 获得每个traveller报名账户的头像
                 Set<String> avatars = new HashSet<String>();
                 Set<String> names = new HashSet<String>();
                 for (OrderTravellers tempTraveller : orderTravellers) {
@@ -202,6 +212,7 @@ public class OrderBizImpl implements OrderBiz {
                 // 添加领队头像
                 avatars.addAll(LEADERS);
 
+                // 封装订单对象
                 briefOrders.add(new BriefOrder(routeid, travelRoute.getName(), travelRoute.getTitle(),
                         travelRoute.getImgs().split(",")[0], sdf.format(new Date(travelGroup.getStartDate())),
                         sdf.format(new Date(travelGroup.getEndDate())), travelGroup.getWxQrcode(),
@@ -295,7 +306,8 @@ public class OrderBizImpl implements OrderBiz {
             discount = discountRepository.findByTypeAndRouteidAndStartTimeLessThanAndEndTimeGreaterThan(
                     DiscountType.STUDENT, routeid, group.getStartDate(), group.getStartDate());
             if (discount != null)
-                response.setStudentDiscount(discount.getValue());
+                response.setStudentDiscount(
+                        new DiscountObject(discount.getDiscountid(), discount.getDesc(), discount.getValue()));
 
             response.setList(discountList);
             response.setStatus(Status.OK);
@@ -355,4 +367,135 @@ public class OrderBizImpl implements OrderBiz {
         return getDiscountObjectByTypeAndTime(type, System.currentTimeMillis());
     }
 
+    @Override
+    public void createOrder(CreateOrderRequest request, Response response) throws Exception {
+
+        // request获取信息
+        List<OrderTravellers> travellers = request.getTravellers();
+        Long accountid = request.getAccountid();
+        Long routeid = request.getRouteid();
+        Long groupid = request.getGroupid();
+        int studentCount = request.getStudentCount();
+
+        try {
+
+            // repository获取对象
+            TravelGroup group = travelGroupRepository.findByGroupid(groupid);
+            Discount policyDiscount = discountRepository.findByDiscountid(request.getPolicyDiscountid());
+            DiscountCode discountCode = discountCodeRepository.findByDiscountCode(request.getDiscountCode());
+            Discount studentDiscount = discountRepository.findByDiscountid(request.getStudentDiscountid());
+            int count = travellers.size();
+            int quota = travelBiz.getQuota(groupid);
+
+            // 名额不足异常
+            if (quota < count) {
+                throw new Exception("名额不足！");
+            }
+
+            Long price = group.getPrice() * count;
+            Long actualPrice = price - ((policyDiscount != null) ? policyDiscount.getValue() : 0)
+                    - ((discountCode != null) ? discountCode.getValue() : 0)
+                    - ((studentDiscount != null) ? studentDiscount.getValue() : 0) * studentCount;
+
+            // OrderInfo对象
+            OrderInfo orderInfo = new OrderInfo();
+            orderInfo.setAccountid(accountid);
+            orderInfo.setRouteid(routeid);
+            orderInfo.setGroupid(groupid);
+            orderInfo.setStatus(OrderStatus.WATING);
+            orderInfo.setCount(count);
+            orderInfo.setPrice(price);
+            orderInfo.setActualPrice(actualPrice);
+            orderInfo.setIsAgreementOk(request.getIsAgree());
+            orderInfo.setAddTime(System.currentTimeMillis());
+            orderInfo = orderInfoRepository.save(orderInfo);
+
+            Long orderid = orderInfo.getOrderid();
+
+            // 封装保存OrderTravellers
+            for (OrderTravellers temp : travellers) {
+                temp.setOrderid(orderid);
+                temp.setAccountid(accountid);
+            }
+            orderTravellersRepository.save(travellers);
+
+            // 封装保存OrderDiscount
+            if (policyDiscount != null) {
+                OrderDiscount policy = new OrderDiscount();
+                policy.setOrderid(orderid);
+                policy.setDiscountid(policyDiscount.getDiscountid());
+                policy.setType(policyDiscount.getType());
+                policy.setRouteid(policyDiscount.getRouteid());
+                policy.setValue(policyDiscount.getValue());
+                policy.setDesc(policyDiscount.getDesc());
+                policy.setAddTime(System.currentTimeMillis());
+                orderDiscountRepository.save(policy);
+            }
+            if (discountCode != null) {
+                OrderDiscount code = new OrderDiscount();
+                code.setOrderid(orderid);
+                code.setDiscountCode(discountCode.getDiscountCode());
+                code.setType(DiscountType.COUPON);
+                code.setValue(discountCode.getValue());
+                code.setAddTime(System.currentTimeMillis());
+                orderDiscountRepository.save(code);
+
+                // 改变优惠码状态
+                discountCode.setStatus(DiscountCodeStatus.OCCUPIED);
+                discountCodeRepository.save(discountCode);
+            }
+
+            if (studentDiscount != null) {
+                OrderDiscount student = new OrderDiscount();
+                student.setRouteid(routeid);
+                student.setDiscountid(studentDiscount.getDiscountid());
+                student.setType(DiscountType.STUDENT);
+                student.setRouteid(studentDiscount.getRouteid());
+                student.setValue(studentDiscount.getValue());
+                student.setDesc(studentDiscount.getDesc());
+                student.setAddTime(System.currentTimeMillis());
+                orderDiscountRepository.save(student);
+            }
+
+            // 更改group信息
+            if (quota == count) {
+                group.setStatus(GroupStatus.FULL);
+            }
+            group.setActualCount(group.getActualCount() + count);
+            travelGroupRepository.save(group);
+
+            // 订单关闭时间
+            System.out.println(orderid + "\n" + (System.currentTimeMillis() + 1000 * 60 * 120));
+
+            response.setStatus(Status.OK);
+
+        } catch (Exception e) {
+            LOG.error("create order failed", e);
+            response.setStatus(Status.DB_ERROR);
+        }
+
+    }
+
+    @Override
+    public void cancelOrder(CancelOrderRequest request, Response response) throws Exception {
+        Long orderid = request.getOrderid();
+        OrderInfo orderInfo = orderInfoRepository.findByOrderid(orderid);
+        orderInfo.setStatus(OrderStatus.TIMEOUT);
+        orderInfoRepository.save(orderInfo);
+
+        Long groupid = orderInfo.getGroupid();
+        int orderCount = orderInfo.getCount();
+        TravelGroup group = travelGroupRepository.findByGroupid(groupid);
+        group.setStatus(GroupStatus.OPEN);
+        group.setActualCount(group.getActualCount() - orderCount);
+        travelGroupRepository.save(group);
+
+        OrderDiscount orderDiscount = orderDiscountRepository.findByOrderidAndDiscountCodeNotNull(orderid);
+        if (orderDiscount != null) {
+            Long code = orderDiscount.getDiscountCode();
+            DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);
+            discountCode.setStatus(DiscountCodeStatus.VERIFIED);
+            discountCodeRepository.save(discountCode);
+        }
+    }
 }

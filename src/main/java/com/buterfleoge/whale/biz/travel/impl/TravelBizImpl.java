@@ -23,6 +23,8 @@ import com.buterfleoge.whale.type.protocol.Error;
 import com.buterfleoge.whale.type.protocol.Request;
 import com.buterfleoge.whale.type.protocol.travel.GetGroupRequest;
 import com.buterfleoge.whale.type.protocol.travel.GetGroupResponse;
+import com.buterfleoge.whale.type.protocol.travel.GetQuotaRequest;
+import com.buterfleoge.whale.type.protocol.travel.GetQuotaResponse;
 import com.buterfleoge.whale.type.protocol.travel.GetRouteRequest;
 import com.buterfleoge.whale.type.protocol.travel.GetRouteResponse;
 import com.buterfleoge.whale.type.protocol.travel.imgtext.Imgtext;
@@ -48,8 +50,6 @@ public class TravelBizImpl implements TravelBiz {
 
     @Override
     public void getRouteByCondition(Request request, GetRouteResponse response) throws Exception {
-        // TODO Auto-generated method stub
-
     }
 
     @Autowired
@@ -150,4 +150,20 @@ public class TravelBizImpl implements TravelBiz {
 
     }
 
+    @Override
+    public void getQuota(GetQuotaRequest request, GetQuotaResponse response) throws Exception {
+        try {
+            response.setQuota(getQuota(request.getGroupid()));
+            response.setStatus(Status.OK);
+        } catch (Exception e) {
+            LOG.error("get quota failed", e);
+            response.setStatus(Status.DB_ERROR);
+        }
+    }
+
+    @Override
+    public int getQuota(Long groupid) throws Exception {
+        TravelGroup group = travelGroupRepository.findByGroupid(groupid);
+        return group.getMaxCount() - group.getActualCount();
+    }
 }
