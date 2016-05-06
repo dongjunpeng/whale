@@ -32,9 +32,14 @@ public enum GroupStatus {
     FULL(3),
 
     /**
+     * 出团中
+     */
+    TRAVELLING(4),
+
+    /**
      * 结束
      */
-    FINISH(4)
+    FINISHED(5)
 
     ;
 

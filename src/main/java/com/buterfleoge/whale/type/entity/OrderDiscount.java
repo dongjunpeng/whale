@@ -31,17 +31,20 @@ public class OrderDiscount extends BaseObject {
     @Column(name = "orderid")
     private Long orderid;
 
+    @Column(name = "discount_code")
+    private Long discountCode;
+
     @Column(name = "discountid")
     private Long discountid;
 
     @Column(name = "type")
     private DiscountType type;
 
-    @Column(name = "discount_code")
-    private Long discountCode;
+    @Column(name = "routeid")
+    private Long routeid;
 
-    @Column(name = "discount_price")
-    private Long discountPrice;
+    @Column(name = "value")
+    private Long value;
 
     @Column(name = "desc")
     private String desc;
@@ -89,12 +92,20 @@ public class OrderDiscount extends BaseObject {
         this.discountCode = discountCode;
     }
 
-    public Long getDiscountPrice() {
-        return discountPrice;
+    public Long getRouteid() {
+        return routeid;
     }
 
-    public void setDiscountPrice(Long discountPrice) {
-        this.discountPrice = discountPrice;
+    public void setRouteid(Long routeid) {
+        this.routeid = routeid;
+    }
+
+    public Long getValue() {
+        return value;
+    }
+
+    public void setValue(Long value) {
+        this.value = value;
     }
 
     public String getDesc() {

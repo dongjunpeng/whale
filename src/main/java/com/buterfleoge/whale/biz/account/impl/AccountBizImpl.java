@@ -171,8 +171,6 @@ public class AccountBizImpl implements AccountBiz {
         }
     }
 
-    // TODO
-
     @Override
     public Long createBasicInfo() throws Exception {
         Long accountid;
