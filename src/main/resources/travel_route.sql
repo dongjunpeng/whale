@@ -9,7 +9,7 @@ CREATE TABLE `elephant`.`travel_route` (
     `departure` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '出发地点',
     `distination` VARCHAR(255) NOT NULL DEFAULT '' COMMENT '结束地点',
     `route` VARCHAR(2000) NOT NULL DEFAULT '' COMMENT '经过城市、景点',
-    `desc` VARCHAR(2000) NOT NULL DEFAULT '' COMMENT '路线描述',
+    `description` VARCHAR(2000) NOT NULL DEFAULT '' COMMENT '路线描述',
     `imgs` VARCHAR(2000) NOT NULL DEFAULT '' COMMENT '头图地址',
     `max_price` BIGINT(20) NOT NULL COMMENT '最大价格',
     `min_price` BIGINT(20) NOT NULL COMMENT '最小价格',

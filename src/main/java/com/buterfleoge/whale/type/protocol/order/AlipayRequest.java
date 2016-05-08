@@ -6,9 +6,9 @@ import com.buterfleoge.whale.type.protocol.Request;
  * @author Brent24
  *
  */
-public class GetBriefRequest extends Request {
+public class AlipayRequest extends Request {
     private Long accountid;
-    private String orderType;
+    private Long orderid;
 
     public Long getAccountid() {
         return accountid;
@@ -18,12 +18,12 @@ public class GetBriefRequest extends Request {
         this.accountid = accountid;
     }
 
-    public String getOrderType() {
-        return orderType;
+    public Long getOrderid() {
+        return orderid;
     }
 
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
+    public void setOrderid(Long orderid) {
+        this.orderid = orderid;
     }
 
 }

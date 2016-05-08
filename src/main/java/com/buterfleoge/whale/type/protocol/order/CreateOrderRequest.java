@@ -15,10 +15,11 @@ public class CreateOrderRequest extends Request {
     private Long groupid;
     private List<OrderTravellers> travellers;
     private Long policyDiscountid;
-    private Long discountCode;
+    private String discountCode;
     private Long studentDiscountid;
     private int studentCount;
     private Boolean isAgree;
+    private Long actualPrice;
 
     public Long getRouteid() {
         return routeid;
@@ -52,11 +53,11 @@ public class CreateOrderRequest extends Request {
         this.policyDiscountid = policyDiscountid;
     }
 
-    public Long getDiscountCode() {
+    public String getDiscountCode() {
         return discountCode;
     }
 
-    public void setDiscountCode(Long discountCode) {
+    public void setDiscountCode(String discountCode) {
         this.discountCode = discountCode;
     }
 
@@ -90,6 +91,14 @@ public class CreateOrderRequest extends Request {
 
     public void setAccountid(Long accountid) {
         this.accountid = accountid;
+    }
+
+    public Long getActualPrice() {
+        return actualPrice;
+    }
+
+    public void setActualPrice(Long actualPrice) {
+        this.actualPrice = actualPrice;
     }
 
 }

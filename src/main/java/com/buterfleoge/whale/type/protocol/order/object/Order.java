@@ -18,19 +18,21 @@ public class Order {
     private TravelRoute TravelRoute;
     private TravelGroup travelGroup;
     private List<OrderTravellers> orderTravellers;
-    private OrderDiscount discountPolicy;
-    private OrderDiscount discountCode;
+    private OrderDiscount policy;
+    private OrderDiscount code;
+    private OrderDiscount student;
     private OrderRefound orderRefound;
 
     public Order(OrderInfo orderInfo, TravelRoute TravelRoute, TravelGroup travelGroup,
-            List<OrderTravellers> orderTravellers, OrderDiscount discountPolicy, OrderDiscount discountCode,
+            List<OrderTravellers> orderTravellers, OrderDiscount policy, OrderDiscount code, OrderDiscount student,
             OrderRefound orderRefound) {
         this.orderInfo = orderInfo;
         this.TravelRoute = TravelRoute;
         this.travelGroup = travelGroup;
         this.orderTravellers = orderTravellers;
-        this.discountPolicy = discountPolicy;
-        this.discountCode = discountCode;
+        this.policy = policy;
+        this.code = code;
+        this.student = student;
         this.orderRefound = orderRefound;
     }
 
@@ -66,20 +68,28 @@ public class Order {
         TravelRoute = travelRoute;
     }
 
-    public OrderDiscount getDiscountPolicy() {
-        return discountPolicy;
+    public OrderDiscount getPolicy() {
+        return policy;
     }
 
-    public void setDiscountPolicy(OrderDiscount discountPolicy) {
-        this.discountPolicy = discountPolicy;
+    public void setPolicy(OrderDiscount policy) {
+        this.policy = policy;
     }
 
-    public OrderDiscount getDiscountCode() {
-        return discountCode;
+    public OrderDiscount getCode() {
+        return code;
     }
 
-    public void setDiscountCode(OrderDiscount discountCode) {
-        this.discountCode = discountCode;
+    public void setCode(OrderDiscount code) {
+        this.code = code;
+    }
+
+    public OrderDiscount getStudent() {
+        return student;
+    }
+
+    public void setStudent(OrderDiscount student) {
+        this.student = student;
     }
 
     public OrderRefound getOrderRefound() {

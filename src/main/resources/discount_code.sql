@@ -1,7 +1,7 @@
 CREATE TABLE `elephant`.`discount_code` (
     `codeid` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '优惠码id',
-    `discount_code` BIGINT(20) NOT NULL COMMENT '优惠码',
-    `accountid` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '账户id',
+    `discount_code` VARCHAR(255) NOT NULL COMMENT '优惠码',
+    `accountid` BIGINT(20) COMMENT '账户id',
     `status` SMALLINT(4) NOT NULL DEFAULT 0 COMMENT '优惠码状态:已发放,已过期,已使用',
     `agent` BIGINT(20)  COMMENT '代理id',
     `value` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '折扣价值',

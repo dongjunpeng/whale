@@ -8,7 +8,7 @@ import com.buterfleoge.whale.type.enums.OrderStatus;
  * @author Brent24
  *
  */
-public class BriefOrder {
+public class BriefOrder implements Comparable<BriefOrder> {
 
     // TravelRoute
     private Long routeid;
@@ -22,14 +22,16 @@ public class BriefOrder {
     private Long dayCount;
     // OrderInfo
     private Long minuteCount;
+    private Long orderid;
     private OrderStatus status;
+    private Long actualPrice;
     // travellers + AccountSetting
     private Set<String> names;
     private Set<String> avatars;
 
     public BriefOrder(Long routeid, String name, String title, String headImg, String startDate, String endDate,
-            String wxQrCode, Long dayCount, Long minuteCount, OrderStatus status, Set<String> names,
-            Set<String> avatars) {
+            String wxQrCode, Long dayCount, Long minuteCount, Long orderid, OrderStatus status, Long actualPrice,
+            Set<String> names, Set<String> avatars) {
         this.routeid = routeid;
         this.name = name;
         this.title = title;
@@ -39,10 +41,42 @@ public class BriefOrder {
         this.wxQrCode = wxQrCode;
         this.dayCount = dayCount;
         this.minuteCount = minuteCount;
+        this.orderid = orderid;
         this.status = status;
+        this.actualPrice = actualPrice;
         this.names = names;
         this.avatars = avatars;
+    }
 
+    // sort排序顺序
+    public Integer getOrder() {
+        switch (status) {
+        case PAID:
+            return 1;
+        case WAITING:
+            return 2;
+        case PAYING:
+            return 3;
+        case REFOUNDING:
+            return 4;
+        case REFOUNDED:
+            return 5;
+        case FINISH:
+            return 6;
+        case CANCELPAYMENT:
+            return 7;
+        case CANCEl:
+            return 8;
+        case TIMEOUT:
+            return 9;
+        default:
+            return 100;
+        }
+    }
+
+    @Override
+    public int compareTo(BriefOrder arg0) {
+        return this.getOrder().compareTo(arg0.getOrder());
     }
 
     public Long getRouteid() {
@@ -139,6 +173,22 @@ public class BriefOrder {
 
     public void setNames(Set<String> names) {
         this.names = names;
+    }
+
+    public Long getActualPrice() {
+        return actualPrice;
+    }
+
+    public void setActualPrice(Long actualPrice) {
+        this.actualPrice = actualPrice;
+    }
+
+    public Long getOrderid() {
+        return orderid;
+    }
+
+    public void setOrderid(Long orderid) {
+        this.orderid = orderid;
     }
 
 }

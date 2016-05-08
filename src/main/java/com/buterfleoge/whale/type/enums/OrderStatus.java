@@ -22,7 +22,7 @@ public enum OrderStatus {
     /**
      * 生成等待付款
      */
-    WATING(0),
+    WAITING(0),
 
     /**
      * 取消
@@ -40,7 +40,7 @@ public enum OrderStatus {
     CANCELPAYMENT(3),
 
     /**
-     * 取消支付
+     * 已退款
      */
     REFOUNDED(4),
 
