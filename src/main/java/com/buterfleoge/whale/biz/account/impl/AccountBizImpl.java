@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.buterfleoge.whale.Constants.BizCode;
 import com.buterfleoge.whale.Constants.DefaultValue;
@@ -87,6 +88,7 @@ public class AccountBizImpl implements AccountBiz {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void registerByEmail(RegisterRequest request, RegisterResponse response) throws Exception {
         EmailExistRequest emailExistRequest = createEmailExistRequestFromRegisterRequest(request);
         isEmailExist(emailExistRequest, response);
@@ -134,6 +136,7 @@ public class AccountBizImpl implements AccountBiz {
         } catch (Exception e) {
             LOG.error("Save account info to db failed", e);
             response.setStatus(Status.DB_ERROR);
+            throw new Exception("rollback");
         }
     }
 
@@ -149,6 +152,7 @@ public class AccountBizImpl implements AccountBiz {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void validateEmail(ValidateEmailRequest request, Response response) throws Exception {
         String email = request.getEmail();
         String validCode = request.getValidCode();
@@ -164,6 +168,7 @@ public class AccountBizImpl implements AccountBiz {
             } catch (Exception e) {
                 LOG.error("validate email failed", e);
                 response.setStatus(Status.DB_ERROR);
+                throw new Exception("rollback");
             }
         } else {
             response.setStatus(Status.BIZ_ERROR);
@@ -172,6 +177,7 @@ public class AccountBizImpl implements AccountBiz {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Long createBasicInfo() throws Exception {
         Long accountid;
         AccountInfo info = new AccountInfo();
@@ -190,6 +196,7 @@ public class AccountBizImpl implements AccountBiz {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Long createBasicInfo(AccountInfo info, AccountSetting setting) throws Exception {
         Long accountid;
 
@@ -226,6 +233,7 @@ public class AccountBizImpl implements AccountBiz {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateBasicInfo(PostBasicInfoRequest request, Response response) throws Exception {
         AccountInfo accountInfo;
         AccountSetting accountSetting;
@@ -282,6 +290,7 @@ public class AccountBizImpl implements AccountBiz {
         } catch (Exception e) {
             LOG.error("update basicInfo failed", e);
             response.setStatus(Status.DB_ERROR);
+            throw new Exception("rollback");
         }
     }
 
@@ -401,6 +410,7 @@ public class AccountBizImpl implements AccountBiz {
     // response.setStatus(Status.OK);
     // }
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void postContacts(PostContactsRequest request, Response response) throws Exception {
         AccountContacts contact = new AccountContacts();
         try {
@@ -423,10 +433,12 @@ public class AccountBizImpl implements AccountBiz {
         } catch (Exception e) {
             LOG.error("post contacts failed", e);
             response.setStatus(Status.DB_ERROR);
+            throw new Exception("rollback");
         }
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void putContacts(PutContactsRequest request, Response response) throws Exception {
         try {
             AccountContacts contact = accountContactsRepository.findByContactidAndValidTrue(request.getContactid());
@@ -446,11 +458,13 @@ public class AccountBizImpl implements AccountBiz {
         } catch (Exception e) {
             LOG.error("post contacts failed", e);
             response.setStatus(Status.DB_ERROR);
+            throw new Exception("rollback");
         }
 
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteContacts(DeleteContactsRequest request, Response response) throws Exception {
         Long contactid = request.getContactid();
         try {
@@ -461,6 +475,7 @@ public class AccountBizImpl implements AccountBiz {
         } catch (Exception e) {
             LOG.error("delete contacts failed", e);
             response.setStatus(Status.DB_ERROR);
+            throw new Exception("rollback");
         }
     }
 

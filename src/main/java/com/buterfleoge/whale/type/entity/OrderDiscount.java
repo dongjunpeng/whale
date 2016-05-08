@@ -32,7 +32,7 @@ public class OrderDiscount extends BaseObject {
     private Long orderid;
 
     @Column(name = "discount_code")
-    private Long discountCode;
+    private String discountCode;
 
     @Column(name = "discountid")
     private Long discountid;
@@ -46,7 +46,7 @@ public class OrderDiscount extends BaseObject {
     @Column(name = "value")
     private Long value;
 
-    @Column(name = "desc")
+    @Column(name = "description")
     private String desc;
 
     @Column(name = "add_time")
@@ -68,6 +68,14 @@ public class OrderDiscount extends BaseObject {
         this.orderid = orderid;
     }
 
+    public String getDiscountCode() {
+        return discountCode;
+    }
+
+    public void setDiscountCode(String discountCode) {
+        this.discountCode = discountCode;
+    }
+
     public Long getDiscountid() {
         return discountid;
     }
@@ -82,14 +90,6 @@ public class OrderDiscount extends BaseObject {
 
     public void setType(DiscountType type) {
         this.type = type;
-    }
-
-    public Long getDiscountCode() {
-        return discountCode;
-    }
-
-    public void setDiscountCode(Long discountCode) {
-        this.discountCode = discountCode;
     }
 
     public Long getRouteid() {

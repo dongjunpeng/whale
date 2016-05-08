@@ -37,21 +37,15 @@ public class OrderInfo extends BaseObject {
     @Column(name = "status")
     private OrderStatus status;
 
-    /**
-     * 本订单的人数
-     */
     @Column(name = "count")
     private Integer count;
 
-    /**
-     * 价格
-     */
+    @Column(name = "student_count")
+    private Integer studentCount;
+
     @Column(name = "price")
     private Long price;
 
-    /**
-     * 实际付款
-     */
     @Column(name = "actual_price")
     private Long actualPrice;
 
@@ -139,6 +133,14 @@ public class OrderInfo extends BaseObject {
 
     public void setAddTime(Long addTime) {
         this.addTime = addTime;
+    }
+
+    public Integer getStudentCount() {
+        return studentCount;
+    }
+
+    public void setStudentCount(Integer studentCount) {
+        this.studentCount = studentCount;
     }
 
 }

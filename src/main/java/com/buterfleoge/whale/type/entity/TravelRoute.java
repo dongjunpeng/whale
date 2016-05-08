@@ -57,7 +57,7 @@ public class TravelRoute extends BaseObject {
     @Column(name = "max_price")
     private Long maxPrice;
 
-    @Column(name = "desc")
+    @Column(name = "description")
     private String desc;
 
     @Column(name = "imgs")

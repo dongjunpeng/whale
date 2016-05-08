@@ -4,6 +4,7 @@
 package com.buterfleoge.whale.biz.order;
 
 import com.buterfleoge.whale.type.protocol.Response;
+import com.buterfleoge.whale.type.protocol.order.AlipayRequest;
 import com.buterfleoge.whale.type.protocol.order.CancelOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.GetBriefRequest;
@@ -33,4 +34,5 @@ public interface OrderBiz {
 
     void cancelOrder(CancelOrderRequest request, Response response) throws Exception;
 
+    void alipay(AlipayRequest requst, Response response);
 }

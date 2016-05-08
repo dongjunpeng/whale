@@ -29,7 +29,7 @@ public class DiscountCode extends BaseObject {
     private Long codeid;
 
     @Column(name = "discount_code")
-    private Long discountCode;
+    private String discountCode;
 
     @Column(name = "accountid")
     private Long accountid;
@@ -63,11 +63,11 @@ public class DiscountCode extends BaseObject {
         this.codeid = codeid;
     }
 
-    public Long getDiscountCode() {
+    public String getDiscountCode() {
         return discountCode;
     }
 
-    public void setDiscountCode(Long discountCode) {
+    public void setDiscountCode(String discountCode) {
         this.discountCode = discountCode;
     }
 
