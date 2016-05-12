@@ -13,6 +13,8 @@ import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
 import com.buterfleoge.whale.type.protocol.order.GetOrdersRequest;
 import com.buterfleoge.whale.type.protocol.order.GetOrdersResponse;
+import com.buterfleoge.whale.type.protocol.order.RefoundRequest;
+import com.buterfleoge.whale.type.protocol.order.RefoundResponse;
 import com.buterfleoge.whale.type.protocol.order.ValidateCodeRequest;
 import com.buterfleoge.whale.type.protocol.order.ValidateCodeResponse;
 
@@ -34,5 +36,7 @@ public interface OrderBiz {
 
     void cancelOrder(CancelOrderRequest request, Response response) throws Exception;
 
-    void alipay(AlipayRequest requst, Response response);
+    void alipay(AlipayRequest requst, Response response) throws Exception;
+
+    void getRefoundInfo(RefoundRequest request, RefoundResponse response) throws Exception;
 }

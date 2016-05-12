@@ -17,7 +17,7 @@ import com.buterfleoge.whale.type.enums.GroupStatus;
  */
 public interface TravelGroupRepository extends CrudRepository<TravelGroup, Long> {
 
-    List<TravelGroup> findByRouteidAndEndDateGreaterThan(Long routeid, Long endDate);
+    List<TravelGroup> findByRouteidAndEndDateGreaterThanOrderByStartDateAsc(Long routeid, Long endDate);
 
     TravelGroup findByGroupid(Long groupid);
 

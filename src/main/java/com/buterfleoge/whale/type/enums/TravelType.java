@@ -12,29 +12,29 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public enum TravelType {
 
     /**
-     * 未知
+     * 长途
      */
-    UNKNOW(0),
-
-    /**
-     * 城市
-     */
-    CITY_WALK(1),
-
-    /**
-     * 近郊
-     */
-    SUBURB(2),
+    LONG_TRIP(0),
 
     /**
      * 短途
      */
-    SHORT_TRIP(3),
+    SHORT_TRIP(1),
 
     /**
-     * 长途
+     * 周末
      */
-    LONG_TRIP(4),
+    WEEKEND(2),
+
+    /**
+     * 轰趴
+     */
+    PARTY(3),
+
+    /**
+     * 城市
+     */
+    CITY_WALK(4),
 
     /**
      * 国际
