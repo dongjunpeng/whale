@@ -96,35 +96,34 @@ public class TravelBizImpl implements TravelBiz {
     }
 
     @Override
-    public void getGroup(GetGroupRequest request, GetGroupResponse response) throws Exception {
+    public void getGroups(GetGroupRequest request, GetGroupResponse response) throws Exception {
 
         Long routeid = request.getRouteid();
         Long groupid = request.getGroupid();
         String name = request.getName();
 
-        // Long now=new Date().getTime()/1000;
-        Long now = 20160425L;// 先写死测试，后面用系统获取时间
-
-        List<TravelGroup> group = null;
+        List<TravelGroup> groups = null;
 
         try {
             if (groupid != null) {
-                group = Arrays.asList(travelGroupRepository.findByGroupid(groupid));
+                groups = Arrays.asList(travelGroupRepository.findByGroupid(groupid));
             } else {
                 if (routeid != null) {
-                    group = travelGroupRepository.findByRouteidAndEndDateGreaterThan(routeid, now);
+                    groups = travelGroupRepository.findByRouteidAndEndDateGreaterThanOrderByStartDateAsc(routeid,
+                            System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7);
                 } else {
                     if (name != null) {
-                        group = travelGroupRepository.findByRouteidAndEndDateGreaterThan(
-                                travelRouteRepository.findByName(name).getRouteid(), now);
+                        groups = travelGroupRepository.findByRouteidAndEndDateGreaterThanOrderByStartDateAsc(
+                                travelRouteRepository.findByName(name).getRouteid(),
+                                System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7);
                     } else {
                         response.setStatus(Status.PARAM_ERROR);
                     }
                 }
             }
 
-            if (group != null) {
-                response.setGroup(group);
+            if (groups != null) {
+                response.setGroups(groups);
                 response.setStatus(Status.OK);
             } else {
                 response.setStatus(Status.PARAM_ERROR);

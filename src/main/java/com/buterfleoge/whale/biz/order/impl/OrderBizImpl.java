@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,9 @@ import com.buterfleoge.whale.type.enums.DiscountCodeStatus;
 import com.buterfleoge.whale.type.enums.DiscountType;
 import com.buterfleoge.whale.type.enums.GroupStatus;
 import com.buterfleoge.whale.type.enums.OrderStatus;
+import com.buterfleoge.whale.type.enums.RefoundStatus;
+import com.buterfleoge.whale.type.enums.RefoundType;
+import com.buterfleoge.whale.type.enums.TravelType;
 import com.buterfleoge.whale.type.protocol.Error;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.order.AlipayRequest;
@@ -50,6 +54,8 @@ import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
 import com.buterfleoge.whale.type.protocol.order.GetOrdersRequest;
 import com.buterfleoge.whale.type.protocol.order.GetOrdersResponse;
+import com.buterfleoge.whale.type.protocol.order.RefoundRequest;
+import com.buterfleoge.whale.type.protocol.order.RefoundResponse;
 import com.buterfleoge.whale.type.protocol.order.ValidateCodeRequest;
 import com.buterfleoge.whale.type.protocol.order.ValidateCodeResponse;
 import com.buterfleoge.whale.type.protocol.order.object.BriefOrder;
@@ -74,6 +80,8 @@ public class OrderBizImpl implements OrderBiz {
     private static final Set<String> LEADERS = new HashSet<String>();
     // 优惠类型
     private static final Set<DiscountType> POLICY = new HashSet<DiscountType>();
+    // 退款状态
+    private static final Set<RefoundStatus> CONFIRM = new HashSet<RefoundStatus>();
 
     static {
         // 当前订单{创建等待付款,付款中,付款完成到账,退款中}
@@ -113,6 +121,9 @@ public class OrderBizImpl implements OrderBiz {
         POLICY.add(DiscountType.ROUTE);
         POLICY.add(DiscountType.TIME_ORDER);
         POLICY.add(DiscountType.TIME_TRAVEL);
+        // 退款已确认状态
+        CONFIRM.add(RefoundStatus.CONFIRMED);
+        CONFIRM.add(RefoundStatus.REFOUNDED);
     }
 
     @Autowired
@@ -155,13 +166,13 @@ public class OrderBizImpl implements OrderBiz {
         List<OrderInfo> orderInfo = null;
         Set<OrderStatus> statusSet = VISIBLE;
 
-        TravelGroup travelGroup;
-        TravelRoute travelRoute;
-        List<OrderTravellers> orderTravellers;
-        OrderDiscount policy;
-        OrderDiscount code;
-        OrderDiscount student;
-        OrderRefound orderRefound;
+        TravelGroup travelGroup = null;
+        TravelRoute travelRoute = null;
+        List<OrderTravellers> orderTravellers = null;
+        OrderDiscount policy = null;
+        OrderDiscount code = null;
+        OrderDiscount student = null;
+        OrderRefound orderRefound = null;
 
         if (accountid == null) {
             response.setStatus(Status.PARAM_ERROR);
@@ -188,19 +199,8 @@ public class OrderBizImpl implements OrderBiz {
                     tempOrderInfo.setStatus(OrderStatus.TIMEOUT);
                     orderInfoRepository.save(tempOrderInfo);
                 }
-
-                Long orderid = tempOrderInfo.getOrderid();
-                Long routeid = tempOrderInfo.getRouteid();
-                Long groupid = tempOrderInfo.getGroupid();
-
-                travelRoute = travelRouteRepository.findByRouteid(routeid);
-                travelGroup = travelGroupRepository.findByGroupid(groupid);
-                orderTravellers = orderTravellersRepository.findByOrderid(orderid);
-                policy = orderDiscountRepository.findByOrderidAndTypeIn(orderid, POLICY);
-                code = orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.COUPON);
-                student = orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.STUDENT);
-                orderRefound = orderRefoundRepository.findByOrderid(orderid);
-
+                setOrderObjects(tempOrderInfo, travelRoute, travelGroup, orderTravellers, student, student, student,
+                        orderRefound);
                 orders.add(new Order(tempOrderInfo, travelRoute, travelGroup, orderTravellers, policy, code, student,
                         orderRefound));
             }
@@ -595,6 +595,131 @@ public class OrderBizImpl implements OrderBiz {
             response.setStatus(Status.PARAM_ERROR);
             break;
         }
+    }
+
+    // 退款算法
+    @Override
+    public void getRefoundInfo(RefoundRequest request, RefoundResponse response) {
+        Long orderid = request.getOrderid();
+
+        OrderInfo orderInfo = new OrderInfo();
+        TravelGroup travelGroup = new TravelGroup();
+        TravelRoute travelRoute = new TravelRoute();
+        List<OrderTravellers> orderTravellers = new ArrayList<OrderTravellers>();
+        OrderDiscount policy = new OrderDiscount();
+        OrderDiscount code = new OrderDiscount();
+        OrderDiscount student = new OrderDiscount();
+        OrderRefound orderRefound = new OrderRefound();
+
+        setOrderObjects(orderid, orderInfo, travelRoute, travelGroup, orderTravellers, policy, code, student,
+                orderRefound);
+
+        if (orderRefound.getOrderid() != null) {
+            response.setStatus(Status.PARAM_ERROR);
+            return;
+        }
+
+        Long actualPrice = orderInfo.getActualPrice();
+        TravelType travelType = travelRoute.getType();
+        Long startDate = travelGroup.getStartDate();
+        Long now = System.currentTimeMillis();
+        Long leftMinutes = (startDate - now) / 1000 / 60;
+
+        if (leftMinutes <= 0) {
+            response.setStatus(Status.PARAM_ERROR);
+            return;
+        }
+
+        orderRefound.setOrderid(orderid);
+        orderRefound.setAddTime(now);
+        orderRefound.setStatus(RefoundStatus.CREATED);
+
+        switch (travelType) {
+        case LONG_TRIP:
+            if (leftMinutes >= 60 * 24 * 21) {
+                orderRefound.setType(RefoundType.LONG_PCT_95);
+                orderRefound.setRefound((long) (actualPrice * 0.95));
+            } else {
+                if (leftMinutes >= 60 * 24 * 14) {
+                    orderRefound.setType(RefoundType.LONG_PCT_80);
+                    orderRefound.setRefound((long) (actualPrice * 0.80));
+                } else {
+                    if (leftMinutes >= 60 * 24 * 7) {
+                        orderRefound.setType(RefoundType.LONG_PCT_50);
+                        orderRefound.setRefound((long) (actualPrice * 0.50));
+                    } else {
+                        orderRefound.setType(RefoundType.LONG_PCT_20);
+                        orderRefound.setRefound((long) (actualPrice * 0.20));
+                    }
+                }
+            }
+            break;
+        case SHORT_TRIP:
+            if (leftMinutes >= 60 * 24 * 7) {
+                orderRefound.setType(RefoundType.SHORT_PCT_100);
+                orderRefound.setRefound((long) (actualPrice));
+            } else {
+                if (leftMinutes >= 60 * 24 * 4) {
+                    orderRefound.setType(RefoundType.LONG_PCT_80);
+                    orderRefound.setRefound((long) (actualPrice * 0.80));
+                } else {
+                    if (leftMinutes >= 60 * 24 * 1) {
+                        orderRefound.setType(RefoundType.LONG_PCT_50);
+                        orderRefound.setRefound((long) (actualPrice * 0.50));
+                    } else {
+                        orderRefound.setType(RefoundType.LONG_PCT_20);
+                        orderRefound.setRefound((long) (actualPrice * 0.20));
+                    }
+                }
+            }
+            break;
+        case WEEKEND:
+            break;
+        case PARTY:
+            break;
+        case CITY_WALK:
+            break;
+        case INTERNATIONAL:
+            break;
+        }
+        orderRefound = orderRefoundRepository.save(orderRefound);
+        String leftTime = "剩余时间： " + leftMinutes / 60 / 24 + " 天 " + leftMinutes / 60 % 24 + " 小时 " + leftMinutes % 60
+                + " 分";
+
+        response.setAll(orderInfo, travelGroup, travelRoute, orderTravellers, policy, code, student, leftTime,
+                orderRefound);
+        response.setStatus(Status.OK);
 
     }
+
+    private void setOrderObjects(Long orderid, OrderInfo orderInfo, TravelRoute travelRoute, TravelGroup travelGroup,
+            List<OrderTravellers> travellers, OrderDiscount policy, OrderDiscount code, OrderDiscount student,
+            OrderRefound orderRefound) {
+        BeanUtils.copyProperties(orderInfoRepository.findByOrderid(orderid), orderInfo);
+        setOrderObjects(orderInfo, travelRoute, travelGroup, travellers, policy, code, student, orderRefound);
+    }
+
+    private void setOrderObjects(OrderInfo orderInfo, TravelRoute travelRoute, TravelGroup travelGroup,
+            List<OrderTravellers> travellers, OrderDiscount policy, OrderDiscount code, OrderDiscount student,
+            OrderRefound orderRefound) {
+
+        Long orderid = orderInfo.getOrderid();
+        Long routeid = orderInfo.getRouteid();
+        Long groupid = orderInfo.getGroupid();
+
+        try {
+            BeanUtils.copyProperties(travelRouteRepository.findByRouteid(routeid), travelRoute);
+            BeanUtils.copyProperties(travelGroupRepository.findByGroupid(groupid), travelGroup);
+            for (OrderTravellers temp : orderTravellersRepository.findByOrderid(orderid)) {
+                travellers.add(temp);
+            }
+            BeanUtils.copyProperties(orderDiscountRepository.findByOrderidAndTypeIn(orderid, POLICY), policy);
+            BeanUtils.copyProperties(orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.COUPON), code);
+            BeanUtils.copyProperties(orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.STUDENT),
+                    student);
+            BeanUtils.copyProperties(orderRefoundRepository.findByOrderidAndStatusIn(orderid, CONFIRM), orderRefound);
+        } catch (Exception e) {
+        }
+    }
+
 }

@@ -9,32 +9,37 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @author Brent24
  *
  */
-public enum RefoundReason {
+public enum RefoundStatus {
 
     /**
-     * 个人原因
+     * 退款产生
      */
-    PERSONAL(0),
+    CREATED(0),
 
     /**
-     * 行程取消
+     * 确认退款
      */
-    CANCEL(1)
+    CONFIRMED(1),
+
+    /**
+     * 完成退款
+     */
+    REFOUNDED(2)
 
     ;
 
-    private int calculation;
+    private int status;
 
-    private RefoundReason(int calculation) {
-        this.calculation = calculation;
+    private RefoundStatus(int status) {
+        this.status = status;
     }
 
-    public int getCalculation() {
-        return calculation;
+    public int getStatus() {
+        return status;
     }
 
-    public void setCalculation(int calculation) {
-        this.calculation = calculation;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     @Override
