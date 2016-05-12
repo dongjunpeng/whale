@@ -34,7 +34,7 @@ public class PostBasicInfoRequest extends Request {
 	private String wbid;
 	private String wbname;
 	private Gender gender;
-	private Long birthday;
+    private String birthday;
 	private String address;
 	private String avatarUrl;
 
@@ -174,11 +174,11 @@ public class PostBasicInfoRequest extends Request {
 		this.gender = gender;
 	}
 
-	public Long getBirthday() {
+    public String getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Long birthday) {
+    public void setBirthday(String birthday) {
 		this.birthday = birthday;
 	}
 

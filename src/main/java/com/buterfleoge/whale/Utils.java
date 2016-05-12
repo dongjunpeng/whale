@@ -19,10 +19,6 @@ public abstract class Utils {
 
     private static final Logger LOG = LoggerFactory.getLogger(Utils.class);
 
-    public static final boolean isPasswordValid(String password) {
-        return true;
-    }
-
     /**
      * Get host IP address
      *
