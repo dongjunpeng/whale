@@ -12,9 +12,9 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public enum AccountStatus {
 
     /**
-     * 刚注册,等待邮件验证
+     * 刚注册
      */
-    WAIT_ACTIVE(0),
+    WAIT_COMPLETE_INFO(0),
 
     /**
      * 账户正常

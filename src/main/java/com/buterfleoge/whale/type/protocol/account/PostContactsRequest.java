@@ -15,144 +15,160 @@ import com.buterfleoge.whale.type.protocol.Request;
  */
 public class PostContactsRequest extends Request {
 
-	@NotNull
-	private Long accountid;
+    private Long contactid;
 
-	@NotNull
-	private Boolean isDefault;
+    @NotNull
+    private Long accountid;
 
-	@NotBlank
-	private String name;
+    @NotNull
+    private Boolean isDefault;
 
-	@NotBlank
-	private String id;
+    @NotBlank
+    private String name;
 
-	@NotNull
-	private IdType idType;
+    @NotBlank
+    private String id;
 
-	@NotBlank
-	private String email;
+    @NotNull
+    private IdType idType;
 
-	@NotBlank
-	private String mobile;
+    @NotBlank
+    private String email;
 
-	@NotNull
-	private Gender gender;
+    @NotBlank
+    private String mobile;
 
-	@NotNull
-	private Long birthday;
+    @NotNull
+    private Gender gender;
 
-	@NotBlank
-	private String address;
+    @NotNull
+    private String birthday;
 
-	@NotBlank
-	private String emergencyContact;
+    @NotBlank
+    private String address;
 
-	@NotBlank
-	private String emergencyMobile;
+    @NotBlank
+    private String emergencyContact;
 
-	public Long getAccountid() {
-		return accountid;
-	}
+    @NotBlank
+    private String emergencyMobile;
 
-	public void setAccountid(Long accountid) {
-		this.accountid = accountid;
-	}
+    /**
+     * @return the contactid
+     */
+    public Long getContactid() {
+        return contactid;
+    }
 
-	public boolean isDefault() {
-		return isDefault;
-	}
+    /**
+     * @param contactid the contactid to set
+     */
+    public void setContactid(Long contactid) {
+        this.contactid = contactid;
+    }
 
-	public void setDefault(boolean isDefault) {
-		this.isDefault = isDefault;
-	}
+    public Long getAccountid() {
+        return accountid;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setAccountid(Long accountid) {
+        this.accountid = accountid;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public boolean isDefault() {
+        return isDefault;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public IdType getIdType() {
-		return idType;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setIdType(IdType idType) {
-		this.idType = idType;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public IdType getIdType() {
+        return idType;
+    }
 
-	public String getMobile() {
-		return mobile;
-	}
+    public void setIdType(IdType idType) {
+        this.idType = idType;
+    }
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
+    public String getEmail() {
+        return email;
+    }
 
-	public Gender getGender() {
-		return gender;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setGender(Gender gender) {
-		this.gender = gender;
-	}
+    public String getMobile() {
+        return mobile;
+    }
 
-	public Long getBirthday() {
-		return birthday;
-	}
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
-	public void setBirthday(Long birthday) {
-		this.birthday = birthday;
-	}
+    public Gender getGender() {
+        return gender;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getBirthday() {
+        return birthday;
+    }
 
-	public String getEmergencyContact() {
-		return emergencyContact;
-	}
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
 
-	public void setEmergencyContact(String emergencyContact) {
-		this.emergencyContact = emergencyContact;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public String getEmergencyMobile() {
-		return emergencyMobile;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public void setEmergencyMobile(String emergencyMobile) {
-		this.emergencyMobile = emergencyMobile;
-	}
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
 
-	public Boolean getIsDefault() {
-		return isDefault;
-	}
+    public void setEmergencyContact(String emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
 
-	public void setIsDefault(Boolean isDefault) {
-		this.isDefault = isDefault;
-	}
+    public String getEmergencyMobile() {
+        return emergencyMobile;
+    }
+
+    public void setEmergencyMobile(String emergencyMobile) {
+        this.emergencyMobile = emergencyMobile;
+    }
+
+    public Boolean getIsDefault() {
+        return isDefault;
+    }
+
+    public void setIsDefault(Boolean isDefault) {
+        this.isDefault = isDefault;
+    }
 
 }

@@ -1,11 +1,13 @@
 package com.buterfleoge.whale.type.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.entity.converter.BirthdayAttributeConverter;
 import com.buterfleoge.whale.type.enums.Gender;
 
 /**
@@ -46,7 +48,8 @@ public class AccountSetting extends BaseObject {
     private Gender gender = Gender.UNKNOW;
 
     @Column(name = "birthday")
-    private Long birthday = 0L;
+    @Convert(converter = BirthdayAttributeConverter.class)
+    private String birthday;
 
     @Column(name = "address")
     private String address = "";
@@ -196,7 +199,7 @@ public class AccountSetting extends BaseObject {
     /**
      * @return the birthday
      */
-    public Long getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
@@ -204,7 +207,7 @@ public class AccountSetting extends BaseObject {
      * @param birthday
      *            the birthday to set
      */
-    public void setBirthday(Long birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

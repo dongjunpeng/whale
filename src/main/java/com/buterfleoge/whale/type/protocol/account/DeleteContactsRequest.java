@@ -3,6 +3,8 @@
  */
 package com.buterfleoge.whale.type.protocol.account;
 
+import javax.validation.constraints.NotNull;
+
 import com.buterfleoge.whale.type.protocol.Request;
 
 /**
@@ -11,14 +13,15 @@ import com.buterfleoge.whale.type.protocol.Request;
  */
 public class DeleteContactsRequest extends Request {
 
-	private Long contactid;
+    @NotNull
+    private Long contactid;
 
-	public Long getContactid() {
-		return contactid;
-	}
+    public Long getContactid() {
+        return contactid;
+    }
 
-	public void setContactid(Long contactid) {
-		this.contactid = contactid;
-	}
+    public void setContactid(Long contactid) {
+        this.contactid = contactid;
+    }
 
 }

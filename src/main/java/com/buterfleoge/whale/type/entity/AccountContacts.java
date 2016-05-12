@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.type.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.entity.converter.BirthdayAttributeConverter;
 import com.buterfleoge.whale.type.enums.Gender;
 import com.buterfleoge.whale.type.enums.IdType;
 
@@ -54,7 +56,8 @@ public class AccountContacts extends BaseObject {
     private Gender gender;
 
     @Column(name = "birthday")
-    private Long birthday;
+    @Convert(converter = BirthdayAttributeConverter.class)
+    private String birthday;
 
     @Column(name = "address")
     private String address;
@@ -151,11 +154,11 @@ public class AccountContacts extends BaseObject {
         this.gender = gender;
     }
 
-    public Long getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Long birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
