@@ -15,29 +15,44 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public enum RefoundType {
 
     /**
-     * 全额退款
+     * 21天以上退还95%
      */
-    FULL(0),
+    LONG_PCT_95(0),
 
     /**
-     * 20天以上退还95%
+     * 21天-15天退还80%
      */
-    PERCENTAGE_95(1),
+    LONG_PCT_80(1),
 
     /**
-     * 20天-7天退还80
+     * 14天-8天退还80%
      */
-    PERCENTAGE_80(2),
-    
+    LONG_PCT_50(2),
+
     /**
-     * 7天退还50
+     * 7天至未出行
      */
-    PERCENTAGE_50(3),
-    
+    LONG_PCT_20(3),
+
     /**
-     * 未到达不退
+     * 8天以上退100%
      */
-    NONE(4)
+    SHORT_PCT_100(4),
+
+    /**
+     * 7天-5天退80%
+     */
+    SHORT_PCT_80(5),
+
+    /**
+     * 4天-2天退50%
+     */
+    SHORT_PCT_50(6),
+
+    /**
+     * 1天至未出行退20%
+     */
+    SHORT_PCT_20(7)
 
     ;
 

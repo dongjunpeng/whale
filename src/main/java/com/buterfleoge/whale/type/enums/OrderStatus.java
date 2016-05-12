@@ -62,9 +62,12 @@ public enum OrderStatus {
     /**
      * 开始旅行
      */
-    FINISH(8)
+    FINISH(8),
 
-    ;
+    /**
+     * 行程取消
+     */
+    CLOSED(9);
 
     private int status;
 

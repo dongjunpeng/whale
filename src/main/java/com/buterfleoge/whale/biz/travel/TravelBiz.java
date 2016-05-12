@@ -21,7 +21,7 @@ public interface TravelBiz {
 
     void getRouteByCondition(Request request, GetRouteResponse response) throws Exception;
 
-    void getGroup(GetGroupRequest request, GetGroupResponse response) throws Exception;
+    void getGroups(GetGroupRequest request, GetGroupResponse response) throws Exception;
 
     void getQuota(GetQuotaRequest request, GetQuotaResponse response) throws Exception;
 
