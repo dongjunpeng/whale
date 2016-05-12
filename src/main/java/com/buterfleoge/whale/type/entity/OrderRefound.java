@@ -31,7 +31,7 @@ public class OrderRefound extends BaseObject {
     @Column(name = "type")
     private RefoundType type;
 
-    @Column(name = "desc")
+    @Column(name = "description")
     private String desc;
 
     @Column(name = "refound")

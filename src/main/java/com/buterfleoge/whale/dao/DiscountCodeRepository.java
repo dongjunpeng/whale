@@ -14,7 +14,7 @@ import com.buterfleoge.whale.type.enums.DiscountCodeStatus;
  */
 public interface DiscountCodeRepository extends CrudRepository<DiscountCode, Long> {
 
-    DiscountCode findByDiscountCode(Long code);
+    DiscountCode findByDiscountCode(String code);
 
     List<DiscountCode> findByStatusIn(Set<DiscountCodeStatus> status);
 

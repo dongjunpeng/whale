@@ -20,4 +20,6 @@ public interface OrderInfoRepository extends CrudRepository<OrderInfo, Long> {
 
     OrderInfo findByOrderid(Long orderid);
 
+    List<OrderInfo> findByStatusAndAddTimeLessThan(OrderStatus status, Long time);
+
 }

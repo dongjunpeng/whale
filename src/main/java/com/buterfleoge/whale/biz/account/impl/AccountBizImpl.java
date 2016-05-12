@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.account.AccountBiz;
@@ -44,6 +45,7 @@ public class AccountBizImpl implements AccountBiz {
     private AccountContactsRepository accountContactsRepository;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateBasicInfo(PostBasicInfoRequest request, Response response) throws Exception {
         AccountInfo accountInfo;
         AccountSetting accountSetting;
@@ -101,6 +103,7 @@ public class AccountBizImpl implements AccountBiz {
         } catch (Exception e) {
             LOG.error("update basicInfo failed", e);
             response.setStatus(Status.DB_ERROR);
+            throw new Exception("rollback");
         }
     }
 
@@ -136,6 +139,7 @@ public class AccountBizImpl implements AccountBiz {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void postContacts(PostContactsRequest request, Response response) throws Exception {
         Long contactid = request.getContactid();
         if (contactid == null) {
@@ -150,7 +154,7 @@ public class AccountBizImpl implements AccountBiz {
         }
     }
 
-    private void insertContact(PostContactsRequest request, Response response) {
+    private void insertContact(PostContactsRequest request, Response response) throws Exception {
         AccountContacts contact = new AccountContacts();
         try {
             contact.setAccountid(request.getAccountid());
@@ -172,10 +176,12 @@ public class AccountBizImpl implements AccountBiz {
         } catch (Exception e) {
             LOG.error("post contacts failed", e);
             response.setStatus(Status.DB_ERROR);
+            throw new Exception("rollback");
         }
     }
 
-    private void updateContacts(PostContactsRequest request, Response response, AccountContacts contact) {
+    private void updateContacts(PostContactsRequest request, Response response, AccountContacts contact)
+            throws Exception {
         try {
             if (request.getName() != null) {
                 contact.setName(request.getName());
@@ -210,10 +216,12 @@ public class AccountBizImpl implements AccountBiz {
         } catch (Exception e) {
             LOG.error("post contacts failed", e);
             response.setStatus(Status.DB_ERROR);
+            throw new Exception("rollback");
         }
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteContacts(DeleteContactsRequest request, Response response) throws Exception {
         Long contactid = request.getContactid();
         try {
@@ -223,6 +231,7 @@ public class AccountBizImpl implements AccountBiz {
         } catch (Exception e) {
             LOG.error("delete contacts failed", e);
             response.setStatus(Status.DB_ERROR);
+            throw new Exception("rollback");
         }
     }
 

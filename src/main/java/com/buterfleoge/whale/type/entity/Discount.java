@@ -37,7 +37,7 @@ public class Discount extends BaseObject {
     @Column(name = "value")
     private Long value;
 
-    @Column(name = "desc")
+    @Column(name = "description")
     private String desc;
 
     @Column(name = "start_time")

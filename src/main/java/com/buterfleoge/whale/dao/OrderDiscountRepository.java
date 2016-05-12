@@ -1,8 +1,11 @@
 package com.buterfleoge.whale.dao;
 
+import java.util.Set;
+
 import org.springframework.data.repository.CrudRepository;
 
 import com.buterfleoge.whale.type.entity.OrderDiscount;
+import com.buterfleoge.whale.type.enums.DiscountType;
 
 /**
  * @author Brent24
@@ -10,8 +13,7 @@ import com.buterfleoge.whale.type.entity.OrderDiscount;
  */
 public interface OrderDiscountRepository extends CrudRepository<OrderDiscount, Long> {
 
-    OrderDiscount findByOrderidAndDiscountCodeIsNull(Long orderid);
+    OrderDiscount findByOrderidAndTypeIn(Long orderid, Set<DiscountType> type);
 
-    OrderDiscount findByOrderidAndDiscountCodeNotNull(Long orderid);
-
+    OrderDiscount findByOrderidAndType(Long orderid, DiscountType type);
 }
