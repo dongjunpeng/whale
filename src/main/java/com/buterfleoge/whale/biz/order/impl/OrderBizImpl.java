@@ -52,6 +52,8 @@ import com.buterfleoge.whale.type.protocol.order.GetBriefRequest;
 import com.buterfleoge.whale.type.protocol.order.GetBriefResponse;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
+import com.buterfleoge.whale.type.protocol.order.GetOrderDetailRequest;
+import com.buterfleoge.whale.type.protocol.order.GetOrderDetailResponse;
 import com.buterfleoge.whale.type.protocol.order.GetOrdersRequest;
 import com.buterfleoge.whale.type.protocol.order.GetOrdersResponse;
 import com.buterfleoge.whale.type.protocol.order.RefoundRequest;
@@ -157,6 +159,26 @@ public class OrderBizImpl implements OrderBiz {
     private TravelBiz travelBiz;
 
     @Override
+    public void getOrderDetail(GetOrderDetailRequest request, GetOrderDetailResponse response) throws Exception {
+        Long orderid = request.getOrderid();
+
+        OrderInfo orderInfo = new OrderInfo();
+        TravelGroup travelGroup = new TravelGroup();
+        TravelRoute travelRoute = new TravelRoute();
+        List<OrderTravellers> orderTravellers = new ArrayList<OrderTravellers>();
+        OrderDiscount policy = new OrderDiscount();
+        OrderDiscount code = new OrderDiscount();
+        OrderDiscount student = new OrderDiscount();
+        OrderRefound orderRefound = new OrderRefound();
+
+        setOrderObjects(orderid, orderInfo, travelRoute, travelGroup, orderTravellers, policy, code, student,
+                orderRefound);
+
+        response.setAll(orderInfo, travelGroup, travelRoute, orderTravellers, policy, code, student, orderRefound);
+        response.setStatus(Status.OK);
+    }
+
+    @Override
     public void getOrders(GetOrdersRequest request, GetOrdersResponse response) throws Exception {
 
         Long accountid = request.getAccountid();
@@ -165,14 +187,6 @@ public class OrderBizImpl implements OrderBiz {
         List<Order> orders = new ArrayList<Order>();
         List<OrderInfo> orderInfo = null;
         Set<OrderStatus> statusSet = VISIBLE;
-
-        TravelGroup travelGroup = null;
-        TravelRoute travelRoute = null;
-        List<OrderTravellers> orderTravellers = null;
-        OrderDiscount policy = null;
-        OrderDiscount code = null;
-        OrderDiscount student = null;
-        OrderRefound orderRefound = null;
 
         if (accountid == null) {
             response.setStatus(Status.PARAM_ERROR);
@@ -199,7 +213,16 @@ public class OrderBizImpl implements OrderBiz {
                     tempOrderInfo.setStatus(OrderStatus.TIMEOUT);
                     orderInfoRepository.save(tempOrderInfo);
                 }
-                setOrderObjects(tempOrderInfo, travelRoute, travelGroup, orderTravellers, student, student, student,
+
+                TravelGroup travelGroup = new TravelGroup();
+                TravelRoute travelRoute = new TravelRoute();
+                List<OrderTravellers> orderTravellers = new ArrayList<OrderTravellers>();
+                OrderDiscount policy = new OrderDiscount();
+                OrderDiscount code = new OrderDiscount();
+                OrderDiscount student = new OrderDiscount();
+                OrderRefound orderRefound = new OrderRefound();
+
+                setOrderObjects(tempOrderInfo, travelRoute, travelGroup, orderTravellers, policy, code, student,
                         orderRefound);
                 orders.add(new Order(tempOrderInfo, travelRoute, travelGroup, orderTravellers, policy, code, student,
                         orderRefound));
@@ -593,6 +616,20 @@ public class OrderBizImpl implements OrderBiz {
         case PAID:
             response.setErrors(Arrays.asList(new Error("订单已支付成功")));
             response.setStatus(Status.PARAM_ERROR);
+            break;
+        case CANCELPAYMENT:
+            break;
+        case CLOSED:
+            break;
+        case FINISH:
+            break;
+        case PAYING:
+            break;
+        case REFOUNDED:
+            break;
+        case REFOUNDING:
+            break;
+        default:
             break;
         }
     }
