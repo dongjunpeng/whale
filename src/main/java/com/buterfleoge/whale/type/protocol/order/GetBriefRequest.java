@@ -7,7 +7,7 @@ import com.buterfleoge.whale.type.protocol.Request;
  *
  */
 public class GetBriefRequest extends Request {
-    private Long accountid;
+    private Long accountid = 10001L;
     private String orderType;
 
     public Long getAccountid() {
