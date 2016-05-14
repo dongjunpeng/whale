@@ -4,7 +4,7 @@ package com.buterfleoge.whale.type.protocol.order;
  * @author Brent24
  *
  */
-public class TestRequest {
+public class GenerateCodeRequest {
     private int count;
     private Long value;
     private Long startTime;

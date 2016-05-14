@@ -16,9 +16,9 @@ import com.buterfleoge.whale.Constants.Pattern;
  * @author xiezhenzong
  *
  */
-public class BirthdayAttributeConverter implements AttributeConverter<String, Long> {
+public class DateConverter implements AttributeConverter<String, Long> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(BirthdayAttributeConverter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DateConverter.class);
     private static final String[] PARSE_PATTERNS = new String[] { Pattern.DATE, Pattern.DATE_TIME };
 
     @Override
@@ -26,8 +26,8 @@ public class BirthdayAttributeConverter implements AttributeConverter<String, Lo
         try {
             return DateUtils.parseDate(attribute, PARSE_PATTERNS).getTime();
         } catch (ParseException e) {
-            LOG.error("Illegal birthday argument", e);
-            throw new IllegalArgumentException("Illegal birthday argument: " + attribute);
+            LOG.error("Illegal date argument", e);
+            throw new IllegalArgumentException("Illegal date argument: " + attribute);
         }
     }
 
