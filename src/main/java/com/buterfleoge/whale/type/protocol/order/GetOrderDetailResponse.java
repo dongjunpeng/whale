@@ -24,8 +24,9 @@ public class GetOrderDetailResponse extends Response {
     private OrderDiscount code;
     private OrderDiscount student;
     private OrderRefound orderRefound;
+    private int quota;
 
-    public void setAll(OrderInfo orderInfo, TravelGroup travelGroup, TravelRoute travelRoute,
+    public void setOrderObjects(OrderInfo orderInfo, TravelGroup travelGroup, TravelRoute travelRoute,
             List<OrderTravellers> orderTravellers, OrderDiscount policy, OrderDiscount code, OrderDiscount student,
             OrderRefound orderRefound) {
         setOrderInfo(orderInfo);
@@ -101,6 +102,14 @@ public class GetOrderDetailResponse extends Response {
 
     public void setOrderRefound(OrderRefound orderRefound) {
         this.orderRefound = orderRefound;
+    }
+
+    public int getQuota() {
+        return quota;
+    }
+
+    public void setQuota(int quota) {
+        this.quota = quota;
     }
 
 }

@@ -7,10 +7,27 @@ import java.util.List;
  *
  */
 public class Imgtext {
-
+    private List<String> slider;
+    private List<String> descriptions;
     private List<Day> days;
     private Notice notice;
     private Expense expense;
+
+    public List<String> getSlider() {
+        return slider;
+    }
+
+    public void setSlider(List<String> slider) {
+        this.slider = slider;
+    }
+
+    public List<String> getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(List<String> descriptions) {
+        this.descriptions = descriptions;
+    }
 
     public List<Day> getDays() {
         return days;

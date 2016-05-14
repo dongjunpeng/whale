@@ -173,8 +173,9 @@ public class OrderBizImpl implements OrderBiz {
 
         setOrderObjects(orderid, orderInfo, travelRoute, travelGroup, orderTravellers, policy, code, student,
                 orderRefound);
-
-        response.setAll(orderInfo, travelGroup, travelRoute, orderTravellers, policy, code, student, orderRefound);
+        response.setOrderObjects(orderInfo, travelGroup, travelRoute, orderTravellers, policy, code, student,
+                orderRefound);
+        response.setQuota(travelBiz.getQuota(travelGroup.getGroupid()));
         response.setStatus(Status.OK);
     }
 
@@ -291,7 +292,7 @@ public class OrderBizImpl implements OrderBiz {
 
                 // 封装订单对象
                 briefOrders.add(new BriefOrder(routeid, travelRoute.getName(), travelRoute.getTitle(),
-                        travelRoute.getImgs().split(",")[0], sdf.format(new Date(travelGroup.getStartDate())),
+                        travelRoute.getHeadImg(), sdf.format(new Date(travelGroup.getStartDate())),
                         sdf.format(new Date(travelGroup.getEndDate())), travelGroup.getWxQrcode(),
                         (travelGroup.getStartDate() - System.currentTimeMillis()) / 1000 / 60 / 60 / 24 + 1,
                         (tempOrderInfo.getAddTime() - System.currentTimeMillis()) / 1000 / 60 + 120,
@@ -360,7 +361,9 @@ public class OrderBizImpl implements OrderBiz {
             if (discountObject != null)
                 discountList.add(discountObject);
 
-            // 路线优惠 单人时才显示
+            // 路线优惠
+            // 尽可能不用，通过不同group来实现价格变化
+            // 这里单人订单时出现做测试用
             if (count == 1) {
                 discount = discountRepository.findByTypeAndRouteidAndStartTimeLessThanAndEndTimeGreaterThan(
                         DiscountType.ROUTE, routeid, System.currentTimeMillis(), System.currentTimeMillis());
@@ -452,28 +455,38 @@ public class OrderBizImpl implements OrderBiz {
     public void createOrder(CreateOrderRequest request, Response response) throws Exception {
 
         // request获取信息
+        Long orderid = request.getOrderid();
         List<OrderTravellers> travellers = request.getTravellers();
-        Long accountid = request.getAccountid();
-        Long routeid = request.getRouteid();
-        Long groupid = request.getGroupid();
-        Long fronthActualPrice = request.getActualPrice();
+        int count = travellers.size();
+        Long policyDiscountid = request.getPolicyDiscountid();
+        String code = request.getDiscountCode();
+        Long studentDiscountid = request.getStudentDiscountid();
         int studentCount = request.getStudentCount();
+        Long fronthActualPrice = request.getActualPrice();
 
         try {
-
             // repository获取对象
-            TravelGroup group = travelGroupRepository.findByGroupid(groupid);
+
             Discount policyDiscount = discountRepository.findByDiscountid(request.getPolicyDiscountid());
             DiscountCode discountCode = discountCodeRepository.findByDiscountCode(request.getDiscountCode());
             Discount studentDiscount = discountRepository.findByDiscountid(request.getStudentDiscountid());
-            int count = travellers.size();
-            int quota = travelBiz.getQuota(groupid);
+            OrderInfo orderInfo = orderInfoRepository.findByOrderid(orderid);
 
+            // group相关处理
+            Long groupid = orderInfo.getGroupid();
+            TravelGroup group = travelGroupRepository.findByGroupid(groupid);
+            int quota = travelBiz.getQuota(groupid);
             // 名额不足异常
             if (quota < count) {
                 throw new Exception("名额不足！");
             }
+            if (quota == count) {
+                group.setStatus(GroupStatus.FULL);
+            }
+            group.setActualCount(group.getActualCount() + count);
+            travelGroupRepository.save(group);
 
+            // 折扣是否一致
             Long price = group.getPrice() * count;
             Long actualPrice = price - ((policyDiscount != null) ? policyDiscount.getValue() : 0)
                     - ((discountCode != null) ? discountCode.getValue() : 0)
@@ -483,30 +496,25 @@ public class OrderBizImpl implements OrderBiz {
             }
 
             // OrderInfo对象
-            OrderInfo orderInfo = new OrderInfo();
-            orderInfo.setAccountid(accountid);
-            orderInfo.setRouteid(routeid);
-            orderInfo.setGroupid(groupid);
             orderInfo.setStatus(OrderStatus.WAITING);
             orderInfo.setCount(count);
             orderInfo.setStudentCount(studentCount);
             orderInfo.setPrice(price);
             orderInfo.setActualPrice(actualPrice);
-            orderInfo.setIsAgreementOk(request.getIsAgree());
+            orderInfo.setIsAgreementOk(request.getIsAgreed());
             orderInfo.setAddTime(System.currentTimeMillis());
             orderInfo = orderInfoRepository.save(orderInfo);
-
-            Long orderid = orderInfo.getOrderid();
 
             // 封装保存OrderTravellers
             for (OrderTravellers temp : travellers) {
                 temp.setOrderid(orderid);
-                temp.setAccountid(accountid);
+                temp.setAccountid(orderInfo.getAccountid());
             }
             orderTravellersRepository.save(travellers);
 
             // 封装保存OrderDiscount
-            if (policyDiscount != null) {
+            if (policyDiscountid != null) {
+
                 OrderDiscount policy = new OrderDiscount();
                 policy.setOrderid(orderid);
                 policy.setDiscountid(policyDiscount.getDiscountid());
@@ -518,24 +526,26 @@ public class OrderBizImpl implements OrderBiz {
                 orderDiscountRepository.save(policy);
             }
 
-            if (discountCode != null) {
-                OrderDiscount code = new OrderDiscount();
-                code.setOrderid(orderid);
-                code.setDiscountCode(discountCode.getDiscountCode());
-                code.setType(DiscountType.COUPON);
-                code.setValue(discountCode.getValue());
-                code.setAddTime(System.currentTimeMillis());
-                orderDiscountRepository.save(code);
+            if (code != null) {
+
+                OrderDiscount codeDiscount = new OrderDiscount();
+                codeDiscount.setOrderid(orderid);
+                codeDiscount.setDiscountCode(discountCode.getDiscountCode());
+                codeDiscount.setType(DiscountType.COUPON);
+                codeDiscount.setValue(discountCode.getValue());
+                codeDiscount.setAddTime(System.currentTimeMillis());
+                orderDiscountRepository.save(codeDiscount);
 
                 // 改变优惠码状态
                 discountCode.setStatus(DiscountCodeStatus.OCCUPIED);
                 discountCodeRepository.save(discountCode);
             }
 
-            if (studentDiscount != null) {
+            if (studentDiscountid != null) {
+
                 OrderDiscount student = new OrderDiscount();
                 student.setOrderid(orderid);
-                student.setRouteid(routeid);
+                student.setRouteid(orderInfo.getRouteid());
                 student.setDiscountid(studentDiscount.getDiscountid());
                 student.setType(DiscountType.STUDENT);
                 student.setRouteid(studentDiscount.getRouteid());
@@ -546,14 +556,7 @@ public class OrderBizImpl implements OrderBiz {
             }
 
             // 更改group信息
-            if (quota == count) {
-                group.setStatus(GroupStatus.FULL);
-            }
-            group.setActualCount(group.getActualCount() + count);
-            travelGroupRepository.save(group);
 
-            // 订单关闭时间
-            System.out.println(orderid + "\n" + (System.currentTimeMillis() + 1000 * 60 * 120));
             response.setStatus(Status.OK);
 
         } catch (Exception e) {
@@ -591,7 +594,6 @@ public class OrderBizImpl implements OrderBiz {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void alipay(AlipayRequest request, Response response) {
-        Long accoutid = request.getAccountid();
         Long orderid = request.getOrderid();
         OrderInfo orderInfo = orderInfoRepository.findByOrderid(orderid);
         OrderStatus status = orderInfo.getStatus();
