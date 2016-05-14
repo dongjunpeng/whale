@@ -373,16 +373,16 @@ public class OrderBizImpl implements OrderBiz {
             }
 
             // 最大优惠
-            Long index = -1L;
+            Long defaultDiscountid = -1L;
             Long value = -1L;
             for (DiscountObject temp : discountList) {
                 if (temp.getValue() > value) {
                     value = temp.getValue();
-                    index = temp.getDiscountid();
+                    defaultDiscountid = temp.getDiscountid();
                 }
             }
-            if (index > -1)
-                response.setIndex(index);
+            if (defaultDiscountid > -1)
+                response.setDefaultDiscountid(defaultDiscountid);
 
             // 学生证优惠
             discount = discountRepository.findByTypeAndRouteidAndStartTimeLessThanAndEndTimeGreaterThan(
@@ -391,7 +391,7 @@ public class OrderBizImpl implements OrderBiz {
                 response.setStudentDiscount(
                         new DiscountObject(discount.getDiscountid(), discount.getDesc(), discount.getValue()));
 
-            response.setList(discountList);
+            response.setPolicy(discountList);
             response.setStatus(Status.OK);
         } catch (Exception e) {
             LOG.error("get discount failed", e);
@@ -413,12 +413,10 @@ public class OrderBizImpl implements OrderBiz {
                 discountCode.setStatus(DiscountCodeStatus.VERIFIED);
                 discountCodeRepository.save(discountCode);
                 response.setValue(discountCode.getValue());
-                response.setMessage("验证通过！");
                 response.setStatus(Status.OK);
                 break;
             case VERIFIED:
                 response.setValue(discountCode.getValue());
-                response.setMessage("验证通过！");
                 response.setStatus(Status.OK);
                 break;
             case OCCUPIED:
