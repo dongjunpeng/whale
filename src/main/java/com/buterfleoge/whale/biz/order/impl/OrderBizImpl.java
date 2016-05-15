@@ -54,15 +54,14 @@ import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
 import com.buterfleoge.whale.type.protocol.order.GetOrderDetailRequest;
 import com.buterfleoge.whale.type.protocol.order.GetOrderDetailResponse;
-import com.buterfleoge.whale.type.protocol.order.GetOrdersRequest;
-import com.buterfleoge.whale.type.protocol.order.GetOrdersResponse;
+import com.buterfleoge.whale.type.protocol.order.NewOrderRequest;
+import com.buterfleoge.whale.type.protocol.order.NewOrderResponse;
 import com.buterfleoge.whale.type.protocol.order.RefoundRequest;
 import com.buterfleoge.whale.type.protocol.order.RefoundResponse;
 import com.buterfleoge.whale.type.protocol.order.ValidateCodeRequest;
 import com.buterfleoge.whale.type.protocol.order.ValidateCodeResponse;
 import com.buterfleoge.whale.type.protocol.order.object.BriefOrder;
 import com.buterfleoge.whale.type.protocol.order.object.DiscountObject;
-import com.buterfleoge.whale.type.protocol.order.object.Order;
 
 /**
  * @author Brent24
@@ -71,6 +70,7 @@ import com.buterfleoge.whale.type.protocol.order.object.Order;
 
 @Service("orderBiz")
 public class OrderBizImpl implements OrderBiz {
+
     private static final Logger LOG = LoggerFactory.getLogger(OrderBizImpl.class);
 
     // 订单状态
@@ -159,6 +159,24 @@ public class OrderBizImpl implements OrderBiz {
     private TravelBiz travelBiz;
 
     @Override
+    public void newOrder(Long accountid, NewOrderRequest request, NewOrderResponse response) throws Exception {
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setAccountid(accountid);
+        orderInfo.setRouteid(request.getRouteid());
+        orderInfo.setGroupid(request.getGroupid());
+        orderInfo.setStatus(OrderStatus.NEW);
+        orderInfo.setIsAgreementOk(Boolean.FALSE);
+        orderInfo.setAddTime(System.currentTimeMillis());
+        try {
+            orderInfo = orderInfoRepository.save(orderInfo);
+            response.setOrderid(orderInfo.getOrderid());
+        } catch (Exception e) {
+            LOG.error("new a order failed, order: " + orderInfo, e);
+            response.setStatus(Status.DB_ERROR);
+        }
+    }
+
+    @Override
     public void getOrderDetail(GetOrderDetailRequest request, GetOrderDetailResponse response) throws Exception {
         Long orderid = request.getOrderid();
 
@@ -177,63 +195,6 @@ public class OrderBizImpl implements OrderBiz {
                 orderRefound);
         response.setQuota(travelBiz.getQuota(travelGroup.getGroupid()));
         response.setStatus(Status.OK);
-    }
-
-    @Override
-    public void getOrders(GetOrdersRequest request, GetOrdersResponse response) throws Exception {
-
-        Long accountid = request.getAccountid();
-        String orderType = request.getOrderType();
-
-        List<Order> orders = new ArrayList<Order>();
-        List<OrderInfo> orderInfo = null;
-        Set<OrderStatus> statusSet = VISIBLE;
-
-        if (accountid == null) {
-            response.setStatus(Status.PARAM_ERROR);
-            return;
-        }
-
-        if ("CURRENT".equals(orderType)) {
-            statusSet = CURRENT;
-        }
-        if ("HISTORY".equals(orderType)) {
-            statusSet = HISTORY;
-        }
-        if ("ALL".equals(orderType)) {
-            statusSet = ALL;
-        }
-        try {
-
-            orderInfo = orderInfoRepository.findByAccountidAndStatusIn(accountid, statusSet);
-
-            for (OrderInfo tempOrderInfo : orderInfo) {
-
-                if (tempOrderInfo.getAddTime() + 1000 * 60 * 120 < System.currentTimeMillis()
-                        && tempOrderInfo.getStatus() == OrderStatus.WAITING) {
-                    tempOrderInfo.setStatus(OrderStatus.TIMEOUT);
-                    orderInfoRepository.save(tempOrderInfo);
-                }
-
-                TravelGroup travelGroup = new TravelGroup();
-                TravelRoute travelRoute = new TravelRoute();
-                List<OrderTravellers> orderTravellers = new ArrayList<OrderTravellers>();
-                OrderDiscount policy = new OrderDiscount();
-                OrderDiscount code = new OrderDiscount();
-                OrderDiscount student = new OrderDiscount();
-                OrderRefound orderRefound = new OrderRefound();
-
-                setOrderObjects(tempOrderInfo, travelRoute, travelGroup, orderTravellers, policy, code, student,
-                        orderRefound);
-                orders.add(new Order(tempOrderInfo, travelRoute, travelGroup, orderTravellers, policy, code, student,
-                        orderRefound));
-            }
-            response.setOrders(orders);
-            response.setStatus(Status.OK);
-        } catch (Exception e) {
-            LOG.error("get order failed", e);
-            response.setStatus(Status.DB_ERROR);
-        }
     }
 
     @Override
