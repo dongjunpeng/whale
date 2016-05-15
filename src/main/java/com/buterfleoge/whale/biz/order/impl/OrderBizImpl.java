@@ -165,7 +165,7 @@ public class OrderBizImpl implements OrderBiz {
         orderInfo.setRouteid(request.getRouteid());
         orderInfo.setGroupid(request.getGroupid());
         orderInfo.setStatus(OrderStatus.NEW);
-        orderInfo.setIsAgreementOk(Boolean.FALSE);
+        orderInfo.setIsAgreed(Boolean.FALSE);
         orderInfo.setAddTime(System.currentTimeMillis());
         try {
             orderInfo = orderInfoRepository.save(orderInfo);
