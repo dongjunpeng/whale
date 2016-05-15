@@ -9,6 +9,7 @@ import java.util.List;
 public class Imgtext {
     private List<String> sliderImgs;
     private List<String> descriptions;
+    private Introduction introduction;
     private List<Day> days;
     private Notice notice;
     private Expense expense;
@@ -27,6 +28,14 @@ public class Imgtext {
 
     public void setDescriptions(List<String> descriptions) {
         this.descriptions = descriptions;
+    }
+
+    public Introduction getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(Introduction introduction) {
+        this.introduction = introduction;
     }
 
     public List<Day> getDays() {

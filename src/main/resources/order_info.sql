@@ -8,7 +8,7 @@ CREATE TABLE `elephant`.`order_info` (
     `student_count` SMALLINT(4) NOT NULL DEFAULT 0 COMMENT '订单人数',
     `price` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '订单总价',
     `actual_price` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '实际付款',
-    `is_agreement_ok` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否同意条款',
+    `is_agreed` TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否同意条款',
     `add_time` BIGINT(20) NOT NULL DEFAULT 0 COMMENT '创建时间',
     PRIMARY KEY (`orderid`) COMMENT '主键',
     UNIQUE INDEX `orderid_UNIQUE` (`orderid` ASC) COMMENT '主键',
