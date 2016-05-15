@@ -10,6 +10,7 @@ public class Day {
 
     private String title;
     private List<String> imgs;
+    private List<String> descriptions;
     private String mdtext;
     private String distance;
     private String altitude;
@@ -31,6 +32,14 @@ public class Day {
 
     public void setImgs(List<String> imgs) {
         this.imgs = imgs;
+    }
+
+    public List<String> getDescriptions() {
+        return descriptions;
+    }
+
+    public void setDescriptions(List<String> descriptions) {
+        this.descriptions = descriptions;
     }
 
     public String getMdtext() {

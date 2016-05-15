@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.entity.converter.BirthdayAttributeConverter;
+import com.buterfleoge.whale.type.entity.converter.DateConverter;
 import com.buterfleoge.whale.type.enums.Gender;
 import com.buterfleoge.whale.type.enums.IdType;
 
@@ -56,7 +56,7 @@ public class AccountContacts extends BaseObject {
     private Gender gender;
 
     @Column(name = "birthday")
-    @Convert(converter = BirthdayAttributeConverter.class)
+    @Convert(converter = DateConverter.class)
     private String birthday;
 
     @Column(name = "address")

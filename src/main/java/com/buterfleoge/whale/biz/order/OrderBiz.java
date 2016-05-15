@@ -11,8 +11,8 @@ import com.buterfleoge.whale.type.protocol.order.GetBriefRequest;
 import com.buterfleoge.whale.type.protocol.order.GetBriefResponse;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
-import com.buterfleoge.whale.type.protocol.order.GetOrdersRequest;
-import com.buterfleoge.whale.type.protocol.order.GetOrdersResponse;
+import com.buterfleoge.whale.type.protocol.order.GetOrderDetailRequest;
+import com.buterfleoge.whale.type.protocol.order.GetOrderDetailResponse;
 import com.buterfleoge.whale.type.protocol.order.NewOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.NewOrderResponse;
 import com.buterfleoge.whale.type.protocol.order.RefoundRequest;
@@ -28,11 +28,11 @@ public interface OrderBiz {
 
     void newOrder(Long accountid, NewOrderRequest request, NewOrderResponse response) throws Exception;
 
-    void getOrders(GetOrdersRequest request, GetOrdersResponse response) throws Exception;
-
-    void createOrder(CreateOrderRequest request, Response response) throws Exception;
+    void getOrderDetail(GetOrderDetailRequest request, GetOrderDetailResponse response) throws Exception;
 
     void getBriefOrders(GetBriefRequest request, GetBriefResponse response) throws Exception;
+
+    void createOrder(CreateOrderRequest request, Response response) throws Exception;
 
     void getDiscount(GetDiscountRequest request, GetDiscountResponse response) throws Exception;
 
@@ -43,4 +43,5 @@ public interface OrderBiz {
     void alipay(AlipayRequest requst, Response response) throws Exception;
 
     void getRefoundInfo(RefoundRequest request, RefoundResponse response) throws Exception;
+
 }

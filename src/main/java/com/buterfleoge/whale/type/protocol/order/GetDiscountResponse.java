@@ -11,18 +11,18 @@ import com.buterfleoge.whale.type.protocol.order.object.DiscountObject;
  */
 public class GetDiscountResponse extends Response {
 
-    private List<DiscountObject> list;
+    private List<DiscountObject> policy;
 
     private DiscountObject studentDiscount;
 
-    private Long index;
+    private Long defaultDiscountid;
 
-    public List<DiscountObject> getList() {
-        return list;
+    public List<DiscountObject> getPolicy() {
+        return policy;
     }
 
-    public void setList(List<DiscountObject> list) {
-        this.list = list;
+    public void setPolicy(List<DiscountObject> policy) {
+        this.policy = policy;
     }
 
     public DiscountObject getStudentDiscount() {
@@ -33,12 +33,12 @@ public class GetDiscountResponse extends Response {
         this.studentDiscount = studentDiscount;
     }
 
-    public Long getIndex() {
-        return index;
+    public Long getDefaultDiscountid() {
+        return defaultDiscountid;
     }
 
-    public void setIndex(Long index) {
-        this.index = index;
+    public void setDefaultDiscountid(Long defaultDiscountid) {
+        this.defaultDiscountid = defaultDiscountid;
     }
 
 }

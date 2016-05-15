@@ -10,31 +10,21 @@ import com.buterfleoge.whale.type.protocol.Request;
  *
  */
 public class CreateOrderRequest extends Request {
-    private Long accountid;
-    private Long routeid;
-    private Long groupid;
+    private Long orderid;
     private List<OrderTravellers> travellers;
     private Long policyDiscountid;
     private String discountCode;
     private Long studentDiscountid;
     private int studentCount;
-    private Boolean isAgree;
+    private Boolean isAgreed;
     private Long actualPrice;
 
-    public Long getRouteid() {
-        return routeid;
+    public Long getOrderid() {
+        return orderid;
     }
 
-    public void setRouteid(Long routeid) {
-        this.routeid = routeid;
-    }
-
-    public Long getGroupid() {
-        return groupid;
-    }
-
-    public void setGroupid(Long groupid) {
-        this.groupid = groupid;
+    public void setOrderid(Long orderid) {
+        this.orderid = orderid;
     }
 
     public List<OrderTravellers> getTravellers() {
@@ -77,20 +67,12 @@ public class CreateOrderRequest extends Request {
         this.studentCount = studentCount;
     }
 
-    public Boolean getIsAgree() {
-        return isAgree;
+    public Boolean getIsAgreed() {
+        return isAgreed;
     }
 
-    public void setIsAgree(Boolean isAgree) {
-        this.isAgree = isAgree;
-    }
-
-    public Long getAccountid() {
-        return accountid;
-    }
-
-    public void setAccountid(Long accountid) {
-        this.accountid = accountid;
+    public void setIsAgreed(Boolean isAgreed) {
+        this.isAgreed = isAgreed;
     }
 
     public Long getActualPrice() {
