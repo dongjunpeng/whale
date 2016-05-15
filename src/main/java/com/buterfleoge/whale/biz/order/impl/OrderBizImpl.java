@@ -460,7 +460,7 @@ public class OrderBizImpl implements OrderBiz {
             orderInfo.setStudentCount(studentCount);
             orderInfo.setPrice(price);
             orderInfo.setActualPrice(actualPrice);
-            orderInfo.setIsAgreementOk(request.getIsAgreed());
+            orderInfo.setIsAgreed(request.getIsAgreed());
             orderInfo.setAddTime(System.currentTimeMillis());
             orderInfo = orderInfoRepository.save(orderInfo);
 

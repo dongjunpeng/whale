@@ -49,8 +49,8 @@ public class OrderInfo extends BaseObject {
     @Column(name = "actual_price")
     private Long actualPrice;
 
-    @Column(name = "is_agreement_ok")
-    private Boolean isAgreementOk;
+    @Column(name = "is_agreed")
+    private Boolean isAgreed;
 
     @Column(name = "add_time")
     private Long addTime;
@@ -119,12 +119,12 @@ public class OrderInfo extends BaseObject {
         this.actualPrice = actualPrice;
     }
 
-    public Boolean getIsAgreementOk() {
-        return isAgreementOk;
+    public Boolean getIsAgreed() {
+        return isAgreed;
     }
 
-    public void setIsAgreementOk(Boolean isAgreementOk) {
-        this.isAgreementOk = isAgreementOk;
+    public void setIsAgreed(Boolean isAgreed) {
+        this.isAgreed = isAgreed;
     }
 
     public Long getAddTime() {
