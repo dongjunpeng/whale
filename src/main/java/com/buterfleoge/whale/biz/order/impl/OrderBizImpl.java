@@ -54,6 +54,8 @@ import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
 import com.buterfleoge.whale.type.protocol.order.GetOrdersRequest;
 import com.buterfleoge.whale.type.protocol.order.GetOrdersResponse;
+import com.buterfleoge.whale.type.protocol.order.NewOrderRequest;
+import com.buterfleoge.whale.type.protocol.order.NewOrderResponse;
 import com.buterfleoge.whale.type.protocol.order.RefoundRequest;
 import com.buterfleoge.whale.type.protocol.order.RefoundResponse;
 import com.buterfleoge.whale.type.protocol.order.ValidateCodeRequest;
@@ -69,6 +71,7 @@ import com.buterfleoge.whale.type.protocol.order.object.Order;
 
 @Service("orderBiz")
 public class OrderBizImpl implements OrderBiz {
+
     private static final Logger LOG = LoggerFactory.getLogger(OrderBizImpl.class);
 
     // 订单状态
@@ -155,6 +158,24 @@ public class OrderBizImpl implements OrderBiz {
 
     @Autowired
     private TravelBiz travelBiz;
+
+    @Override
+    public void newOrder(Long accountid, NewOrderRequest request, NewOrderResponse response) throws Exception {
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setAccountid(accountid);
+        orderInfo.setRouteid(request.getRouteid());
+        orderInfo.setGroupid(request.getGroupid());
+        orderInfo.setStatus(OrderStatus.NEW);
+        orderInfo.setIsAgreementOk(Boolean.FALSE);
+        orderInfo.setAddTime(System.currentTimeMillis());
+        try {
+            orderInfo = orderInfoRepository.save(orderInfo);
+            response.setOrderid(orderInfo.getOrderid());
+        } catch (Exception e) {
+            LOG.error("new a order failed, order: " + orderInfo, e);
+            response.setStatus(Status.DB_ERROR);
+        }
+    }
 
     @Override
     public void getOrders(GetOrdersRequest request, GetOrdersResponse response) throws Exception {

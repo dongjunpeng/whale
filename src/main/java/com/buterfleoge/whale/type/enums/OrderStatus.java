@@ -20,54 +20,59 @@ import org.apache.commons.lang.builder.ToStringStyle;
 public enum OrderStatus {
 
     /**
+     * 
+     */
+    NEW(0),
+
+    /**
      * 生成等待付款
      */
-    WAITING(0),
+    WAITING(1),
 
     /**
      * 取消
      */
-    CANCEl(1),
+    CANCEl(2),
 
     /**
      * 超时
      */
-    TIMEOUT(2),
+    TIMEOUT(3),
 
     /**
      * 取消支付
      */
-    CANCELPAYMENT(3),
+    CANCELPAYMENT(4),
 
     /**
      * 已退款
      */
-    REFOUNDED(4),
+    REFOUNDED(5),
 
     /**
      * 付款中
      */
-    PAYING(5),
+    PAYING(6),
 
     /**
      * 付款到账
      */
-    PAID(6),
+    PAID(7),
 
     /**
      * 退款中
      */
-    REFOUNDING(7),
+    REFOUNDING(8),
 
     /**
      * 开始旅行
      */
-    FINISH(8),
+    FINISH(9),
 
     /**
      * 行程取消
      */
-    CLOSED(9);
+    CLOSED(10);
 
     private int status;
 
