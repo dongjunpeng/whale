@@ -87,7 +87,6 @@ public class TravelBizImpl implements TravelBiz {
             } else {
                 response.setRoutes(routes);
                 response.setImgtext(imgtext);
-                response.setStatus(Status.OK);
             }
         } catch (Exception e) {
             LOG.error("find route failed", e);
