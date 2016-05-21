@@ -15,7 +15,6 @@ CREATE TABLE `elephant`.`travel_route` (
     `min_price` BIGINT(20) NOT NULL COMMENT '最小价格',
     `max_price` BIGINT(20) NOT NULL COMMENT '最大价格',
     `wx_link` VARCHAR(2000) NOT NULL DEFAULT '' COMMENT '微信路线宣传链接',
-    `imgtext` VARCHAR(2000) NOT NULL DEFAULT '' COMMENT '路线详细json存储地址',   
     PRIMARY KEY (`routeid`) COMMENT '主键',
     UNIQUE INDEX `routeid_UNIQUE` (`routeid` ASC) COMMENT '主键',
     INDEX `name_INDEX` (`name` ASC) COMMENT '名称索引'

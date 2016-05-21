@@ -3,7 +3,6 @@ package com.buterfleoge.whale.biz.travel.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -43,7 +42,7 @@ public class TravelBizImpl implements TravelBiz {
     private static final Logger LOG = LoggerFactory.getLogger(TravelBizImpl.class);
 
     @Value("${route.imgtext.path}")
-    private String routeImgtextPath;
+    private String productRootPath;
 
     @Autowired
     private TravelRouteRepository travelRouteRepository;
@@ -58,7 +57,7 @@ public class TravelBizImpl implements TravelBiz {
     @Override
     public void getRoute(GetRouteRequest request, GetRouteResponse response) throws Exception {
 
-        List<Long> routeids = request.getRouteids();
+        Long routeid = request.getRouteid();
         String name = request.getName();
         Boolean isImgtextRequired = request.getIsImgtextRequired();
 
@@ -66,12 +65,8 @@ public class TravelBizImpl implements TravelBiz {
         Imgtext imgtext = null;
 
         try {
-            if (routeids != null) {
-                if (routeids.size() == 1) {
-                    routes = Arrays.asList(travelRouteRepository.findByRouteidAndVisibleTrue(routeids.get(0)));
-                } else {
-                    routes = travelRouteRepository.findByRouteidInAndVisibleTrue(new HashSet<Long>(routeids));
-                }
+            if (routeid != null) {
+                routes = Arrays.asList(travelRouteRepository.findByRouteidAndVisibleTrue(routeid));
             } else {
                 if (name != null) {
                     routes = Arrays.asList(travelRouteRepository.findByNameAndVisibleTrue(name));
@@ -80,7 +75,7 @@ public class TravelBizImpl implements TravelBiz {
                 }
             }
             if (isImgtextRequired && !routes.isEmpty()) {
-                imgtext = getImgtextInJson(routes.get(0).getImgtext());
+                imgtext = getImgtextInJson(routeid);
             }
             if (routes.isEmpty()) {
                 response.setStatus(Status.PARAM_ERROR);
@@ -135,15 +130,26 @@ public class TravelBizImpl implements TravelBiz {
 
     }
 
-    public Imgtext getImgtextInJson(String jsonName) throws JsonParseException, JsonMappingException, IOException {
+    public Imgtext getImgtextInJson(Long routeid) throws JsonParseException, JsonMappingException, IOException {
+        String jsonPath;
+        String imgPath;
+        if (routeid < 10) {
+            jsonPath = "p0" + routeid + "/" + "p0" + routeid + ".json";
+            imgPath = "p0" + routeid + "/";
+        } else {
+            jsonPath = "p" + routeid + "/" + "p" + routeid + ".json";
+            imgPath = "p" + routeid + "/";
+        }
 
-        File file = new File(routeImgtextPath + jsonName);
+        File file = new File(productRootPath + jsonPath);
         if (file.exists()) {
             String content = FileUtils.readFileToString(file, "UTF-8");
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(content, Imgtext.class);
+            Imgtext imgtext = mapper.readValue(content, Imgtext.class);
+            imgtext.addPath(imgPath);
+            return imgtext;
         } else {
-            throw new RuntimeException("can't find json file, " + routeImgtextPath + jsonName);
+            throw new RuntimeException("can't find json file, " + productRootPath + jsonPath);
         }
 
     }
