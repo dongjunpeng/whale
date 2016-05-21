@@ -14,6 +14,18 @@ public class Imgtext {
     private Notice notice;
     private Expense expense;
 
+    public void addPath(String path) {
+
+        for (int i = 0; i < sliderImgs.size(); i++) {
+            sliderImgs.set(i, path + sliderImgs.get(i));
+        }
+
+        for (Day temp : days) {
+            temp.addPath(path);
+        }
+
+    }
+
     public List<String> getSliderImgs() {
         return sliderImgs;
     }
