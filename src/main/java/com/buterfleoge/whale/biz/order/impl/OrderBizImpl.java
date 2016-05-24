@@ -193,7 +193,7 @@ public class OrderBizImpl implements OrderBiz {
     public void cancelOrder(Long accountid, CancelOrderRequest request, Response response) throws Exception {
         Long orderid = request.getOrderid();
         OrderInfo orderInfo = orderInfoRepository.findOne(orderid);
-        orderInfo.setStatus(OrderStatus.TIMEOUT);
+        orderInfo.setStatus(OrderStatus.CANCEL);
         orderInfoRepository.save(orderInfo);
 
         Long groupid = orderInfo.getGroupid();
@@ -224,7 +224,7 @@ public class OrderBizImpl implements OrderBiz {
                 // TODO 支付宝相关跳转
                 response.setStatus(Status.OK);
                 break;
-            case CANCEl:
+            case CANCEL:
                 response.setErrors(Arrays.asList(new Error("订单已取消")));
                 response.setStatus(Status.PARAM_ERROR);
                 break;

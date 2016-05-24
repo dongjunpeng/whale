@@ -55,7 +55,7 @@ public class BriefOrder implements Comparable<BriefOrder> {
             return 6;
         case CANCELPAYMENT:
             return 7;
-        case CANCEl:
+        case CANCEL:
             return 8;
         case TIMEOUT:
             return 9;
