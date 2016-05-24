@@ -21,6 +21,7 @@ import com.buterfleoge.whale.type.entity.OrderTravellers;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.enums.DiscountCodeStatus;
 import com.buterfleoge.whale.type.enums.DiscountType;
+import com.buterfleoge.whale.type.enums.GroupStatus;
 import com.buterfleoge.whale.type.enums.OrderStatus;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderResponse;
@@ -107,6 +108,9 @@ public class BizProcessor extends CreateOrderProcessor {
 
         TravelGroup group = context.getGroup();
         group.setActualCount(group.getActualCount() + count);
+        if (group.getActualCount().equals(group.getMaxCount())) {
+            group.setStatus(GroupStatus.FULL);
+        }
 
         try {
             orderInfoRepository.save(orderInfo);
