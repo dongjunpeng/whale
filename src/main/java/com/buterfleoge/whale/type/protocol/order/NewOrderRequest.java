@@ -17,6 +17,17 @@ public class NewOrderRequest extends Request {
     @NotNull
     private Long groupid;
 
+    // 测试用
+    private Long accountid;
+
+    public Long getAccountid() {
+        return accountid;
+    }
+
+    public void setAccountid(Long accountid) {
+        this.accountid = accountid;
+    }
+
     /**
      * @return the routeid
      */
@@ -25,7 +36,8 @@ public class NewOrderRequest extends Request {
     }
 
     /**
-     * @param routeid the routeid to set
+     * @param routeid
+     *            the routeid to set
      */
     public void setRouteid(Long routeid) {
         this.routeid = routeid;
@@ -39,7 +51,8 @@ public class NewOrderRequest extends Request {
     }
 
     /**
-     * @param groupid the groupid to set
+     * @param groupid
+     *            the groupid to set
      */
     public void setGroupid(Long groupid) {
         this.groupid = groupid;

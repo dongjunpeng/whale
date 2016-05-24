@@ -18,6 +18,12 @@ public class Day {
     private String food;
     private String star;
 
+    public void addPath(String path) {
+        for (int i = 0; i < imgs.size(); i++) {
+            imgs.set(i, path + imgs.get(i));
+        }
+    }
+
     public String getTitle() {
         return title;
     }

@@ -3,8 +3,8 @@ package com.buterfleoge.whale.biz.travel.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.buterfleoge.whale.Constants.BizCode;
@@ -49,7 +48,7 @@ public class TravelBizImpl implements TravelBiz {
     private static final Logger LOG = LoggerFactory.getLogger(TravelBizImpl.class);
 
     @Value("${route.imgtext.path}")
-    private String routeImgtextPath;
+    private String productRootPath;
 
     @Autowired
     private TravelRouteRepository travelRouteRepository;
@@ -59,45 +58,35 @@ public class TravelBizImpl implements TravelBiz {
 
     @Override
     public void getRoute(GetRouteRequest request, GetRouteResponse response) throws Exception {
-        List<Long> routeids = request.getRouteids();
-        String name = request.getName();
-        Boolean isImgtextRequired = request.getIsImgtextRequired();
+        Long routeid = request.getRouteid();
 
         List<TravelRoute> routes = null;
         Imgtext imgtext = null;
         try {
-            if (CollectionUtils.isEmpty(routeids)) {
-                if (StringUtils.hasText(name)) {
-                    TravelRoute route = travelRouteRepository.findByNameAndVisibleTrue(name);
-                    routes = route == null ? null : Arrays.asList(route);
-                } else {
-                    routes = travelRouteRepository.findByVisibleTrue();
-                }
+            if (routeid != null) {
+                TravelRoute route = travelRouteRepository.findByRouteidAndVisibleTrue(routeid);
+                routes = route == null ? Collections.<TravelRoute> emptyList() : Arrays.asList(route);
             } else {
-                if (routeids.size() == 1) {
-                    TravelRoute route = travelRouteRepository.findByRouteidAndVisibleTrue(routeids.get(0));
-                    routes = route == null ? null : Arrays.asList(route);
-                } else {
-                    routes = travelRouteRepository.findByRouteidInAndVisibleTrue(new HashSet<Long>(routeids));
-                }
+                routes = travelRouteRepository.findByVisibleTrue();
             }
-            if (CollectionUtils.isEmpty(routes)) {
-                return;
+            if (routes.isEmpty()) {
+                response.setStatus(Status.PARAM_ERROR);
+            } else {
+                response.setRoutes(routes);
             }
         } catch (Exception e) {
             LOG.error("find route failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
         }
         try {
-            if (isImgtextRequired) {
-                imgtext = getImgtextInJson(routes.get(0).getImgtext());
+            if (request.getIsImgtextRequired()) {
+                imgtext = getImgtextInJson(routeid);
+                response.setImgtext(imgtext);
             }
         } catch (Exception e) {
             LOG.error("get imgtext failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.PARTLY_OK);
+            response.setStatus(Status.SYSTEM_ERROR);
         }
-        response.setRoutes(routes);
-        response.setImgtext(imgtext);
     }
 
     @Override
@@ -123,8 +112,8 @@ public class TravelBizImpl implements TravelBiz {
             if (StringUtils.hasText(name)) {
                 TravelRoute route = travelRouteRepository.findByName(name);
                 if (route != null) {
-                    groups = travelGroupRepository.findByRouteidAndEndDateGreaterThanOrderByStartDateAsc(
-                            route.getRouteid(), DateUtils.addWeeks(new Date(), -1).getTime());
+                    groups = travelGroupRepository.findByRouteidAndEndDateGreaterThanOrderByStartDateAsc(route.getRouteid(),
+                            DateUtils.addWeeks(new Date(), -1).getTime());
                     response.setGroups(groups);
                 }
             }
@@ -161,18 +150,30 @@ public class TravelBizImpl implements TravelBiz {
 
         response.setStatus(getQuotaResponse.getStatus());
         response.getErrors().addAll(getQuotaResponse.getErrors());
-        
+
         return getQuotaResponse.getQuota();
     }
 
-    private Imgtext getImgtextInJson(String jsonName) throws JsonParseException, JsonMappingException, IOException {
-        File file = new File(routeImgtextPath + jsonName);
+    private Imgtext getImgtextInJson(Long routeid) throws JsonParseException, JsonMappingException, IOException {
+        String jsonPath;
+        String imgPath;
+        if (routeid < 10) {
+            jsonPath = "p0" + routeid + "/" + "p0" + routeid + ".json";
+            imgPath = "p0" + routeid + "/";
+        } else {
+            jsonPath = "p" + routeid + "/" + "p" + routeid + ".json";
+            imgPath = "p" + routeid + "/";
+        }
+
+        File file = new File(productRootPath + jsonPath);
         if (file.exists()) {
             String content = FileUtils.readFileToString(file, "UTF-8");
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.readValue(content, Imgtext.class);
+            Imgtext imgtext = mapper.readValue(content, Imgtext.class);
+            imgtext.addPath(imgPath);
+            return imgtext;
         } else {
-            throw new RuntimeException("can't find json file, " + routeImgtextPath + jsonName);
+            throw new RuntimeException("can't find json file, " + productRootPath + jsonPath);
         }
     }
 

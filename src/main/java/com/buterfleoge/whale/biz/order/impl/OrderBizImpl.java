@@ -319,19 +319,19 @@ public class OrderBizImpl implements OrderBiz {
                     // orderRefound.setRefound((long) (actualPrice));
                 } else {
                     if (leftMinutes >= 60 * 24 * 4) {
-                        orderRefound.setType(RefoundType.LONG_PCT_80);
+                        orderRefound.setType(RefoundType.SHORT_PCT_80);
                         // orderRefound.setRefound((long) (actualPrice * 0.80));
                     } else {
                         if (leftMinutes >= 60 * 24 * 1) {
-                            orderRefound.setType(RefoundType.LONG_PCT_50);
+                            orderRefound.setType(RefoundType.SHORT_PCT_50);
                             // orderRefound.setRefound((long) (actualPrice * 0.50));
                         } else {
-                            orderRefound.setType(RefoundType.LONG_PCT_20);
+                            orderRefound.setType(RefoundType.SHORT_PCT_20);
                             // orderRefound.setRefound((long) (actualPrice * 0.20));
                         }
                     }
+                    break;
                 }
-                break;
             case WEEKEND:
                 break;
             case PARTY:

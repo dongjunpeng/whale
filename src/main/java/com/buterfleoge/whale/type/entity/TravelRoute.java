@@ -80,9 +80,6 @@ public class TravelRoute extends BaseObject {
     @Column(name = "wx_link")
     private String wxLink;
 
-    @Column(name = "imgtext")
-    private String imgtext;
-
     public Long getRouteid() {
         return routeid;
     }
@@ -209,14 +206,6 @@ public class TravelRoute extends BaseObject {
 
     public void setWxLink(String wxLink) {
         this.wxLink = wxLink;
-    }
-
-    public String getImgtext() {
-        return imgtext;
-    }
-
-    public void setImgtext(String imgtext) {
-        this.imgtext = imgtext;
     }
 
 }
