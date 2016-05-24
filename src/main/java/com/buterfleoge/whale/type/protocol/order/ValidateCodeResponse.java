@@ -1,5 +1,10 @@
 package com.buterfleoge.whale.type.protocol.order;
 
+import java.math.BigDecimal;
+
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 import com.buterfleoge.whale.type.protocol.Response;
 
 /**
@@ -9,7 +14,9 @@ import com.buterfleoge.whale.type.protocol.Response;
 public class ValidateCodeResponse extends Response {
 
     private String message;
-    private Long value;
+
+    @NumberFormat(style = Style.CURRENCY)
+    private BigDecimal value;
 
     public String getMessage() {
         return message;
@@ -19,11 +26,11 @@ public class ValidateCodeResponse extends Response {
         this.message = message;
     }
 
-    public Long getValue() {
+    public BigDecimal getValue() {
         return value;
     }
 
-    public void setValue(Long value) {
+    public void setValue(BigDecimal value) {
         this.value = value;
     }
 

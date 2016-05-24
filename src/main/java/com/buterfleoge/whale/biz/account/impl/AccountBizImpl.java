@@ -1,13 +1,14 @@
 package com.buterfleoge.whale.biz.account.impl;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.account.AccountBiz;
@@ -17,6 +18,8 @@ import com.buterfleoge.whale.dao.AccountSettingRepository;
 import com.buterfleoge.whale.type.entity.AccountContacts;
 import com.buterfleoge.whale.type.entity.AccountInfo;
 import com.buterfleoge.whale.type.entity.AccountSetting;
+import com.buterfleoge.whale.type.enums.Gender;
+import com.buterfleoge.whale.type.enums.IdType;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.account.DeleteContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsRequest;
@@ -45,193 +48,240 @@ public class AccountBizImpl implements AccountBiz {
     private AccountContactsRepository accountContactsRepository;
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateBasicInfo(PostBasicInfoRequest request, Response response) throws Exception {
-        AccountInfo accountInfo;
-        AccountSetting accountSetting;
-        Long accountid = request.getAccountid();
-        try {
-            if (accountid != null) {
-                accountInfo = accountInfoRepository.findByAccountid(accountid);
-                accountSetting = accountSettingRepository.findByAccountid(accountid);
-                if (request.getEmail() != null)
-                    accountInfo.setEmail(request.getEmail());
-                if (request.getId() != null)
-                    accountInfo.setId(request.getId());
-                if (request.getIdType() != null)
-                    accountInfo.setIdType(request.getIdType());
-                if (request.getMobile() != null)
-                    accountInfo.setMobile(request.getMobile());
-                if (request.getName() != null)
-                    accountInfo.setName(request.getName());
-                if (request.getPassword() != null)
-                    accountInfo.setPassword(request.getPassword());
-
-                if (request.getAddress() != null)
-                    accountSetting.setAddress(request.getAddress());
-                if (request.getAvatarUrl() != null)
-                    accountSetting.setAvatarUrl(request.getAvatarUrl());
-                if (request.getBirthday() != null) {
-                    accountSetting.setBirthday(request.getBirthday());
-                }
-                if (request.getGender() != null)
-                    accountSetting.setGender(request.getGender());
-                if (request.getNickname() != null)
-                    accountSetting.setNickname(request.getNickname());
-                if (request.getQqid() != null)
-                    accountSetting.setQqid(request.getQqid());
-                if (request.getQqname() != null)
-                    accountSetting.setQqname(request.getQqname());
-                if (request.getWbid() != null)
-                    accountSetting.setWbid(request.getWbid());
-                if (request.getWbname() != null)
-                    accountSetting.setWbname(request.getWbname());
-                if (request.getWxid() != null)
-                    accountSetting.setWxid(request.getWxid());
-                if (request.getWxname() != null)
-                    accountSetting.setWxname(request.getWxname());
-
-                accountInfo.setModTime(System.currentTimeMillis());
-                accountSetting.setModTime(System.currentTimeMillis());
-
-                accountInfoRepository.save(accountInfo);
-                accountSettingRepository.save(accountSetting);
-                response.setStatus(Status.OK);
-            } else {
-                response.setStatus(Status.PARAM_ERROR);
-            }
-        } catch (Exception e) {
-            LOG.error("update basicInfo failed", e);
-            response.setStatus(Status.DB_ERROR);
-            throw new Exception("rollback");
+    public void updateBasicInfo(Long accountid, PostBasicInfoRequest request, Response response) throws Exception {
+        updateAccountInfo(accountid, request, response);
+        if (response.hasError()) {
+            return;
         }
+        updateAccountSetting(accountid, request, response);
     }
 
     @Override
-    public void getContacts(GetContactsRequest request, GetContactsResponse response) throws Exception {
+    public void getContacts(Long accountid, GetContactsRequest request, GetContactsResponse response) throws Exception {
         Long contactid = request.getContactid();
-        Long accountid = request.getAccountid();
-        Boolean isDefault = request.getIsDefault();
-
+        Boolean needDefault = request.getNeedDefault();
         try {
             if (contactid != null) {
                 AccountContacts contact = accountContactsRepository.findByContactidAndValidTrue(contactid);
-                response.setContacts(Arrays.asList(contact));
-            } else {
-                if (accountid != null) {
-                    List<AccountContacts> contacts = null;
-                    if (isDefault != null && isDefault) {
-                        contacts = accountContactsRepository.findByAccountidAndValidTrue(accountid);
-                    } else {
-                        contacts =
-                                accountContactsRepository.findByAccountidAndValidTrueAndIsDefaultFalse(accountid);
-                    }
-                    response.setContacts(contacts);
-                } else {
-                    response.setStatus(Status.PARAM_ERROR);
+                if (contact != null) {
+                    response.setContacts(Arrays.asList(contact));
                 }
+            } else {
+                List<AccountContacts> contacts = null;
+                if (needDefault != null && needDefault) {
+                    contacts = accountContactsRepository.findByAccountidAndValidTrue(accountid);
+                } else {
+                    contacts = accountContactsRepository.findByAccountidAndValidTrueAndIsDefaultFalse(accountid);
+                }
+                response.setContacts(contacts);
             }
-
         } catch (Exception e) {
-            LOG.error("find contacts failed", e);
+            LOG.error("find contacts failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
         }
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void postContacts(PostContactsRequest request, Response response) throws Exception {
+    public void postContacts(Long accountid, PostContactsRequest request, Response response) throws Exception {
         Long contactid = request.getContactid();
         if (contactid == null) {
-            insertContact(request, response);
+            insertContact(accountid, request, response);
         } else {
-            AccountContacts contact = accountContactsRepository.findByContactidAndValidTrue(request.getContactid());
+            AccountContacts contact = null;
+            try {
+                contact = accountContactsRepository.findByContactidAndValidTrue(contactid);
+            } catch (Exception e) {
+                LOG.error("find contact failed, reqid: " + request.getReqid(), e);
+                response.setStatus(Status.DB_ERROR);
+                return;
+            }
             if (contact == null) {
-                insertContact(request, response);
+                insertContact(accountid, request, response);
             } else {
-                updateContacts(request, response, contact);
+                updateContacts(accountid, request, response, contact);
             }
-        }
-    }
-
-    private void insertContact(PostContactsRequest request, Response response) throws Exception {
-        AccountContacts contact = new AccountContacts();
-        try {
-            contact.setAccountid(request.getAccountid());
-            contact.setAddress(request.getAddress());
-            contact.setBirthday(request.getBirthday());
-            contact.setEmail(request.getEmail());
-            contact.setEmergencyContact(request.getEmergencyContact());
-            contact.setEmergencyMobile(request.getEmergencyMobile());
-            contact.setGender(request.getGender());
-            contact.setId(request.getId());
-            contact.setIdType(request.getIdType());
-            contact.setIsDefault(false);
-            contact.setMobile(request.getMobile());
-            contact.setName(request.getName());
-            contact.setAddTime(System.currentTimeMillis());
-            contact.setModTime(System.currentTimeMillis());
-            contact.setValid(true);
-            accountContactsRepository.save(contact);
-        } catch (Exception e) {
-            LOG.error("post contacts failed", e);
-            response.setStatus(Status.DB_ERROR);
-            throw new Exception("rollback");
-        }
-    }
-
-    private void updateContacts(PostContactsRequest request, Response response, AccountContacts contact)
-            throws Exception {
-        try {
-            if (request.getName() != null) {
-                contact.setName(request.getName());
-            }
-            if (request.getId() != null) {
-                contact.setId(request.getId());
-                contact.setIdType(request.getIdType());
-            }
-            if (request.getGender() != null) {
-                contact.setGender(request.getGender());
-            }
-            if (request.getBirthday() != null) {
-                contact.setBirthday(request.getBirthday());
-            }
-            if (request.getMobile() != null) {
-                contact.setMobile(request.getMobile());
-            }
-            if (request.getEmail() != null) {
-                contact.setEmail(request.getEmail());
-            }
-            if (request.getAddress() != null) {
-                contact.setAddress(request.getAddress());
-            }
-            if (request.getEmergencyContact() != null) {
-                contact.setEmergencyContact(request.getEmergencyContact());
-            }
-            if (request.getEmergencyMobile() != null) {
-                contact.setEmergencyMobile(request.getEmergencyMobile());
-            }
-            contact.setModTime(System.currentTimeMillis());
-            accountContactsRepository.save(contact);
-        } catch (Exception e) {
-            LOG.error("post contacts failed", e);
-            response.setStatus(Status.DB_ERROR);
-            throw new Exception("rollback");
         }
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void deleteContacts(DeleteContactsRequest request, Response response) throws Exception {
+    public void deleteContacts(Long accountid, DeleteContactsRequest request, Response response) throws Exception {
         Long contactid = request.getContactid();
         try {
             AccountContacts contact = accountContactsRepository.findByContactidAndValidTrue(contactid);
-            contact.setValid(false);
-            accountContactsRepository.save(contact);
+            if (contact != null) {
+                contact.setValid(false);
+                accountContactsRepository.save(contact);
+            }
         } catch (Exception e) {
-            LOG.error("delete contacts failed", e);
+            LOG.error("delete contacts failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
             throw new Exception("rollback");
+        }
+    }
+
+    private void updateAccountInfo(Long accountid, PostBasicInfoRequest request, Response response) {
+        String name = request.getName();
+        IdType idType = request.getIdType();
+        String id = request.getId();
+        String email = request.getEmail();
+        String mobile = request.getMobile();
+        boolean isNeedSave = false;
+        AccountInfo accountInfo = null;
+        try {
+            accountInfo = accountInfoRepository.findByAccountid(accountid);
+        } catch (Exception e) {
+            LOG.error("find account info failed, reqid: " + request.getReqid(), e);
+            response.setStatus(Status.DB_ERROR);
+            return;
+        }
+        if (StringUtils.hasText(name) && !name.equals(accountInfo.getName())) {
+            accountInfo.setName(name);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(id) && !id.equals(accountInfo.getId())) {
+            accountInfo.setIdType(idType);
+            accountInfo.setId(id);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(email) && !email.equals(accountInfo.getEmail())) {
+            accountInfo.setEmail(email);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(mobile) && !mobile.equals(accountInfo.getMobile())) {
+            accountInfo.setMobile(mobile);
+            isNeedSave = true;
+        }
+        if (isNeedSave) {
+            try {
+                accountInfo.setModTime(new Date());
+                accountInfoRepository.save(accountInfo);
+            } catch (Exception e) {
+                LOG.error("save account info failed, reqid: " + request.getReqid(), e);
+                response.setStatus(Status.DB_ERROR);
+            }
+        }
+    }
+
+    private void updateAccountSetting(Long accountid, PostBasicInfoRequest request, Response response) {
+        Gender gender = request.getGender();
+        Date birthday = request.getBirthday();
+        String address = request.getAddress();
+        boolean isNeedSave = false;
+        AccountSetting accountSetting = null;
+        try {
+            accountSetting = accountSettingRepository.findByAccountid(accountid);
+        } catch (Exception e) {
+            LOG.error("find account setting failed, reqid: " + request.getReqid(), e);
+            response.setStatus(Status.DB_ERROR);
+            return;
+        }
+        if (gender != null && !gender.equals(accountSetting.getGender())) {
+            accountSetting.setGender(gender);
+            isNeedSave = true;
+        }
+        if (birthday != null && !birthday.equals(accountSetting.getBirthday())) {
+            accountSetting.setBirthday(birthday);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(address) && !address.equals(accountSetting.getAddress())) {
+            accountSetting.setAddress(address);
+            isNeedSave = true;
+        }
+        if (isNeedSave) {
+            try {
+                accountSetting.setModTime(new Date());
+                accountSettingRepository.save(accountSetting);
+            } catch (Exception e) {
+                LOG.error("save account setting failed, reqid: " + request.getReqid(), e);
+                response.setStatus(Status.DB_ERROR);
+            }
+        }
+
+    }
+
+    private void insertContact(Long accountid, PostContactsRequest request, Response response) throws Exception {
+        AccountContacts contact = new AccountContacts();
+        try {
+            contact.setAccountid(accountid);
+            contact.setAddress(request.getAddress());
+            contact.setName(request.getName());
+            contact.setEmail(request.getEmail());
+            contact.setMobile(request.getMobile());
+            contact.setId(request.getId());
+            contact.setIdType(request.getIdType());
+            contact.setBirthday(request.getBirthday());
+            contact.setEmergencyContact(request.getEmergencyContact());
+            contact.setEmergencyMobile(request.getEmergencyMobile());
+            contact.setGender(request.getGender());
+            contact.setIsDefault(false);
+            contact.setAddTime(new Date());
+            contact.setModTime(contact.getAddTime());
+            contact.setValid(true);
+            accountContactsRepository.save(contact);
+        } catch (Exception e) {
+            LOG.error("add contacts failed, reqid: " + request.getReqid(), e);
+            response.setStatus(Status.DB_ERROR);
+        }
+    }
+
+    private void updateContacts(Long accountid, PostContactsRequest request, Response response, AccountContacts contact)
+            throws Exception {
+        String name = request.getName();
+        IdType idType = request.getIdType();
+        String id = request.getId();
+        String email = request.getEmail();
+        String mobile = request.getMobile();
+        Gender gender = request.getGender();
+        Date birthday = request.getBirthday();
+        String address = request.getAddress();
+        String emergencyContact = request.getEmergencyContact();
+        String emergencyMobile = request.getEmergencyMobile();
+        boolean isNeedSave = false;
+        if (StringUtils.hasText(name) && !name.equals(contact.getName())) {
+            contact.setName(name);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(id) && !id.equals(contact.getId())) {
+            contact.setIdType(idType);
+            contact.setId(id);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(email) && !email.equals(contact.getEmail())) {
+            contact.setEmail(email);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(mobile) && !mobile.equals(contact.getMobile())) {
+            contact.setMobile(mobile);
+            isNeedSave = true;
+        }
+        if (gender != null && !gender.equals(contact.getGender())) {
+            contact.setGender(gender);
+            isNeedSave = true;
+        }
+        if (birthday != null && !birthday.equals(contact.getBirthday())) {
+            contact.setBirthday(birthday);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(address) && !address.equals(contact.getAddress())) {
+            contact.setAddress(address);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(emergencyContact) && !emergencyContact.equals(contact.getEmergencyContact())) {
+            contact.setEmergencyContact(emergencyContact);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(emergencyMobile) && !emergencyMobile.equals(contact.getEmergencyMobile())) {
+            contact.setEmergencyMobile(emergencyMobile);
+            isNeedSave = true;
+        }
+        if (isNeedSave) {
+            try {
+                contact.setModTime(new Date());
+                accountContactsRepository.save(contact);
+            } catch (Exception e) {
+                LOG.error("post contacts failed, reqid: " + request.getReqid(), e);
+                response.setStatus(Status.DB_ERROR);
+            }
         }
     }
 

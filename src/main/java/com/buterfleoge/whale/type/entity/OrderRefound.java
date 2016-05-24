@@ -1,13 +1,24 @@
 package com.buterfleoge.whale.type.entity;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 import com.buterfleoge.whale.type.enums.RefoundStatus;
 import com.buterfleoge.whale.type.enums.RefoundType;
 
@@ -35,79 +46,133 @@ public class OrderRefound extends BaseObject {
     @Column(name = "type")
     private RefoundType type;
 
+    @NumberFormat(style = Style.CURRENCY)
     @Column(name = "refound")
-    private Long refound;
+    @Convert(converter = PriceConverter.class)
+    private BigDecimal refound;
 
     @Column(name = "description")
     private String desc;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "add_time")
-    private Long addTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date addTime;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "finish_time")
-    private Long finishTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date finishTime;
 
+    /**
+     * @return the refoundid
+     */
     public Long getRefoundid() {
         return refoundid;
     }
 
+    /**
+     * @param refoundid the refoundid to set
+     */
     public void setRefoundid(Long refoundid) {
         this.refoundid = refoundid;
     }
 
+    /**
+     * @return the orderid
+     */
     public Long getOrderid() {
         return orderid;
     }
 
+    /**
+     * @param orderid the orderid to set
+     */
     public void setOrderid(Long orderid) {
         this.orderid = orderid;
     }
 
+    /**
+     * @return the status
+     */
     public RefoundStatus getStatus() {
         return status;
     }
 
+    /**
+     * @param status the status to set
+     */
     public void setStatus(RefoundStatus status) {
         this.status = status;
     }
 
+    /**
+     * @return the type
+     */
     public RefoundType getType() {
         return type;
     }
 
+    /**
+     * @param type the type to set
+     */
     public void setType(RefoundType type) {
         this.type = type;
     }
 
+    /**
+     * @return the refound
+     */
+    public BigDecimal getRefound() {
+        return refound;
+    }
+
+    /**
+     * @param refound the refound to set
+     */
+    public void setRefound(BigDecimal refound) {
+        this.refound = refound;
+    }
+
+    /**
+     * @return the desc
+     */
     public String getDesc() {
         return desc;
     }
 
+    /**
+     * @param desc the desc to set
+     */
     public void setDesc(String desc) {
         this.desc = desc;
     }
 
-    public Long getRefound() {
-        return refound;
-    }
-
-    public void setRefound(Long refound) {
-        this.refound = refound;
-    }
-
-    public Long getAddTime() {
+    /**
+     * @return the addTime
+     */
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Long addTime) {
+    /**
+     * @param addTime the addTime to set
+     */
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
 
-    public Long getFinishTime() {
+    /**
+     * @return the finishTime
+     */
+    public Date getFinishTime() {
         return finishTime;
     }
 
-    public void setFinishTime(Long finishTime) {
+    /**
+     * @param finishTime the finishTime to set
+     */
+    public void setFinishTime(Date finishTime) {
         this.finishTime = finishTime;
     }
 

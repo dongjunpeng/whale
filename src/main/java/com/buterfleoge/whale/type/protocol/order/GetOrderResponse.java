@@ -14,7 +14,7 @@ import com.buterfleoge.whale.type.protocol.Response;
  * @author Brent24
  *
  */
-public class GetOrderDetailResponse extends Response {
+public class GetOrderResponse extends Response {
 
     private OrderInfo orderInfo;
     private TravelGroup travelGroup;
@@ -25,20 +25,6 @@ public class GetOrderDetailResponse extends Response {
     private OrderDiscount student;
     private OrderRefound orderRefound;
     private int quota;
-
-    public void setOrderObjects(OrderInfo orderInfo, TravelGroup travelGroup, TravelRoute travelRoute,
-            List<OrderTravellers> orderTravellers, OrderDiscount policy, OrderDiscount code, OrderDiscount student,
-            OrderRefound orderRefound) {
-        setOrderInfo(orderInfo);
-        setTravelRoute(travelRoute);
-        setTravelGroup(travelGroup);
-        setOrderTravellers(orderTravellers);
-        setPolicy(policy);
-        setCode(code);
-        setStudent(student);
-        setOrderRefound(orderRefound);
-
-    }
 
     public OrderInfo getOrderInfo() {
         return orderInfo;

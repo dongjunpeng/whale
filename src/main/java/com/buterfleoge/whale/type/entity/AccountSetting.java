@@ -1,13 +1,18 @@
 package com.buterfleoge.whale.type.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.entity.converter.DateConverter;
+import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.enums.Gender;
 
 /**
@@ -47,9 +52,10 @@ public class AccountSetting extends BaseObject {
     @Column(name = "gender")
     private Gender gender = Gender.UNKNOW;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "birthday")
-    @Convert(converter = DateConverter.class)
-    private String birthday;
+    @Convert(converter = DateTimeConverter.class)
+    private Date birthday;
 
     @Column(name = "address")
     private String address = "";
@@ -57,8 +63,10 @@ public class AccountSetting extends BaseObject {
     @Column(name = "avatar_url")
     private String avatarUrl = "";
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "mod_time")
-    private Long modTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date modTime;
 
     /**
      * @return the accountid
@@ -199,7 +207,7 @@ public class AccountSetting extends BaseObject {
     /**
      * @return the birthday
      */
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
@@ -207,7 +215,7 @@ public class AccountSetting extends BaseObject {
      * @param birthday
      *            the birthday to set
      */
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
@@ -244,7 +252,7 @@ public class AccountSetting extends BaseObject {
     /**
      * @return the modTime
      */
-    public Long getModTime() {
+    public Date getModTime() {
         return modTime;
     }
 
@@ -252,7 +260,7 @@ public class AccountSetting extends BaseObject {
      * @param modTime
      *            the modTime to set
      */
-    public void setModTime(Long modTime) {
+    public void setModTime(Date modTime) {
         this.modTime = modTime;
     }
 

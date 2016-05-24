@@ -10,7 +10,7 @@ public class GetDiscountRequest extends Request {
 
     private Long routeid;
     private Long groupid;
-    private int count;
+    private Integer count;
 
     public Long getRouteid() {
         return routeid;
@@ -28,11 +28,11 @@ public class GetDiscountRequest extends Request {
         this.groupid = groupid;
     }
 
-    public int getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 

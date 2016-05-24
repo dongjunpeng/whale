@@ -16,6 +16,8 @@ public interface DiscountCodeRepository extends CrudRepository<DiscountCode, Lon
 
     DiscountCode findByDiscountCode(String code);
 
+    DiscountCode findByAccountidAndDiscountCode(Long accountid, String code);
+
     List<DiscountCode> findByStatusIn(Set<DiscountCodeStatus> status);
 
 }

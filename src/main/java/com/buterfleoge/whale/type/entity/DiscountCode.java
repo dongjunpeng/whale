@@ -3,14 +3,25 @@
  */
 package com.buterfleoge.whale.type.entity;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 import com.buterfleoge.whale.type.enums.DiscountCodeStatus;
 
 /**
@@ -40,99 +51,169 @@ public class DiscountCode extends BaseObject {
     @Column(name = "agent")
     private Long agent;
 
+    @NumberFormat(style = Style.CURRENCY)
     @Column(name = "value")
-    private Long value;
+    @Convert(converter = PriceConverter.class)
+    private BigDecimal value;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "start_time")
-    private Long startTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date startTime;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "end_time")
-    private Long endTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date endTime;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "add_time")
-    private Long addTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date addTime;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "effect_time")
-    private Long effectTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date effectTime;
 
+    /**
+     * @return the codeid
+     */
     public Long getCodeid() {
         return codeid;
     }
 
+    /**
+     * @param codeid the codeid to set
+     */
     public void setCodeid(Long codeid) {
         this.codeid = codeid;
     }
 
+    /**
+     * @return the discountCode
+     */
     public String getDiscountCode() {
         return discountCode;
     }
 
+    /**
+     * @param discountCode the discountCode to set
+     */
     public void setDiscountCode(String discountCode) {
         this.discountCode = discountCode;
     }
 
+    /**
+     * @return the accountid
+     */
     public Long getAccountid() {
         return accountid;
     }
 
+    /**
+     * @param accountid the accountid to set
+     */
     public void setAccountid(Long accountid) {
         this.accountid = accountid;
     }
 
+    /**
+     * @return the status
+     */
     public DiscountCodeStatus getStatus() {
         return status;
     }
 
+    /**
+     * @param status the status to set
+     */
     public void setStatus(DiscountCodeStatus status) {
         this.status = status;
     }
 
+    /**
+     * @return the agent
+     */
     public Long getAgent() {
         return agent;
     }
 
+    /**
+     * @param agent the agent to set
+     */
     public void setAgent(Long agent) {
         this.agent = agent;
     }
 
-    public Long getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Long startTime) {
-        this.startTime = startTime;
-    }
-
-    public Long getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Long endTime) {
-        this.endTime = endTime;
-    }
-
-    public Long getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(Long addTime) {
-        this.addTime = addTime;
-    }
-
-    public Long getEffectTime() {
-        return effectTime;
-    }
-
-    public void setEffectTime(Long effectTime) {
-        this.effectTime = effectTime;
-    }
-
-    public Long getValue() {
+    /**
+     * @return the value
+     */
+    public BigDecimal getValue() {
         return value;
     }
 
-    public void setValue(Long value) {
+    /**
+     * @param value the value to set
+     */
+    public void setValue(BigDecimal value) {
         this.value = value;
+    }
+
+    /**
+     * @return the startTime
+     */
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    /**
+     * @param startTime the startTime to set
+     */
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    /**
+     * @return the endTime
+     */
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    /**
+     * @param endTime the endTime to set
+     */
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    /**
+     * @return the addTime
+     */
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    /**
+     * @param addTime the addTime to set
+     */
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
+
+    /**
+     * @return the effectTime
+     */
+    public Date getEffectTime() {
+        return effectTime;
+    }
+
+    /**
+     * @param effectTime the effectTime to set
+     */
+    public void setEffectTime(Date effectTime) {
+        this.effectTime = effectTime;
     }
 
 }

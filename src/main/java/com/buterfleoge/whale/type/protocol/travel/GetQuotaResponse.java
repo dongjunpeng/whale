@@ -7,7 +7,13 @@ import com.buterfleoge.whale.type.protocol.Response;
  *
  */
 public class GetQuotaResponse extends Response {
-    private int quota;
+
+    public static final int NO_QUOTA = 0;
+
+    /**
+     * 默认0, 表示没有配额
+     */
+    private int quota = NO_QUOTA;
 
     public int getQuota() {
         return quota;

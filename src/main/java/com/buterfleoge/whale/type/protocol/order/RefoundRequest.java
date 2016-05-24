@@ -7,6 +7,7 @@ import com.buterfleoge.whale.type.protocol.Request;
  *
  */
 public class RefoundRequest extends Request {
+
     private Long orderid;
 
     public Long getOrderid() {

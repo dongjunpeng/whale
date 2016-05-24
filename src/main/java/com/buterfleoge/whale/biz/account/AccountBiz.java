@@ -15,13 +15,13 @@ import com.buterfleoge.whale.type.protocol.account.PostContactsRequest;
  */
 public interface AccountBiz {
 
-    void updateBasicInfo(PostBasicInfoRequest request, Response response) throws Exception;
+    void updateBasicInfo(Long accountid, PostBasicInfoRequest request, Response response) throws Exception;
 
-    void getContacts(GetContactsRequest request, GetContactsResponse response) throws Exception;
+    void getContacts(Long accountid, GetContactsRequest request, GetContactsResponse response) throws Exception;
 
-    void postContacts(PostContactsRequest request, Response response) throws Exception;
+    void postContacts(Long accountid, PostContactsRequest request, Response response) throws Exception;
 
-    void deleteContacts(DeleteContactsRequest request, Response response) throws Exception;
+    void deleteContacts(Long accountid, DeleteContactsRequest request, Response response) throws Exception;
 
 
 }

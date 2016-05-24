@@ -3,14 +3,25 @@
  */
 package com.buterfleoge.whale.type.entity;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 import com.buterfleoge.whale.type.enums.DiscountType;
 
 /**
@@ -40,87 +51,128 @@ public class OrderDiscount extends BaseObject {
     @Column(name = "type")
     private DiscountType type;
 
-    @Column(name = "routeid")
-    private Long routeid;
-
+    @NumberFormat(style = Style.CURRENCY)
     @Column(name = "value")
-    private Long value;
+    @Convert(converter = PriceConverter.class)
+    private BigDecimal value;
 
     @Column(name = "description")
     private String desc;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "add_time")
-    private Long addTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date addTime;
 
+    /**
+     * @return the orderDiscountid
+     */
     public Long getOrderDiscountid() {
         return orderDiscountid;
     }
 
+    /**
+     * @param orderDiscountid the orderDiscountid to set
+     */
     public void setOrderDiscountid(Long orderDiscountid) {
         this.orderDiscountid = orderDiscountid;
     }
 
+    /**
+     * @return the orderid
+     */
     public Long getOrderid() {
         return orderid;
     }
 
+    /**
+     * @param orderid the orderid to set
+     */
     public void setOrderid(Long orderid) {
         this.orderid = orderid;
     }
 
+    /**
+     * @return the discountCode
+     */
     public String getDiscountCode() {
         return discountCode;
     }
 
+    /**
+     * @param discountCode the discountCode to set
+     */
     public void setDiscountCode(String discountCode) {
         this.discountCode = discountCode;
     }
 
+    /**
+     * @return the discountid
+     */
     public Long getDiscountid() {
         return discountid;
     }
 
+    /**
+     * @param discountid the discountid to set
+     */
     public void setDiscountid(Long discountid) {
         this.discountid = discountid;
     }
 
+    /**
+     * @return the type
+     */
     public DiscountType getType() {
         return type;
     }
 
+    /**
+     * @param type the type to set
+     */
     public void setType(DiscountType type) {
         this.type = type;
     }
 
-    public Long getRouteid() {
-        return routeid;
-    }
-
-    public void setRouteid(Long routeid) {
-        this.routeid = routeid;
-    }
-
-    public Long getValue() {
+    /**
+     * @return the value
+     */
+    public BigDecimal getValue() {
         return value;
     }
 
-    public void setValue(Long value) {
+    /**
+     * @param value the value to set
+     */
+    public void setValue(BigDecimal value) {
         this.value = value;
     }
 
+    /**
+     * @return the desc
+     */
     public String getDesc() {
         return desc;
     }
 
+    /**
+     * @param desc the desc to set
+     */
     public void setDesc(String desc) {
         this.desc = desc;
     }
 
-    public Long getAddTime() {
+    /**
+     * @return the addTime
+     */
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Long addTime) {
+    /**
+     * @param addTime the addTime to set
+     */
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
 

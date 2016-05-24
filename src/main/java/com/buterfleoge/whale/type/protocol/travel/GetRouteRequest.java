@@ -13,9 +13,7 @@ public class GetRouteRequest extends Request {
 
     private Long routeid;
 
-    private String name;
-
-    private Boolean isImgtextRequired = false;
+    private Boolean isImgtextRequired = Boolean.FALSE;
 
     public Long getRouteid() {
         return routeid;
@@ -23,14 +21,6 @@ public class GetRouteRequest extends Request {
 
     public void setRouteid(Long routeid) {
         this.routeid = routeid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Boolean getIsImgtextRequired() {
