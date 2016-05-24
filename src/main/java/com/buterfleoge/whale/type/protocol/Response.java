@@ -63,7 +63,7 @@ public class Response extends BaseObject {
      * @return
      */
     public boolean hasError() {
-        return errors.size() > 0;
+        return status != Status.OK || errors.size() > 0;
     }
 
 }

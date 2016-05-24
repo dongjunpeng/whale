@@ -1,13 +1,24 @@
 package com.buterfleoge.whale.type.entity;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 import com.buterfleoge.whale.type.enums.OrderStatus;
 
 /**
@@ -43,104 +54,176 @@ public class OrderInfo extends BaseObject {
     @Column(name = "student_count")
     private Integer studentCount;
 
+    @NumberFormat(style = Style.CURRENCY)
     @Column(name = "price")
-    private Long price;
+    @Convert(converter = PriceConverter.class)
+    private BigDecimal price;
 
+    @NumberFormat(style = Style.CURRENCY)
     @Column(name = "actual_price")
-    private Long actualPrice;
+    @Convert(converter = PriceConverter.class)
+    private BigDecimal actualPrice;
 
     @Column(name = "is_agreed")
     private Boolean isAgreed;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "add_time")
-    private Long addTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date addTime;
 
+    /**
+     * @return the orderid
+     */
     public Long getOrderid() {
         return orderid;
     }
 
+    /**
+     * @param orderid the orderid to set
+     */
     public void setOrderid(Long orderid) {
         this.orderid = orderid;
     }
 
+    /**
+     * @return the accountid
+     */
     public Long getAccountid() {
         return accountid;
     }
 
+    /**
+     * @param accountid the accountid to set
+     */
     public void setAccountid(Long accountid) {
         this.accountid = accountid;
     }
 
+    /**
+     * @return the routeid
+     */
     public Long getRouteid() {
         return routeid;
     }
 
+    /**
+     * @param routeid the routeid to set
+     */
     public void setRouteid(Long routeid) {
         this.routeid = routeid;
     }
 
+    /**
+     * @return the groupid
+     */
     public Long getGroupid() {
         return groupid;
     }
 
+    /**
+     * @param groupid the groupid to set
+     */
     public void setGroupid(Long groupid) {
         this.groupid = groupid;
     }
 
+    /**
+     * @return the status
+     */
     public OrderStatus getStatus() {
         return status;
     }
 
+    /**
+     * @param status the status to set
+     */
     public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
+    /**
+     * @return the count
+     */
     public Integer getCount() {
         return count;
     }
 
+    /**
+     * @param count the count to set
+     */
     public void setCount(Integer count) {
         this.count = count;
     }
 
-    public Long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
-    }
-
-    public Long getActualPrice() {
-        return actualPrice;
-    }
-
-    public void setActualPrice(Long actualPrice) {
-        this.actualPrice = actualPrice;
-    }
-
-    public Boolean getIsAgreed() {
-        return isAgreed;
-    }
-
-    public void setIsAgreed(Boolean isAgreed) {
-        this.isAgreed = isAgreed;
-    }
-
-    public Long getAddTime() {
-        return addTime;
-    }
-
-    public void setAddTime(Long addTime) {
-        this.addTime = addTime;
-    }
-
+    /**
+     * @return the studentCount
+     */
     public Integer getStudentCount() {
         return studentCount;
     }
 
+    /**
+     * @param studentCount the studentCount to set
+     */
     public void setStudentCount(Integer studentCount) {
         this.studentCount = studentCount;
+    }
+
+    /**
+     * @return the price
+     */
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    /**
+     * @param price the price to set
+     */
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    /**
+     * @return the actualPrice
+     */
+    public BigDecimal getActualPrice() {
+        return actualPrice;
+    }
+
+    /**
+     * @param actualPrice the actualPrice to set
+     */
+    public void setActualPrice(BigDecimal actualPrice) {
+        this.actualPrice = actualPrice;
+    }
+
+    /**
+     * @return the isAgreed
+     */
+    public Boolean getIsAgreed() {
+        return isAgreed;
+    }
+
+    /**
+     * @param isAgreed the isAgreed to set
+     */
+    public void setIsAgreed(Boolean isAgreed) {
+        this.isAgreed = isAgreed;
+    }
+
+    /**
+     * @return the addTime
+     */
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    /**
+     * @param addTime the addTime to set
+     */
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
     }
 
 }

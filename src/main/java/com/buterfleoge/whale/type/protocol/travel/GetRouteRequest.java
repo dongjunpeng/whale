@@ -17,7 +17,7 @@ public class GetRouteRequest extends Request {
 
     private String name;
 
-    private Boolean isImgtextRequired = false;
+    private Boolean isImgtextRequired = Boolean.FALSE;
 
     public List<Long> getRouteids() {
         return routeids;

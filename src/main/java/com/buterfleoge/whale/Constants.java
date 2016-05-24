@@ -95,35 +95,13 @@ public interface Constants {
      */
     public interface BizCode {
 
-        /**
-         * 邮箱已经存在
-         */
-        int EMAIL_EXIST = 1;
+        int GROUP_NOT_EXIST = 1;
 
-        /**
-         * 密码错误
-         */
-        int WRONG_PASSWORD = 2;
+        int DISCOUNT_CODE_NOT_EXIST = 2;
 
-        /**
-         * 邮箱不存在
-         */
-        int EMAIL_NO_EXIST = 3;
+        int EXCEED_MAX_ORDER_TRAVELLER_COUNT = 3;
 
-        /**
-         * 错误账户类型
-         */
-        int WRONG_ACCOUNT_TYPE = 4;
-
-        /**
-         * 密码不合法
-         */
-        int INVALID_PASSWORD = 5;
-
-        /**
-         * 验证码错误
-         */
-        int INVALID_VALID_CODE = 6;
+        int GROUP_QUOTA_FULL = 4;
     }
 
     /**
@@ -133,17 +111,12 @@ public interface Constants {
      *
      */
     public interface ErrorMsg {
-        String EMAIL_EXIST = "邮箱已经存在";
 
-        String WRONG_PASSWORD = "密码错误";
+        String GROUP_NOT_EXIST = "团不存在";
+        String DISCOUNT_CODE_NOT_EXIST = "优惠码错误";
+        String EXCEED_MAX_ORDER_TRAVELLER_COUNT = "超过报名人数限制";
+        String GROUP_QUOTA_FULL = "超过团人数限制";
 
-        String EMAIL_NO_EXIST = "邮箱不存在";
-
-        String WRONG_ACCOUNT_TYPE = "错误账户类型";
-
-        String INVALID_PASSWORD = "密码不合法";
-
-        String INVALID_VALID_CODE = "验证码错误";
     }
 
     /**
@@ -155,7 +128,7 @@ public interface Constants {
     public interface Pattern {
 
         String DATE = "yyyy-MM-dd";
-        String DATE_TIME = "yyyy-MM-dd mm:ss";
+        String DATE_TIME = "yyyy-MM-dd mm:ss:SSS";
 
     }
 
@@ -218,6 +191,8 @@ public interface Constants {
         String WX_SCOPE_SEPARATOR = ",";
 
         int COOKIE_EXPIRY = 7 * 24 * 60 * 60;
+
+        int MAX_ORDER_TRAVELLER_COUNT = 5;
     }
 
     /**

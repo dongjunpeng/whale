@@ -1,13 +1,24 @@
 package com.buterfleoge.whale.type.entity;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 import com.buterfleoge.whale.type.enums.GroupStatus;
 
 /**
@@ -28,17 +39,23 @@ public class TravelGroup extends BaseObject {
     @Column(name = "routeid")
     private Long routeid;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "start_date")
-    private Long startDate;
+    @Convert(converter = DateTimeConverter.class)
+    private Date startDate;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "end_date")
-    private Long endDate;
+    @Convert(converter = DateTimeConverter.class)
+    private Date endDate;
 
     @Column(name = "title")
     private String title;
 
+    @NumberFormat(style = Style.CURRENCY)
     @Column(name = "price")
-    private Long price;
+    @Convert(converter = PriceConverter.class)
+    private BigDecimal price;
 
     @Column(name = "status")
     private GroupStatus status;
@@ -55,11 +72,15 @@ public class TravelGroup extends BaseObject {
     @Column(name = "wx_qrcode")
     private String wxQrcode;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "add_time")
-    private Long addTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date addTime;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "mod_time")
-    private Long modTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date modTime;
 
     public Long getGroupid() {
         return groupid;
@@ -77,19 +98,19 @@ public class TravelGroup extends BaseObject {
         this.routeid = routeid;
     }
 
-    public Long getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Long startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public Long getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Long endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -101,11 +122,11 @@ public class TravelGroup extends BaseObject {
         this.title = title;
     }
 
-    public Long getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
@@ -149,19 +170,19 @@ public class TravelGroup extends BaseObject {
         this.wxQrcode = wxQrcode;
     }
 
-    public Long getAddTime() {
+    public Date getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Long addTime) {
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
 
-    public Long getModTime() {
+    public Date getModTime() {
         return modTime;
     }
 
-    public void setModTime(Long modTime) {
+    public void setModTime(Date modTime) {
         this.modTime = modTime;
     }
 

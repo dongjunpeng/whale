@@ -19,8 +19,6 @@ public interface TravelGroupRepository extends CrudRepository<TravelGroup, Long>
 
     List<TravelGroup> findByRouteidAndEndDateGreaterThanOrderByStartDateAsc(Long routeid, Long endDate);
 
-    TravelGroup findByGroupid(Long groupid);
-
     List<TravelGroup> findByStatusIn(Set<GroupStatus> status);
 
     List<TravelGroup> findByStatus(GroupStatus status);

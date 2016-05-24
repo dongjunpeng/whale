@@ -26,7 +26,6 @@ import com.buterfleoge.whale.type.enums.OrderStatus;
  * @author Brent24
  *
  */
-
 @Component
 public class ScheduledTask {
 
@@ -61,9 +60,9 @@ public class ScheduledTask {
     public void changeDiscountCodeStatus() {
         List<DiscountCode> codeList = discountCodeRepository.findByStatusIn(CODECHECK);
         for (DiscountCode temp : codeList) {
-            if (temp.getEndTime() < System.currentTimeMillis()) {
+            // if (temp.getEndTime() < System.currentTimeMillis()) {
                 temp.setStatus(DiscountCodeStatus.TIMEOUT);
-            }
+            // }
         }
         discountCodeRepository.save(codeList);
     }
@@ -74,10 +73,10 @@ public class ScheduledTask {
     public void changeTravelGroupStatus() {
         List<TravelGroup> groupList = travelGroupRepository.findByStatusIn(GROUPCHECK);
         for (TravelGroup temp : groupList) {
-            if (temp.getStartDate() < System.currentTimeMillis()) {
+            if (temp.getStartDate().getTime() < System.currentTimeMillis()) {
                 temp.setStatus(GroupStatus.TRAVELLING);
             }
-            if (temp.getEndDate() < System.currentTimeMillis()) {
+            if (temp.getEndDate().getTime() < System.currentTimeMillis()) {
                 temp.setStatus(GroupStatus.FINISHED);
             }
         }
@@ -97,7 +96,7 @@ public class ScheduledTask {
             Long orderid = temp.getOrderid();
             Long groupid = temp.getGroupid();
             int orderCount = temp.getCount();
-            TravelGroup group = travelGroupRepository.findByGroupid(groupid);
+            TravelGroup group = travelGroupRepository.findOne(groupid);
             group.setStatus(GroupStatus.OPEN);
             group.setActualCount(group.getActualCount() - orderCount);
             travelGroupRepository.save(group);

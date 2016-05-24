@@ -17,8 +17,7 @@ import com.buterfleoge.whale.type.enums.DiscountCodeStatus;
  * @author Brent24
  *
  */
-
-@Service("codegenerator")
+@Service("codeGenerator")
 public class CodeGenerator {
 
     @Autowired
@@ -43,10 +42,10 @@ public class CodeGenerator {
                 discountCode.setStatus(DiscountCodeStatus.CREATED);
                 discountCode.setDiscountCode(code);
                 discountCode.setAgent(agent);
-                discountCode.setValue(value);
-                discountCode.setStartTime(startTime);
-                discountCode.setEndTime(endTime);
-                discountCode.setAddTime(System.currentTimeMillis());
+                // discountCode.setValue(value);
+                // discountCode.setStartTime(startTime);
+                // discountCode.setEndTime(endTime);
+                // discountCode.setAddTime(System.currentTimeMillis());
                 discountCodeRepository.save(discountCode);
             } else {
                 i--;

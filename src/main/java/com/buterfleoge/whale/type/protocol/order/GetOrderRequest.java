@@ -6,7 +6,8 @@ import com.buterfleoge.whale.type.protocol.Request;
  * @author Brent24
  *
  */
-public class GetOrderDetailRequest extends Request {
+public class GetOrderRequest extends Request {
+
     private Long orderid;
 
     public Long getOrderid() {

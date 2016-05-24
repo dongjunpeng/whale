@@ -7,6 +7,7 @@ import com.buterfleoge.whale.type.protocol.Request;
  *
  */
 public class GetQuotaRequest extends Request {
+
     private Long groupid;
 
     public Long getGroupid() {
