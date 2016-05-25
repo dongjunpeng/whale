@@ -1,14 +1,14 @@
 package com.buterfleoge.whale.biz.order.impl.discount;
 
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  *
  * @author xiezhenzong
  *
  */
-@Configurable
+@Configuration
 public class DiscountConfig {
 
     @Bean(name = "countDiscountStrategy")

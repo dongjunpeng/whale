@@ -3,8 +3,8 @@
  */
 package com.buterfleoge.whale.dao;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -18,9 +18,7 @@ public interface TravelRouteRepository extends CrudRepository<TravelRoute, Long>
 
     TravelRoute findByRouteidAndVisibleTrue(Long routeid);
 
-    TravelRoute findByNameAndVisibleTrue(String name);
-
-    List<TravelRoute> findByRouteidInAndVisibleTrue(Set<Long> routeid);
+    List<TravelRoute> findByRouteidInAndVisibleTrue(Collection<Long> routeids);
 
     List<TravelRoute> findByVisibleTrue();
 
