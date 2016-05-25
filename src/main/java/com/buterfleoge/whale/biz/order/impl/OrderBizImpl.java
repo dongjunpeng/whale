@@ -20,7 +20,6 @@ import com.buterfleoge.whale.biz.order.OrderBiz;
 import com.buterfleoge.whale.biz.order.impl.create.CreateOrderHandler;
 import com.buterfleoge.whale.biz.order.impl.discount.DiscountHandler;
 import com.buterfleoge.whale.biz.travel.TravelBiz;
-import com.buterfleoge.whale.dao.AccountSettingRepository;
 import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
@@ -85,9 +84,6 @@ public class OrderBizImpl implements OrderBiz {
         CONFIRM.add(RefoundStatus.CONFIRMED);
         CONFIRM.add(RefoundStatus.REFOUNDED);
     }
-
-    @Autowired
-    private AccountSettingRepository accountSettingRepository;
 
     @Autowired
     private TravelRouteRepository travelRouteRepository;

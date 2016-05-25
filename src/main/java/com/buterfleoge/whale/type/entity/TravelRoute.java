@@ -17,6 +17,8 @@ import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 import com.buterfleoge.whale.type.enums.TravelArea;
 import com.buterfleoge.whale.type.enums.TravelType;
+import com.buterfleoge.whale.type.formatter.ImagePathFormat;
+import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
 
 /**
  * @author Brent24
@@ -71,9 +73,11 @@ public class TravelRoute extends BaseObject {
     @Column(name = "description")
     private String desc;
 
+    @ImagePathFormat(prefix = Prefix.ROUTE)
     @Column(name = "head_img")
     private String headImg;
 
+    @ImagePathFormat(prefix = Prefix.ROUTE)
     @Column(name = "map_img")
     private String mapImg;
 

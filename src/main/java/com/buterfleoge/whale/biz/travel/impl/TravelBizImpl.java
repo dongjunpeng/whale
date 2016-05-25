@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.buterfleoge.whale.Constants.BizCode;
@@ -58,16 +59,18 @@ public class TravelBizImpl implements TravelBiz {
 
     @Override
     public void getRoute(GetRouteRequest request, GetRouteResponse response) throws Exception {
-        Long routeid = request.getRouteid();
+        List<Long> routeids = request.getRouteids();
 
         List<TravelRoute> routes = null;
         Imgtext imgtext = null;
         try {
-            if (routeid != null) {
-                TravelRoute route = travelRouteRepository.findByRouteidAndVisibleTrue(routeid);
+            if (CollectionUtils.isEmpty(routeids)) {
+                routes = travelRouteRepository.findByVisibleTrue();
+            } else if (routeids.size() == 1) {
+                TravelRoute route = travelRouteRepository.findByRouteidAndVisibleTrue(routeids.get(0));
                 routes = route == null ? Collections.<TravelRoute> emptyList() : Arrays.asList(route);
             } else {
-                routes = travelRouteRepository.findByVisibleTrue();
+                routes = travelRouteRepository.findByRouteidInAndVisibleTrue(routeids);
             }
             if (routes.isEmpty()) {
                 response.setStatus(Status.PARAM_ERROR);
@@ -79,8 +82,8 @@ public class TravelBizImpl implements TravelBiz {
             response.setStatus(Status.DB_ERROR);
         }
         try {
-            if (request.getIsImgtextRequired()) {
-                imgtext = getImgtextInJson(routeid);
+            if (routeids.size() == 1 && request.getIsImgtextRequired()) {
+                imgtext = getImgtextInJson(routeids.get(0));
                 response.setImgtext(imgtext);
             }
         } catch (Exception e) {

@@ -11,8 +11,8 @@ import javax.persistence.AttributeConverter;
  */
 public class PriceConverter implements AttributeConverter<BigDecimal, Long> {
 
-    private static final long PRICE_FACTOR = 1000L;
-    private static final BigDecimal PRICE_FACTOR_BIGDECIMAL = BigDecimal.valueOf(PRICE_FACTOR);
+    public static final long PRICE_FACTOR = 1000L;
+    public static final BigDecimal PRICE_FACTOR_BIGDECIMAL = BigDecimal.valueOf(PRICE_FACTOR);
 
     @Override
     public Long convertToDatabaseColumn(BigDecimal attribute) {

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,7 +55,7 @@ public class ScheduledTask {
 
     // 优惠码过期,每天00:01执行
     @Transactional(rollbackFor = Exception.class)
-    @Scheduled(cron = "1 0 0 * * ? ")
+    // @Scheduled(cron = "1 0 0 * * ? ")
     public void changeDiscountCodeStatus() {
         List<DiscountCode> codeList = discountCodeRepository.findByStatusIn(CODECHECK);
         for (DiscountCode temp : codeList) {
@@ -69,7 +68,7 @@ public class ScheduledTask {
 
     // group状态改变,每天00:01执行
     @Transactional(rollbackFor = Exception.class)
-    @Scheduled(cron = "1 0 0 * * ? ")
+    // @Scheduled(cron = "1 0 0 * * ? ")
     public void changeTravelGroupStatus() {
         List<TravelGroup> groupList = travelGroupRepository.findByStatusIn(GROUPCHECK);
         for (TravelGroup temp : groupList) {
@@ -85,7 +84,7 @@ public class ScheduledTask {
 
     // 订单状态改变每分钟检查数据库
     @Transactional(rollbackFor = Exception.class)
-    @Scheduled(fixedRate = 1000 * 60)
+    // @Scheduled(fixedRate = 1000 * 60)
     public void changeOrderStatus() {
         List<OrderInfo> orderList = orderInfoRepository.findByStatusAndAddTimeLessThan(OrderStatus.WAITING,
                 System.currentTimeMillis() - 1000 * 60 * 120);
