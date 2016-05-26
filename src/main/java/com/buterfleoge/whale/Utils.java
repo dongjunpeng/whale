@@ -3,7 +3,6 @@ package com.buterfleoge.whale;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.text.SimpleDateFormat;
 import java.util.Enumeration;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -19,12 +18,6 @@ import org.slf4j.LoggerFactory;
 public abstract class Utils {
 
     private static final Logger LOG = LoggerFactory.getLogger(Utils.class);
-
-    private static final SimpleDateFormat FMT = new SimpleDateFormat("yyyy-MM-dd");
-
-    public static final boolean isPasswordValid(String password) {
-        return true;
-    }
 
     /**
      * Get host IP address
@@ -52,10 +45,6 @@ public abstract class Utils {
 
     public static String stringMD5(String input) {
         return DigestUtils.md5Hex(input);
-    }
-
-    public static String dateToSting(Long time) {
-        return FMT.format(time);
     }
 
     public static void main(String[] args) {

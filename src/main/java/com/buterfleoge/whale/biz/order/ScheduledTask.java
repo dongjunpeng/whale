@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +25,6 @@ import com.buterfleoge.whale.type.enums.OrderStatus;
  * @author Brent24
  *
  */
-
 @Component
 public class ScheduledTask {
 
@@ -57,27 +55,27 @@ public class ScheduledTask {
 
     // 优惠码过期,每天00:01执行
     @Transactional(rollbackFor = Exception.class)
-    @Scheduled(cron = "1 0 0 * * ? ")
+    // @Scheduled(cron = "1 0 0 * * ? ")
     public void changeDiscountCodeStatus() {
         List<DiscountCode> codeList = discountCodeRepository.findByStatusIn(CODECHECK);
         for (DiscountCode temp : codeList) {
-            if (temp.getEndTime() < System.currentTimeMillis()) {
+            // if (temp.getEndTime() < System.currentTimeMillis()) {
                 temp.setStatus(DiscountCodeStatus.TIMEOUT);
-            }
+            // }
         }
         discountCodeRepository.save(codeList);
     }
 
     // group状态改变,每天00:01执行
     @Transactional(rollbackFor = Exception.class)
-    @Scheduled(cron = "1 0 0 * * ? ")
+    // @Scheduled(cron = "1 0 0 * * ? ")
     public void changeTravelGroupStatus() {
         List<TravelGroup> groupList = travelGroupRepository.findByStatusIn(GROUPCHECK);
         for (TravelGroup temp : groupList) {
-            if (temp.getStartDate() < System.currentTimeMillis()) {
+            if (temp.getStartDate().getTime() < System.currentTimeMillis()) {
                 temp.setStatus(GroupStatus.TRAVELLING);
             }
-            if (temp.getEndDate() < System.currentTimeMillis()) {
+            if (temp.getEndDate().getTime() < System.currentTimeMillis()) {
                 temp.setStatus(GroupStatus.FINISHED);
             }
         }
@@ -86,7 +84,7 @@ public class ScheduledTask {
 
     // 订单状态改变每分钟检查数据库
     @Transactional(rollbackFor = Exception.class)
-    @Scheduled(fixedRate = 1000 * 60)
+    // @Scheduled(fixedRate = 1000 * 60)
     public void changeOrderStatus() {
         List<OrderInfo> orderList = orderInfoRepository.findByStatusAndAddTimeLessThan(OrderStatus.WAITING,
                 System.currentTimeMillis() - 1000 * 60 * 120);
@@ -97,7 +95,7 @@ public class ScheduledTask {
             Long orderid = temp.getOrderid();
             Long groupid = temp.getGroupid();
             int orderCount = temp.getCount();
-            TravelGroup group = travelGroupRepository.findByGroupid(groupid);
+            TravelGroup group = travelGroupRepository.findOne(groupid);
             group.setStatus(GroupStatus.OPEN);
             group.setActualCount(group.getActualCount() - orderCount);
             travelGroupRepository.save(group);

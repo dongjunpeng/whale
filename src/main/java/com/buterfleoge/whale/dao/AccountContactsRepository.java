@@ -1,7 +1,6 @@
 package com.buterfleoge.whale.dao;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -14,12 +13,10 @@ import com.buterfleoge.whale.type.entity.AccountContacts;
  */
 public interface AccountContactsRepository extends CrudRepository<AccountContacts, Long> {
 
-    AccountContacts findByContactidAndValidTrue(long contactid);
+    AccountContacts findByContactidAndValidTrue(Long contactid);
 
-    List<AccountContacts> findByAccountidAndValidTrueAndIsDefaultFalse(long accountid);
+    List<AccountContacts> findByAccountidAndValidTrueAndIsDefaultFalse(Long accountid);
 
-    List<AccountContacts> findByAccountidAndValidTrue(long accountid);
-
-    List<AccountContacts> findByContactidInAndAccountidAndValidTrue(Set<Long> coutactid, long accountid);
+    List<AccountContacts> findByAccountidAndValidTrue(Long accountid);
 
 }

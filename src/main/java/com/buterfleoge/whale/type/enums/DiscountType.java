@@ -1,5 +1,9 @@
 package com.buterfleoge.whale.type.enums;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -70,8 +74,31 @@ public enum DiscountType {
         return type;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public static DiscountType getDiscountType(int discountType) {
+        for (DiscountType type : values()) {
+            if (type.getType() == discountType) {
+                return type;
+            }
+        }
+        throw new RuntimeException("Not found discount, discountType: " + discountType);
+    }
+
+    private static final Set<DiscountType> POLICY = new HashSet<DiscountType>();
+
+    static {
+        // 优惠策略
+        POLICY.add(DiscountType.COUNT_1);
+        POLICY.add(DiscountType.COUNT_2);
+        POLICY.add(DiscountType.COUNT_3);
+        POLICY.add(DiscountType.COUNT_4);
+        POLICY.add(DiscountType.COUNT_5);
+        POLICY.add(DiscountType.ROUTE);
+        POLICY.add(DiscountType.TIME_ORDER);
+        POLICY.add(DiscountType.TIME_TRAVEL);
+    }
+
+    public static Set<DiscountType> getDiscountPolicy() {
+        return Collections.unmodifiableSet(POLICY);
     }
 
     @Override

@@ -1,15 +1,24 @@
 package com.buterfleoge.whale.type.entity;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 import com.buterfleoge.whale.type.enums.TravelArea;
 import com.buterfleoge.whale.type.enums.TravelType;
+import com.buterfleoge.whale.type.formatter.ImagePathFormat;
+import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
 
 /**
  * @author Brent24
@@ -51,18 +60,24 @@ public class TravelRoute extends BaseObject {
     @Column(name = "route")
     private String route;
 
+    @NumberFormat(style = Style.CURRENCY)
     @Column(name = "min_price")
-    private Long minPrice;
+    @Convert(converter = PriceConverter.class)
+    private BigDecimal minPrice;
 
+    @NumberFormat(style = Style.CURRENCY)
     @Column(name = "max_price")
-    private Long maxPrice;
+    @Convert(converter = PriceConverter.class)
+    private BigDecimal maxPrice;
 
     @Column(name = "description")
     private String desc;
 
+    @ImagePathFormat(prefix = Prefix.ROUTE)
     @Column(name = "head_img")
     private String headImg;
 
+    @ImagePathFormat(prefix = Prefix.ROUTE)
     @Column(name = "map_img")
     private String mapImg;
 
@@ -149,19 +164,19 @@ public class TravelRoute extends BaseObject {
         this.route = route;
     }
 
-    public Long getMinPrice() {
+    public BigDecimal getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(Long minPrice) {
+    public void setMinPrice(BigDecimal minPrice) {
         this.minPrice = minPrice;
     }
 
-    public Long getMaxPrice() {
+    public BigDecimal getMaxPrice() {
         return maxPrice;
     }
 
-    public void setMaxPrice(Long maxPrice) {
+    public void setMaxPrice(BigDecimal maxPrice) {
         this.maxPrice = maxPrice;
     }
 

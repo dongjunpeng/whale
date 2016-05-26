@@ -14,11 +14,11 @@ import com.buterfleoge.whale.type.enums.OrderStatus;
  */
 public interface OrderInfoRepository extends CrudRepository<OrderInfo, Long> {
 
+    OrderInfo findByOrderidAndAccountid(Long orderid, Long accountid);
+
     List<OrderInfo> findByAccountidAndStatusIn(Long accountid, Set<OrderStatus> status);
 
-    Long countByAccountidAndStatusIn(Long accountid, Set<OrderStatus> status);
-
-    OrderInfo findByOrderid(Long orderid);
+    Integer countByAccountidAndStatusIn(Long accountid, Set<OrderStatus> status);
 
     List<OrderInfo> findByStatusAndAddTimeLessThan(OrderStatus status, Long time);
 

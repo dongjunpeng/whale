@@ -1,9 +1,10 @@
 package com.buterfleoge.whale.type.protocol.order;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.buterfleoge.whale.type.entity.Discount;
 import com.buterfleoge.whale.type.protocol.Response;
-import com.buterfleoge.whale.type.protocol.order.object.DiscountObject;
 
 /**
  * @author Brent24
@@ -11,34 +12,52 @@ import com.buterfleoge.whale.type.protocol.order.object.DiscountObject;
  */
 public class GetDiscountResponse extends Response {
 
-    private List<DiscountObject> policy;
+    private Long defaultDiscountid = Long.valueOf(-1L);
 
-    private DiscountObject studentDiscount;
+    private List<Discount> policy = new ArrayList<Discount>(5);;
 
-    private Long defaultDiscountid;
+    private Discount studentDiscount;
 
-    public List<DiscountObject> getPolicy() {
-        return policy;
-    }
-
-    public void setPolicy(List<DiscountObject> policy) {
-        this.policy = policy;
-    }
-
-    public DiscountObject getStudentDiscount() {
-        return studentDiscount;
-    }
-
-    public void setStudentDiscount(DiscountObject studentDiscount) {
-        this.studentDiscount = studentDiscount;
-    }
-
+    /**
+     * @return the defaultDiscountid
+     */
     public Long getDefaultDiscountid() {
         return defaultDiscountid;
     }
 
+    /**
+     * @param defaultDiscountid the defaultDiscountid to set
+     */
     public void setDefaultDiscountid(Long defaultDiscountid) {
         this.defaultDiscountid = defaultDiscountid;
+    }
+
+    /**
+     * @return the policy
+     */
+    public List<Discount> getPolicy() {
+        return policy;
+    }
+
+    /**
+     * @param policy the policy to set
+     */
+    public void setPolicy(List<Discount> policy) {
+        this.policy = policy;
+    }
+
+    /**
+     * @return the studentDiscount
+     */
+    public Discount getStudentDiscount() {
+        return studentDiscount;
+    }
+
+    /**
+     * @param studentDiscount the studentDiscount to set
+     */
+    public void setStudentDiscount(Discount studentDiscount) {
+        this.studentDiscount = studentDiscount;
     }
 
 }

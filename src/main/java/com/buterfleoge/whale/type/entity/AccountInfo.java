@@ -1,13 +1,20 @@
 package com.buterfleoge.whale.type.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.enums.AccountStatus;
 import com.buterfleoge.whale.type.enums.AccountType;
 import com.buterfleoge.whale.type.enums.IdType;
@@ -51,11 +58,15 @@ public class AccountInfo extends BaseObject {
     @Column(name = "mobile")
     private String mobile = "";
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "add_time")
-    private Long addTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date addTime;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "mod_time")
-    private Long modTime;
+    @Convert(converter = DateTimeConverter.class)
+    private Date modTime;
 
     /**
      * @return the accountid
@@ -198,7 +209,7 @@ public class AccountInfo extends BaseObject {
     /**
      * @return the addTime
      */
-    public Long getAddTime() {
+    public Date getAddTime() {
         return addTime;
     }
 
@@ -206,14 +217,14 @@ public class AccountInfo extends BaseObject {
      * @param addTime
      *            the addTime to set
      */
-    public void setAddTime(Long addTime) {
+    public void setAddTime(Date addTime) {
         this.addTime = addTime;
     }
 
     /**
      * @return the modTime
      */
-    public Long getModTime() {
+    public Date getModTime() {
         return modTime;
     }
 
@@ -221,7 +232,7 @@ public class AccountInfo extends BaseObject {
      * @param modTime
      *            the modTime to set
      */
-    public void setModTime(Long modTime) {
+    public void setModTime(Date modTime) {
         this.modTime = modTime;
     }
 

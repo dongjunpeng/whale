@@ -13,4 +13,7 @@ import com.buterfleoge.whale.type.entity.OrderTravellers;
 public interface OrderTravellersRepository extends CrudRepository<OrderTravellers, Long> {
 
     List<OrderTravellers> findByOrderid(Long orderid);
+
+    List<OrderTravellers> findByOrderidAndAccountid(Long orderid, Long accountid);
+
 }

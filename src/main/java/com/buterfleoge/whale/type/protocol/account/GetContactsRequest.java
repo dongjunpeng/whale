@@ -9,48 +9,37 @@ import com.buterfleoge.whale.type.protocol.Request;
  */
 public class GetContactsRequest extends Request {
 
-	private Long contactid;
+    private Long contactid;
 
-	private Long accountid;
+    private Boolean needDefault = false;
 
-	private Boolean isDefault = false;
+    /**
+     * @return the contactid
+     */
+    public Long getContactid() {
+        return contactid;
+    }
 
-	/**
-	 * @return the contactid
-	 */
-	public Long getContactid() {
-		return contactid;
-	}
+    /**
+     * @param contactid the contactid to set
+     */
+    public void setContactid(Long contactid) {
+        this.contactid = contactid;
+    }
 
-	/**
-	 * @param contactid
-	 *            the contactid to set
-	 */
-	public void setContactid(Long contactid) {
-		this.contactid = contactid;
-	}
+    /**
+     * @return the needDefault
+     */
+    public Boolean getNeedDefault() {
+        return needDefault;
+    }
 
-	/**
-	 * @return the accountid
-	 */
-	public Long getAccountid() {
-		return accountid;
-	}
+    /**
+     * @param needDefault the needDefault to set
+     */
+    public void setNeedDefault(Boolean needDefault) {
+        this.needDefault = needDefault;
+    }
 
-	/**
-	 * @param accountid
-	 *            the accountid to set
-	 */
-	public void setAccountid(Long accountid) {
-		this.accountid = accountid;
-	}
-
-	public Boolean getIsDefault() {
-		return isDefault;
-	}
-
-	public void setIsDefault(Boolean isDefault) {
-		this.isDefault = isDefault;
-	}
 
 }

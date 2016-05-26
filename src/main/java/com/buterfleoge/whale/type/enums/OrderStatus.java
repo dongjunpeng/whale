@@ -32,7 +32,7 @@ public enum OrderStatus {
     /**
      * 取消
      */
-    CANCEl(2),
+    CANCEL(2),
 
     /**
      * 超时

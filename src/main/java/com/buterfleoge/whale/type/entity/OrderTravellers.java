@@ -1,12 +1,19 @@
 package com.buterfleoge.whale.type.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.enums.Gender;
 import com.buterfleoge.whale.type.enums.IdType;
 
@@ -50,8 +57,10 @@ public class OrderTravellers extends BaseObject {
     @Column(name = "gender")
     private Gender gender;
 
+    @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "birthday")
-    private Long birthday;
+    @Convert(converter = DateTimeConverter.class)
+    private Date birthday;
 
     @Column(name = "address")
     private String address;
@@ -145,11 +154,11 @@ public class OrderTravellers extends BaseObject {
         this.gender = gender;
     }
 
-    public Long getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Long birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 
