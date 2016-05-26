@@ -5,6 +5,7 @@ import java.util.Locale;
 
 import org.springframework.format.Formatter;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  *
@@ -22,7 +23,7 @@ public class ImagePathFomatter implements Formatter<String> {
 
     @Override
     public String print(String object, Locale locale) {
-        return prefix + object;
+        return StringUtils.hasText(object) ? prefix + object : "";
     }
 
     @Override

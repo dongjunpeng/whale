@@ -3,12 +3,14 @@ package com.buterfleoge.whale.type.entity.converter;
 import java.math.BigDecimal;
 
 import javax.persistence.AttributeConverter;
+import javax.persistence.Converter;
 
 /**
  *
  * @author xiezhenzong
  *
  */
+@Converter(autoApply = true)
 public class PriceConverter implements AttributeConverter<BigDecimal, Long> {
 
     public static final long PRICE_FACTOR = 1000L;
