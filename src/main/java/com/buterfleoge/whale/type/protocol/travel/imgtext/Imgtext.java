@@ -2,29 +2,22 @@ package com.buterfleoge.whale.type.protocol.travel.imgtext;
 
 import java.util.List;
 
+import com.buterfleoge.whale.type.formatter.ImagePathFormat;
+import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
+
 /**
  * @author Brent24
  *
  */
 public class Imgtext {
+
+    @ImagePathFormat(prefix = Prefix.ROUTE, isComposite = true)
     private List<String> sliderImgs;
     private List<String> descriptions;
     private Introduction introduction;
     private List<Day> days;
     private Notice notice;
     private Expense expense;
-
-    public void addPath(String path) {
-
-        for (int i = 0; i < sliderImgs.size(); i++) {
-            sliderImgs.set(i, path + sliderImgs.get(i));
-        }
-
-        for (Day temp : days) {
-            temp.addPath(path);
-        }
-
-    }
 
     public List<String> getSliderImgs() {
         return sliderImgs;
