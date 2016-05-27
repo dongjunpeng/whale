@@ -2,6 +2,9 @@ package com.buterfleoge.whale.type.protocol.travel.imgtext;
 
 import java.util.List;
 
+import com.buterfleoge.whale.type.formatter.ImagePathFormat;
+import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
+
 /**
  * @author Brent24
  *
@@ -9,6 +12,7 @@ import java.util.List;
 public class Day {
 
     private String title;
+    @ImagePathFormat(prefix = Prefix.ROUTE, isComposite = true)
     private List<String> imgs;
     private List<String> descriptions;
     private String mdtext;

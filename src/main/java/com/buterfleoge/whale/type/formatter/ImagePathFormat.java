@@ -18,6 +18,8 @@ public @interface ImagePathFormat {
 
     Prefix prefix() default Prefix.DEFAULT;
 
+    boolean isComposite() default false;
+
     enum Prefix {
         
         DEFAULT(""),
