@@ -7,6 +7,8 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 @Service("wxBiz")
-public class WxbizImpl implements WxBiz {
+public class WxBizImpl implements WxBiz {
+
+    private static final Logger LOG = LoggerFactory.getLogger(WxBizImpl.class);
 
     @Value("${wx.appid}")
     private String appid;
@@ -46,7 +50,7 @@ public class WxbizImpl implements WxBiz {
     private String wxApiUserinfo;
 
     @Override
-    public String getLoginUri(String state, String redirectUri) throws Exception {
+    public String getLoginUri(String state, String redirectUri) {
         StringBuilder sb = new StringBuilder(wxLoginQrconnect) //
                 .append("?appid=").append(appid) //
                 .append("&redirect_uri=").append(redirectUri) //
@@ -56,7 +60,7 @@ public class WxbizImpl implements WxBiz {
     }
 
     @Override
-    public WxAccessTokenResponse getAccessToken(String code) throws Exception {
+    public WxAccessTokenResponse getAccessToken(String code) {
         String uri = new StringBuilder(wxApiAccessToken) //
                 .append("?appid=").append(appid) //
                 .append("&secret=").append(appsecret) //
@@ -66,7 +70,7 @@ public class WxbizImpl implements WxBiz {
     }
 
     @Override
-    public WxAccessTokenResponse refreshToken(String refreshToken) throws Exception {
+    public WxAccessTokenResponse refreshToken(String refreshToken) {
         String uri = new StringBuilder(wxApiAccessToken) //
                 .append("?appid=").append(appid) //
                 .append("&grant_type=refresh_token") //
@@ -75,23 +79,23 @@ public class WxbizImpl implements WxBiz {
     }
 
     @Override
-    public boolean isAccessTokenValid(String accessToken, String openid) throws Exception {
+    public boolean isAccessTokenValid(String accessToken, String openid) {
         String uri = new StringBuilder(wxApiAuth) //
                 .append("?access_token=").append(accessToken) //
                 .append("&openid=").append(openid).toString();
         WxAuthResponse response = getWx(uri, WxAuthResponse.class);
-        return response.getErrcode() == WxAuthResponse.CODE_OK;
+        return response != null && response.getErrcode() == WxAuthResponse.CODE_OK;
     }
 
     @Override
-    public WxUserinfoResponse getUserinfo(String accessToken, String openid) throws Exception {
+    public WxUserinfoResponse getUserinfo(String accessToken, String openid) {
         String uri = new StringBuilder(wxApiUserinfo) //
                 .append("?access_token=").append(accessToken) //
                 .append("&openid=").append(openid).toString();
         return getWx(uri, WxUserinfoResponse.class);
     }
 
-    private <T> T getWx(String uri, Class<T> responseType) throws Exception {
+    private <T> T getWx(String uri, Class<T> responseType) {
         CloseableHttpClient httpclient = null;
         CloseableHttpResponse response = null;
         try {
@@ -105,6 +109,9 @@ public class WxbizImpl implements WxBiz {
             } else {
                 throw new IllegalStateException("wx response is empty");
             }
+        } catch (Exception e) {
+            LOG.error("call wx failed, uri: " + uri, e);
+            return null;
         } finally {
             try {
                 if (httpclient != null) {

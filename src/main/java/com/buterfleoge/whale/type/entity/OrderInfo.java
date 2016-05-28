@@ -49,20 +49,20 @@ public class OrderInfo extends BaseObject {
     private OrderStatus status;
 
     @Column(name = "count")
-    private Integer count;
+    private Integer count = 0;
 
     @Column(name = "student_count")
-    private Integer studentCount;
+    private Integer studentCount = 0;
 
     @NumberFormat(style = Style.CURRENCY)
     @Column(name = "price")
     @Convert(converter = PriceConverter.class)
-    private BigDecimal price;
+    private BigDecimal price = BigDecimal.ZERO;
 
     @NumberFormat(style = Style.CURRENCY)
     @Column(name = "actual_price")
     @Convert(converter = PriceConverter.class)
-    private BigDecimal actualPrice;
+    private BigDecimal actualPrice = BigDecimal.ZERO;
 
     @Column(name = "is_agreed")
     private Boolean isAgreed;

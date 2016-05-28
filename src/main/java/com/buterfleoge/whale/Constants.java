@@ -142,8 +142,6 @@ public interface Constants {
 
         String ACCOUNT_BASIC_INFO = "account_basic_info";
 
-        String WX_LOGIN_STATE = "wx_state";
-
     }
 
     /**
@@ -169,6 +167,8 @@ public interface Constants {
     public interface CacheKey {
 
         String WX_ACCESS_TOKEN_PREFIX = "rabbit_wx_access_token";
+
+        String WX_LOGIN_STATE_PREFIX = "wx_state";
 
     }
 

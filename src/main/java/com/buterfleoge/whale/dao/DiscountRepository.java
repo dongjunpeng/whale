@@ -1,5 +1,7 @@
 package com.buterfleoge.whale.dao;
 
+import java.util.Date;
+
 import org.springframework.data.repository.CrudRepository;
 
 import com.buterfleoge.whale.type.entity.Discount;
@@ -11,10 +13,9 @@ import com.buterfleoge.whale.type.enums.DiscountType;
  */
 public interface DiscountRepository extends CrudRepository<Discount, Long> {
 
-    Discount findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(DiscountType type, Long now1, Long now2);
+    Discount findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(DiscountType type, Date now1, Date now2);
 
-    Discount findByTypeAndRouteidAndStartTimeLessThanAndEndTimeGreaterThan(DiscountType type, Long routeid, Long now1,
-            Long now2);
+    Discount findByTypeAndRouteidAndStartTimeLessThanAndEndTimeGreaterThan(DiscountType type, Long routeid, Date now1, Date now2);
 
     Discount findByDiscountid(Long discountid);
 

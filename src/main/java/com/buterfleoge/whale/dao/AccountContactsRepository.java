@@ -15,8 +15,6 @@ public interface AccountContactsRepository extends CrudRepository<AccountContact
 
     AccountContacts findByContactidAndValidTrue(Long contactid);
 
-    List<AccountContacts> findByAccountidAndValidTrueAndIsDefaultFalse(Long accountid);
-
     List<AccountContacts> findByAccountidAndValidTrue(Long accountid);
 
 }

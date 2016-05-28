@@ -86,8 +86,9 @@ public class ScheduledTask {
     @Transactional(rollbackFor = Exception.class)
     // @Scheduled(fixedRate = 1000 * 60)
     public void changeOrderStatus() {
-        List<OrderInfo> orderList = orderInfoRepository.findByStatusAndAddTimeLessThan(OrderStatus.WAITING,
-                System.currentTimeMillis() - 1000 * 60 * 120);
+        List<OrderInfo> orderList = null;
+        // orderInfoRepository.findByStatusAndAddTimeLessThan(OrderStatus.WAITING,
+        // System.currentTimeMillis() - 1000 * 60 * 120);
 
         for (OrderInfo temp : orderList) {
             temp.setStatus(OrderStatus.TIMEOUT);

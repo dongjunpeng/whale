@@ -18,12 +18,12 @@ public class PriceConverter implements AttributeConverter<BigDecimal, Long> {
 
     @Override
     public Long convertToDatabaseColumn(BigDecimal attribute) {
-        return attribute.multiply(PRICE_FACTOR_BIGDECIMAL).longValue();
+        return attribute != null ? attribute.multiply(PRICE_FACTOR_BIGDECIMAL).longValue() : null;
     }
 
     @Override
     public BigDecimal convertToEntityAttribute(Long dbData) {
-        return BigDecimal.valueOf(dbData / PRICE_FACTOR);
+        return dbData != null ? BigDecimal.valueOf(dbData / PRICE_FACTOR) : null;
     }
 
 }
