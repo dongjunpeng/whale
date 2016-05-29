@@ -13,7 +13,7 @@ import javax.persistence.Converter;
 @Converter(autoApply = true)
 public class PriceConverter implements AttributeConverter<BigDecimal, Long> {
 
-    public static final long PRICE_FACTOR = 1000L;
+    public static final double PRICE_FACTOR = 1000.0;
     public static final BigDecimal PRICE_FACTOR_BIGDECIMAL = BigDecimal.valueOf(PRICE_FACTOR);
 
     @Override

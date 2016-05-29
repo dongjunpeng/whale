@@ -15,6 +15,8 @@ import com.buterfleoge.whale.type.enums.OrderStatus;
  */
 public interface OrderInfoRepository extends CrudRepository<OrderInfo, Long> {
 
+    OrderInfo findByAccountidAndRouteidAndGroupid(Long accountid, Long routeid, Long groupid);
+
     OrderInfo findByOrderidAndAccountid(Long orderid, Long accountid);
 
     List<OrderInfo> findByAccountidAndStatusIn(Long accountid, Set<OrderStatus> status);
