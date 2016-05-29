@@ -116,7 +116,9 @@ public interface Constants {
         String DISCOUNT_CODE_NOT_EXIST = "优惠码错误";
         String EXCEED_MAX_ORDER_TRAVELLER_COUNT = "超过报名人数限制";
         String GROUP_QUOTA_FULL = "超过团人数限制";
-
+        String DISCOUNT_CODE_OCCUPIED = "优惠码已使用，请取消订单后重新验证";
+        String DISCOUNT_CODE_TIMEOUT = "优惠码已过期";
+        String DISCOUNT_CODE_USED = "优惠码已被使用";
     }
 
     /**
@@ -141,8 +143,6 @@ public interface Constants {
     public interface SessionKey {
 
         String ACCOUNT_BASIC_INFO = "account_basic_info";
-
-        String WX_LOGIN_STATE = "wx_state";
 
     }
 
@@ -169,6 +169,8 @@ public interface Constants {
     public interface CacheKey {
 
         String WX_ACCESS_TOKEN_PREFIX = "rabbit_wx_access_token";
+
+        String WX_LOGIN_STATE_PREFIX = "wx_state";
 
     }
 

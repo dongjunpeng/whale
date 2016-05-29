@@ -1,5 +1,7 @@
 package com.buterfleoge.whale.biz.order.impl.discount;
 
+import java.util.Date;
+
 import com.buterfleoge.whale.type.enums.DiscountType;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
@@ -13,7 +15,7 @@ public class TimeDiscountStrategy extends DiscountStrategy {
 
     public void handleDiscount(Long accountid, GetDiscountRequest request, GetDiscountResponse response,
             DiscountStrategyContext context) {
-        long now = System.currentTimeMillis();
+        Date now = new Date();
         try {
             response.getPolicy().add(discountRepository
                     .findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(DiscountType.TIME_ORDER, now, now));
@@ -22,7 +24,7 @@ public class TimeDiscountStrategy extends DiscountStrategy {
         }
 
         try {
-            now = context.getGroup().getStartDate().getTime();
+            now = context.getGroup().getStartDate();
             response.getPolicy().add(discountRepository
                     .findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(DiscountType.TIME_TRAVEL, now, now));
         } catch (Exception e) {

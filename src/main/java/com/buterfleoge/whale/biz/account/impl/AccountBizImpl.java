@@ -18,6 +18,7 @@ import com.buterfleoge.whale.dao.AccountSettingRepository;
 import com.buterfleoge.whale.type.entity.AccountContacts;
 import com.buterfleoge.whale.type.entity.AccountInfo;
 import com.buterfleoge.whale.type.entity.AccountSetting;
+import com.buterfleoge.whale.type.enums.AccountStatus;
 import com.buterfleoge.whale.type.enums.Gender;
 import com.buterfleoge.whale.type.enums.IdType;
 import com.buterfleoge.whale.type.protocol.Response;
@@ -59,7 +60,6 @@ public class AccountBizImpl implements AccountBiz {
     @Override
     public void getContacts(Long accountid, GetContactsRequest request, GetContactsResponse response) throws Exception {
         Long contactid = request.getContactid();
-        Boolean needDefault = request.getNeedDefault();
         try {
             if (contactid != null) {
                 AccountContacts contact = accountContactsRepository.findByContactidAndValidTrue(contactid);
@@ -67,12 +67,7 @@ public class AccountBizImpl implements AccountBiz {
                     response.setContacts(Arrays.asList(contact));
                 }
             } else {
-                List<AccountContacts> contacts = null;
-                if (needDefault != null && needDefault) {
-                    contacts = accountContactsRepository.findByAccountidAndValidTrue(accountid);
-                } else {
-                    contacts = accountContactsRepository.findByAccountidAndValidTrueAndIsDefaultFalse(accountid);
-                }
+                List<AccountContacts> contacts = accountContactsRepository.findByAccountidAndValidTrue(accountid);
                 response.setContacts(contacts);
             }
         } catch (Exception e) {
@@ -128,7 +123,7 @@ public class AccountBizImpl implements AccountBiz {
         boolean isNeedSave = false;
         AccountInfo accountInfo = null;
         try {
-            accountInfo = accountInfoRepository.findByAccountid(accountid);
+            accountInfo = accountInfoRepository.findOne(accountid);
         } catch (Exception e) {
             LOG.error("find account info failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
@@ -153,6 +148,9 @@ public class AccountBizImpl implements AccountBiz {
         }
         if (isNeedSave) {
             try {
+                if (AccountStatus.WAIT_COMPLETE_INFO.equals(accountInfo.getStatus())) {
+                    accountInfo.setStatus(AccountStatus.OK);
+                }
                 accountInfo.setModTime(new Date());
                 accountInfoRepository.save(accountInfo);
             } catch (Exception e) {
@@ -169,7 +167,7 @@ public class AccountBizImpl implements AccountBiz {
         boolean isNeedSave = false;
         AccountSetting accountSetting = null;
         try {
-            accountSetting = accountSettingRepository.findByAccountid(accountid);
+            accountSetting = accountSettingRepository.findOne(accountid);
         } catch (Exception e) {
             LOG.error("find account setting failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
@@ -213,7 +211,6 @@ public class AccountBizImpl implements AccountBiz {
             contact.setEmergencyContact(request.getEmergencyContact());
             contact.setEmergencyMobile(request.getEmergencyMobile());
             contact.setGender(request.getGender());
-            contact.setIsDefault(false);
             contact.setAddTime(new Date());
             contact.setModTime(contact.getAddTime());
             contact.setValid(true);

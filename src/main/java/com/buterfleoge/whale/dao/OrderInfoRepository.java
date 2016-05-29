@@ -1,5 +1,6 @@
 package com.buterfleoge.whale.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -14,12 +15,14 @@ import com.buterfleoge.whale.type.enums.OrderStatus;
  */
 public interface OrderInfoRepository extends CrudRepository<OrderInfo, Long> {
 
+    OrderInfo findByAccountidAndRouteidAndGroupid(Long accountid, Long routeid, Long groupid);
+
     OrderInfo findByOrderidAndAccountid(Long orderid, Long accountid);
 
     List<OrderInfo> findByAccountidAndStatusIn(Long accountid, Set<OrderStatus> status);
 
     Integer countByAccountidAndStatusIn(Long accountid, Set<OrderStatus> status);
 
-    List<OrderInfo> findByStatusAndAddTimeLessThan(OrderStatus status, Long time);
+    List<OrderInfo> findByStatusAndAddTimeLessThan(OrderStatus status, Date time);
 
 }

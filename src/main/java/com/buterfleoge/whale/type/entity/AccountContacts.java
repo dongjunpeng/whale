@@ -36,9 +36,6 @@ public class AccountContacts extends BaseObject {
     @Column(name = "accountid")
     private Long accountid;
 
-    @Column(name = "is_default")
-    private Boolean isDefault;
-
     @Column(name = "valid")
     private Boolean valid;
 
@@ -110,20 +107,6 @@ public class AccountContacts extends BaseObject {
      */
     public void setAccountid(Long accountid) {
         this.accountid = accountid;
-    }
-
-    /**
-     * @return the isDefault
-     */
-    public Boolean getIsDefault() {
-        return isDefault;
-    }
-
-    /**
-     * @param isDefault the isDefault to set
-     */
-    public void setIsDefault(Boolean isDefault) {
-        this.isDefault = isDefault;
     }
 
     /**

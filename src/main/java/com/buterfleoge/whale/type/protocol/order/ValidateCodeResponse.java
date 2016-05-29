@@ -13,18 +13,8 @@ import com.buterfleoge.whale.type.protocol.Response;
  */
 public class ValidateCodeResponse extends Response {
 
-    private String message;
-
     @NumberFormat(style = Style.CURRENCY)
     private BigDecimal value;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public BigDecimal getValue() {
         return value;

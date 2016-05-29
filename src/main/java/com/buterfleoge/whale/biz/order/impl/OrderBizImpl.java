@@ -370,16 +370,16 @@ public class OrderBizImpl implements OrderBiz {
                 response.setValue(discountCode.getValue());
                 break;
             case OCCUPIED:
-                response.setMessage("优惠码已使用，请取消订单后重新验证");
                 response.setStatus(Status.BIZ_ERROR);
+                response.addError(new Error(ErrorMsg.DISCOUNT_CODE_OCCUPIED));
                 break;
             case TIMEOUT:
-                response.setMessage("优惠码已过期");
                 response.setStatus(Status.BIZ_ERROR);
+                response.addError(new Error(ErrorMsg.DISCOUNT_CODE_TIMEOUT));
                 break;
             case USED:
-                response.setMessage("优惠码已被使用");
                 response.setStatus(Status.BIZ_ERROR);
+                response.addError(new Error(ErrorMsg.DISCOUNT_CODE_USED));
                 break;
         }
     }
