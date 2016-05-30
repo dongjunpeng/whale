@@ -17,17 +17,6 @@ public class NewOrderRequest extends Request {
     @NotNull
     private Long groupid;
 
-    // 测试用
-    private Long accountid;
-
-    public Long getAccountid() {
-        return accountid;
-    }
-
-    public void setAccountid(Long accountid) {
-        this.accountid = accountid;
-    }
-
     /**
      * @return the routeid
      */

@@ -50,7 +50,7 @@ public class DiscountHandler {
             return;
         }
         Discount maxDiscount = policy.get(policy.size() - 1);
-        for (int n = policy.size() - 2; n > 0; n--) {
+        for (int n = policy.size() - 2; n >= 0; n--) {
             Discount discount = policy.get(n);
             if (discount.getValue().compareTo(maxDiscount.getValue()) > 0) {
                 maxDiscount = discount;

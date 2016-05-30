@@ -1,5 +1,7 @@
 package com.buterfleoge.whale.biz.order.impl.discount;
 
+import java.util.Date;
+
 import com.buterfleoge.whale.type.enums.DiscountType;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
@@ -15,7 +17,7 @@ public class StudentDiscountStrategy extends DiscountStrategy {
             DiscountStrategyContext context) {
         try {
             Long routeid = request.getRouteid();
-            Long now = context.getGroup().getStartDate().getTime();
+            Date now = context.getGroup().getStartDate();
             response.setStudentDiscount(
                     discountRepository.findByTypeAndRouteidAndStartTimeLessThanAndEndTimeGreaterThan(
                             DiscountType.STUDENT, routeid, now, now));

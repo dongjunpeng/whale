@@ -15,12 +15,12 @@ public class DateTimeConverter implements AttributeConverter<Date, Long> {
 
     @Override
     public Long convertToDatabaseColumn(Date attribute) {
-        return attribute.getTime();
+        return attribute != null ? attribute.getTime() : null;
     }
 
     @Override
     public Date convertToEntityAttribute(Long dbData) {
-        return new Date(dbData);
+        return dbData != null ? new Date(dbData) : null;
     }
 
 }
