@@ -10,6 +10,8 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.type.enums.OrderStatus;
+import com.buterfleoge.whale.type.formatter.ImagePathFormat;
+import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
 
 /**
  * @author Brent24
@@ -20,6 +22,7 @@ public class BriefOrder implements Comparable<BriefOrder> {
     private Long routeid;
     private String name;
     private String title;
+    @ImagePathFormat(prefix = Prefix.ROUTE)
     private String headImg;
 
     @DateTimeFormat(iso = ISO.DATE)

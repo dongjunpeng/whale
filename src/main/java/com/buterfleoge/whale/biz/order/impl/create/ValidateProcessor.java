@@ -17,6 +17,7 @@ import com.buterfleoge.whale.type.entity.Discount;
 import com.buterfleoge.whale.type.entity.DiscountCode;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderTravellers;
+import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 import com.buterfleoge.whale.type.protocol.Error;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderResponse;
@@ -77,15 +78,16 @@ public class ValidateProcessor extends CreateOrderProcessor {
         BigDecimal price = context.getGroup().getPrice().multiply(BigDecimal.valueOf(count));
         context.getOrderInfo().setPrice(price); // 设置这个订单原始价格应该多少钱，直接使用price这个结果，省的再算一遍
         if (discountPolicy != null) {
-            price.subtract(discountPolicy);
+            price = price.subtract(discountPolicy);
         }
         if (studentDiscount != null) {
-            price.subtract(studentDiscount);
+            price = price.subtract(studentDiscount);
         }
         if (discountCode != null) {
-            price.subtract(discountCode);
+            price = price.subtract(discountCode);
         }
-        if (!request.getActualPrice().equals(price)) {
+        if (price.multiply(PriceConverter.PRICE_FACTOR_BIGDECIMAL).longValue() != 
+                request.getActualPrice().multiply(PriceConverter.PRICE_FACTOR_BIGDECIMAL).longValue()) {
             response.addError(new Error());
             response.setStatus(Status.BIZ_ERROR);
         }
@@ -115,6 +117,7 @@ public class ValidateProcessor extends CreateOrderProcessor {
         getDiscountRequest.setReqid(request.getReqid());
         getDiscountRequest.setRouteid(orderInfo.getRouteid());
         getDiscountRequest.setGroupid(orderInfo.getGroupid());
+        getDiscountRequest.setCount(request.getTravellers().size());
         GetDiscountResponse getDiscountResponse = new GetDiscountResponse();
         discountHandler.getDiscount(accountid, getDiscountRequest, getDiscountResponse);
         return getDiscountResponse;
@@ -140,7 +143,7 @@ public class ValidateProcessor extends CreateOrderProcessor {
             Discount studentDiscount, CreateOrderContext context) {
         Long studentDiscountid = request.getStudentDiscountid();
         int studentCount = request.getStudentCount();
-        if (studentDiscountid != null || studentCount > 0) {
+        if (studentDiscountid != null && studentCount > 0) {
             if (studentDiscount != null && studentDiscountid.equals(studentDiscount.getDiscountid())) {
                 context.setStudentDiscount(studentDiscount); // 设置学生优惠
                 return studentDiscount.getValue().multiply(BigDecimal.valueOf(studentCount));

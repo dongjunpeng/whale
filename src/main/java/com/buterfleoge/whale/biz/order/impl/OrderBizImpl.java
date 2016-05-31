@@ -159,6 +159,8 @@ public class OrderBizImpl implements OrderBiz {
             return;
         }
 
+        briefOrderHandler.changeOrderInfoStatusIfTimeout(orderInfo, request.getReqid());
+
         Long routeid = orderInfo.getRouteid();
         Long groupid = orderInfo.getGroupid();
         try {

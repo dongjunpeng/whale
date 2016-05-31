@@ -66,6 +66,19 @@ public class BriefOrderHandler {
         }
     }
 
+    public OrderInfo changeOrderInfoStatusIfTimeout(OrderInfo orderInfo, String reqid) {
+        if (orderInfo.getStatus() == OrderStatus.WAITING
+                && DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() < System.currentTimeMillis()) {
+            orderInfo.setStatus(OrderStatus.TIMEOUT);
+            try {
+                return orderInfoRepository.save(orderInfo);
+            } catch (Exception e) {
+                LOG.error("save order info failed, reqid: " + reqid, e);
+            }
+        }
+        return orderInfo;
+    }
+
     public void getBriefOrders(Long accountid, GetBriefOrdersRequest request, GetBriefOrdersResponse response) throws Exception {
         String reqid = request.getReqid();
         response.setCurrentOrderCount(countOrderInfoByStatus(accountid, OrderStatusType.CURRENT, reqid));
@@ -90,10 +103,12 @@ public class BriefOrderHandler {
         Map<Long, TravelGroup> groups = getGroups(getGroupids(orderInfos), reqid);
 
         for (OrderInfo orderInfo : orderInfos) {
-            changeOrderInfoStatusIfTimeout(orderInfo, reqid);
-            TravelRoute travelRoute = routes.get(orderInfo.getRouteid());
-            TravelGroup travelGroup = groups.get(orderInfo.getGroupid());
-            briefOrders.add(createBriefOrder(orderInfo, travelRoute, travelGroup, reqid));
+            orderInfo = changeOrderInfoStatusIfTimeout(orderInfo, reqid);
+            if (statusSet.contains(orderInfo.getStatus())) {
+                TravelRoute travelRoute = routes.get(orderInfo.getRouteid());
+                TravelGroup travelGroup = groups.get(orderInfo.getGroupid());
+                briefOrders.add(createBriefOrder(orderInfo, travelRoute, travelGroup, reqid));
+            }
         }
         Collections.sort(briefOrders);
         response.setBriefOrders(briefOrders);
@@ -126,7 +141,7 @@ public class BriefOrderHandler {
             Iterable<TravelGroup> groups = travelGroupRepository.findAll(groupids);
             Map<Long, TravelGroup> groupMap = new HashMap<Long, TravelGroup>();
             for (TravelGroup travelGroup : groups) {
-                groupMap.put(travelGroup.getRouteid(), travelGroup);
+                groupMap.put(travelGroup.getGroupid(), travelGroup);
             }
             return groupMap;
         } catch (Exception e) {
@@ -143,25 +158,13 @@ public class BriefOrderHandler {
         return groupids;
     }
 
-    private void changeOrderInfoStatusIfTimeout(OrderInfo orderInfo, String reqid) {
-        if (orderInfo.getStatus() == OrderStatus.WAITING
-                && DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() < System.currentTimeMillis()) {
-            orderInfo.setStatus(OrderStatus.TIMEOUT);
-            try {
-                orderInfoRepository.save(orderInfo);
-            } catch (Exception e) {
-                LOG.error("save order info failed, reqid: " + reqid, e);
-            }
-        }
-    }
-
     private BriefOrder createBriefOrder(OrderInfo orderInfo, TravelRoute travelRoute, TravelGroup travelGroup, String reqid) {
         BriefOrder briefOrder = new BriefOrder();
         briefOrder.setOrderid(orderInfo.getOrderid());
         briefOrder.setStatus(orderInfo.getStatus());
         briefOrder.setActualPrice(orderInfo.getActualPrice());
         long minuteCount = DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() - System.currentTimeMillis();
-        briefOrder.setMinuteCount(minuteCount / DateUtils.MILLIS_PER_DAY);
+        briefOrder.setMinuteCount(minuteCount / DateUtils.MILLIS_PER_MINUTE);
 
         setOrderTravellersNamesAndAvatars(briefOrder, orderInfo, reqid);
 

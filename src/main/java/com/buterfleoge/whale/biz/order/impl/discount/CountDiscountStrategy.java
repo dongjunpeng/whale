@@ -2,6 +2,7 @@ package com.buterfleoge.whale.biz.order.impl.discount;
 
 import java.util.Date;
 
+import com.buterfleoge.whale.type.entity.Discount;
 import com.buterfleoge.whale.type.enums.DiscountType;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
@@ -18,8 +19,11 @@ public class CountDiscountStrategy extends DiscountStrategy {
         try {
             DiscountType countDiscountType = DiscountType.getDiscountType(request.getCount());
             Date now = new Date();
-            response.getPolicy().add(discountRepository
-                    .findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(countDiscountType, now, now));
+            Discount countDiscount =
+                    discountRepository.findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(countDiscountType, now, now);
+            if (countDiscount != null) {
+                response.getPolicy().add(countDiscount);
+            }
         } catch (Exception e) {
             LOG.error("find count discount type failed, reqid: " + request.getReqid(), e);
         }
