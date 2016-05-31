@@ -1,7 +1,7 @@
 package com.buterfleoge.whale.biz.order.impl.create;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -49,13 +49,13 @@ public class BizProcessor extends CreateOrderProcessor {
     private DiscountCodeRepository discountCodeRepository;
 
     @Override
-    public void doCreate(Long accountid, CreateOrderRequest request, CreateOrderResponse response,
-            CreateOrderContext context) throws Exception {
+    public void doCreate(Long accountid, CreateOrderRequest request, CreateOrderResponse response, CreateOrderContext context)
+            throws Exception {
         doBiz(accountid, request, response, context);
     }
 
-    private void doBiz(Long accountid, CreateOrderRequest request, CreateOrderResponse response,
-            CreateOrderContext context) {
+    private void doBiz(Long accountid, CreateOrderRequest request, CreateOrderResponse response, CreateOrderContext context)
+            throws Exception {
         List<OrderTravellers> travellers = request.getTravellers();
         int count = travellers.size();
         int studentCount = request.getStudentCount();
@@ -64,15 +64,40 @@ public class BizProcessor extends CreateOrderProcessor {
 
         orderInfo.setStatus(OrderStatus.WAITING);
         orderInfo.setCount(count);
-        orderInfo.setStudentCount(request.getStudentCount());
+        orderInfo.setStudentCount(studentCount);
         orderInfo.setActualPrice(request.getActualPrice());
         orderInfo.setIsAgreed(Boolean.TRUE);
 
-        for (OrderTravellers traveller : travellers) {
-            traveller.setOrderid(orderid);
+        TravelGroup group = context.getGroup();
+        group.setActualCount(group.getActualCount() + count);
+        if (group.getActualCount().equals(group.getMaxCount())) {
+            group.setStatus(GroupStatus.FULL);
         }
 
         Date addTime = new Date();
+        DiscountCode discountCode = context.getDiscountCode();
+        OrderDiscount policyOrderDiscount = getPolicyOrderDiscount(orderid, addTime, context);
+        OrderDiscount studentOrderDiscount = getStudentOrderDiscount(orderid, addTime, studentCount, context);
+        OrderDiscount codeOrderDiscount = getCodeOrderDiscount(orderid, addTime, context);
+        List<OrderDiscount> discountList = getOrderDiscountList(policyOrderDiscount, studentOrderDiscount, codeOrderDiscount);
+
+        try {
+            orderInfoRepository.save(orderInfo);
+            travelGroupRepository.save(group);
+            orderTravellersRepository.save(travellers);
+            orderDiscountRepository.save(discountList);
+            if (discountCode != null) {
+                discountCode.setStatus(DiscountCodeStatus.OCCUPIED);
+                discountCodeRepository.save(discountCode);
+            }
+        } catch (Exception e) {
+            LOG.error("save order info failed, reqid: " + request.getReqid(), e);
+            response.setStatus(Status.DB_ERROR);
+            throw e;
+        }
+    }
+
+    private OrderDiscount getPolicyOrderDiscount(Long orderid, Date addTime, CreateOrderContext context) {
         OrderDiscount policyOrderDiscount = null;
         Discount policyDiscount = context.getPolicyDiscount();
         if (policyDiscount != null) {
@@ -84,9 +109,13 @@ public class BizProcessor extends CreateOrderProcessor {
             policyOrderDiscount.setDesc(policyDiscount.getDesc());
             policyOrderDiscount.setAddTime(addTime);
         }
+        return policyOrderDiscount;
+    }
+
+    private OrderDiscount getStudentOrderDiscount(Long orderid, Date addTime, int studentCount, CreateOrderContext context) {
         OrderDiscount studentOrderDiscount = null;
         Discount studentDiscount = context.getStudentDiscount();
-        if (studentDiscount != null) {
+        if (studentDiscount != null && studentCount > 0) {
             studentOrderDiscount = new OrderDiscount();
             studentOrderDiscount.setOrderid(orderid);
             studentOrderDiscount.setDiscountid(studentDiscount.getDiscountid());
@@ -95,6 +124,10 @@ public class BizProcessor extends CreateOrderProcessor {
             studentOrderDiscount.setDesc(studentDiscount.getDesc());
             studentOrderDiscount.setAddTime(addTime);
         }
+        return studentOrderDiscount;
+    }
+
+    private OrderDiscount getCodeOrderDiscount(Long orderid, Date addTime, CreateOrderContext context) {
         OrderDiscount codeOrderDiscount = null;
         DiscountCode discountCode = context.getDiscountCode();
         if (discountCode != null) {
@@ -105,48 +138,22 @@ public class BizProcessor extends CreateOrderProcessor {
             codeOrderDiscount.setValue(discountCode.getValue());
             codeOrderDiscount.setAddTime(addTime);
         }
+        return codeOrderDiscount;
+    }
 
-        TravelGroup group = context.getGroup();
-        group.setActualCount(group.getActualCount() + count);
-        if (group.getActualCount().equals(group.getMaxCount())) {
-            group.setStatus(GroupStatus.FULL);
+    protected List<OrderDiscount> getOrderDiscountList(OrderDiscount policyOrderDiscount, OrderDiscount studentOrderDiscount,
+            OrderDiscount codeOrderDiscount) {
+        List<OrderDiscount> discounts = new ArrayList<OrderDiscount>(3);
+        if (policyOrderDiscount != null) {
+            discounts.add(policyOrderDiscount);
         }
-
-        try {
-            orderInfoRepository.save(orderInfo);
-        } catch (Exception e) {
-            LOG.error("save order info failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
-            return;
+        if (studentOrderDiscount != null) {
+            discounts.add(studentOrderDiscount);
         }
-        try {
-            orderTravellersRepository.save(travellers);
-        } catch (Exception e) {
-            LOG.error("save traveller failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
+        if (codeOrderDiscount != null) {
+            discounts.add(codeOrderDiscount);
         }
-        try {
-            orderDiscountRepository.save(Arrays.asList(codeOrderDiscount, studentOrderDiscount, codeOrderDiscount));
-        } catch (Exception e) {
-            LOG.error("save order Discount failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
-            return;
-        }
-        try {
-            // 改变优惠码状态
-            discountCode.setStatus(DiscountCodeStatus.OCCUPIED);
-            discountCodeRepository.save(discountCode);
-        } catch (Exception e) {
-            LOG.error("save discount code failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
-            return;
-        }
-        try {
-            travelGroupRepository.save(group);
-        } catch (Exception e) {
-            LOG.error("save travel group failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
-        }
+        return discounts;
     }
 
 }
