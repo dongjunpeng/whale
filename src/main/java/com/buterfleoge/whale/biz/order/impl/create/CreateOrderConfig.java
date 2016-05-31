@@ -11,6 +11,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CreateOrderConfig {
 
+    @Bean(name = "fillOrderidProcessor")
+    public CreateOrderProcessor getFillOrderidProcessor() {
+        return new FillOrderidProcessor();
+    }
+
     @Bean(name = "validateProcessor")
     public CreateOrderProcessor getValidateProcessor() {
         return new ValidateProcessor();
@@ -24,6 +29,7 @@ public class CreateOrderConfig {
     @Bean(name = "createOrderHandler")
     public CreateOrderHandler getCreateOrderHandler() {
         CreateOrderHandler handler = new CreateOrderHandler();
+        handler.addProcessor(getFillOrderidProcessor());
         handler.addProcessor(getValidateProcessor());
         handler.addProcessor(getBizProcessor());
         return handler;

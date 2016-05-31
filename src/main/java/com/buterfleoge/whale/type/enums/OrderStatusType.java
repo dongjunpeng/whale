@@ -20,7 +20,8 @@ public enum OrderStatusType {
     /**
      * 历史订单{退款完成,已出行}
      */
-    HISTORY(1,OrderStatus.REFOUNDED, OrderStatus.FINISH),
+    HISTORY(1, OrderStatus.REFOUNDED, OrderStatus.FINISH, OrderStatus.CANCEL, OrderStatus.CANCELPAYMENT, OrderStatus.CLOSED,
+            OrderStatus.TIMEOUT),
 
     /**
      * 可见订单
@@ -29,9 +30,14 @@ public enum OrderStatusType {
             OrderStatus.FINISH),
 
     /**
+     * 不允许新建订单的
+     */
+    NO_ALLOW_NEW(3, OrderStatus.NEW, OrderStatus.WAITING, OrderStatus.PAYING, OrderStatus.REFOUNDING),
+
+    /**
      * 全部订单
      */
-    ALL(3, OrderStatus.values());
+    ALL(4, OrderStatus.values());
 
     private int type;
     private OrderStatus[] orderStatuses;
