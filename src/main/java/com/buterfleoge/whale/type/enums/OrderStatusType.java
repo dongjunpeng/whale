@@ -20,8 +20,7 @@ public enum OrderStatusType {
     /**
      * 历史订单{退款完成,已出行}
      */
-    HISTORY(1, OrderStatus.REFOUNDED, OrderStatus.FINISH, OrderStatus.CANCEL, OrderStatus.CANCELPAYMENT, OrderStatus.CLOSED,
-            OrderStatus.TIMEOUT),
+    HISTORY(1, OrderStatus.REFOUNDED, OrderStatus.FINISH),
 
     /**
      * 可见订单
@@ -42,7 +41,7 @@ public enum OrderStatusType {
     private int type;
     private OrderStatus[] orderStatuses;
 
-    private OrderStatusType(int type, OrderStatus...orderStatuses) {
+    private OrderStatusType(int type, OrderStatus... orderStatuses) {
         this.type = type;
         this.orderStatuses = orderStatuses;
     }
