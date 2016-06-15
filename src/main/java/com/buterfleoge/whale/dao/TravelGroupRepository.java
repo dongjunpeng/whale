@@ -9,8 +9,8 @@ import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
+import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.entity.TravelGroup;
-import com.buterfleoge.whale.type.enums.GroupStatus;
 
 /**
  * @author Brent24

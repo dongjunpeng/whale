@@ -5,8 +5,8 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import com.buterfleoge.whale.type.enums.Gender;
-import com.buterfleoge.whale.type.enums.IdType;
+import com.buterfleoge.whale.type.Gender;
+import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.protocol.Request;
 
 /**

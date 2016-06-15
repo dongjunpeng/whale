@@ -12,14 +12,14 @@ import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
+import com.buterfleoge.whale.type.DiscountCodeStatus;
+import com.buterfleoge.whale.type.DiscountType;
+import com.buterfleoge.whale.type.GroupStatus;
+import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.entity.DiscountCode;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.TravelGroup;
-import com.buterfleoge.whale.type.enums.DiscountCodeStatus;
-import com.buterfleoge.whale.type.enums.DiscountType;
-import com.buterfleoge.whale.type.enums.GroupStatus;
-import com.buterfleoge.whale.type.enums.OrderStatus;
 
 /**
  * @author Brent24

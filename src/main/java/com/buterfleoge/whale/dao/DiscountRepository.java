@@ -4,8 +4,8 @@ import java.util.Date;
 
 import org.springframework.data.repository.CrudRepository;
 
+import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.entity.Discount;
-import com.buterfleoge.whale.type.enums.DiscountType;
 
 /**
  * @author Brent24

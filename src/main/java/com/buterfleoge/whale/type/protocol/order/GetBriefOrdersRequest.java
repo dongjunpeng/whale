@@ -1,6 +1,6 @@
 package com.buterfleoge.whale.type.protocol.order;
 
-import com.buterfleoge.whale.type.enums.OrderStatusType;
+import com.buterfleoge.whale.type.OrderStatusType;
 import com.buterfleoge.whale.type.protocol.Request;
 
 /**

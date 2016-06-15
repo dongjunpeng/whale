@@ -1,36 +1,28 @@
-package com.buterfleoge.whale.type.enums;
+package com.buterfleoge.whale.type;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 退款原因
- * 
- * @author Brent24
+ * 订单中人员的状态
+ *
+ * @author xiezhenzong
  *
  */
-public enum RefoundStatus {
+public enum OrderStaffStatus {
+
+    OK(0),
 
     /**
-     * 退款产生
+     * 删除了这个人
      */
-    CREATED(0),
-
-    /**
-     * 确认退款
-     */
-    CONFIRMED(1),
-
-    /**
-     * 完成退款
-     */
-    REFOUNDED(2)
+    CANCEL(1)
 
     ;
 
     private int status;
 
-    private RefoundStatus(int status) {
+    private OrderStaffStatus(int status) {
         this.status = status;
     }
 
@@ -46,4 +38,5 @@ public enum RefoundStatus {
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
 }
