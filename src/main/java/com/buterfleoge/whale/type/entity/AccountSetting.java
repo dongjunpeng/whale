@@ -12,8 +12,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.Gender;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
-import com.buterfleoge.whale.type.enums.Gender;
 
 /**
  * 账户的设置信息

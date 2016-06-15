@@ -20,9 +20,9 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
-import com.buterfleoge.whale.type.enums.DiscountType;
 
 /**
  * 订单优惠表

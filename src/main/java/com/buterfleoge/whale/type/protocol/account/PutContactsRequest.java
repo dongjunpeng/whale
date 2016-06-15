@@ -4,8 +4,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.buterfleoge.whale.type.enums.Gender;
-import com.buterfleoge.whale.type.enums.IdType;
+import com.buterfleoge.whale.type.Gender;
+import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.protocol.Request;
 
 /**

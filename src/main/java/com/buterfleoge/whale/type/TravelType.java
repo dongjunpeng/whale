@@ -1,64 +1,51 @@
-/**
- * 
- */
-package com.buterfleoge.whale.type.enums;
+package com.buterfleoge.whale.type;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 退款类型
+ * 旅行类型
  * 
  * @author Brent24
  *
  */
-public enum RefoundType {
+public enum TravelType {
 
     /**
-     * 21天以上退还95%
+     * 长途
      */
-    LONG_PCT_95(0),
+    LONG_TRIP(0),
 
     /**
-     * 21天-15天退还80%
+     * 短途
      */
-    LONG_PCT_80(1),
+    SHORT_TRIP(1),
 
     /**
-     * 14天-8天退还80%
+     * 周末
      */
-    LONG_PCT_50(2),
+    WEEKEND(2),
 
     /**
-     * 7天至未出行
+     * 轰趴
      */
-    LONG_PCT_20(3),
+    PARTY(3),
 
     /**
-     * 8天以上退100%
+     * 城市
      */
-    SHORT_PCT_100(4),
+    CITY_WALK(4),
 
     /**
-     * 7天-5天退80%
+     * 国际
      */
-    SHORT_PCT_80(5),
-
-    /**
-     * 4天-2天退50%
-     */
-    SHORT_PCT_50(6),
-
-    /**
-     * 1天至未出行退20%
-     */
-    SHORT_PCT_20(7)
+    INTERNATIONAL(5)
 
     ;
 
     private int type;
 
-    private RefoundType(int type) {
+    private TravelType(int type) {
         this.type = type;
     }
 

@@ -1,36 +1,36 @@
-package com.buterfleoge.whale.type.enums;
+package com.buterfleoge.whale.type;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 账户状态
- *
- * @author xiezhenzong
+ * 退款原因
+ * 
+ * @author Brent24
  *
  */
-public enum AccountStatus {
+public enum RefoundStatus {
 
     /**
-     * 刚注册
+     * 退款产生
      */
-    WAIT_COMPLETE_INFO(0),
+    CREATED(0),
 
     /**
-     * 账户正常
+     * 确认退款
      */
-    OK(1),
+    CONFIRMED(1),
 
     /**
-     * 账户注销
+     * 完成退款
      */
-    DELETE(2)
+    REFOUNDED(2)
 
     ;
 
     private int status;
 
-    private AccountStatus(int status) {
+    private RefoundStatus(int status) {
         this.status = status;
     }
 
@@ -46,5 +46,4 @@ public enum AccountStatus {
     public String toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
-
 }

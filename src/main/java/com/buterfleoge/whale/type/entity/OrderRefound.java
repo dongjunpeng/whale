@@ -17,10 +17,10 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.RefoundStatus;
+import com.buterfleoge.whale.type.RefoundType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
-import com.buterfleoge.whale.type.enums.RefoundStatus;
-import com.buterfleoge.whale.type.enums.RefoundType;
 
 /**
  * 订单退款表

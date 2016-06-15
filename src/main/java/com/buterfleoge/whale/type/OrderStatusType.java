@@ -1,4 +1,4 @@
-package com.buterfleoge.whale.type.enums;
+package com.buterfleoge.whale.type;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -2,8 +2,8 @@ package com.buterfleoge.whale.biz.order.impl.discount;
 
 import java.util.Date;
 
+import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.entity.Discount;
-import com.buterfleoge.whale.type.enums.DiscountType;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
 

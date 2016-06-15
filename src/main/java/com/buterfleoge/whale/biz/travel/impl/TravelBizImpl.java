@@ -160,13 +160,7 @@ public class TravelBizImpl implements TravelBiz {
     }
 
     private Imgtext getImgtextInJson(Long routeid) throws JsonParseException, JsonMappingException, IOException {
-        String jsonPath;
-        if (routeid < 10) {
-            jsonPath = "p0" + routeid + "/" + "p0" + routeid + ".json";
-        } else {
-            jsonPath = "p" + routeid + "/" + "p" + routeid + ".json";
-        }
-
+        String jsonPath = routeid < 10 ? "p0" + routeid + ".json" : "p" + routeid + ".json";
         File file = new File(productRootPath + jsonPath);
         if (file.exists()) {
             String content = FileUtils.readFileToString(file, "UTF-8");
