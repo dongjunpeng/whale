@@ -1,4 +1,4 @@
-package com.buterfleoge.whale.type.enums;
+package com.buterfleoge.whale.type;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;

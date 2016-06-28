@@ -14,9 +14,9 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.TravelArea;
+import com.buterfleoge.whale.type.TravelType;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
-import com.buterfleoge.whale.type.enums.TravelArea;
-import com.buterfleoge.whale.type.enums.TravelType;
 import com.buterfleoge.whale.type.formatter.ImagePathFormat;
 import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
 

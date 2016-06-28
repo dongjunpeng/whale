@@ -1,28 +1,36 @@
-package com.buterfleoge.whale.type.enums;
+package com.buterfleoge.whale.type;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
- * 订单中人员的状态
+ * 账户状态
  *
  * @author xiezhenzong
  *
  */
-public enum OrderStaffStatus {
-
-    OK(0),
+public enum AccountStatus {
 
     /**
-     * 删除了这个人
+     * 刚注册
      */
-    CANCEL(1)
+    WAIT_COMPLETE_INFO(0),
+
+    /**
+     * 账户正常
+     */
+    OK(1),
+
+    /**
+     * 账户注销
+     */
+    DELETE(2)
 
     ;
 
     private int status;
 
-    private OrderStaffStatus(int status) {
+    private AccountStatus(int status) {
         this.status = status;
     }
 

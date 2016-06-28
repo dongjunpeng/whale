@@ -17,9 +17,9 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
-import com.buterfleoge.whale.type.enums.GroupStatus;
 
 /**
  * 发团信息

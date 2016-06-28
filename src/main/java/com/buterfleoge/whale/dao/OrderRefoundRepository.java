@@ -4,8 +4,8 @@ import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
+import com.buterfleoge.whale.type.RefoundStatus;
 import com.buterfleoge.whale.type.entity.OrderRefound;
-import com.buterfleoge.whale.type.enums.RefoundStatus;
 
 /**
  * @author Brent24

@@ -5,8 +5,8 @@ import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
+import com.buterfleoge.whale.type.DiscountCodeStatus;
 import com.buterfleoge.whale.type.entity.DiscountCode;
-import com.buterfleoge.whale.type.enums.DiscountCodeStatus;
 
 /**
  * @author Brent24

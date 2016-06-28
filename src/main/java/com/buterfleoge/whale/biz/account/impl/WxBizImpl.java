@@ -54,7 +54,7 @@ public class WxBizImpl implements WxBiz {
         StringBuilder sb = new StringBuilder(wxLoginQrconnect) //
                 .append("?appid=").append(appid) //
                 .append("&redirect_uri=").append(redirectUri) //
-                .append("&response_type=code&score=snsapi_login") //
+                .append("&response_type=code&scope=snsapi_login") //
                 .append("&state=").append(state).append("#wechat_redirect");
         return sb.toString();
     }

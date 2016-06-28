@@ -6,8 +6,8 @@ import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
+import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.entity.OrderInfo;
-import com.buterfleoge.whale.type.enums.OrderStatus;
 
 /**
  * @author Brent24

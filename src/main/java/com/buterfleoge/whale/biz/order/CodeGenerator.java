@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.buterfleoge.whale.Utils;
 import com.buterfleoge.whale.dao.DiscountCodeRepository;
+import com.buterfleoge.whale.type.DiscountCodeStatus;
 import com.buterfleoge.whale.type.entity.DiscountCode;
-import com.buterfleoge.whale.type.enums.DiscountCodeStatus;
 
 /**
  * @author Brent24
