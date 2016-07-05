@@ -67,7 +67,7 @@ public class OrderInfo extends BaseObject {
     @Column(name = "is_agreed")
     private Boolean isAgreed;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
     private Date addTime;

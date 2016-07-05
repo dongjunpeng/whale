@@ -21,7 +21,7 @@ public class GetRouteRequest extends Request {
 
     private Boolean isImgtextRequired = Boolean.FALSE;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     private Date date;
 
     /**

@@ -54,12 +54,12 @@ public class OrderRefound extends BaseObject {
     @Column(name = "description")
     private String desc;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
     private Date addTime;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "finish_time")
     @Convert(converter = DateTimeConverter.class)
     private Date finishTime;

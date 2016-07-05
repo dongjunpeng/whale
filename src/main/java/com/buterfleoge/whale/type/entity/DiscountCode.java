@@ -56,22 +56,22 @@ public class DiscountCode extends BaseObject {
     @Convert(converter = PriceConverter.class)
     private BigDecimal value;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "start_time")
     @Convert(converter = DateTimeConverter.class)
     private Date startTime;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "end_time")
     @Convert(converter = DateTimeConverter.class)
     private Date endTime;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
     private Date addTime;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "effect_time")
     @Convert(converter = DateTimeConverter.class)
     private Date effectTime;
