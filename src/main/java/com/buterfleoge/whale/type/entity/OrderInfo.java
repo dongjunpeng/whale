@@ -12,11 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
@@ -67,7 +67,7 @@ public class OrderInfo extends BaseObject {
     @Column(name = "is_agreed")
     private Boolean isAgreed;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
     private Date addTime;

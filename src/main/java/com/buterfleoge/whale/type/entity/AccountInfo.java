@@ -11,9 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.AccountStatus;
 import com.buterfleoge.whale.type.AccountType;
 import com.buterfleoge.whale.type.IdType;
@@ -58,12 +58,12 @@ public class AccountInfo extends BaseObject {
     @Column(name = "mobile")
     private String mobile = "";
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
     private Date addTime;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "mod_time")
     @Convert(converter = DateTimeConverter.class)
     private Date modTime;
