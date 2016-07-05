@@ -8,7 +8,7 @@ import com.buterfleoge.whale.Constants.Status;
 
 /**
  * base response
- * 
+ *
  * @author xiezhenzong
  *
  */
@@ -19,6 +19,13 @@ public class Response extends BaseObject {
      */
     private int status = Status.OK;
     private List<Error> errors = new ArrayList<Error>(3);
+
+    public Response() {
+    }
+
+    public Response(int status) {
+        this.status = status;
+    }
 
     /**
      * @return the status
@@ -50,7 +57,7 @@ public class Response extends BaseObject {
 
     /**
      * add error
-     * 
+     *
      * @param error the error to add
      */
     public void addError(Error error) {
@@ -59,7 +66,7 @@ public class Response extends BaseObject {
 
     /**
      * has any error in response
-     * 
+     *
      * @return
      */
     public boolean hasError() {

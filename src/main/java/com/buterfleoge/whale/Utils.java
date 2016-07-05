@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * 
+ *
  *
  * @author xiezhenzong
  *
@@ -18,6 +18,16 @@ import org.slf4j.LoggerFactory;
 public abstract class Utils {
 
     private static final Logger LOG = LoggerFactory.getLogger(Utils.class);
+
+    /**
+     * get local host
+     *
+     * @return if exception occur, then return Unknown host.
+     */
+    public static final String getLocalHost() {
+        InetAddress address = getAddress();
+        return address != null ? address.getHostAddress() : "Unknown host";
+    }
 
     /**
      * Get host IP address
