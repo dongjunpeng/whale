@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.buterfleoge.whale.type.entity;
 
@@ -15,18 +15,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.DiscountCodeStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
 /**
  * 订单优惠表
- * 
+ *
  * @author Brent24
  *
  */
@@ -56,22 +56,22 @@ public class DiscountCode extends BaseObject {
     @Convert(converter = PriceConverter.class)
     private BigDecimal value;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "start_time")
     @Convert(converter = DateTimeConverter.class)
     private Date startTime;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "end_time")
     @Convert(converter = DateTimeConverter.class)
     private Date endTime;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
     private Date addTime;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "effect_time")
     @Convert(converter = DateTimeConverter.class)
     private Date effectTime;

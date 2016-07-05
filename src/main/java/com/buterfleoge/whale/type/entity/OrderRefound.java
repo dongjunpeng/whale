@@ -12,11 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.RefoundStatus;
 import com.buterfleoge.whale.type.RefoundType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
@@ -24,7 +24,7 @@ import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
 /**
  * 订单退款表
- * 
+ *
  * @author Brent24
  *
  */
@@ -54,12 +54,12 @@ public class OrderRefound extends BaseObject {
     @Column(name = "description")
     private String desc;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
     private Date addTime;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "finish_time")
     @Convert(converter = DateTimeConverter.class)
     private Date finishTime;

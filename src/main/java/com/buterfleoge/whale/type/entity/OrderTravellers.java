@@ -10,9 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.Gender;
 import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
@@ -57,7 +57,7 @@ public class OrderTravellers extends BaseObject {
     @Column(name = "gender")
     private Gender gender;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "birthday")
     @Convert(converter = DateTimeConverter.class)
     private Date birthday;

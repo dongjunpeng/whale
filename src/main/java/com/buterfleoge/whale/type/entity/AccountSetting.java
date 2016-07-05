@@ -9,15 +9,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.Gender;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 
 /**
  * 账户的设置信息
- * 
+ *
  * @author Brent24
  */
 @Entity
@@ -52,7 +52,7 @@ public class AccountSetting extends BaseObject {
     @Column(name = "gender")
     private Gender gender = Gender.UNKNOW;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "birthday")
     @Convert(converter = DateTimeConverter.class)
     private Date birthday;
@@ -63,7 +63,7 @@ public class AccountSetting extends BaseObject {
     @Column(name = "avatar_url")
     private String avatarUrl = "";
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "mod_time")
     @Convert(converter = DateTimeConverter.class)
     private Date modTime;

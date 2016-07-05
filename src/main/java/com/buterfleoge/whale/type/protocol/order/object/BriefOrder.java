@@ -5,10 +5,10 @@ import java.util.Date;
 import java.util.Set;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
+import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.formatter.ImagePathFormat;
 import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
@@ -25,9 +25,9 @@ public class BriefOrder implements Comparable<BriefOrder> {
     @ImagePathFormat(prefix = Prefix.ROUTE)
     private String headImg;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     private Date startDate;
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     private Date endDate;
     private String wxQrCode;
     private Long dayCount;
@@ -44,26 +44,26 @@ public class BriefOrder implements Comparable<BriefOrder> {
     // sort排序顺序
     public Integer getOrder() {
         switch (status) {
-        case PAID:
-            return 1;
-        case WAITING:
-            return 2;
-        case PAYING:
-            return 3;
-        case REFOUNDING:
-            return 4;
-        case REFOUNDED:
-            return 5;
-        case FINISH:
-            return 6;
-        case CANCELPAYMENT:
-            return 7;
-        case CANCEL:
-            return 8;
-        case TIMEOUT:
-            return 9;
-        default:
-            return 100;
+            case PAID:
+                return 1;
+            case WAITING:
+                return 2;
+            case PAYING:
+                return 3;
+            case REFOUNDING:
+                return 4;
+            case REFOUNDED:
+                return 5;
+            case FINISH:
+                return 6;
+            case CANCELPAYMENT:
+                return 7;
+            case CANCEL:
+                return 8;
+            case TIMEOUT:
+                return 9;
+            default:
+                return 100;
         }
     }
 
