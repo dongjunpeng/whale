@@ -2,14 +2,17 @@ package com.buterfleoge.whale.type.protocol.wx;
 
 import java.util.List;
 
-import com.buterfleoge.whale.BaseObject;
-
 /**
  *
  * @author xiezhenzong
  *
  */
-public class WxUserinfoResponse extends BaseObject {
+public class WxUserinfoResponse extends WxResponse {
+
+    /**
+     * serial version uid
+     */
+    private static final long serialVersionUID = 6805578374010812366L;
 
     public static final int SEX_UNKNOWN = 0;
     public static final int SEX_MALE = 1;
@@ -33,6 +36,8 @@ public class WxUserinfoResponse extends BaseObject {
 
     private String unionid;
 
+    private String language;
+
     /**
      * @return the opendid
      */
@@ -41,9 +46,10 @@ public class WxUserinfoResponse extends BaseObject {
     }
 
     /**
-     * @param opendid the opendid to set
+     * @param openid
+     *            the openid to set
      */
-    public void setOpendid(String openid) {
+    public void setOpenid(String openid) {
         this.openid = openid;
     }
 
@@ -157,6 +163,21 @@ public class WxUserinfoResponse extends BaseObject {
      */
     public void setUnionid(String unionid) {
         this.unionid = unionid;
+    }
+
+    /**
+     * @return the language
+     */
+    public String getLanguage() {
+        return language;
+    }
+
+    /**
+     * @param language
+     *            the language to set
+     */
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
 }

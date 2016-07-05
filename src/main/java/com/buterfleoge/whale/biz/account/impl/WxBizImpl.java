@@ -12,9 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.buterfleoge.whale.Constants.Status;
+import com.buterfleoge.whale.InvokeLogger;
 import com.buterfleoge.whale.biz.account.WxBiz;
 import com.buterfleoge.whale.type.protocol.wx.WxAccessTokenResponse;
 import com.buterfleoge.whale.type.protocol.wx.WxAuthResponse;
+import com.buterfleoge.whale.type.protocol.wx.WxResponse;
 import com.buterfleoge.whale.type.protocol.wx.WxUserinfoResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -66,16 +69,16 @@ public class WxBizImpl implements WxBiz {
                 .append("&secret=").append(appsecret) //
                 .append("&code=").append(code) //
                 .append("&grant_type=authorization_code").toString();
-        return getWx(uri, WxAccessTokenResponse.class);
+        return getWx(wxApiAccessToken, uri, WxAccessTokenResponse.class);
     }
 
     @Override
     public WxAccessTokenResponse refreshToken(String refreshToken) {
-        String uri = new StringBuilder(wxApiAccessToken) //
+        String uri = new StringBuilder(wxApiRefreshToken) //
                 .append("?appid=").append(appid) //
                 .append("&grant_type=refresh_token") //
                 .append("&refresh_token=").append(refreshToken).toString();
-        return getWx(uri, WxAccessTokenResponse.class);
+        return getWx(wxApiRefreshToken, uri, WxAccessTokenResponse.class);
     }
 
     @Override
@@ -83,8 +86,8 @@ public class WxBizImpl implements WxBiz {
         String uri = new StringBuilder(wxApiAuth) //
                 .append("?access_token=").append(accessToken) //
                 .append("&openid=").append(openid).toString();
-        WxAuthResponse response = getWx(uri, WxAuthResponse.class);
-        return response != null && response.getErrcode() == WxAuthResponse.CODE_OK;
+        WxAuthResponse response = getWx(wxApiAuth, uri, WxAuthResponse.class);
+        return response != null && response.getErrcode() == WxResponse.CODE_OK;
     }
 
     @Override
@@ -92,24 +95,29 @@ public class WxBizImpl implements WxBiz {
         String uri = new StringBuilder(wxApiUserinfo) //
                 .append("?access_token=").append(accessToken) //
                 .append("&openid=").append(openid).toString();
-        return getWx(uri, WxUserinfoResponse.class);
+        return getWx(wxApiUserinfo, uri, WxUserinfoResponse.class);
     }
 
-    private <T> T getWx(String uri, Class<T> responseType) {
+    private <T> T getWx(String tag, String uri, Class<T> responseType) {
         CloseableHttpClient httpclient = null;
-        CloseableHttpResponse response = null;
+        CloseableHttpResponse httpResponse = null;
+        T response = null;
+        long start = System.currentTimeMillis();
+        int status = Status.OK;
         try {
             httpclient = HttpClients.createDefault();
             HttpGet httpget = new HttpGet(uri);
-            response = httpclient.execute(httpget);
-            HttpEntity entity = response.getEntity();
+            httpResponse = httpclient.execute(httpget);
+            HttpEntity entity = httpResponse.getEntity();
             if (entity != null) {
                 ObjectMapper mapper = new ObjectMapper();
-                return mapper.readValue(entity.getContent(), responseType);
+                response = mapper.readValue(entity.getContent(), responseType);
+                return response;
             } else {
                 throw new IllegalStateException("wx response is empty");
             }
         } catch (Exception e) {
+            status = Status.INVOKE_ERROR;
             LOG.error("call wx failed, uri: " + uri, e);
             return null;
         } finally {
@@ -117,11 +125,13 @@ public class WxBizImpl implements WxBiz {
                 if (httpclient != null) {
                     httpclient.close();
                 }
-                if (response != null) {
-                    response.close();
+                if (httpResponse != null) {
+                    httpResponse.close();
                 }
             } catch (IOException e) {
             }
+            InvokeLogger.log("wx", tag, uri, response != null ? response : httpResponse, start,
+                    System.currentTimeMillis() - start, status);
         }
     }
 

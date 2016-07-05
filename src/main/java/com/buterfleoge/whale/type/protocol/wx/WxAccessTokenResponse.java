@@ -1,16 +1,12 @@
 package com.buterfleoge.whale.type.protocol.wx;
 
-import java.io.Serializable;
-
-import com.buterfleoge.whale.BaseObject;
-
 /**
  *
  * @author xiezhenzong
  *
  */
-public class WxAccessTokenResponse extends BaseObject implements Serializable {
-    
+public class WxAccessTokenResponse extends WxResponse {
+
     /**
      * serial version uid
      */
