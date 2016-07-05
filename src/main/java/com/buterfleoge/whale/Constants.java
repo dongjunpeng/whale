@@ -10,6 +10,8 @@ import com.buterfleoge.whale.type.protocol.Response;
  */
 public interface Constants {
 
+    String LOCAL = Utils.getLocalHost();
+
     /**
      * 状态码
      *
@@ -75,10 +77,15 @@ public interface Constants {
 
         /**
          * 业务异常
-         * 
+         *
          * @see Response#getStatus()
          */
         int BIZ_ERROR = 1100;
+
+        /**
+         * 外部服务异常
+         */
+        int INVOKE_ERROR = 1200;
 
         /**
          * 上面发生的各种异常之外的异常
@@ -129,9 +136,6 @@ public interface Constants {
      */
     public interface Pattern {
 
-        String DATE = "yyyy-MM-dd";
-        String DATE_TIME = "yyyy-MM-dd mm:ss:SSS";
-
     }
 
     /**
@@ -161,7 +165,7 @@ public interface Constants {
     }
 
     /**
-     * 
+     * cache key
      *
      * @author xiezhenzong
      *
@@ -195,28 +199,6 @@ public interface Constants {
         int COOKIE_EXPIRY = 7 * 24 * 60 * 60;
 
         int MAX_ORDER_TRAVELLER_COUNT = 5;
-    }
-
-    /**
-     * prefix
-     *
-     * @author xiezhenzong
-     *
-     */
-    public interface Prefix {
-        String VALID_MAIL_CACHE_PREFIX = "valid_mail_";
-    }
-
-    /**
-     * key
-     *
-     * @author xiezhenzong
-     *
-     */
-    public interface Key {
-
-        String VALID_MAIL_VALID_CODE = "valid_code";
-
     }
 
 }
