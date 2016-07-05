@@ -52,7 +52,7 @@ public class AccountSetting extends BaseObject {
     @Column(name = "gender")
     private Gender gender = Gender.UNKNOW;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "birthday")
     @Convert(converter = DateTimeConverter.class)
     private Date birthday;
@@ -63,7 +63,7 @@ public class AccountSetting extends BaseObject {
     @Column(name = "avatar_url")
     private String avatarUrl = "";
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "mod_time")
     @Convert(converter = DateTimeConverter.class)
     private Date modTime;

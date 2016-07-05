@@ -25,9 +25,9 @@ public class BriefOrder implements Comparable<BriefOrder> {
     @ImagePathFormat(prefix = Prefix.ROUTE)
     private String headImg;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     private Date startDate;
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     private Date endDate;
     private String wxQrCode;
     private Long dayCount;

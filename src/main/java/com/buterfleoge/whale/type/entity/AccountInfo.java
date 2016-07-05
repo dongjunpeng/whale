@@ -58,12 +58,12 @@ public class AccountInfo extends BaseObject {
     @Column(name = "mobile")
     private String mobile = "";
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
     private Date addTime;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "mod_time")
     @Convert(converter = DateTimeConverter.class)
     private Date modTime;

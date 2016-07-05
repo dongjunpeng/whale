@@ -57,7 +57,7 @@ public class OrderTravellers extends BaseObject {
     @Column(name = "gender")
     private Gender gender;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "birthday")
     @Convert(converter = DateTimeConverter.class)
     private Date birthday;
