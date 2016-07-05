@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.buterfleoge.whale.type.protocol.travel;
 
@@ -7,8 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.protocol.Request;
 
 /**
@@ -21,7 +21,7 @@ public class GetRouteRequest extends Request {
 
     private Boolean isImgtextRequired = Boolean.FALSE;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     private Date date;
 
     /**

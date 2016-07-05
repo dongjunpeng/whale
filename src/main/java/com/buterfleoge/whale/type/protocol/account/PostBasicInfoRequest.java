@@ -1,13 +1,13 @@
 /**
- * 
+ *
  */
 package com.buterfleoge.whale.type.protocol.account;
 
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.Gender;
 import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.protocol.Request;
@@ -30,7 +30,7 @@ public class PostBasicInfoRequest extends Request {
 
     private Gender gender;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     private Date birthday;
 
     private String address;

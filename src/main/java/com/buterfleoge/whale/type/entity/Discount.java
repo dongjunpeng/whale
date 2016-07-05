@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.buterfleoge.whale.type.entity;
 
@@ -15,18 +15,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
 /**
  * 订单优惠表
- * 
+ *
  * @author Brent24
  *
  */
@@ -53,17 +53,17 @@ public class Discount extends BaseObject {
     @Column(name = "description")
     private String desc;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "start_time")
     @Convert(converter = DateTimeConverter.class)
     private Date startTime;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "end_time")
     @Convert(converter = DateTimeConverter.class)
     private Date endTime;
 
-    @DateTimeFormat(iso = ISO.DATE)
+    @DateTimeFormat(style = Pattern.DATE)
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
     private Date addTime;

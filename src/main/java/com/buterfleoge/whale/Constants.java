@@ -135,7 +135,7 @@ public interface Constants {
      *
      */
     public interface Pattern {
-
+        String DATE = "yyyy-MM-dd";
     }
 
     /**
