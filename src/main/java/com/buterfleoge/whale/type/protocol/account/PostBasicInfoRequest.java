@@ -30,7 +30,7 @@ public class PostBasicInfoRequest extends Request {
 
     private Gender gender;
 
-    @DateTimeFormat(style = Pattern.DATE)
+    @DateTimeFormat(pattern = Pattern.DATE)
     private Date birthday;
 
     private String address;
