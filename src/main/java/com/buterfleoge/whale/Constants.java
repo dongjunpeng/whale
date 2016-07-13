@@ -188,7 +188,7 @@ public interface Constants {
 
         long VALID_MAIL_INVALID_PERIOD = 60 * 1000;
 
-        String TOKEN = "dkdkdkdkdkdkdk";
+        String TOKEN = "hxy.travel.token.secret";
 
         String SEPARATOR = "_";
 
