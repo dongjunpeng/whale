@@ -41,8 +41,8 @@ public class ValidateProcessor extends CreateOrderProcessor {
     private DiscountHandler discountHandler;
 
     @Override
-    public void doCreate(Long accountid, CreateOrderRequest request, CreateOrderResponse response, CreateOrderContext context)
-            throws Exception {
+    public void doCreate(Long accountid, CreateOrderRequest request, CreateOrderResponse response,
+            CreateOrderContext context) throws Exception {
         doValidate(accountid, request, response, context);
     }
 
@@ -86,9 +86,9 @@ public class ValidateProcessor extends CreateOrderProcessor {
         if (discountCode != null) {
             price = price.subtract(discountCode);
         }
-        if (price.multiply(PriceConverter.PRICE_FACTOR_BIGDECIMAL).longValue() != 
-                request.getActualPrice().multiply(PriceConverter.PRICE_FACTOR_BIGDECIMAL).longValue()) {
-            response.addError(new Error());
+        if (price.multiply(PriceConverter.PRICE_FACTOR_BIGDECIMAL).longValue() != request.getActualPrice()
+                .multiply(PriceConverter.PRICE_FACTOR_BIGDECIMAL).longValue()) {
+            response.addError(new Error("折扣错误"));
             response.setStatus(Status.BIZ_ERROR);
         }
     }
@@ -99,7 +99,8 @@ public class ValidateProcessor extends CreateOrderProcessor {
         int count = travellers.size();
         if (count > Constants.DefaultValue.MAX_ORDER_TRAVELLER_COUNT) {
             response.setStatus(Status.BIZ_ERROR);
-            response.addError(new Error(BizCode.EXCEED_MAX_ORDER_TRAVELLER_COUNT, ErrorMsg.EXCEED_MAX_ORDER_TRAVELLER_COUNT));
+            response.addError(
+                    new Error(BizCode.EXCEED_MAX_ORDER_TRAVELLER_COUNT, ErrorMsg.EXCEED_MAX_ORDER_TRAVELLER_COUNT));
             return;
         }
         int quota = travelBiz.getQuota(context.getOrderInfo().getGroupid(), request, response);
@@ -160,7 +161,7 @@ public class ValidateProcessor extends CreateOrderProcessor {
         String code = request.getDiscountCode();
         if (StringUtils.hasText(code)) {
             try {
-                DiscountCode discountCode = discountCodeRepository.findByAccountidAndDiscountCode(accountid, code);
+                DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);
                 if (discountCode != null) {
                     context.setDiscountCode(discountCode); // 设置优惠码对象
                     return discountCode.getValue();
