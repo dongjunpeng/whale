@@ -22,7 +22,7 @@ import com.buterfleoge.whale.dao.OrderTravellersRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
 import com.buterfleoge.whale.type.OrderStatus;
-import com.buterfleoge.whale.type.OrderStatusType;
+import com.buterfleoge.whale.type.OrderStatusCategory;
 import com.buterfleoge.whale.type.entity.AccountSetting;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderTravellers;
@@ -57,7 +57,7 @@ public class BriefOrderHandler {
     @Autowired
     private TravelGroupRepository travelGroupRepository;
 
-    public Integer countOrderInfoByStatus(Long accountid, OrderStatusType orderStatusType, String reqid) {
+    public Integer countOrderInfoByStatus(Long accountid, OrderStatusCategory orderStatusType, String reqid) {
         try {
             return orderInfoRepository.countByAccountidAndStatusIn(accountid, orderStatusType.getOrderStatuses());
         } catch (Exception e) {
@@ -81,11 +81,11 @@ public class BriefOrderHandler {
 
     public void getBriefOrders(Long accountid, GetBriefOrdersRequest request, GetBriefOrdersResponse response) throws Exception {
         String reqid = request.getReqid();
-        response.setCurrentOrderCount(countOrderInfoByStatus(accountid, OrderStatusType.CURRENT, reqid));
-        response.setHistoryOrderCount(countOrderInfoByStatus(accountid, OrderStatusType.HISTORY, reqid));
+        response.setCurrentOrderCount(countOrderInfoByStatus(accountid, OrderStatusCategory.CURRENT, reqid));
+        response.setHistoryOrderCount(countOrderInfoByStatus(accountid, OrderStatusCategory.HISTORY, reqid));
 
         Set<OrderStatus> statusSet = request.getOrderType() != null ? request.getOrderType().getOrderStatuses()
-                : OrderStatusType.VISIBLE.getOrderStatuses();
+                : OrderStatusCategory.VISIBLE.getOrderStatuses();
 
         List<OrderInfo> orderInfos = null;
         try {

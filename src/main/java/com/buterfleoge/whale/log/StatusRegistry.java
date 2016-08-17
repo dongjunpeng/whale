@@ -1,4 +1,4 @@
-package com.buterfleoge.whale;
+package com.buterfleoge.whale.log;
 
 /**
  * 状态码注册中心，一般，后面两位留作拓展，可以自行定义， 十位以上的 一般标识异常的类型

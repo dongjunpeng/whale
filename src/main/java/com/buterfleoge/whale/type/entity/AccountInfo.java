@@ -18,6 +18,9 @@ import com.buterfleoge.whale.type.AccountStatus;
 import com.buterfleoge.whale.type.AccountType;
 import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.AccountStatusConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.AccountTypeConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.IdTypeConverter;
 
 /**
  * 账户的基本信息
@@ -41,15 +44,18 @@ public class AccountInfo extends BaseObject {
     private String password = "";
 
     @Column(name = "type")
+    @Convert(converter = AccountTypeConverter.class)
     private AccountType type = AccountType.USER;
 
     @Column(name = "status")
+    @Convert(converter = AccountStatusConverter.class)
     private AccountStatus status = AccountStatus.OK;
 
     @Column(name = "id")
     private String id = "";
 
     @Column(name = "id_type")
+    @Convert(converter = IdTypeConverter.class)
     private IdType idType = IdType.IDENTIFICATION;
 
     @Column(name = "email")

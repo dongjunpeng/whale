@@ -1,10 +1,9 @@
 /**
- * 
+ *
  */
 package com.buterfleoge.whale.biz.order;
 
 import com.buterfleoge.whale.type.protocol.Response;
-import com.buterfleoge.whale.type.protocol.order.AlipayRequest;
 import com.buterfleoge.whale.type.protocol.order.CancelOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderResponse;
@@ -16,6 +15,8 @@ import com.buterfleoge.whale.type.protocol.order.GetOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.GetOrderResponse;
 import com.buterfleoge.whale.type.protocol.order.NewOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.NewOrderResponse;
+import com.buterfleoge.whale.type.protocol.order.PayOrderByAlipayResponse;
+import com.buterfleoge.whale.type.protocol.order.PayOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.RefoundRequest;
 import com.buterfleoge.whale.type.protocol.order.RefoundResponse;
 import com.buterfleoge.whale.type.protocol.order.ValidateCodeRequest;
@@ -35,9 +36,11 @@ public interface OrderBiz {
 
     void cancelOrder(Long accountid, CancelOrderRequest request, Response response) throws Exception;
 
+    void payOrder(Long accountid, PayOrderRequest request, PayOrderByAlipayResponse response) throws Exception;
+
     void getBriefOrders(Long accountid, GetBriefOrdersRequest request, GetBriefOrdersResponse response) throws Exception;
 
-    void alipay(Long accountid, AlipayRequest requst, Response response) throws Exception;
+    void alipay(Long accountid, PayOrderRequest requst, Response response) throws Exception;
 
     void getRefoundInfo(Long accountid, RefoundRequest request, RefoundResponse response) throws Exception;
 

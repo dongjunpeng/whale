@@ -1,11 +1,10 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.Utils;
 
 /**
  * 旅行地区
- * 
+ *
  * @author Brent24
  *
  */
@@ -58,13 +57,18 @@ public enum TravelArea {
         return scope;
     }
 
-    public void setScope(int scope) {
-        this.scope = scope;
+    public static final TravelArea valueOf(int scope) {
+        for (TravelArea ta : values()) {
+            if (ta.getScope() == scope) {
+                return ta;
+            }
+        }
+        throw new IllegalArgumentException("Can't find TravelArea, scope: " + scope);
     }
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return Utils.enumToString(this);
     }
 
 }

@@ -22,6 +22,7 @@ import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.DiscountCodeStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.DiscountCodeStatusConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
 /**
@@ -46,6 +47,7 @@ public class DiscountCode extends BaseObject {
     private Long accountid;
 
     @Column(name = "status")
+    @Convert(converter = DiscountCodeStatusConverter.class)
     private DiscountCodeStatus status;
 
     @Column(name = "agent")

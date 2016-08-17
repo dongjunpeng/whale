@@ -1,11 +1,10 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.Utils;
 
 /**
  * 旅行类型
- * 
+ *
  * @author Brent24
  *
  */
@@ -53,13 +52,18 @@ public enum TravelType {
         return type;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public static final TravelType valueOf(int type) {
+        for (TravelType at : values()) {
+            if (at.getType() == type) {
+                return at;
+            }
+        }
+        throw new IllegalArgumentException("Can't find TravelType, type: " + type);
     }
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return Utils.enumToString(this);
     }
 
 }

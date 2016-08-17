@@ -1,8 +1,8 @@
 package com.buterfleoge.whale.log.interceptor;
 
-import com.buterfleoge.whale.StatusRegistry;
 import com.buterfleoge.whale.log.LogProxy;
 import com.buterfleoge.whale.log.MinorTagCreator;
+import com.buterfleoge.whale.log.StatusRegistry;
 
 /**
  * 默认的日志切面配置

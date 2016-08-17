@@ -1,11 +1,10 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.Utils;
 
 /**
  * 发团状态
- * 
+ *
  * @author Brent24
  *
  */
@@ -53,13 +52,18 @@ public enum GroupStatus {
         return status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public static final GroupStatus valueOf(int status) {
+        for (GroupStatus as : values()) {
+            if (as.getStatus() == status) {
+                return as;
+            }
+        }
+        throw new IllegalArgumentException("Can't find GroupStatus, status: " + status);
     }
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return Utils.enumToString(this);
     }
 
 }

@@ -1,7 +1,6 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.Utils;
 
 /**
  * 账户状态
@@ -38,13 +37,18 @@ public enum AccountStatus {
         return status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public static final AccountStatus valueOf(int status) {
+        for (AccountStatus as : values()) {
+            if (as.getStatus() == status) {
+                return as;
+            }
+        }
+        throw new IllegalArgumentException("Can't find AccountStatus, status: " + status);
     }
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return Utils.enumToString(this);
     }
 
 }

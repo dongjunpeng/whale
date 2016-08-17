@@ -1,11 +1,10 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.Utils;
 
 /**
  * 退款原因
- * 
+ *
  * @author Brent24
  *
  */
@@ -38,12 +37,17 @@ public enum RefoundStatus {
         return status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public static final RefoundStatus valueOf(int status) {
+        for (RefoundStatus as : values()) {
+            if (as.getStatus() == status) {
+                return as;
+            }
+        }
+        throw new IllegalArgumentException("Can't find RefoundStatus, status: " + status);
     }
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return Utils.enumToString(this);
     }
 }

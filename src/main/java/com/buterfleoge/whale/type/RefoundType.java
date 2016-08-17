@@ -1,14 +1,13 @@
 /**
- * 
+ *
  */
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.Utils;
 
 /**
  * 退款类型
- * 
+ *
  * @author Brent24
  *
  */
@@ -66,13 +65,18 @@ public enum RefoundType {
         return type;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public static final RefoundType valueOf(int type) {
+        for (RefoundType at : values()) {
+            if (at.getType() == type) {
+                return at;
+            }
+        }
+        throw new IllegalArgumentException("Can't find RefoundType, type: " + type);
     }
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return Utils.enumToString(this);
     }
 
 }

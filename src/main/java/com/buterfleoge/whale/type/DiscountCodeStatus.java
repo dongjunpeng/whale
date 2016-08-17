@@ -1,20 +1,19 @@
 /**
- * 
+ *
  */
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.Utils;
 
 /**
- * 
+ *
  * <ol>
  * <li>CREATED -> TIMEOUT
  * <li>CREATED -> VERIFIED -> TIMEOUT
  * <li>CREATED -> VERIFIED -> OCCUPIED -> USED
  * <li>CREATED -> VERIFIED -> OCCUPIED -> VERIFIED
  * </ol>
- * 
+ *
  * @author Brent24
  *
  */
@@ -55,12 +54,17 @@ public enum DiscountCodeStatus {
         return status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public static final DiscountCodeStatus valueOf(int status) {
+        for (DiscountCodeStatus as : values()) {
+            if (as.getStatus() == status) {
+                return as;
+            }
+        }
+        throw new IllegalArgumentException("Can't find DiscountCodeStatus, status: " + status);
     }
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return Utils.enumToString(this);
     }
 }

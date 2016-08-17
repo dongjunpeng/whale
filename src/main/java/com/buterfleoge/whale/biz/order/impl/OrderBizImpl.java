@@ -1,7 +1,6 @@
 package com.buterfleoge.whale.biz.order.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -27,12 +26,12 @@ import com.buterfleoge.whale.dao.OrderRefoundRepository;
 import com.buterfleoge.whale.dao.OrderTravellersRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
+import com.buterfleoge.whale.service.AlipayService;
 import com.buterfleoge.whale.type.DiscountCodeStatus;
 import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.RefoundStatus;
-import com.buterfleoge.whale.type.RefoundType;
 import com.buterfleoge.whale.type.TravelType;
 import com.buterfleoge.whale.type.entity.DiscountCode;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
@@ -43,7 +42,6 @@ import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 import com.buterfleoge.whale.type.protocol.Error;
 import com.buterfleoge.whale.type.protocol.Response;
-import com.buterfleoge.whale.type.protocol.order.AlipayRequest;
 import com.buterfleoge.whale.type.protocol.order.CancelOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderResponse;
@@ -55,6 +53,8 @@ import com.buterfleoge.whale.type.protocol.order.GetOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.GetOrderResponse;
 import com.buterfleoge.whale.type.protocol.order.NewOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.NewOrderResponse;
+import com.buterfleoge.whale.type.protocol.order.PayOrderByAlipayResponse;
+import com.buterfleoge.whale.type.protocol.order.PayOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.RefoundRequest;
 import com.buterfleoge.whale.type.protocol.order.RefoundResponse;
 import com.buterfleoge.whale.type.protocol.order.ValidateCodeRequest;
@@ -117,6 +117,9 @@ public class OrderBizImpl implements OrderBiz {
 
     @Autowired
     private BriefOrderHandler briefOrderHandler;
+
+    @Autowired
+    private AlipayService alipayService;
 
     @Override
     public void newOrder(Long accountid, NewOrderRequest request, NewOrderResponse response) throws Exception {
@@ -182,11 +185,6 @@ public class OrderBizImpl implements OrderBiz {
     }
 
     @Override
-    public void getBriefOrders(Long accountid, GetBriefOrdersRequest request, GetBriefOrdersResponse response) throws Exception {
-        briefOrderHandler.getBriefOrders(accountid, request, response);
-    }
-
-    @Override
     @Transactional(rollbackFor = Exception.class)
     public void cancelOrder(Long accountid, CancelOrderRequest request, Response response) throws Exception {
         Long orderid = request.getOrderid();
@@ -211,48 +209,64 @@ public class OrderBizImpl implements OrderBiz {
     }
 
     @Override
+    public void payOrder(Long accountid, PayOrderRequest request, PayOrderByAlipayResponse response) throws Exception {
+        Long orderid = request.getOrderid();
+        OrderInfo order = orderInfoRepository.findByOrderidAndAccountid(orderid, accountid);
+        TravelGroup group = travelGroupRepository.findOne(order.getGroupid());
+
+        order.setStatus(OrderStatus.PAYING);
+        orderInfoRepository.save(order);
+
+        String alipayForm = alipayService.createDirectPay(orderid, order.getActualPrice(), group.getPrice(),
+                group.getTitle());
+        response.setAlipayFrom(alipayForm);
+    }
+
+    @Override
+    public void getBriefOrders(Long accountid, GetBriefOrdersRequest request, GetBriefOrdersResponse response)
+            throws Exception {
+        briefOrderHandler.getBriefOrders(accountid, request, response);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    public void alipay(Long accountid, AlipayRequest request, Response response) {
+    public void alipay(Long accountid, PayOrderRequest request, Response response) {
         Long orderid = request.getOrderid();
         OrderInfo orderInfo = orderInfoRepository.findOne(orderid);
         OrderStatus status = orderInfo.getStatus();
 
-        switch (status) {
-            case WAITING:
-                // TODO 支付宝相关跳转
-                response.setStatus(Status.OK);
-                break;
-            case CANCEL:
-                response.setErrors(Arrays.asList(new Error("订单已取消")));
-                response.setStatus(Status.PARAM_ERROR);
-                break;
-            case TIMEOUT:
-                response.setErrors(Arrays.asList(new Error("订单已超时")));
-                response.setStatus(Status.PARAM_ERROR);
-                break;
-            // case PAYING:
-            // response.setErrors(Arrays.asList(new Error("订单正在支付中")));
-            // response.setStatus(Status.PARAM_ERROR);
-            // break;
-            case PAID:
-                response.setErrors(Arrays.asList(new Error("订单已支付成功")));
-                response.setStatus(Status.PARAM_ERROR);
-                break;
-            case CANCELPAYMENT:
-                break;
-            case CLOSED:
-                break;
-            case FINISH:
-                break;
-            case PAYING:
-                break;
-            case REFOUNDED:
-                break;
-            case REFOUNDING:
-                break;
-            default:
-                break;
-        }
+        // switch (status) {
+        // case WAITING:
+        // // TODO 支付宝相关跳转
+        // response.setStatus(Status.OK);
+        // break;
+        // case CANCEL:
+        // response.setErrors(Arrays.asList(new Error("订单已取消")));
+        // response.setStatus(Status.PARAM_ERROR);
+        // break;
+        // case TIMEOUT:
+        // response.setErrors(Arrays.asList(new Error("订单已超时")));
+        // response.setStatus(Status.PARAM_ERROR);
+        // break;
+        // // case PAYING:
+        // // response.setErrors(Arrays.asList(new Error("订单正在支付中")));
+        // // response.setStatus(Status.PARAM_ERROR);
+        // // break;
+        // case PAID:
+        // response.setErrors(Arrays.asList(new Error("订单已支付成功")));
+        // response.setStatus(Status.PARAM_ERROR);
+        // break;
+        // case CLOSED:
+        // break;
+        // case FINISH:
+        // break;
+        // case PAYING:
+        // break;
+        // case REFOUND:
+        // break;
+        // default:
+        // break;
+        // }
     }
 
     @Override
@@ -291,54 +305,54 @@ public class OrderBizImpl implements OrderBiz {
         // orderRefound.setAddTime(now);
         orderRefound.setStatus(RefoundStatus.CREATED);
 
-        switch (travelType) {
-            case LONG_TRIP:
-                if (leftMinutes >= 60 * 24 * 21) {
-                    orderRefound.setType(RefoundType.LONG_PCT_95);
-                    // orderRefound.setRefound((long) (actualPrice * 0.95));
-                } else {
-                    if (leftMinutes >= 60 * 24 * 14) {
-                        orderRefound.setType(RefoundType.LONG_PCT_80);
-                        // orderRefound.setRefound((long) (actualPrice * 0.80));
-                    } else {
-                        if (leftMinutes >= 60 * 24 * 7) {
-                            orderRefound.setType(RefoundType.LONG_PCT_50);
-                            // orderRefound.setRefound((long) (actualPrice * 0.50));
-                        } else {
-                            orderRefound.setType(RefoundType.LONG_PCT_20);
-                            // orderRefound.setRefound((long) (actualPrice * 0.20));
-                        }
-                    }
-                }
-                break;
-            case SHORT_TRIP:
-                if (leftMinutes >= 60 * 24 * 7) {
-                    orderRefound.setType(RefoundType.SHORT_PCT_100);
-                    // orderRefound.setRefound((long) (actualPrice));
-                } else {
-                    if (leftMinutes >= 60 * 24 * 4) {
-                        orderRefound.setType(RefoundType.SHORT_PCT_80);
-                        // orderRefound.setRefound((long) (actualPrice * 0.80));
-                    } else {
-                        if (leftMinutes >= 60 * 24 * 1) {
-                            orderRefound.setType(RefoundType.SHORT_PCT_50);
-                            // orderRefound.setRefound((long) (actualPrice * 0.50));
-                        } else {
-                            orderRefound.setType(RefoundType.SHORT_PCT_20);
-                            // orderRefound.setRefound((long) (actualPrice * 0.20));
-                        }
-                    }
-                    break;
-                }
-            case WEEKEND:
-                break;
-            case PARTY:
-                break;
-            case CITY_WALK:
-                break;
-            case INTERNATIONAL:
-                break;
-        }
+        // switch (travelType) {
+        // case LONG_TRIP:
+        // if (leftMinutes >= 60 * 24 * 21) {
+        // orderRefound.setType(RefoundType.LONG_PCT_95);
+        // // orderRefound.setRefound((long) (actualPrice * 0.95));
+        // } else {
+        // if (leftMinutes >= 60 * 24 * 14) {
+        // orderRefound.setType(RefoundType.LONG_PCT_80);
+        // // orderRefound.setRefound((long) (actualPrice * 0.80));
+        // } else {
+        // if (leftMinutes >= 60 * 24 * 7) {
+        // orderRefound.setType(RefoundType.LONG_PCT_50);
+        // // orderRefound.setRefound((long) (actualPrice * 0.50));
+        // } else {
+        // orderRefound.setType(RefoundType.LONG_PCT_20);
+        // // orderRefound.setRefound((long) (actualPrice * 0.20));
+        // }
+        // }
+        // }
+        // break;
+        // case SHORT_TRIP:
+        // if (leftMinutes >= 60 * 24 * 7) {
+        // orderRefound.setType(RefoundType.SHORT_PCT_100);
+        // // orderRefound.setRefound((long) (actualPrice));
+        // } else {
+        // if (leftMinutes >= 60 * 24 * 4) {
+        // orderRefound.setType(RefoundType.SHORT_PCT_80);
+        // // orderRefound.setRefound((long) (actualPrice * 0.80));
+        // } else {
+        // if (leftMinutes >= 60 * 24 * 1) {
+        // orderRefound.setType(RefoundType.SHORT_PCT_50);
+        // // orderRefound.setRefound((long) (actualPrice * 0.50));
+        // } else {
+        // orderRefound.setType(RefoundType.SHORT_PCT_20);
+        // // orderRefound.setRefound((long) (actualPrice * 0.20));
+        // }
+        // }
+        // break;
+        // }
+        // case WEEKEND:
+        // break;
+        // case PARTY:
+        // break;
+        // case CITY_WALK:
+        // break;
+        // case INTERNATIONAL:
+        // break;
+        // }
         orderRefound = orderRefoundRepository.save(orderRefound);
         String leftTime = "剩余时间： " + leftMinutes / 60 / 24 + " 天 " + leftMinutes / 60 % 24 + " 小时 " + leftMinutes % 60 + " 分";
 
@@ -362,28 +376,29 @@ public class OrderBizImpl implements OrderBiz {
             response.addError(new Error(BizCode.DISCOUNT_CODE_NOT_EXIST, ErrorMsg.DISCOUNT_CODE_NOT_EXIST));
             return;
         }
-        switch (discountCode.getStatus()) {
-            case CREATED:
-                discountCode.setStatus(DiscountCodeStatus.VERIFIED);
-                discountCodeRepository.save(discountCode);
-                response.setValue(discountCode.getValue());
-                break;
-            case VERIFIED:
-                response.setValue(discountCode.getValue());
-                break;
-            case OCCUPIED:
-                response.setStatus(Status.BIZ_ERROR);
-                response.addError(new Error(ErrorMsg.DISCOUNT_CODE_OCCUPIED));
-                break;
-            case TIMEOUT:
-                response.setStatus(Status.BIZ_ERROR);
-                response.addError(new Error(ErrorMsg.DISCOUNT_CODE_TIMEOUT));
-                break;
-            case USED:
-                response.setStatus(Status.BIZ_ERROR);
-                response.addError(new Error(ErrorMsg.DISCOUNT_CODE_USED));
-                break;
-        }
+        // FIXME
+        // switch (discountCode.getStatus().getValue()) {
+        // case CREATED:
+        // discountCode.setStatus(DiscountCodeStatus.VERIFIED);
+        // discountCodeRepository.save(discountCode);
+        // response.setValue(discountCode.getValue());
+        // break;
+        // case VERIFIED:
+        // response.setValue(discountCode.getValue());
+        // break;
+        // case OCCUPIED:
+        // response.setStatus(Status.BIZ_ERROR);
+        // response.addError(new Error(ErrorMsg.DISCOUNT_CODE_OCCUPIED));
+        // break;
+        // case TIMEOUT:
+        // response.setStatus(Status.BIZ_ERROR);
+        // response.addError(new Error(ErrorMsg.DISCOUNT_CODE_TIMEOUT));
+        // break;
+        // case USED:
+        // response.setStatus(Status.BIZ_ERROR);
+        // response.addError(new Error(ErrorMsg.DISCOUNT_CODE_USED));
+        // break;
+        // }
     }
 
 }

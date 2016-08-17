@@ -4,12 +4,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.Utils;
 
 /**
  * 优惠类型
- * 
+ *
  * @author Brent24
  *
  */
@@ -74,6 +73,15 @@ public enum DiscountType {
         return type;
     }
 
+    public static final DiscountType valueOf(int type) {
+        for (DiscountType at : values()) {
+            if (at.getType() == type) {
+                return at;
+            }
+        }
+        throw new IllegalArgumentException("Can't find DiscountType, type: " + type);
+    }
+
     public static DiscountType getDiscountType(int discountType) {
         for (DiscountType type : values()) {
             if (type.getType() == discountType) {
@@ -103,7 +111,7 @@ public enum DiscountType {
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return Utils.enumToString(this);
     }
 
 }

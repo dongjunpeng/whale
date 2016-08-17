@@ -1,4 +1,4 @@
-package com.buterfleoge.whale;
+package com.buterfleoge.whale.log;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

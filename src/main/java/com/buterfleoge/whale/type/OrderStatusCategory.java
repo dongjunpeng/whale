@@ -5,12 +5,14 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.buterfleoge.whale.Utils;
+
 /**
  *
  * @author xiezhenzong
  *
  */
-public enum OrderStatusType {
+public enum OrderStatusCategory {
 
     /**
      * 当前订单{创建等待付款,付款中,付款完成到账,退款中}
@@ -41,7 +43,7 @@ public enum OrderStatusType {
     private int type;
     private OrderStatus[] orderStatuses;
 
-    private OrderStatusType(int type, OrderStatus... orderStatuses) {
+    private OrderStatusCategory(int type, OrderStatus... orderStatuses) {
         this.type = type;
         this.orderStatuses = orderStatuses;
     }
@@ -53,11 +55,25 @@ public enum OrderStatusType {
         return type;
     }
 
+    public static final OrderStatusCategory valueOf(int category) {
+        for (OrderStatusCategory c : values()) {
+            if (c.getType() == category) {
+                return c;
+            }
+        }
+        throw new IllegalArgumentException("Can't find OrderStatusCategory, status: " + category);
+    }
+
     /**
      * @return the orderStatuses
      */
     public Set<OrderStatus> getOrderStatuses() {
         return Collections.unmodifiableSet(new HashSet<OrderStatus>(Arrays.asList(orderStatuses)));
+    }
+
+    @Override
+    public String toString() {
+        return Utils.enumToString(this);
     }
 
 }

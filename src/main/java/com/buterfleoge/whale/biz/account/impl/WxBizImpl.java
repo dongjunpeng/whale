@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.buterfleoge.whale.Constants.Status;
-import com.buterfleoge.whale.InvokeLogger;
 import com.buterfleoge.whale.biz.account.WxBiz;
+import com.buterfleoge.whale.log.InvokeLogger;
 import com.buterfleoge.whale.type.protocol.wx.WxAccessTokenResponse;
 import com.buterfleoge.whale.type.protocol.wx.WxAuthResponse;
 import com.buterfleoge.whale.type.protocol.wx.WxResponse;

@@ -1,11 +1,10 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.Utils;
 
 /**
  * 证件类型
- * 
+ *
  * @author Brent24
  *
  */
@@ -43,12 +42,17 @@ public enum IdType {
         return type;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public static final IdType valueOf(int type) {
+        for (IdType at : values()) {
+            if (at.getType() == type) {
+                return at;
+            }
+        }
+        throw new IllegalArgumentException("Can't find IdType, type: " + type);
     }
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return Utils.enumToString(this);
     }
 }

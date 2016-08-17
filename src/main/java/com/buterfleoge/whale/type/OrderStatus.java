@@ -1,11 +1,10 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.Utils;
 
 /**
  * 订单状态，几种流程：有可能需要更加细化一点
- * 
+ *
  * <ol>
  * <li>WATING -> CANCEL
  * <li>WATING -> TIMEOUT
@@ -13,14 +12,14 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * <li>WATING -> PAYING -> PAID -> REFOUNDING -> REFOUNDED
  * <li>WATING -> PAYING -> FINISH
  * </ol>
- * 
+ *
  * @author Brent24
  *
  */
 public enum OrderStatus {
 
     /**
-     * 
+     *
      */
     NEW(0),
 
@@ -84,12 +83,17 @@ public enum OrderStatus {
         return status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public static final OrderStatus valueOf(int status) {
+        for (OrderStatus as : values()) {
+            if (as.getStatus() == status) {
+                return as;
+            }
+        }
+        throw new IllegalArgumentException("Can't find OrderStatus, status: " + status);
     }
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return Utils.enumToString(this);
     }
 }

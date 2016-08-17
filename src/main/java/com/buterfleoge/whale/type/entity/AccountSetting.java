@@ -14,6 +14,7 @@ import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.Gender;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.GenderConverter;
 
 /**
  * 账户的设置信息
@@ -50,6 +51,7 @@ public class AccountSetting extends BaseObject {
     private String wbname = "";
 
     @Column(name = "gender")
+    @Convert(converter = GenderConverter.class)
     private Gender gender = Gender.UNKNOW;
 
     @DateTimeFormat(pattern = Pattern.DATE)

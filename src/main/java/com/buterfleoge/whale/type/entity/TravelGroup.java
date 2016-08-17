@@ -19,6 +19,7 @@ import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.GroupStatusConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
 /**
@@ -58,6 +59,7 @@ public class TravelGroup extends BaseObject {
     private BigDecimal price;
 
     @Column(name = "status")
+    @Convert(converter = GroupStatusConverter.class)
     private GroupStatus status;
 
     @Column(name = "min_count")

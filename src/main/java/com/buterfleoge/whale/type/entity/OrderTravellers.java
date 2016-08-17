@@ -16,6 +16,8 @@ import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.Gender;
 import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.GenderConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.IdTypeConverter;
 
 /**
  *
@@ -46,6 +48,7 @@ public class OrderTravellers extends BaseObject {
     private String id;
 
     @Column(name = "id_type")
+    @Convert(converter = IdTypeConverter.class)
     private IdType idType;
 
     @Column(name = "email")
@@ -55,6 +58,7 @@ public class OrderTravellers extends BaseObject {
     private String mobile;
 
     @Column(name = "gender")
+    @Convert(converter = GenderConverter.class)
     private Gender gender;
 
     @DateTimeFormat(pattern = Pattern.DATE)

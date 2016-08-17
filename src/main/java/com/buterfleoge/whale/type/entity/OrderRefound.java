@@ -20,6 +20,8 @@ import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.RefoundStatus;
 import com.buterfleoge.whale.type.RefoundType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.RefoundStatusConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.RefoundTypeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
 /**
@@ -41,9 +43,11 @@ public class OrderRefound extends BaseObject {
     private Long orderid;
 
     @Column(name = "status")
+    @Convert(converter = RefoundStatusConverter.class)
     private RefoundStatus status;
 
     @Column(name = "type")
+    @Convert(converter = RefoundTypeConverter.class)
     private RefoundType type;
 
     @NumberFormat(style = Style.CURRENCY)

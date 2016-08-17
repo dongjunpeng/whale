@@ -1,7 +1,6 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.Utils;
 
 /**
  * 订单中人员的状态
@@ -30,13 +29,18 @@ public enum OrderStaffStatus {
         return status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public static final OrderStaffStatus valueOf(int status) {
+        for (OrderStaffStatus as : values()) {
+            if (as.getStatus() == status) {
+                return as;
+            }
+        }
+        throw new IllegalArgumentException("Can't find OrderStaffStatus, status: " + status);
     }
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return Utils.enumToString(this);
     }
 
 }

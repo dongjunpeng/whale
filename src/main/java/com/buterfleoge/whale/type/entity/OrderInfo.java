@@ -19,6 +19,7 @@ import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.OrderStatusConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
 /**
@@ -46,6 +47,7 @@ public class OrderInfo extends BaseObject {
     private Long groupid;
 
     @Column(name = "status")
+    @Convert(converter = OrderStatusConverter.class)
     private OrderStatus status;
 
     @Column(name = "count")

@@ -1,11 +1,10 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.Utils;
 
 /**
  * 性别
- * 
+ *
  * @author Brent24
  *
  */
@@ -37,12 +36,17 @@ public enum Gender {
         return gender;
     }
 
-    public void setGender(int gender) {
-        this.gender = gender;
+    public static final Gender valueOf(int gender) {
+        for (Gender g : values()) {
+            if (g.getGender() == gender) {
+                return g;
+            }
+        }
+        throw new IllegalArgumentException("Can't find Gender, type: " + gender);
     }
 
     @Override
     public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+        return Utils.enumToString(this);
     }
 }

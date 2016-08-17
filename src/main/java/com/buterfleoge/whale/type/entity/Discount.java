@@ -22,6 +22,7 @@ import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.DiscountTypeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
 /**
@@ -40,6 +41,7 @@ public class Discount extends BaseObject {
     private Long discountid;
 
     @Column(name = "type")
+    @Convert(converter = DiscountTypeConverter.class)
     private DiscountType type;
 
     @Column(name = "routeid")
