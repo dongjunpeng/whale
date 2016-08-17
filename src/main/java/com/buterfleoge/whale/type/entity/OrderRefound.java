@@ -17,11 +17,7 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
-import com.buterfleoge.whale.type.RefoundStatus;
-import com.buterfleoge.whale.type.RefoundType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
-import com.buterfleoge.whale.type.entity.converter.EnumConverters.RefoundStatusConverter;
-import com.buterfleoge.whale.type.entity.converter.EnumConverters.RefoundTypeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
 /**
@@ -43,12 +39,10 @@ public class OrderRefound extends BaseObject {
     private Long orderid;
 
     @Column(name = "status")
-    @Convert(converter = RefoundStatusConverter.class)
-    private RefoundStatus status;
+    private Integer status;
 
     @Column(name = "type")
-    @Convert(converter = RefoundTypeConverter.class)
-    private RefoundType type;
+    private Integer type;
 
     @NumberFormat(style = Style.CURRENCY)
     @Column(name = "refound")
@@ -99,28 +93,28 @@ public class OrderRefound extends BaseObject {
     /**
      * @return the status
      */
-    public RefoundStatus getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
     /**
      * @param status the status to set
      */
-    public void setStatus(RefoundStatus status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
     /**
      * @return the type
      */
-    public RefoundType getType() {
+    public Integer getType() {
         return type;
     }
 
     /**
      * @param type the type to set
      */
-    public void setType(RefoundType type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

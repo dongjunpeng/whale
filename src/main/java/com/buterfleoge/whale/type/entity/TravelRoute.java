@@ -14,10 +14,6 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
-import com.buterfleoge.whale.type.TravelArea;
-import com.buterfleoge.whale.type.TravelType;
-import com.buterfleoge.whale.type.entity.converter.EnumConverters.TravelAreaConverter;
-import com.buterfleoge.whale.type.entity.converter.EnumConverters.TravelTypeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 import com.buterfleoge.whale.type.formatter.ImagePathFormat;
 import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
@@ -48,15 +44,13 @@ public class TravelRoute extends BaseObject {
     private Boolean visible;
 
     @Column(name = "type")
-    @Convert(converter = TravelTypeConverter.class)
-    private TravelType type;
+    private Integer type;
 
     @Column(name = "days")
     private Integer days;
 
     @Column(name = "area")
-    @Convert(converter = TravelAreaConverter.class)
-    private TravelArea area;
+    private Integer area;
 
     @Column(name = "departure")
     private String departure;
@@ -131,11 +125,11 @@ public class TravelRoute extends BaseObject {
         this.visible = visible;
     }
 
-    public TravelType getType() {
+    public Integer getType() {
         return type;
     }
 
-    public void setType(TravelType type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -147,11 +141,11 @@ public class TravelRoute extends BaseObject {
         this.days = days;
     }
 
-    public TravelArea getArea() {
+    public Integer getArea() {
         return area;
     }
 
-    public void setArea(TravelArea area) {
+    public void setArea(Integer area) {
         this.area = area;
     }
 

@@ -39,7 +39,7 @@ public class CodeGenerator {
 
             if (!codeSet.contains(code)) {
                 discountCode = new DiscountCode();
-                discountCode.setStatus(DiscountCodeStatus.CREATED);
+                discountCode.setStatus(DiscountCodeStatus.CREATED.value);
                 discountCode.setDiscountCode(code);
                 discountCode.setAgent(agent);
                 // discountCode.setValue(value);

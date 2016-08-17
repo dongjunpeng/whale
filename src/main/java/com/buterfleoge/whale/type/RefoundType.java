@@ -3,7 +3,7 @@
  */
 package com.buterfleoge.whale.type;
 
-import com.buterfleoge.whale.Utils;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 退款类型
@@ -11,72 +11,53 @@ import com.buterfleoge.whale.Utils;
  * @author Brent24
  *
  */
-public enum RefoundType {
+public class RefoundType extends EnumObject {
 
     /**
      * 21天以上退还95%
      */
-    LONG_PCT_95(0),
+    public static final RefoundType LONG_PCT_95 = new RefoundType(0);
 
     /**
      * 21天-15天退还80%
      */
-    LONG_PCT_80(1),
+    public static final RefoundType LONG_PCT_80 = new RefoundType(1);
 
     /**
      * 14天-8天退还80%
      */
-    LONG_PCT_50(2),
+    public static final RefoundType LONG_PCT_50 = new RefoundType(2);
 
     /**
      * 7天至未出行
      */
-    LONG_PCT_20(3),
+    public static final RefoundType LONG_PCT_20 = new RefoundType(3);
 
     /**
      * 8天以上退100%
      */
-    SHORT_PCT_100(4),
+    public static final RefoundType SHORT_PCT_100 = new RefoundType(4);
 
     /**
      * 7天-5天退80%
      */
-    SHORT_PCT_80(5),
+    public static final RefoundType SHORT_PCT_80 = new RefoundType(5);
 
     /**
      * 4天-2天退50%
      */
-    SHORT_PCT_50(6),
+    public static final RefoundType SHORT_PCT_50 = new RefoundType(6);
 
     /**
      * 1天至未出行退20%
      */
-    SHORT_PCT_20(7)
+    public static final RefoundType SHORT_PCT_20 = new RefoundType(7);
 
-    ;
+    
+    public static final EnumObjectHelper<RefoundType> HELPER = EnumObjectHelper.create(LONG_PCT_95, LONG_PCT_80, LONG_PCT_50, LONG_PCT_20,SHORT_PCT_100, SHORT_PCT_80, SHORT_PCT_50, SHORT_PCT_20);
 
-    private int type;
-
-    private RefoundType(int type) {
-        this.type = type;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public static final RefoundType valueOf(int type) {
-        for (RefoundType at : values()) {
-            if (at.getType() == type) {
-                return at;
-            }
-        }
-        throw new IllegalArgumentException("Can't find RefoundType, type: " + type);
-    }
-
-    @Override
-    public String toString() {
-        return Utils.enumToString(this);
+    private RefoundType(int value) {
+        super(value);
     }
 
 }

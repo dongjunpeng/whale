@@ -16,8 +16,6 @@ import com.buterfleoge.whale.dao.AccountContactsRepository;
 import com.buterfleoge.whale.dao.AccountInfoRepository;
 import com.buterfleoge.whale.dao.AccountSettingRepository;
 import com.buterfleoge.whale.type.AccountStatus;
-import com.buterfleoge.whale.type.Gender;
-import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.entity.AccountContacts;
 import com.buterfleoge.whale.type.entity.AccountInfo;
 import com.buterfleoge.whale.type.entity.AccountSetting;
@@ -116,7 +114,7 @@ public class AccountBizImpl implements AccountBiz {
 
     private void updateAccountInfo(Long accountid, PostBasicInfoRequest request, Response response) {
         String name = request.getName();
-        IdType idType = request.getIdType();
+        Integer idType = request.getIdType();
         String id = request.getId();
         String email = request.getEmail();
         String mobile = request.getMobile();
@@ -149,7 +147,7 @@ public class AccountBizImpl implements AccountBiz {
         if (isNeedSave) {
             try {
                 if (AccountStatus.WAIT_COMPLETE_INFO.equals(accountInfo.getStatus())) {
-                    accountInfo.setStatus(AccountStatus.OK);
+                    accountInfo.setStatus(AccountStatus.OK.value);
                 }
                 accountInfo.setModTime(new Date());
                 accountInfoRepository.save(accountInfo);
@@ -161,7 +159,7 @@ public class AccountBizImpl implements AccountBiz {
     }
 
     private void updateAccountSetting(Long accountid, PostBasicInfoRequest request, Response response) {
-        Gender gender = request.getGender();
+        Integer gender = request.getGender();
         Date birthday = request.getBirthday();
         String address = request.getAddress();
         boolean isNeedSave = false;
@@ -224,11 +222,11 @@ public class AccountBizImpl implements AccountBiz {
     private void updateContacts(Long accountid, PostContactsRequest request, Response response, AccountContacts contact)
             throws Exception {
         String name = request.getName();
-        IdType idType = request.getIdType();
+        Integer idType = request.getIdType();
         String id = request.getId();
         String email = request.getEmail();
         String mobile = request.getMobile();
-        Gender gender = request.getGender();
+        Integer gender = request.getGender();
         Date birthday = request.getBirthday();
         String address = request.getAddress();
         String emergencyContact = request.getEmergencyContact();

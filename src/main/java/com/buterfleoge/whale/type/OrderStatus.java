@@ -1,6 +1,6 @@
 package com.buterfleoge.whale.type;
 
-import com.buterfleoge.whale.Utils;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 订单状态，几种流程：有可能需要更加细化一点
@@ -8,92 +8,65 @@ import com.buterfleoge.whale.Utils;
  * <ol>
  * <li>WATING -> CANCEL
  * <li>WATING -> TIMEOUT
- * <li>WATING -> PAYING -> CANCELPAYMENT
- * <li>WATING -> PAYING -> PAID -> REFOUNDING -> REFOUNDED
- * <li>WATING -> PAYING -> FINISH
+ * <li>WATING -> PAYING -> PAID -> REFOUND
+ * <li>WATING -> PAYING -> PAID -> FINISH
+ * <li>WATING -> CLOSED -> REFOUND
  * </ol>
  *
  * @author Brent24
  *
  */
-public enum OrderStatus {
+public class OrderStatus  extends EnumObject{
 
     /**
-     *
+     * 点击报名
      */
-    NEW(0),
+    public static final OrderStatus NEW = new OrderStatus(0);
 
     /**
      * 生成等待付款
      */
-    WAITING(1),
+    public static final OrderStatus WAITING = new OrderStatus(1);
 
     /**
      * 取消
      */
-    CANCEL(2),
+    public static final OrderStatus CANCEL = new OrderStatus(2);
 
     /**
      * 超时
      */
-    TIMEOUT(3),
+    public static final OrderStatus TIMEOUT = new OrderStatus(3);
 
     /**
-     * 取消支付
+     * 退款
      */
-    CANCELPAYMENT(4),
-
-    /**
-     * 已退款
-     */
-    REFOUNDED(5),
+    public static final OrderStatus REFOUND = new OrderStatus(4);
 
     /**
      * 付款中
      */
-    PAYING(6),
+    public static final OrderStatus PAYING = new OrderStatus(5);
 
     /**
      * 付款到账
      */
-    PAID(7),
-
-    /**
-     * 退款中
-     */
-    REFOUNDING(8),
+    public static final OrderStatus PAID = new OrderStatus(6);
 
     /**
      * 开始旅行
      */
-    FINISH(9),
+    public static final OrderStatus FINISH = new OrderStatus(7);
 
     /**
      * 行程取消
      */
-    CLOSED(10);
+    public static final OrderStatus CLOSED = new OrderStatus(8);
+    
+    public static final EnumObjectHelper<OrderStatus> HELPER = EnumObjectHelper.create(NEW, WAITING, CANCEL, TIMEOUT, REFOUND, PAYING, PAID, FINISH, CLOSED);
 
-    private int status;
-
-    private OrderStatus(int status) {
-        this.status = status;
+    private OrderStatus(int value) {
+        super(value);
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public static final OrderStatus valueOf(int status) {
-        for (OrderStatus as : values()) {
-            if (as.getStatus() == status) {
-                return as;
-            }
-        }
-        throw new IllegalArgumentException("Can't find OrderStatus, status: " + status);
-    }
-
-    @Override
-    public String toString() {
-        return Utils.enumToString(this);
-    }
 }

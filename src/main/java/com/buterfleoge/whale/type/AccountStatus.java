@@ -1,6 +1,6 @@
 package com.buterfleoge.whale.type;
 
-import com.buterfleoge.whale.Utils;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 账户状态
@@ -8,47 +8,27 @@ import com.buterfleoge.whale.Utils;
  * @author xiezhenzong
  *
  */
-public enum AccountStatus {
+public class AccountStatus extends EnumObject {
 
     /**
      * 刚注册
      */
-    WAIT_COMPLETE_INFO(0),
+    public static final AccountStatus WAIT_COMPLETE_INFO = new AccountStatus(0);
 
     /**
      * 账户正常
      */
-    OK(1),
+    public static final AccountStatus OK = new AccountStatus(1);
 
     /**
      * 账户注销
      */
-    DELETE(2)
+    public static final AccountStatus DELETE = new AccountStatus(2);
 
-    ;
+    public static final EnumObjectHelper<AccountStatus> helper = EnumObjectHelper.create(WAIT_COMPLETE_INFO, OK, DELETE);
 
-    private int status;
-
-    private AccountStatus(int status) {
-        this.status = status;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public static final AccountStatus valueOf(int status) {
-        for (AccountStatus as : values()) {
-            if (as.getStatus() == status) {
-                return as;
-            }
-        }
-        throw new IllegalArgumentException("Can't find AccountStatus, status: " + status);
-    }
-
-    @Override
-    public String toString() {
-        return Utils.enumToString(this);
+    private AccountStatus(int value) {
+        super(value);
     }
 
 }

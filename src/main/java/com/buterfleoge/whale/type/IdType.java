@@ -1,6 +1,6 @@
 package com.buterfleoge.whale.type;
 
-import com.buterfleoge.whale.Utils;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 证件类型
@@ -8,51 +8,32 @@ import com.buterfleoge.whale.Utils;
  * @author Brent24
  *
  */
-public enum IdType {
+public class IdType extends EnumObject {
 
     /**
      * 身份证
      */
-    IDENTIFICATION(0),
+    public static final IdType IDENTIFICATION = new IdType(0);
 
     /**
      * 护照
      */
-    PASSPORT(1),
+    public static final IdType PASSPORT = new IdType(1);
 
     /**
      * 港澳通行证
      */
-    H_PASSER(2),
+    public static final IdType H_PASSER = new IdType(2);
 
     /**
      * 台胞证
      */
-    T_PASSER(3)
+    public static final IdType T_PASSER = new IdType(3);
 
-    ;
-
-    private int type;
-
-    private IdType(int type) {
-        this.type = type;
+    public static final EnumObjectHelper<IdType> HELPER = EnumObjectHelper.create(IDENTIFICATION, PASSPORT, H_PASSER, T_PASSER);
+    
+    private IdType(int value) {
+        super(value);
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public static final IdType valueOf(int type) {
-        for (IdType at : values()) {
-            if (at.getType() == type) {
-                return at;
-            }
-        }
-        throw new IllegalArgumentException("Can't find IdType, type: " + type);
-    }
-
-    @Override
-    public String toString() {
-        return Utils.enumToString(this);
-    }
 }

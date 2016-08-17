@@ -13,11 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
-import com.buterfleoge.whale.type.Gender;
-import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
-import com.buterfleoge.whale.type.entity.converter.EnumConverters.GenderConverter;
-import com.buterfleoge.whale.type.entity.converter.EnumConverters.IdTypeConverter;
 
 /**
  *
@@ -48,8 +44,7 @@ public class OrderTravellers extends BaseObject {
     private String id;
 
     @Column(name = "id_type")
-    @Convert(converter = IdTypeConverter.class)
-    private IdType idType;
+    private Integer idType;
 
     @Column(name = "email")
     private String email;
@@ -58,8 +53,7 @@ public class OrderTravellers extends BaseObject {
     private String mobile;
 
     @Column(name = "gender")
-    @Convert(converter = GenderConverter.class)
-    private Gender gender;
+    private Integer gender;
 
     @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "birthday")
@@ -126,11 +120,11 @@ public class OrderTravellers extends BaseObject {
         this.id = id;
     }
 
-    public IdType getIdType() {
+    public Integer getIdType() {
         return idType;
     }
 
-    public void setIdType(IdType idType) {
+    public void setIdType(Integer idType) {
         this.idType = idType;
     }
 
@@ -150,11 +144,11 @@ public class OrderTravellers extends BaseObject {
         this.mobile = mobile;
     }
 
-    public Gender getGender() {
+    public Integer getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 

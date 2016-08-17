@@ -60,7 +60,7 @@ public class ScheduledTask {
         List<DiscountCode> codeList = discountCodeRepository.findByStatusIn(CODECHECK);
         for (DiscountCode temp : codeList) {
             // if (temp.getEndTime() < System.currentTimeMillis()) {
-                temp.setStatus(DiscountCodeStatus.TIMEOUT);
+            temp.setStatus(DiscountCodeStatus.TIMEOUT.value);
             // }
         }
         discountCodeRepository.save(codeList);
@@ -73,10 +73,10 @@ public class ScheduledTask {
         List<TravelGroup> groupList = travelGroupRepository.findByStatusIn(GROUPCHECK);
         for (TravelGroup temp : groupList) {
             if (temp.getStartDate().getTime() < System.currentTimeMillis()) {
-                temp.setStatus(GroupStatus.TRAVELLING);
+                temp.setStatus(GroupStatus.TRAVELLING.value);
             }
             if (temp.getEndDate().getTime() < System.currentTimeMillis()) {
-                temp.setStatus(GroupStatus.FINISHED);
+                temp.setStatus(GroupStatus.FINISHED.value);
             }
         }
         travelGroupRepository.save(groupList);
@@ -91,13 +91,13 @@ public class ScheduledTask {
         // System.currentTimeMillis() - 1000 * 60 * 120);
 
         for (OrderInfo temp : orderList) {
-            temp.setStatus(OrderStatus.TIMEOUT);
+            temp.setStatus(OrderStatus.TIMEOUT.value);
 
             Long orderid = temp.getOrderid();
             Long groupid = temp.getGroupid();
             int orderCount = temp.getCount();
             TravelGroup group = travelGroupRepository.findOne(groupid);
-            group.setStatus(GroupStatus.OPEN);
+            group.setStatus(GroupStatus.OPEN.value);
             group.setActualCount(group.getActualCount() - orderCount);
             travelGroupRepository.save(group);
 
@@ -105,7 +105,7 @@ public class ScheduledTask {
             if (orderDiscount != null) {
                 String code = orderDiscount.getDiscountCode();
                 DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);
-                discountCode.setStatus(DiscountCodeStatus.VERIFIED);
+                discountCode.setStatus(DiscountCodeStatus.VERIFIED.value);
                 discountCodeRepository.save(discountCode);
             }
         }

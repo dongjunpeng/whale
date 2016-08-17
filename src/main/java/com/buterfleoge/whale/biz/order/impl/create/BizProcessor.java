@@ -62,7 +62,7 @@ public class BizProcessor extends CreateOrderProcessor {
         OrderInfo orderInfo = context.getOrderInfo();
         Long orderid = orderInfo.getOrderid();
 
-        orderInfo.setStatus(OrderStatus.WAITING);
+        orderInfo.setStatus(OrderStatus.WAITING.value);
         orderInfo.setCount(count);
         orderInfo.setStudentCount(studentCount);
         orderInfo.setActualPrice(request.getActualPrice());
@@ -71,7 +71,7 @@ public class BizProcessor extends CreateOrderProcessor {
         TravelGroup group = context.getGroup();
         group.setActualCount(group.getActualCount() + count);
         if (group.getActualCount().equals(group.getMaxCount())) {
-            group.setStatus(GroupStatus.FULL);
+            group.setStatus(GroupStatus.FULL.value);
         }
 
         Date addTime = new Date();
@@ -87,7 +87,7 @@ public class BizProcessor extends CreateOrderProcessor {
             orderTravellersRepository.save(travellers);
             orderDiscountRepository.save(discountList);
             if (discountCode != null) {
-                discountCode.setStatus(DiscountCodeStatus.OCCUPIED);
+                discountCode.setStatus(DiscountCodeStatus.OCCUPIED.value);
                 discountCodeRepository.save(discountCode);
             }
         } catch (Exception e) {
@@ -119,7 +119,7 @@ public class BizProcessor extends CreateOrderProcessor {
             studentOrderDiscount = new OrderDiscount();
             studentOrderDiscount.setOrderid(orderid);
             studentOrderDiscount.setDiscountid(studentDiscount.getDiscountid());
-            studentOrderDiscount.setType(DiscountType.STUDENT);
+            studentOrderDiscount.setType(DiscountType.STUDENT.value);
             studentOrderDiscount.setValue(studentDiscount.getValue().multiply(BigDecimal.valueOf(studentCount)));
             studentOrderDiscount.setDesc(studentDiscount.getDesc());
             studentOrderDiscount.setAddTime(addTime);
@@ -134,7 +134,7 @@ public class BizProcessor extends CreateOrderProcessor {
             codeOrderDiscount = new OrderDiscount();
             codeOrderDiscount.setOrderid(orderid);
             codeOrderDiscount.setDiscountCode(discountCode.getDiscountCode());
-            codeOrderDiscount.setType(DiscountType.COUPON);
+            codeOrderDiscount.setType(DiscountType.COUPON.value);
             codeOrderDiscount.setValue(discountCode.getValue());
             codeOrderDiscount.setAddTime(addTime);
         }

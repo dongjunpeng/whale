@@ -1,6 +1,6 @@
 package com.buterfleoge.whale.type;
 
-import com.buterfleoge.whale.Utils;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 旅行类型
@@ -8,62 +8,42 @@ import com.buterfleoge.whale.Utils;
  * @author Brent24
  *
  */
-public enum TravelType {
+public class TravelType extends EnumObject {
 
     /**
      * 长途
      */
-    LONG_TRIP(0),
+    public static final TravelType LONG_TRIP = new TravelType(0);
 
     /**
      * 短途
      */
-    SHORT_TRIP(1),
+    public static final TravelType SHORT_TRIP = new TravelType(1);
 
     /**
      * 周末
      */
-    WEEKEND(2),
+    public static final TravelType WEEKEND = new TravelType(2);
 
     /**
      * 轰趴
      */
-    PARTY(3),
+    public static final TravelType PARTY = new TravelType(3);
 
     /**
      * 城市
      */
-    CITY_WALK(4),
+    public static final TravelType CITY_WALK = new TravelType(4);
 
     /**
      * 国际
      */
-    INTERNATIONAL(5)
+    public static final TravelType INTERNATIONAL = new TravelType(5);
+    
+    public static final EnumObjectHelper<TravelType> HELPER = EnumObjectHelper.create(LONG_TRIP, SHORT_TRIP, WEEKEND, PARTY, CITY_WALK, INTERNATIONAL);
 
-    ;
-
-    private int type;
-
-    private TravelType(int type) {
-        this.type = type;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public static final TravelType valueOf(int type) {
-        for (TravelType at : values()) {
-            if (at.getType() == type) {
-                return at;
-            }
-        }
-        throw new IllegalArgumentException("Can't find TravelType, type: " + type);
-    }
-
-    @Override
-    public String toString() {
-        return Utils.enumToString(this);
+    private TravelType(int value) {
+        super(value);
     }
 
 }

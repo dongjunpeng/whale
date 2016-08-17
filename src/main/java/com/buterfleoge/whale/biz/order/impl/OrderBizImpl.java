@@ -32,7 +32,6 @@ import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.RefoundStatus;
-import com.buterfleoge.whale.type.TravelType;
 import com.buterfleoge.whale.type.entity.DiscountCode;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.OrderInfo;
@@ -127,7 +126,7 @@ public class OrderBizImpl implements OrderBiz {
         orderInfo.setAccountid(accountid);
         orderInfo.setRouteid(request.getRouteid());
         orderInfo.setGroupid(request.getGroupid());
-        orderInfo.setStatus(OrderStatus.NEW);
+        orderInfo.setStatus(OrderStatus.NEW.value);
         orderInfo.setIsAgreed(Boolean.FALSE);
         orderInfo.setAddTime(new Date());
         try {
@@ -189,13 +188,13 @@ public class OrderBizImpl implements OrderBiz {
     public void cancelOrder(Long accountid, CancelOrderRequest request, Response response) throws Exception {
         Long orderid = request.getOrderid();
         OrderInfo orderInfo = orderInfoRepository.findOne(orderid);
-        orderInfo.setStatus(OrderStatus.CANCEL);
+        orderInfo.setStatus(OrderStatus.CANCEL.value);
         orderInfoRepository.save(orderInfo);
 
         Long groupid = orderInfo.getGroupid();
         int orderCount = orderInfo.getCount();
         TravelGroup group = travelGroupRepository.findOne(groupid);
-        group.setStatus(GroupStatus.OPEN);
+        group.setStatus(GroupStatus.OPEN.value);
         group.setActualCount(group.getActualCount() - orderCount);
         travelGroupRepository.save(group);
 
@@ -203,7 +202,7 @@ public class OrderBizImpl implements OrderBiz {
         if (orderDiscount != null) {
             String code = orderDiscount.getDiscountCode();
             DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);
-            discountCode.setStatus(DiscountCodeStatus.VERIFIED);
+            discountCode.setStatus(DiscountCodeStatus.VERIFIED.value);
             discountCodeRepository.save(discountCode);
         }
     }
@@ -214,7 +213,7 @@ public class OrderBizImpl implements OrderBiz {
         OrderInfo order = orderInfoRepository.findByOrderidAndAccountid(orderid, accountid);
         TravelGroup group = travelGroupRepository.findOne(order.getGroupid());
 
-        order.setStatus(OrderStatus.PAYING);
+        order.setStatus(OrderStatus.PAYING.value);
         orderInfoRepository.save(order);
 
         String alipayForm = alipayService.createDirectPay(orderid, order.getActualPrice(), group.getPrice(),
@@ -233,7 +232,7 @@ public class OrderBizImpl implements OrderBiz {
     public void alipay(Long accountid, PayOrderRequest request, Response response) {
         Long orderid = request.getOrderid();
         OrderInfo orderInfo = orderInfoRepository.findOne(orderid);
-        OrderStatus status = orderInfo.getStatus();
+        Integer status = orderInfo.getStatus();
 
         // switch (status) {
         // case WAITING:
@@ -291,7 +290,7 @@ public class OrderBizImpl implements OrderBiz {
         }
 
         // Long actualPrice = orderInfo.getActualPrice();
-        TravelType travelType = travelRoute.getType();
+        Integer travelType = travelRoute.getType();
         Long startDate = travelGroup.getStartDate().getTime();
         Long now = System.currentTimeMillis();
         Long leftMinutes = (startDate - now) / 1000 / 60;
@@ -303,7 +302,7 @@ public class OrderBizImpl implements OrderBiz {
 
         orderRefound.setOrderid(orderid);
         // orderRefound.setAddTime(now);
-        orderRefound.setStatus(RefoundStatus.CREATED);
+        orderRefound.setStatus(RefoundStatus.CREATED.value);
 
         // switch (travelType) {
         // case LONG_TRIP:

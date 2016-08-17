@@ -67,9 +67,9 @@ public class BriefOrderHandler {
     }
 
     public OrderInfo changeOrderInfoStatusIfTimeout(OrderInfo orderInfo, String reqid) {
-        if (orderInfo.getStatus() == OrderStatus.WAITING
+        if (orderInfo.getStatus() == OrderStatus.WAITING.value
                 && DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() < System.currentTimeMillis()) {
-            orderInfo.setStatus(OrderStatus.TIMEOUT);
+            orderInfo.setStatus(OrderStatus.TIMEOUT.value);
             try {
                 return orderInfoRepository.save(orderInfo);
             } catch (Exception e) {

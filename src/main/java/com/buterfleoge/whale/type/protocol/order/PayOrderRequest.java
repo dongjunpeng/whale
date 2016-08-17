@@ -8,12 +8,12 @@ import com.buterfleoge.whale.type.PayType;
  */
 public class PayOrderRequest extends OrderRequest {
 
-    private PayType payType = PayType.ALIPAY;
+    private Integer payType = PayType.ALIPAY.value;
 
     /**
      * @return the payType
      */
-    public PayType getPayType() {
+    public Integer getPayType() {
         return payType;
     }
 
@@ -21,7 +21,7 @@ public class PayOrderRequest extends OrderRequest {
      * @param payType
      *            the payType to set
      */
-    public void setPayType(PayType payType) {
+    public void setPayType(Integer payType) {
         this.payType = payType;
     }
 

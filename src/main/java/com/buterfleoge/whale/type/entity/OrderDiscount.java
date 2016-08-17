@@ -20,9 +20,7 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
-import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
-import com.buterfleoge.whale.type.entity.converter.EnumConverters.DiscountTypeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
 /**
@@ -50,8 +48,7 @@ public class OrderDiscount extends BaseObject {
     private Long discountid;
 
     @Column(name = "type")
-    @Convert(converter = DiscountTypeConverter.class)
-    private DiscountType type;
+    private Integer type;
 
     @NumberFormat(style = Style.CURRENCY)
     @Column(name = "value")
@@ -125,14 +122,14 @@ public class OrderDiscount extends BaseObject {
     /**
      * @return the type
      */
-    public DiscountType getType() {
+    public Integer getType() {
         return type;
     }
 
     /**
      * @param type the type to set
      */
-    public void setType(DiscountType type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

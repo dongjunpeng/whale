@@ -14,10 +14,12 @@ import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
  */
 public class CountDiscountStrategy extends DiscountStrategy {
 
+    @Override
     public void handleDiscount(Long accountid, GetDiscountRequest request, GetDiscountResponse response,
             DiscountStrategyContext context) {
         try {
-            DiscountType countDiscountType = DiscountType.getDiscountType(request.getCount());
+            // FIXME
+            DiscountType countDiscountType = DiscountType.HELPER.valueOf(request.getCount());
             Date now = new Date();
             Discount countDiscount =
                     discountRepository.findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(countDiscountType, now, now);

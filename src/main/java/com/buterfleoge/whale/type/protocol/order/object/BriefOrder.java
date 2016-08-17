@@ -9,7 +9,6 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.Constants.Pattern;
-import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.formatter.ImagePathFormat;
 import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
 
@@ -34,7 +33,7 @@ public class BriefOrder implements Comparable<BriefOrder> {
 
     private Long minuteCount;
     private Long orderid;
-    private OrderStatus status;
+    private Integer status;
     @NumberFormat(style = Style.CURRENCY)
     private BigDecimal actualPrice;
 
@@ -42,34 +41,35 @@ public class BriefOrder implements Comparable<BriefOrder> {
     private Set<String> avatars;
 
     // sort排序顺序
-    public Integer getOrder() {
-        switch (status) {
-            case PAID:
-                return 1;
-            case WAITING:
-                return 2;
-            case PAYING:
-                return 3;
-            case REFOUNDING:
-                return 4;
-            case REFOUNDED:
-                return 5;
-            case FINISH:
-                return 6;
-            case CANCELPAYMENT:
-                return 7;
-            case CANCEL:
-                return 8;
-            case TIMEOUT:
-                return 9;
-            default:
-                return 100;
-        }
-    }
+    // public Integer getOrder() {
+    // switch (status.value) {
+    // case PAID:
+    // return 1;
+    // case WAITING:
+    // return 2;
+    // case PAYING:
+    // return 3;
+    // case REFOUNDING:
+    // return 4;
+    // case REFOUNDED:
+    // return 5;
+    // case FINISH:
+    // return 6;
+    // case CANCELPAYMENT:
+    // return 7;
+    // case CANCEL:
+    // return 8;
+    // case TIMEOUT:
+    // return 9;
+    // default:
+    // return 100;
+    // }
+    // }
 
     @Override
     public int compareTo(BriefOrder arg0) {
-        return this.getOrder().compareTo(arg0.getOrder());
+        // return this.getOrder().compareTo(arg0.getOrder());
+        return status - arg0.getStatus();
     }
 
     /**
@@ -215,14 +215,14 @@ public class BriefOrder implements Comparable<BriefOrder> {
     /**
      * @return the status
      */
-    public OrderStatus getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
     /**
      * @param status the status to set
      */
-    public void setStatus(OrderStatus status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

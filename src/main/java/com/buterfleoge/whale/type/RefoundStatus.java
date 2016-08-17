@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.type;
 
-import com.buterfleoge.whale.Utils;
+import com.buterfleoge.whale.EnumObject;
+import com.buterfleoge.whale.EnumObject.EnumObjectHelper;
 
 /**
  * 退款原因
@@ -8,46 +9,27 @@ import com.buterfleoge.whale.Utils;
  * @author Brent24
  *
  */
-public enum RefoundStatus {
+public class RefoundStatus extends EnumObject {
 
     /**
      * 退款产生
      */
-    CREATED(0),
+    public static final RefoundStatus CREATED = new RefoundStatus(0);
 
     /**
      * 确认退款
      */
-    CONFIRMED(1),
+    public static final RefoundStatus CONFIRMED = new RefoundStatus(1);
 
     /**
      * 完成退款
      */
-    REFOUNDED(2)
+    public static final RefoundStatus REFOUNDED = new RefoundStatus(2);
 
-    ;
+    public static final EnumObjectHelper<RefoundStatus> HELPER = EnumObjectHelper.create(CREATED, CONFIRMED, REFOUNDED);
 
-    private int status;
-
-    private RefoundStatus(int status) {
-        this.status = status;
+    private RefoundStatus(int value) {
+        super(value);
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public static final RefoundStatus valueOf(int status) {
-        for (RefoundStatus as : values()) {
-            if (as.getStatus() == status) {
-                return as;
-            }
-        }
-        throw new IllegalArgumentException("Can't find RefoundStatus, status: " + status);
-    }
-
-    @Override
-    public String toString() {
-        return Utils.enumToString(this);
-    }
 }

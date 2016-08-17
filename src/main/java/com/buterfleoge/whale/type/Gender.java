@@ -1,6 +1,6 @@
 package com.buterfleoge.whale.type;
 
-import com.buterfleoge.whale.Utils;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 性别
@@ -8,45 +8,26 @@ import com.buterfleoge.whale.Utils;
  * @author Brent24
  *
  */
-public enum Gender {
+public class Gender extends EnumObject {
     /**
      * 未知
      */
-    UNKNOW(0),
+    public static final Gender UNKNOW = new Gender(0);
 
     /**
      * 男
      */
-    MALE(1),
+    public static final Gender MALE = new Gender(1);
 
     /**
      * 女
      */
-    FEMALE(2)
+    public static final Gender FEMALE = new Gender(2);
+    
+    public static final EnumObjectHelper<Gender> HELPER = EnumObjectHelper.create(UNKNOW, MALE, FEMALE);
 
-    ;
-
-    private int gender;
-
-    private Gender(int gender) {
-        this.gender = gender;
+    private Gender(int value) {
+        super(value);
     }
-
-    public int getGender() {
-        return gender;
-    }
-
-    public static final Gender valueOf(int gender) {
-        for (Gender g : values()) {
-            if (g.getGender() == gender) {
-                return g;
-            }
-        }
-        throw new IllegalArgumentException("Can't find Gender, type: " + gender);
-    }
-
-    @Override
-    public String toString() {
-        return Utils.enumToString(this);
-    }
+    
 }

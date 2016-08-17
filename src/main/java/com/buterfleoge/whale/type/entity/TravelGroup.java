@@ -17,9 +17,7 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
-import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
-import com.buterfleoge.whale.type.entity.converter.EnumConverters.GroupStatusConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
 /**
@@ -59,8 +57,7 @@ public class TravelGroup extends BaseObject {
     private BigDecimal price;
 
     @Column(name = "status")
-    @Convert(converter = GroupStatusConverter.class)
-    private GroupStatus status;
+    private Integer status;
 
     @Column(name = "min_count")
     private Integer minCount;
@@ -132,11 +129,11 @@ public class TravelGroup extends BaseObject {
         this.price = price;
     }
 
-    public GroupStatus getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(GroupStatus status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

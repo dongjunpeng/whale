@@ -1,6 +1,6 @@
 package com.buterfleoge.whale.type;
 
-import com.buterfleoge.whale.Utils;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 旅行地区
@@ -8,67 +8,47 @@ import com.buterfleoge.whale.Utils;
  * @author Brent24
  *
  */
-public enum TravelArea {
+public class TravelArea extends EnumObject {
 
     /**
      * 未知
      */
-    UNKNOW(0),
+    public static final TravelArea UNKNOW = new TravelArea(0);
 
     /**
      * 西北
      */
-    NORTHWEST(1),
+    public static final TravelArea NORTHWEST = new TravelArea(1);
 
     /**
      * 东北
      */
-    NORTHEAST(2),
+    public static final TravelArea NORTHEAST = new TravelArea(2);
 
     /**
      * 西南
      */
-    SOUTHWEST(3),
+    public static final TravelArea SOUTHWEST = new TravelArea(3);
 
     /**
      * 东南
      */
-    SOUTHEST(4),
+    public static final TravelArea SOUTHEST = new TravelArea(4);
 
     /**
      * 沿海
      */
-    COAST(5),
+    public static final TravelArea COAST = new TravelArea(5);
 
     /**
      * 西藏
      */
-    TIBET(6)
+    public static final TravelArea TIBET = new TravelArea(6);
 
-    ;
+    public static final EnumObjectHelper<TravelArea> HELPER = EnumObjectHelper.create(UNKNOW, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEST, COAST, TIBET);
 
-    private int scope;
-
-    private TravelArea(int scope) {
-        this.scope = scope;
-    }
-
-    public int getScope() {
-        return scope;
-    }
-
-    public static final TravelArea valueOf(int scope) {
-        for (TravelArea ta : values()) {
-            if (ta.getScope() == scope) {
-                return ta;
-            }
-        }
-        throw new IllegalArgumentException("Can't find TravelArea, scope: " + scope);
-    }
-
-    @Override
-    public String toString() {
-        return Utils.enumToString(this);
+            private TravelArea(int value) {
+        super(value);
     }
 
 }

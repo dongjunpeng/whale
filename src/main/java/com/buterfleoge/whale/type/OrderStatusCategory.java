@@ -3,77 +3,66 @@ package com.buterfleoge.whale.type;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import com.buterfleoge.whale.Utils;
+import com.buterfleoge.whale.EnumObject;
 
 /**
+ * 订单状态的分类
  *
  * @author xiezhenzong
  *
  */
-public enum OrderStatusCategory {
+public class OrderStatusCategory extends EnumObject {
 
     /**
      * 当前订单{创建等待付款,付款中,付款完成到账,退款中}
      */
-    CURRENT(0, OrderStatus.WAITING, OrderStatus.PAYING, OrderStatus.PAID, OrderStatus.REFOUNDING),
+    public static final OrderStatusCategory CURRENT = new OrderStatusCategory(0, OrderStatus.WAITING,
+            OrderStatus.PAYING, OrderStatus.PAID);
 
     /**
      * 历史订单{退款完成,已出行}
      */
-    HISTORY(1, OrderStatus.REFOUNDED, OrderStatus.FINISH),
+    public static final OrderStatusCategory HISTORY = new OrderStatusCategory(1, OrderStatus.REFOUND,
+            OrderStatus.FINISH);
 
     /**
      * 可见订单
      */
-    VISIBLE(2, OrderStatus.WAITING, OrderStatus.PAYING, OrderStatus.PAID, OrderStatus.REFOUNDING, OrderStatus.REFOUNDED,
-            OrderStatus.FINISH),
+    public static final OrderStatusCategory VISIBLE = new OrderStatusCategory(2, OrderStatus.WAITING,
+            OrderStatus.PAYING, OrderStatus.PAID, OrderStatus.REFOUND, OrderStatus.FINISH);
 
     /**
      * 不允许新建订单的
      */
-    NO_ALLOW_NEW(3, OrderStatus.NEW, OrderStatus.WAITING, OrderStatus.PAYING, OrderStatus.REFOUNDING),
+    public static final OrderStatusCategory NO_ALLOW_NEW = new OrderStatusCategory(3, OrderStatus.NEW,
+            OrderStatus.WAITING, OrderStatus.PAYING);
 
     /**
      * 全部订单
      */
-    ALL(4, OrderStatus.values());
+    public static final OrderStatusCategory ALL = new OrderStatusCategory(4, OrderStatus.HELPER.values());
 
-    private int type;
-    private OrderStatus[] orderStatuses;
+    public static final EnumObjectHelper<OrderStatusCategory> HELPER = EnumObjectHelper.create(CURRENT, HISTORY, VISIBLE, NO_ALLOW_NEW, ALL);
+    
+    private Set<OrderStatus> orderStatuses;
 
-    private OrderStatusCategory(int type, OrderStatus... orderStatuses) {
-        this.type = type;
-        this.orderStatuses = orderStatuses;
+    private OrderStatusCategory(int value, OrderStatus... orderStatuses) {
+        this(value, Arrays.asList(orderStatuses));
     }
 
-    /**
-     * @return the type
-     */
-    public int getType() {
-        return type;
-    }
-
-    public static final OrderStatusCategory valueOf(int category) {
-        for (OrderStatusCategory c : values()) {
-            if (c.getType() == category) {
-                return c;
-            }
-        }
-        throw new IllegalArgumentException("Can't find OrderStatusCategory, status: " + category);
+    private OrderStatusCategory(int value, List<OrderStatus> orderStatuses) {
+        super(value);
+        this.orderStatuses = new HashSet<OrderStatus>(orderStatuses);
     }
 
     /**
      * @return the orderStatuses
      */
     public Set<OrderStatus> getOrderStatuses() {
-        return Collections.unmodifiableSet(new HashSet<OrderStatus>(Arrays.asList(orderStatuses)));
-    }
-
-    @Override
-    public String toString() {
-        return Utils.enumToString(this);
+        return Collections.unmodifiableSet(orderStatuses);
     }
 
 }
