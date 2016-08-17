@@ -16,6 +16,8 @@ import org.springframework.format.annotation.NumberFormat.Style;
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.type.TravelArea;
 import com.buterfleoge.whale.type.TravelType;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.TravelAreaConverter;
+import com.buterfleoge.whale.type.entity.converter.EnumConverters.TravelTypeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 import com.buterfleoge.whale.type.formatter.ImagePathFormat;
 import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
@@ -46,12 +48,14 @@ public class TravelRoute extends BaseObject {
     private Boolean visible;
 
     @Column(name = "type")
+    @Convert(converter = TravelTypeConverter.class)
     private TravelType type;
 
     @Column(name = "days")
     private Integer days;
 
     @Column(name = "area")
+    @Convert(converter = TravelAreaConverter.class)
     private TravelArea area;
 
     @Column(name = "departure")
