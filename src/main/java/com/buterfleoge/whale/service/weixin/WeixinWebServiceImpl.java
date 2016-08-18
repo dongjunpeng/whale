@@ -1,4 +1,7 @@
-package com.buterfleoge.whale.biz.account.impl;
+/**
+ *
+ */
+package com.buterfleoge.whale.service.weixin;
 
 import java.io.IOException;
 
@@ -13,8 +16,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.buterfleoge.whale.Constants.Status;
-import com.buterfleoge.whale.biz.account.WxBiz;
 import com.buterfleoge.whale.log.InvokeLogger;
+import com.buterfleoge.whale.service.WeixinWebService;
 import com.buterfleoge.whale.type.protocol.wx.WxAccessTokenResponse;
 import com.buterfleoge.whale.type.protocol.wx.WxAuthResponse;
 import com.buterfleoge.whale.type.protocol.wx.WxResponse;
@@ -22,14 +25,13 @@ import com.buterfleoge.whale.type.protocol.wx.WxUserinfoResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- *
  * @author xiezhenzong
  *
  */
-@Service("wxBiz")
-public class WxBizImpl implements WxBiz {
+@Service("weixinWebService")
+public class WeixinWebServiceImpl implements WeixinWebService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(WxBizImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(WeixinWebServiceImpl.class);
 
     @Value("${wx.appid}")
     private String appid;
@@ -69,7 +71,7 @@ public class WxBizImpl implements WxBiz {
                 .append("&secret=").append(appsecret) //
                 .append("&code=").append(code) //
                 .append("&grant_type=authorization_code").toString();
-        return getWx(wxApiAccessToken, uri, WxAccessTokenResponse.class);
+        return queryWeixin(wxApiAccessToken, uri, WxAccessTokenResponse.class);
     }
 
     @Override
@@ -78,7 +80,7 @@ public class WxBizImpl implements WxBiz {
                 .append("?appid=").append(appid) //
                 .append("&grant_type=refresh_token") //
                 .append("&refresh_token=").append(refreshToken).toString();
-        return getWx(wxApiRefreshToken, uri, WxAccessTokenResponse.class);
+        return queryWeixin(wxApiRefreshToken, uri, WxAccessTokenResponse.class);
     }
 
     @Override
@@ -86,7 +88,7 @@ public class WxBizImpl implements WxBiz {
         String uri = new StringBuilder(wxApiAuth) //
                 .append("?access_token=").append(accessToken) //
                 .append("&openid=").append(openid).toString();
-        WxAuthResponse response = getWx(wxApiAuth, uri, WxAuthResponse.class);
+        WxAuthResponse response = queryWeixin(wxApiAuth, uri, WxAuthResponse.class);
         return response != null && response.getErrcode() == WxResponse.CODE_OK;
     }
 
@@ -95,10 +97,10 @@ public class WxBizImpl implements WxBiz {
         String uri = new StringBuilder(wxApiUserinfo) //
                 .append("?access_token=").append(accessToken) //
                 .append("&openid=").append(openid).toString();
-        return getWx(wxApiUserinfo, uri, WxUserinfoResponse.class);
+        return queryWeixin(wxApiUserinfo, uri, WxUserinfoResponse.class);
     }
 
-    private <T> T getWx(String tag, String uri, Class<T> responseType) {
+    private <T> T queryWeixin(String tag, String uri, Class<T> responseType) {
         CloseableHttpClient httpclient = null;
         CloseableHttpResponse httpResponse = null;
         T response = null;
@@ -130,7 +132,7 @@ public class WxBizImpl implements WxBiz {
                 }
             } catch (IOException e) {
             }
-            InvokeLogger.log("wx", tag, uri, response != null ? response : httpResponse, start,
+            InvokeLogger.log("weixin", tag, uri, response != null ? response : httpResponse, start,
                     System.currentTimeMillis() - start, status);
         }
     }

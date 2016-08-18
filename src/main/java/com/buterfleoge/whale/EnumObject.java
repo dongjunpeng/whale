@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author xiezhenzong
@@ -69,6 +70,15 @@ public class EnumObject extends BaseObject {
          */
         public List<T> values() {
             return Collections.unmodifiableList(values);
+        }
+
+        /**
+         * 返回枚举的int值集合
+         * 
+         * @return values
+         */
+        public Set<Integer> intValues() {
+            return Collections.unmodifiableSet(valueMap.keySet());
         }
 
         /**

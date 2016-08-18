@@ -72,7 +72,7 @@ public class OrderBizImpl implements OrderBiz {
     private static final Set<String> LEADERS = new HashSet<String>();
 
     // 退款状态
-    private static final Set<RefoundStatus> CONFIRM = new HashSet<RefoundStatus>();
+    private static final Set<Integer> CONFIRM = new HashSet<Integer>();
 
     static {
         // 领队头像
@@ -80,8 +80,8 @@ public class OrderBizImpl implements OrderBiz {
         LEADERS.add("/imgs/2.jpg");
 
         // 退款已确认状态
-        CONFIRM.add(RefoundStatus.CONFIRMED);
-        CONFIRM.add(RefoundStatus.REFOUNDED);
+        CONFIRM.add(RefoundStatus.CONFIRMED.value);
+        CONFIRM.add(RefoundStatus.REFOUNDED.value);
     }
 
     @Autowired
@@ -170,8 +170,8 @@ public class OrderBizImpl implements OrderBiz {
             response.setTravelGroup(travelGroupRepository.findOne(groupid));
             response.setOrderTravellers(orderTravellersRepository.findByOrderidAndAccountid(orderid, accountid));
             response.setPolicy(orderDiscountRepository.findByOrderidAndTypeIn(orderid, DiscountType.getDiscountPolicy()));
-            response.setCode(orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.COUPON));
-            response.setStudent(orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.STUDENT));
+            response.setCode(orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.COUPON.value));
+            response.setStudent(orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.STUDENT.value));
             response.setOrderRefound(orderRefoundRepository.findByOrderidAndStatusIn(orderid, CONFIRM));
         } catch (Exception e) {
             LOG.error("find order info detail failed, reqid: " + request.getReqid(), e);
@@ -198,7 +198,7 @@ public class OrderBizImpl implements OrderBiz {
         group.setActualCount(group.getActualCount() - orderCount);
         travelGroupRepository.save(group);
 
-        OrderDiscount orderDiscount = orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.COUPON);
+        OrderDiscount orderDiscount = orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.COUPON.value);
         if (orderDiscount != null) {
             String code = orderDiscount.getDiscountCode();
             DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);

@@ -8,14 +8,14 @@ import com.buterfleoge.whale.type.protocol.Request;
  */
 public class GetBasicInfoRequest extends Request {
 
-	private Long accountid;
+    private Long accountid;
 
-	public Long getAccountid() {
-		return accountid;
-	}
+    public Long getAccountid() {
+        return accountid;
+    }
 
-	public void setAccountid(Long accountid) {
-		this.accountid = accountid;
-	}
+    public void setAccountid(Long accountid) {
+        this.accountid = accountid;
+    }
 
 }

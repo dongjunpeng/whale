@@ -1,6 +1,5 @@
 package com.buterfleoge.whale.type.protocol.order;
 
-import com.buterfleoge.whale.type.OrderStatusCategory;
 import com.buterfleoge.whale.type.protocol.Request;
 
 /**
@@ -9,19 +8,19 @@ import com.buterfleoge.whale.type.protocol.Request;
  */
 public class GetBriefOrdersRequest extends Request {
 
-    private OrderStatusCategory orderType;
+    private Integer orderType;
 
     /**
      * @return the orderType
      */
-    public OrderStatusCategory getOrderType() {
+    public Integer getOrderType() {
         return orderType;
     }
 
     /**
      * @param orderType the orderType to set
      */
-    public void setOrderType(OrderStatusCategory orderType) {
+    public void setOrderType(Integer orderType) {
         this.orderType = orderType;
     }
 

@@ -1,5 +1,6 @@
 package com.buterfleoge.whale.type;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -69,22 +70,22 @@ public class DiscountType extends EnumObject {
         super(value);
     }
 
-    private static final Set<DiscountType> POLICY = new HashSet<DiscountType>();
+    private static final Set<Integer> POLICY = new HashSet<Integer>();
 
     static {
         // 优惠策略
-        POLICY.add(DiscountType.COUNT_1);
-        POLICY.add(DiscountType.COUNT_2);
-        POLICY.add(DiscountType.COUNT_3);
-        POLICY.add(DiscountType.COUNT_4);
-        POLICY.add(DiscountType.COUNT_5);
-        POLICY.add(DiscountType.ROUTE);
-        POLICY.add(DiscountType.TIME_ORDER);
-        POLICY.add(DiscountType.TIME_TRAVEL);
+        POLICY.add(DiscountType.COUNT_1.value);
+        POLICY.add(DiscountType.COUNT_2.value);
+        POLICY.add(DiscountType.COUNT_3.value);
+        POLICY.add(DiscountType.COUNT_4.value);
+        POLICY.add(DiscountType.COUNT_5.value);
+        POLICY.add(DiscountType.ROUTE.value);
+        POLICY.add(DiscountType.TIME_ORDER.value);
+        POLICY.add(DiscountType.TIME_TRAVEL.value);
     }
 
-    public static Set<DiscountType> getDiscountPolicy() {
-        return new HashSet<DiscountType>(HELPER.values());
+    public static Set<Integer> getDiscountPolicy() {
+        return Collections.unmodifiableSet(POLICY);
     }
 
 }
