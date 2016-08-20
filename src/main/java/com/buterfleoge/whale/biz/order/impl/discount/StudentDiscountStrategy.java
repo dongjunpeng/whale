@@ -13,6 +13,7 @@ import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
  */
 public class StudentDiscountStrategy extends DiscountStrategy {
 
+    @Override
     public void handleDiscount(Long accountid, GetDiscountRequest request, GetDiscountResponse response,
             DiscountStrategyContext context) {
         try {
@@ -20,7 +21,7 @@ public class StudentDiscountStrategy extends DiscountStrategy {
             Date now = context.getGroup().getStartDate();
             response.setStudentDiscount(
                     discountRepository.findByTypeAndRouteidAndStartTimeLessThanAndEndTimeGreaterThan(
-                            DiscountType.STUDENT, routeid, now, now));
+                            DiscountType.STUDENT.value, routeid, now, now));
         } catch (Exception e) {
             LOG.error("find student discount type failed, reqid: " + request.getReqid(), e);
         }

@@ -21,7 +21,8 @@ public class RouteDiscountStrategy extends DiscountStrategy {
             Long routeid = request.getRouteid();
             Date now = new Date();
             Discount routeDiscount = discountRepository
-                    .findByTypeAndRouteidAndStartTimeLessThanAndEndTimeGreaterThan(DiscountType.ROUTE, routeid, now, now);
+                    .findByTypeAndRouteidAndStartTimeLessThanAndEndTimeGreaterThan(DiscountType.ROUTE.value, routeid,
+                            now, now);
             if (routeDiscount != null) {
                 response.getPolicy().add(routeDiscount);
             }

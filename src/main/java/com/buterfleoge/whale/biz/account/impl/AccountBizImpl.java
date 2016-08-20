@@ -92,7 +92,7 @@ public class AccountBizImpl implements AccountBiz {
         }
         if (isNeedSave) {
             try {
-                if (AccountStatus.WAIT_COMPLETE_INFO.equals(accountInfo.getStatus())) {
+                if (AccountStatus.WAIT_COMPLETE_INFO.value == accountInfo.getStatus()) {
                     accountInfo.setStatus(AccountStatus.OK.value);
                 }
                 accountInfo.setModTime(new Date());

@@ -1,7 +1,6 @@
 package com.buterfleoge.whale.biz.order.impl;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,16 +41,12 @@ import com.buterfleoge.whale.type.entity.TravelRoute;
 import com.buterfleoge.whale.type.protocol.Error;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.order.CancelOrderRequest;
-import com.buterfleoge.whale.type.protocol.order.CreateOrderRequest;
-import com.buterfleoge.whale.type.protocol.order.CreateOrderResponse;
 import com.buterfleoge.whale.type.protocol.order.GetBriefOrdersRequest;
 import com.buterfleoge.whale.type.protocol.order.GetBriefOrdersResponse;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
 import com.buterfleoge.whale.type.protocol.order.GetOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.GetOrderResponse;
-import com.buterfleoge.whale.type.protocol.order.NewOrderRequest;
-import com.buterfleoge.whale.type.protocol.order.NewOrderResponse;
 import com.buterfleoge.whale.type.protocol.order.PayOrderByAlipayResponse;
 import com.buterfleoge.whale.type.protocol.order.PayOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.RefoundRequest;
@@ -119,29 +114,6 @@ public class OrderBizImpl implements OrderBiz {
 
     @Autowired
     private AlipayService alipayService;
-
-    @Override
-    public void newOrder(Long accountid, NewOrderRequest request, NewOrderResponse response) throws Exception {
-        OrderInfo orderInfo = new OrderInfo();
-        orderInfo.setAccountid(accountid);
-        orderInfo.setRouteid(request.getRouteid());
-        orderInfo.setGroupid(request.getGroupid());
-        orderInfo.setStatus(OrderStatus.NEW.value);
-        orderInfo.setIsAgreed(Boolean.FALSE);
-        orderInfo.setAddTime(new Date());
-        try {
-            orderInfo = orderInfoRepository.save(orderInfo);
-            response.setOrderid(orderInfo.getOrderid());
-        } catch (Exception e) {
-            LOG.error("new order info failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
-        }
-    }
-
-    @Override
-    public void createOrder(Long accountid, CreateOrderRequest request, CreateOrderResponse response) throws Exception {
-        createOrderHandler.createOrder(accountid, request, response);
-    }
 
     @Override
     public void getOrder(Long accountid, GetOrderRequest request, GetOrderResponse response) throws Exception {

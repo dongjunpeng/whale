@@ -22,7 +22,8 @@ public class CountDiscountStrategy extends DiscountStrategy {
             DiscountType countDiscountType = DiscountType.HELPER.valueOf(request.getCount());
             Date now = new Date();
             Discount countDiscount =
-                    discountRepository.findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(countDiscountType, now, now);
+                    discountRepository.findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(countDiscountType.value, now,
+                            now);
             if (countDiscount != null) {
                 response.getPolicy().add(countDiscount);
             }

@@ -14,12 +14,14 @@ import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
  */
 public class TimeDiscountStrategy extends DiscountStrategy {
 
+    @Override
     public void handleDiscount(Long accountid, GetDiscountRequest request, GetDiscountResponse response,
             DiscountStrategyContext context) {
         Date now = new Date();
         try {
             Discount timeOrderDiscount =
-                    discountRepository.findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(DiscountType.TIME_ORDER, now, now);
+                    discountRepository.findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(
+                            DiscountType.TIME_ORDER.value, now, now);
             if (timeOrderDiscount != null) {
                 response.getPolicy().add(timeOrderDiscount);
             }
@@ -30,7 +32,8 @@ public class TimeDiscountStrategy extends DiscountStrategy {
         try {
             now = context.getGroup().getStartDate();
             Discount timeTravelDiscount =
-                    discountRepository.findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(DiscountType.TIME_TRAVEL, now, now);
+                    discountRepository.findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(
+                            DiscountType.TIME_TRAVEL.value, now, now);
             if (timeTravelDiscount != null) {
                 response.getPolicy().add(timeTravelDiscount);
             }
