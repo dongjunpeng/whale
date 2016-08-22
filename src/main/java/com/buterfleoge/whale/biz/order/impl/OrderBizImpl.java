@@ -3,6 +3,7 @@ package com.buterfleoge.whale.biz.order.impl;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import com.buterfleoge.whale.dao.OrderTravellersRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
 import com.buterfleoge.whale.type.DiscountType;
+import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.RefundStatus;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.protocol.order.GetBriefOrdersRequest;
@@ -82,14 +84,13 @@ public class OrderBizImpl implements OrderBiz {
         OrderInfo orderInfo = null;
         try {
             orderInfo = orderInfoRepository.findOne(orderid);
+            orderInfo = changeOrderInfoStatusIfTimeout(orderInfo);
             response.setOrderInfo(orderInfo);
         } catch (Exception e) {
             LOG.error("find order info failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
             return;
         }
-
-        briefOrderHandler.changeOrderInfoStatusIfTimeout(orderInfo, request.getReqid());
 
         Long routeid = orderInfo.getRouteid();
         Long groupid = orderInfo.getGroupid();
@@ -115,6 +116,17 @@ public class OrderBizImpl implements OrderBiz {
     public void getBriefOrders(Long accountid, GetBriefOrdersRequest request, GetBriefOrdersResponse response)
             throws Exception {
         briefOrderHandler.getBriefOrders(accountid, request, response);
+    }
+
+    public OrderInfo changeOrderInfoStatusIfTimeout(OrderInfo orderInfo) {
+        Integer status = orderInfo.getStatus();
+        if (status == OrderStatus.NEW.value || status == OrderStatus.WAITING.value || status == OrderStatus.PAYING.value) {
+            if (DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() > System.currentTimeMillis()) {
+                orderInfo.setStatus(OrderStatus.TIMEOUT.value);
+                return orderInfoRepository.save(orderInfo);
+            }
+        }
+        return orderInfo;
     }
 
 }

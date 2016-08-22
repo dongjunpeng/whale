@@ -21,7 +21,6 @@ import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.OrderTravellersRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
-import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.OrderStatusCategory;
 import com.buterfleoge.whale.type.entity.AccountBinding;
 import com.buterfleoge.whale.type.entity.OrderInfo;
@@ -66,19 +65,6 @@ public class BriefOrderHandler {
         }
     }
 
-    public OrderInfo changeOrderInfoStatusIfTimeout(OrderInfo orderInfo, String reqid) {
-        if (orderInfo.getStatus() == OrderStatus.WAITING.value
-                && DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() < System.currentTimeMillis()) {
-            orderInfo.setStatus(OrderStatus.TIMEOUT.value);
-            try {
-                return orderInfoRepository.save(orderInfo);
-            } catch (Exception e) {
-                LOG.error("save order info failed, reqid: " + reqid, e);
-            }
-        }
-        return orderInfo;
-    }
-
     public void getBriefOrders(Long accountid, GetBriefOrdersRequest request, GetBriefOrdersResponse response) throws Exception {
         String reqid = request.getReqid();
         response.setCurrentOrderCount(countOrderInfoByStatus(accountid, OrderStatusCategory.CURRENT, reqid));
@@ -104,7 +90,7 @@ public class BriefOrderHandler {
         Map<Long, TravelGroup> groups = getGroups(getGroupids(orderInfos), reqid);
 
         for (OrderInfo orderInfo : orderInfos) {
-            orderInfo = changeOrderInfoStatusIfTimeout(orderInfo, reqid);
+            // orderInfo = changeOrderInfoStatusIfTimeout(orderInfo, reqid);
             if (statusSet.contains(orderInfo.getStatus())) {
                 TravelRoute travelRoute = routes.get(orderInfo.getRouteid());
                 TravelGroup travelGroup = groups.get(orderInfo.getGroupid());

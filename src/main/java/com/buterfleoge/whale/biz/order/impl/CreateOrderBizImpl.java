@@ -86,6 +86,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         orderInfo.setStatus(OrderStatus.NEW.value);
         orderInfo.setIsAgreed(Boolean.FALSE);
         orderInfo.setAddTime(new Date());
+        orderInfo.setModTime(orderInfo.getAddTime());
         try {
             orderInfo = orderInfoRepository.save(orderInfo);
             response.setOrderid(orderInfo.getOrderid());
@@ -102,6 +103,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         for (OrderTravellers traveller : travellers) {
             traveller.setOrderid(request.getOrderid());
         }
+        Date now = new Date();
         int count = travellers.size();
         int studentCount = request.getStudentCount();
         Long orderid = request.getOrderid();
@@ -114,17 +116,17 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         orderInfo.setPrice(group.getPrice().multiply(BigDecimal.valueOf(count)));
         orderInfo.setActualPrice(request.getActualPrice());
         orderInfo.setIsAgreed(Boolean.TRUE);
+        orderInfo.setModTime(now);
 
         group.setActualCount(group.getActualCount() + count);
         if (group.getActualCount().equals(group.getMaxCount())) {
             group.setStatus(GroupStatus.FULL.value);
         }
 
-        Date addTime = new Date();
         DiscountCode discountCode = discountCodeRepository.findByDiscountCode(request.getDiscountCode());
-        OrderDiscount policyOrderDiscount = createPolicyOrderDiscount(orderid, request.getPolicyDiscountid(), addTime);
-        OrderDiscount studentOrderDiscount = createStudentOrderDiscount(orderid, request.getStudentDiscountid(), studentCount, addTime);
-        OrderDiscount codeOrderDiscount = createCodeOrderDiscount(orderid, request.getDiscountCode(), addTime);
+        OrderDiscount policyOrderDiscount = createPolicyOrderDiscount(orderid, request.getPolicyDiscountid(), now);
+        OrderDiscount studentOrderDiscount = createStudentOrderDiscount(orderid, request.getStudentDiscountid(), studentCount, now);
+        OrderDiscount codeOrderDiscount = createCodeOrderDiscount(orderid, request.getDiscountCode(), now);
         List<OrderDiscount> discountList = getOrderDiscountList(policyOrderDiscount, studentOrderDiscount, codeOrderDiscount);
 
         try {
