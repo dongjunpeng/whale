@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.order.OrderBiz;
-import com.buterfleoge.whale.biz.travel.TravelBiz;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.OrderRefoundRepository;
@@ -72,9 +71,6 @@ public class OrderBizImpl implements OrderBiz {
     private OrderRefoundRepository orderRefoundRepository;
 
     @Autowired
-    private TravelBiz travelBiz;
-
-    @Autowired
     private BriefOrderHandler briefOrderHandler;
 
     @Transactional(rollbackFor = Exception.class)
@@ -107,9 +103,7 @@ public class OrderBizImpl implements OrderBiz {
             response.setStatus(Status.DB_ERROR);
             return;
         }
-        int quota = travelBiz.getQuota(groupid, request, response);
-        response.setStatus(Status.OK); // 团的剩余人数即使错误了，也没关系，大不了显示0
-        response.setQuota(quota > 0 ? quota : 0);
+        response.setStatus(Status.OK);
     }
 
     @Override

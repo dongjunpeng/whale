@@ -24,7 +24,6 @@ public class GetOrderResponse extends Response {
     private OrderDiscount code;
     private OrderDiscount student;
     private OrderRefund orderRefound;
-    private int quota;
 
     public OrderInfo getOrderInfo() {
         return orderInfo;
@@ -88,14 +87,6 @@ public class GetOrderResponse extends Response {
 
     public void setOrderRefound(OrderRefund orderRefound) {
         this.orderRefound = orderRefound;
-    }
-
-    public int getQuota() {
-        return quota;
-    }
-
-    public void setQuota(int quota) {
-        this.quota = quota;
     }
 
 }
