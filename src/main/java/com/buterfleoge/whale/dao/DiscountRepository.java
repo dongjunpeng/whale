@@ -17,6 +17,4 @@ public interface DiscountRepository extends CrudRepository<Discount, Long> {
     Discount findByTypeAndRouteidAndStartTimeLessThanAndEndTimeGreaterThan(Integer type, Long routeid, Date now1,
             Date now2);
 
-    Discount findByDiscountid(Long discountid);
-
 }

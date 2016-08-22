@@ -13,7 +13,7 @@ import com.buterfleoge.whale.validator.IdExist.IdType;
  */
 public class OrderRequest extends Request {
 
-    @IdExist(type = IdType.ORDER_ID, message = "")
+    @IdExist(type = IdType.ORDER_ID, nullable = false, message = "")
     private Long orderid;
 
     /**

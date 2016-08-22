@@ -3,20 +3,10 @@
  */
 package com.buterfleoge.whale.biz.order;
 
-import com.buterfleoge.whale.type.protocol.Response;
-import com.buterfleoge.whale.type.protocol.order.CancelOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.GetBriefOrdersRequest;
 import com.buterfleoge.whale.type.protocol.order.GetBriefOrdersResponse;
-import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
-import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
-import com.buterfleoge.whale.type.protocol.order.GetOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.GetOrderResponse;
-import com.buterfleoge.whale.type.protocol.order.PayOrderByAlipayResponse;
-import com.buterfleoge.whale.type.protocol.order.PayOrderRequest;
-import com.buterfleoge.whale.type.protocol.order.RefoundRequest;
-import com.buterfleoge.whale.type.protocol.order.RefoundResponse;
-import com.buterfleoge.whale.type.protocol.order.ValidateCodeRequest;
-import com.buterfleoge.whale.type.protocol.order.ValidateCodeResponse;
+import com.buterfleoge.whale.type.protocol.order.OrderRequest;
 
 /**
  * @author Brent24
@@ -24,21 +14,8 @@ import com.buterfleoge.whale.type.protocol.order.ValidateCodeResponse;
  */
 public interface OrderBiz {
 
-    void getOrder(Long accountid, GetOrderRequest request, GetOrderResponse response) throws Exception;
-
-    void cancelOrder(Long accountid, CancelOrderRequest request, Response response) throws Exception;
-
-    void payOrder(Long accountid, PayOrderRequest request, PayOrderByAlipayResponse response) throws Exception;
+    void getOrder(Long accountid, OrderRequest request, GetOrderResponse response) throws Exception;
 
     void getBriefOrders(Long accountid, GetBriefOrdersRequest request, GetBriefOrdersResponse response) throws Exception;
-
-    void alipay(Long accountid, PayOrderRequest requst, Response response) throws Exception;
-
-    void getRefoundInfo(Long accountid, RefoundRequest request, RefoundResponse response) throws Exception;
-
-    void getDiscount(Long accountid, GetDiscountRequest request, GetDiscountResponse response) throws Exception;
-
-    void validateDiscountCode(Long accountid, ValidateCodeRequest request, ValidateCodeResponse response)
-            throws Exception;
 
 }

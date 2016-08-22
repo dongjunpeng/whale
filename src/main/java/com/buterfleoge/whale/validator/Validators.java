@@ -21,7 +21,7 @@ import org.springframework.validation.Validator;
 @Service("validators")
 public class Validators extends ApplicationObjectSupport implements Validator, InitializingBean {
 
-    private List<Validator> validators = Collections.emptyList();
+    private List<Validator> validators = new ArrayList<Validator>(0);
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -33,7 +33,7 @@ public class Validators extends ApplicationObjectSupport implements Validator, I
                 .getBeansOfType(javax.validation.Validator.class).values();
         validators.removeAll(jsrValidators); // spring直接支持jsr规范
         validators.remove(this);
-        this.validators = new ArrayList<Validator>(validators);
+        this.validators.addAll(validators);
         Collections.sort(this.validators, new Comparator<Validator>() {
 
             @Override
@@ -59,6 +59,10 @@ public class Validators extends ApplicationObjectSupport implements Validator, I
                 validator.validate(target, errors);
             }
         }
+    }
+
+    public List<Validator> getValidators() {
+        return validators;
     }
 
 }

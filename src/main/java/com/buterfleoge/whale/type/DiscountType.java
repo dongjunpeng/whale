@@ -88,4 +88,8 @@ public class DiscountType extends EnumObject {
         return Collections.unmodifiableSet(POLICY);
     }
 
+    public static DiscountType getDiscountByCount(int count) {
+        return DiscountType.HELPER.valueOf(count);
+    }
+
 }

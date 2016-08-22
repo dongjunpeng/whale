@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.OrderInfo;
-import com.buterfleoge.whale.type.entity.OrderRefound;
+import com.buterfleoge.whale.type.entity.OrderRefund;
 import com.buterfleoge.whale.type.entity.OrderTravellers;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
@@ -23,7 +23,7 @@ public class GetOrderResponse extends Response {
     private OrderDiscount policy;
     private OrderDiscount code;
     private OrderDiscount student;
-    private OrderRefound orderRefound;
+    private OrderRefund orderRefound;
     private int quota;
 
     public OrderInfo getOrderInfo() {
@@ -82,11 +82,11 @@ public class GetOrderResponse extends Response {
         this.student = student;
     }
 
-    public OrderRefound getOrderRefound() {
+    public OrderRefund getOrderRefound() {
         return orderRefound;
     }
 
-    public void setOrderRefound(OrderRefound orderRefound) {
+    public void setOrderRefound(OrderRefund orderRefound) {
         this.orderRefound = orderRefound;
     }
 

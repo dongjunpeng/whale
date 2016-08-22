@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.OrderInfo;
-import com.buterfleoge.whale.type.entity.OrderRefound;
+import com.buterfleoge.whale.type.entity.OrderRefund;
 import com.buterfleoge.whale.type.entity.OrderTravellers;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
@@ -14,7 +14,7 @@ import com.buterfleoge.whale.type.protocol.Response;
  * @author Brent24
  *
  */
-public class RefoundResponse extends Response {
+public class RefundResponse extends Response {
 
     private OrderInfo orderInfo;
     private TravelGroup travelGroup;
@@ -24,11 +24,11 @@ public class RefoundResponse extends Response {
     private OrderDiscount code;
     private OrderDiscount student;
     private String leftTime;
-    private OrderRefound orderRefound;
+    private OrderRefund orderRefound;
 
     public void setAll(OrderInfo orderInfo, TravelGroup travelGroup, TravelRoute travelRoute,
             List<OrderTravellers> orderTravellers, OrderDiscount policy, OrderDiscount code, OrderDiscount student,
-            String leftTime, OrderRefound orderRefound) {
+            String leftTime, OrderRefund orderRefound) {
         setOrderInfo(orderInfo);
         setTravelRoute(travelRoute);
         setTravelGroup(travelGroup);
@@ -97,11 +97,11 @@ public class RefoundResponse extends Response {
         this.student = student;
     }
 
-    public OrderRefound getOrderRefound() {
+    public OrderRefund getOrderRefound() {
         return orderRefound;
     }
 
-    public void setOrderRefound(OrderRefound orderRefound) {
+    public void setOrderRefound(OrderRefund orderRefound) {
         this.orderRefound = orderRefound;
     }
 

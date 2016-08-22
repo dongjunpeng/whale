@@ -11,6 +11,7 @@ import com.buterfleoge.whale.BaseObject;
 public class Request extends BaseObject {
 
     private String reqid;
+    private Long accountid;
 
     /**
      * @return the reqid
@@ -24,6 +25,21 @@ public class Request extends BaseObject {
      */
     public void setReqid(String reqid) {
         this.reqid = reqid;
+    }
+
+    /**
+     * @return the accountid
+     */
+    public Long getAccountid() {
+        return accountid;
+    }
+
+    /**
+     * @param accountid
+     *            the accountid to set
+     */
+    public void setAccountid(Long accountid) {
+        this.accountid = accountid;
     }
 
 }

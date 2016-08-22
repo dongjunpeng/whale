@@ -71,6 +71,11 @@ public class OrderInfo extends BaseObject {
     @Convert(converter = DateTimeConverter.class)
     private Date addTime;
 
+    @DateTimeFormat(pattern = Pattern.DATE)
+    @Column(name = "mod_time")
+    @Convert(converter = DateTimeConverter.class)
+    private Date modTime;
+
     /**
      * @return the orderid
      */
@@ -223,6 +228,21 @@ public class OrderInfo extends BaseObject {
      */
     public void setAddTime(Date addTime) {
         this.addTime = addTime;
+    }
+
+    /**
+     * @return the modTime
+     */
+    public Date getModTime() {
+        return modTime;
+    }
+
+    /**
+     * @param modTime
+     *            the modTime to set
+     */
+    public void setModTime(Date modTime) {
+        this.modTime = modTime;
     }
 
 }
