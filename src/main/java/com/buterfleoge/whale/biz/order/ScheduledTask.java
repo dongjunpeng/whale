@@ -101,7 +101,8 @@ public class ScheduledTask {
             group.setActualCount(group.getActualCount() - orderCount);
             travelGroupRepository.save(group);
 
-            OrderDiscount orderDiscount = orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.COUPON);
+            OrderDiscount orderDiscount = orderDiscountRepository.findByOrderidAndType(orderid,
+                    DiscountType.COUPON.value);
             if (orderDiscount != null) {
                 String code = orderDiscount.getDiscountCode();
                 DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);

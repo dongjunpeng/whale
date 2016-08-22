@@ -1,14 +1,16 @@
-package com.buterfleoge.whale.biz.account;
+/**
+ *
+ */
+package com.buterfleoge.whale.service;
 
 import com.buterfleoge.whale.type.protocol.wx.WxAccessTokenResponse;
 import com.buterfleoge.whale.type.protocol.wx.WxUserinfoResponse;
 
 /**
- *
  * @author xiezhenzong
  *
  */
-public interface WxBiz {
+public interface WeixinWebService {
 
     String getLoginUri(String state, String redirectUri);
 
@@ -19,6 +21,5 @@ public interface WxBiz {
     boolean isAccessTokenValid(String accessToken, String openid);
 
     WxUserinfoResponse getUserinfo(String accessToken, String openid);
-
 
 }

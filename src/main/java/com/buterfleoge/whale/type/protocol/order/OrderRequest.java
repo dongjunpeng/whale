@@ -4,6 +4,8 @@
 package com.buterfleoge.whale.type.protocol.order;
 
 import com.buterfleoge.whale.type.protocol.Request;
+import com.buterfleoge.whale.validator.IdExist;
+import com.buterfleoge.whale.validator.IdExist.IdType;
 
 /**
  * @author xiezhenzong
@@ -11,6 +13,7 @@ import com.buterfleoge.whale.type.protocol.Request;
  */
 public class OrderRequest extends Request {
 
+    @IdExist(type = IdType.ORDER_ID, nullable = false, message = "")
     private Long orderid;
 
     /**

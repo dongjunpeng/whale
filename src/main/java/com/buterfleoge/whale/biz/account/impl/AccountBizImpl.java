@@ -14,11 +14,9 @@ import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.account.AccountBiz;
 import com.buterfleoge.whale.dao.AccountContactsRepository;
 import com.buterfleoge.whale.dao.AccountInfoRepository;
-import com.buterfleoge.whale.dao.AccountSettingRepository;
 import com.buterfleoge.whale.type.AccountStatus;
 import com.buterfleoge.whale.type.entity.AccountContacts;
 import com.buterfleoge.whale.type.entity.AccountInfo;
-import com.buterfleoge.whale.type.entity.AccountSetting;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.account.DeleteContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsRequest;
@@ -41,18 +39,69 @@ public class AccountBizImpl implements AccountBiz {
     private AccountInfoRepository accountInfoRepository;
 
     @Autowired
-    private AccountSettingRepository accountSettingRepository;
-
-    @Autowired
     private AccountContactsRepository accountContactsRepository;
 
     @Override
     public void updateBasicInfo(Long accountid, PostBasicInfoRequest request, Response response) throws Exception {
-        updateAccountInfo(accountid, request, response);
-        if (response.hasError()) {
+        String name = request.getName();
+        Integer idType = request.getIdType();
+        String id = request.getId();
+        String email = request.getEmail();
+        String mobile = request.getMobile();
+        Integer gender = request.getGender();
+        Date birthday = request.getBirthday();
+        String address = request.getAddress();
+
+        boolean isNeedSave = false;
+        AccountInfo accountInfo = null;
+        try {
+            accountInfo = accountInfoRepository.findOne(accountid);
+        } catch (Exception e) {
+            LOG.error("find account info failed, reqid: " + request.getReqid(), e);
+            response.setStatus(Status.DB_ERROR);
             return;
         }
-        updateAccountSetting(accountid, request, response);
+        if (StringUtils.hasText(name) && !name.equals(accountInfo.getName())) {
+            accountInfo.setName(name);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(id) && !id.equals(accountInfo.getId())) {
+            accountInfo.setIdType(idType);
+            accountInfo.setId(id);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(email) && !email.equals(accountInfo.getEmail())) {
+            accountInfo.setEmail(email);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(mobile) && !mobile.equals(accountInfo.getMobile())) {
+            accountInfo.setMobile(mobile);
+            isNeedSave = true;
+        }
+        if (gender != null && !gender.equals(accountInfo.getGender())) {
+            accountInfo.setGender(gender);
+            isNeedSave = true;
+        }
+        if (birthday != null && !birthday.equals(accountInfo.getBirthday())) {
+            accountInfo.setBirthday(birthday);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(address) && !address.equals(accountInfo.getAddress())) {
+            accountInfo.setAddress(address);
+            isNeedSave = true;
+        }
+        if (isNeedSave) {
+            try {
+                if (AccountStatus.WAIT_COMPLETE_INFO.value == accountInfo.getStatus()) {
+                    accountInfo.setStatus(AccountStatus.OK.value);
+                }
+                accountInfo.setModTime(new Date());
+                accountInfoRepository.save(accountInfo);
+            } catch (Exception e) {
+                LOG.error("save account info failed, reqid: " + request.getReqid(), e);
+                response.setStatus(Status.DB_ERROR);
+            }
+        }
     }
 
     @Override
@@ -108,91 +157,7 @@ public class AccountBizImpl implements AccountBiz {
         } catch (Exception e) {
             LOG.error("delete contacts failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
-            throw new Exception("rollback");
         }
-    }
-
-    private void updateAccountInfo(Long accountid, PostBasicInfoRequest request, Response response) {
-        String name = request.getName();
-        Integer idType = request.getIdType();
-        String id = request.getId();
-        String email = request.getEmail();
-        String mobile = request.getMobile();
-        boolean isNeedSave = false;
-        AccountInfo accountInfo = null;
-        try {
-            accountInfo = accountInfoRepository.findOne(accountid);
-        } catch (Exception e) {
-            LOG.error("find account info failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
-            return;
-        }
-        if (StringUtils.hasText(name) && !name.equals(accountInfo.getName())) {
-            accountInfo.setName(name);
-            isNeedSave = true;
-        }
-        if (StringUtils.hasText(id) && !id.equals(accountInfo.getId())) {
-            accountInfo.setIdType(idType);
-            accountInfo.setId(id);
-            isNeedSave = true;
-        }
-        if (StringUtils.hasText(email) && !email.equals(accountInfo.getEmail())) {
-            accountInfo.setEmail(email);
-            isNeedSave = true;
-        }
-        if (StringUtils.hasText(mobile) && !mobile.equals(accountInfo.getMobile())) {
-            accountInfo.setMobile(mobile);
-            isNeedSave = true;
-        }
-        if (isNeedSave) {
-            try {
-                if (AccountStatus.WAIT_COMPLETE_INFO.equals(accountInfo.getStatus())) {
-                    accountInfo.setStatus(AccountStatus.OK.value);
-                }
-                accountInfo.setModTime(new Date());
-                accountInfoRepository.save(accountInfo);
-            } catch (Exception e) {
-                LOG.error("save account info failed, reqid: " + request.getReqid(), e);
-                response.setStatus(Status.DB_ERROR);
-            }
-        }
-    }
-
-    private void updateAccountSetting(Long accountid, PostBasicInfoRequest request, Response response) {
-        Integer gender = request.getGender();
-        Date birthday = request.getBirthday();
-        String address = request.getAddress();
-        boolean isNeedSave = false;
-        AccountSetting accountSetting = null;
-        try {
-            accountSetting = accountSettingRepository.findOne(accountid);
-        } catch (Exception e) {
-            LOG.error("find account setting failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
-            return;
-        }
-        if (gender != null && !gender.equals(accountSetting.getGender())) {
-            accountSetting.setGender(gender);
-            isNeedSave = true;
-        }
-        if (birthday != null && !birthday.equals(accountSetting.getBirthday())) {
-            accountSetting.setBirthday(birthday);
-            isNeedSave = true;
-        }
-        if (StringUtils.hasText(address) && !address.equals(accountSetting.getAddress())) {
-            accountSetting.setAddress(address);
-            isNeedSave = true;
-        }
-        if (isNeedSave) {
-            try {
-                accountSetting.setModTime(new Date());
-                accountSettingRepository.save(accountSetting);
-            } catch (Exception e) {
-                LOG.error("save account setting failed, reqid: " + request.getReqid(), e);
-                response.setStatus(Status.DB_ERROR);
-            }
-        }
-
     }
 
     private void insertContact(Long accountid, PostContactsRequest request, Response response) throws Exception {

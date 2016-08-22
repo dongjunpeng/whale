@@ -2,6 +2,8 @@ package com.buterfleoge.whale.biz.order.impl.discount;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Service;
+
 import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.entity.Discount;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
@@ -12,17 +14,16 @@ import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
  * @author xiezhenzong
  *
  */
+@Service("countDiscountStrategy")
 public class CountDiscountStrategy extends DiscountStrategy {
 
     @Override
-    public void handleDiscount(Long accountid, GetDiscountRequest request, GetDiscountResponse response,
-            DiscountStrategyContext context) {
+    public void handleDiscount(Long accountid, GetDiscountRequest request, GetDiscountResponse response) {
         try {
-            // FIXME
-            DiscountType countDiscountType = DiscountType.HELPER.valueOf(request.getCount());
+            DiscountType countDiscountType = DiscountType.getDiscountByCount(request.getCount());
             Date now = new Date();
             Discount countDiscount =
-                    discountRepository.findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(countDiscountType, now, now);
+                    discountRepository.findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(countDiscountType.value, now, now);
             if (countDiscount != null) {
                 response.getPolicy().add(countDiscount);
             }

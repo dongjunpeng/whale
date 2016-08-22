@@ -126,6 +126,7 @@ public interface Constants {
         String DISCOUNT_CODE_OCCUPIED = "优惠码已使用，请取消订单后重新验证";
         String DISCOUNT_CODE_TIMEOUT = "优惠码已过期";
         String DISCOUNT_CODE_USED = "优惠码已被使用";
+        String CREATE_ORDER_VALIDATE_FAILED = "创建订单校验失败";
     }
 
     /**

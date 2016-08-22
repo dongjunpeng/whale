@@ -2,6 +2,8 @@ package com.buterfleoge.whale.type.protocol.wx;
 
 import java.util.List;
 
+import com.buterfleoge.whale.type.Gender;
+
 /**
  *
  * @author xiezhenzong
@@ -71,14 +73,26 @@ public class WxUserinfoResponse extends WxResponse {
      * @return the sex
      */
     public int getSex() {
-        return sex;
+        if (sex == SEX_MALE) {
+            return Gender.MALE.value;
+        } else if (sex == SEX_FEMALE) {
+            return Gender.FEMALE.value;
+        } else {
+            return Gender.UNKNOW.value;
+        }
     }
 
     /**
      * @param sex the sex to set
      */
     public void setSex(int sex) {
-        this.sex = sex;
+        if (sex == Gender.MALE.value) {
+            this.sex = SEX_MALE;
+        } else if (sex == Gender.FEMALE.value) {
+            this.sex = SEX_FEMALE;
+        } else {
+            this.sex = SEX_UNKNOWN;
+        }
     }
 
     /**

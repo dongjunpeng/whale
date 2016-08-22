@@ -4,14 +4,13 @@ import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.buterfleoge.whale.type.RefoundStatus;
-import com.buterfleoge.whale.type.entity.OrderRefound;
+import com.buterfleoge.whale.type.entity.OrderRefund;
 
 /**
  * @author Brent24
  *
  */
-public interface OrderRefoundRepository extends CrudRepository<OrderRefound, Long> {
+public interface OrderRefoundRepository extends CrudRepository<OrderRefund, Long> {
 
-    OrderRefound findByOrderidAndStatusIn(Long orderid, Set<RefoundStatus> status);
+    OrderRefund findByOrderidAndStatusIn(Long orderid, Set<Integer> status);
 }

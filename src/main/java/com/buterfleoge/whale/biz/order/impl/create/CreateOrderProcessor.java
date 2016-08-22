@@ -15,6 +15,7 @@ import com.buterfleoge.whale.type.protocol.order.CreateOrderResponse;
  * @author xiezhenzong
  *
  */
+@Deprecated
 public abstract class CreateOrderProcessor {
 
     protected static final Logger LOG = LoggerFactory.getLogger(CreateOrderProcessor.class);

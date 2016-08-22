@@ -27,13 +27,13 @@ import com.buterfleoge.whale.type.entity.converter.PriceConverter;
  *
  */
 @Entity
-@Table(name = "order_refound")
-public class OrderRefound extends BaseObject {
+@Table(name = "order_refund")
+public class OrderRefund extends BaseObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "refoundid")
-    private Long refoundid;
+    @Column(name = "refundid")
+    private Long refundid;
 
     @Column(name = "orderid")
     private Long orderid;
@@ -45,9 +45,9 @@ public class OrderRefound extends BaseObject {
     private Integer type;
 
     @NumberFormat(style = Style.CURRENCY)
-    @Column(name = "refound")
+    @Column(name = "refund")
     @Convert(converter = PriceConverter.class)
-    private BigDecimal refound;
+    private BigDecimal refund;
 
     @Column(name = "description")
     private String desc;
@@ -62,18 +62,20 @@ public class OrderRefound extends BaseObject {
     @Convert(converter = DateTimeConverter.class)
     private Date finishTime;
 
+
     /**
-     * @return the refoundid
+     * @return the refundid
      */
-    public Long getRefoundid() {
-        return refoundid;
+    public Long getRefundid() {
+        return refundid;
     }
 
     /**
-     * @param refoundid the refoundid to set
+     * @param refundid
+     *            the refundid to set
      */
-    public void setRefoundid(Long refoundid) {
-        this.refoundid = refoundid;
+    public void setRefundid(Long refundid) {
+        this.refundid = refundid;
     }
 
     /**
@@ -119,17 +121,18 @@ public class OrderRefound extends BaseObject {
     }
 
     /**
-     * @return the refound
+     * @return the refund
      */
-    public BigDecimal getRefound() {
-        return refound;
+    public BigDecimal getRefund() {
+        return refund;
     }
 
     /**
-     * @param refound the refound to set
+     * @param refund
+     *            the refund to set
      */
-    public void setRefound(BigDecimal refound) {
-        this.refound = refound;
+    public void setRefund(BigDecimal refund) {
+        this.refund = refund;
     }
 
     /**

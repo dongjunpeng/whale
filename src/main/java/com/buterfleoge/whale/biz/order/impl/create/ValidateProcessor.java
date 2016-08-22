@@ -10,7 +10,6 @@ import com.buterfleoge.whale.Constants;
 import com.buterfleoge.whale.Constants.BizCode;
 import com.buterfleoge.whale.Constants.ErrorMsg;
 import com.buterfleoge.whale.Constants.Status;
-import com.buterfleoge.whale.biz.order.impl.discount.DiscountHandler;
 import com.buterfleoge.whale.biz.travel.TravelBiz;
 import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.type.entity.Discount;
@@ -36,9 +35,6 @@ public class ValidateProcessor extends CreateOrderProcessor {
 
     @Autowired
     private TravelBiz travelBiz;
-
-    @Autowired
-    private DiscountHandler discountHandler;
 
     @Override
     public void doCreate(Long accountid, CreateOrderRequest request, CreateOrderResponse response,
@@ -120,7 +116,8 @@ public class ValidateProcessor extends CreateOrderProcessor {
         getDiscountRequest.setGroupid(orderInfo.getGroupid());
         getDiscountRequest.setCount(request.getTravellers().size());
         GetDiscountResponse getDiscountResponse = new GetDiscountResponse();
-        discountHandler.getDiscount(accountid, getDiscountRequest, getDiscountResponse);
+        // discountHandler.getDiscount(accountid, getDiscountRequest,
+        // getDiscountResponse);
         return getDiscountResponse;
     }
 
