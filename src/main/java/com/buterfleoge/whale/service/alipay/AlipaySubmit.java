@@ -20,17 +20,19 @@ public class AlipaySubmit {
      *
      * @param sParaTemp
      *            请求参数数组
+     * @param gateway
+     *            阿里网关
      * @param key
      *            key
      * @return 提交表单HTML文本
      */
-    public static String buildRequest(Map<String, String> sParaTemp, String key) {
+    public static String buildRequest(Map<String, String> sParaTemp, String gateway, String key) {
         // 待请求参数数组
         Map<String, String> sPara = buildRequestPara(sParaTemp, key);
 
         StringBuffer builder = new StringBuffer();
         builder.append("<form id=\"alipaysubmit\" name=\"alipaysubmit\" action=\"")
-        .append(AlipayConfig.ALIPAY_GATEWAY_NEW).append("_input_charset=").append(AlipayConfig.input_charset)
+        .append(gateway).append("_input_charset=").append(AlipayConfig.INPUT_CHARSET)
         .append("\" method=\"get\">");
         for (Entry<String, String> entry : sPara.entrySet()) {
             builder.append("<input type=\"hidden\" name=\"").append(entry.getKey()).append("\" value=\"")
@@ -38,8 +40,8 @@ public class AlipaySubmit {
         }
 
         // submit按钮控件请不要含有name属性
-        builder.append("<input type=\"submit\" value=\"确认\" style=\"display:none;\"></form>");
-        builder.append("<script>document.forms['alipaysubmit'].submit();</script>");
+        builder.append("<input id=\"submit-btn\" type=\"submit\" value=\"确认\" style=\"display:none;\"></form>");
+        builder.append("<script>document.getElementById(\"submit-btn\").click();</script>");
         return builder.toString();
     }
 
@@ -58,8 +60,8 @@ public class AlipaySubmit {
         // 生成签名结果
         String prestr = AlipayCore.createLinkString(sPara);
         // 签名结果与签名方式加入请求提交参数组中
-        sPara.put("sign", MD5.sign(prestr, key, AlipayConfig.input_charset));
-        sPara.put("sign_type", AlipayConfig.sign_type);
+        sPara.put("sign", MD5.sign(prestr, key, AlipayConfig.INPUT_CHARSET));
+        sPara.put("sign_type", AlipayConfig.SIGN_TYPE);
         return sPara;
     }
 

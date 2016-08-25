@@ -1,5 +1,7 @@
 package com.buterfleoge.whale.service.alipay;
 
+import java.net.URLEncoder;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,34 +22,36 @@ import org.springframework.stereotype.Component;
 public class AlipayConfig implements InitializingBean {
 
     /**
-     * 支付宝提供给商户的服务接入网关URL(新)
-     */
-    public static final String ALIPAY_GATEWAY_NEW = "https://mapi.alipay.com/gateway.do?";
-
-    /**
-     * 支付宝消息验证地址
-     */
-    public static final String HTTPS_VERIFY_URL = "https://mapi.alipay.com/gateway.do?service=notify_verify&";
-
-    /**
      * 字符编码格式 目前支持 gbk 或 utf-8
      */
-    public static final String input_charset = "utf-8";
+    public static final String INPUT_CHARSET = "utf-8";
 
     /**
      * 支付类型 ，无需修改
      */
-    public static final String payment_type = "1";
+    public static final String PAYMENT_TYPE = "1";
 
     /**
      * 签名方式
      */
-    public static final String sign_type = "MD5";
+    public static final String SIGN_TYPE = "MD5";
 
     /**
      * 调用的接口名，无需修改
      */
-    public static final String service = "create_direct_pay_by_user";
+    public static final String CREATE_DIRECT_PAY_BY_USER_SERVICE = "create_direct_pay_by_user";
+
+    /**
+     * 支付宝提供给商户的服务接入网关URL(新)
+     */
+    @Value("${alipay.gateway}")
+    public String alipay_gateway_new;
+
+    /**
+     * 支付宝消息验证地址
+     */
+    @Value("${alipay.verify}")
+    public String https_verify_url;
 
     // 合作身份者ID，签约账号，以2088开头由16位纯数字组成的字符串，查看地址：https://b.alipay.com/order/pidAndKey.htm
     @Value("${alipay.partner}")
@@ -68,9 +72,6 @@ public class AlipayConfig implements InitializingBean {
     @Value("${alipay.return_url}")
     public String return_url;
 
-    // 调试用，创建TXT日志文件夹路径，见AlipayCore.java类中的logResult(String sWord)打印方法。
-    public String log_path = "C:\\";
-
     // 防钓鱼时间戳  若要使用请调用类文件submit中的query_timestamp函数
     public String anti_phishing_key = "";
 
@@ -80,6 +81,8 @@ public class AlipayConfig implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         seller_id = partner;
+        notify_url = URLEncoder.encode(notify_url, "UTF-8");
+        return_url = URLEncoder.encode(return_url, "UTF-8");
     }
 
 }

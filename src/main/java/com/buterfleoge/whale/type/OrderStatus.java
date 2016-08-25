@@ -62,8 +62,9 @@ public class OrderStatus  extends EnumObject{
      * 行程取消
      */
     public static final OrderStatus CLOSED = new OrderStatus(8);
-    
-    public static final EnumObjectHelper<OrderStatus> HELPER = EnumObjectHelper.create(NEW, WAITING, CANCEL, TIMEOUT, REFOUND, PAYING, PAID, FINISH, CLOSED);
+
+    public static final EnumObjectHelper<OrderStatus> HELPER = EnumObjectHelper.create(NEW, WAITING, CANCEL, TIMEOUT, REFOUND, PAYING, PAID,
+            FINISH, CLOSED);
 
     private OrderStatus(int value) {
         super(value);

@@ -18,10 +18,10 @@ import org.springframework.stereotype.Service;
 import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.log.InvokeLogger;
 import com.buterfleoge.whale.service.WeixinWebService;
-import com.buterfleoge.whale.type.protocol.wx.WxAccessTokenResponse;
-import com.buterfleoge.whale.type.protocol.wx.WxAuthResponse;
-import com.buterfleoge.whale.type.protocol.wx.WxResponse;
-import com.buterfleoge.whale.type.protocol.wx.WxUserinfoResponse;
+import com.buterfleoge.whale.service.weixin.protocol.WxAccessTokenResponse;
+import com.buterfleoge.whale.service.weixin.protocol.WxAuthResponse;
+import com.buterfleoge.whale.service.weixin.protocol.WxResponse;
+import com.buterfleoge.whale.service.weixin.protocol.WxUserinfoResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**

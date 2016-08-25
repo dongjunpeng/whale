@@ -6,8 +6,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-import org.springframework.stereotype.Service;
-
 /* *
  *类名：AlipayNotify
  *功能：支付宝通知处理类
@@ -21,7 +19,6 @@ import org.springframework.stereotype.Service;
  *************************注意*************************
  *调试通知返回时，可查看或改写log日志的写入TXT里的数据，来检查通知返回是否正常
  */
-@Service("alipayNotify")
 public class AlipayNotify {
 
     /**
@@ -29,20 +26,22 @@ public class AlipayNotify {
      *
      * @param params
      *            通知返回来的参数数组
+     * @param verify
+     *            校验地址
      * @param partner
      *            partner
      * @param key
      *            key
      * @return 验证结果
      */
-    public static boolean verify(Map<String, String> params, String partner, String key) {
+    public static boolean verify(Map<String, String> params, String verify, String partner, String key) {
         // 判断responsetTxt是否为true，isSign是否为true
         // responsetTxt的结果不是true，与服务器设置问题、合作身份者ID、notify_id一分钟失效有关
         // isSign不是true，与安全校验码、请求时的参数格式（如：带自定义参数等）、编码格式有关
         String responseTxt = "false";
         if (params.get("notify_id") != null) {
             String notify_id = params.get("notify_id");
-            responseTxt = verifyResponse(notify_id, partner);
+            responseTxt = verifyResponse(verify, notify_id, partner);
         }
         String sign = "";
         if (params.get("sign") != null) {
@@ -70,16 +69,14 @@ public class AlipayNotify {
         // 获取待签名字符串
         String preSignStr = AlipayCore.createLinkString(sParaNew);
         // 获得签名验证结果
-        boolean isSign = false;
-        if (AlipayConfig.sign_type.equals("MD5")) {
-            isSign = MD5.verify(preSignStr, sign, key, AlipayConfig.input_charset);
-        }
-        return isSign;
+        return MD5.verify(preSignStr, sign, key, AlipayConfig.INPUT_CHARSET);
     }
 
     /**
      * 获取远程服务器ATN结果,验证返回URL
      *
+     * @param verify
+     *            校验地址
      * @param notify_id
      *            通知校验ID
      * @param partner
@@ -87,9 +84,9 @@ public class AlipayNotify {
      * @return 服务器ATN结果 验证结果集： invalid命令参数不对 出现这个错误，请检测返回处理中partner和key是否为空 true
      *         返回正确信息 false 请检查防火墙或者是服务器阻止端口问题以及验证时间是否超过一分钟
      */
-    private static String verifyResponse(String notify_id, String partner) {
+    private static String verifyResponse(String verify, String notify_id, String partner) {
         // 获取远程服务器ATN结果，验证是否是支付宝服务器发来的请求
-        String veryfy_url = AlipayConfig.HTTPS_VERIFY_URL + "partner=" + partner + "&notify_id=" + notify_id;
+        String veryfy_url = verify + "&partner=" + partner + "&notify_id=" + notify_id;
 
         return checkUrl(veryfy_url);
     }

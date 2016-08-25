@@ -22,6 +22,7 @@ import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.RefundStatus;
 import com.buterfleoge.whale.type.entity.OrderInfo;
+import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.protocol.order.GetBriefOrdersRequest;
 import com.buterfleoge.whale.type.protocol.order.GetBriefOrdersResponse;
 import com.buterfleoge.whale.type.protocol.order.GetOrderResponse;
@@ -79,7 +80,7 @@ public class OrderBizImpl implements OrderBiz {
         Long orderid = request.getOrderid();
         OrderInfo orderInfo = null;
         try {
-            orderInfo = orderInfoRepository.findOne(orderid);
+            orderInfo = orderInfoRepository.findByOrderidAndAccountid(orderid, accountid);
             orderInfo = changeOrderInfoStatusIfTimeout(orderInfo);
             response.setOrderInfo(orderInfo);
         } catch (Exception e) {
@@ -107,17 +108,21 @@ public class OrderBizImpl implements OrderBiz {
     }
 
     @Override
-    public void getBriefOrders(Long accountid, GetBriefOrdersRequest request, GetBriefOrdersResponse response)
-            throws Exception {
+    public void getBriefOrders(Long accountid, GetBriefOrdersRequest request, GetBriefOrdersResponse response) throws Exception {
         briefOrderHandler.getBriefOrders(accountid, request, response);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public OrderInfo changeOrderInfoStatusIfTimeout(OrderInfo orderInfo) {
         Integer status = orderInfo.getStatus();
         if (status == OrderStatus.NEW.value || status == OrderStatus.WAITING.value || status == OrderStatus.PAYING.value) {
-            if (DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() > System.currentTimeMillis()) {
+            if (DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() < System.currentTimeMillis()) {
                 orderInfo.setStatus(OrderStatus.TIMEOUT.value);
-                return orderInfoRepository.save(orderInfo);
+                orderInfo = orderInfoRepository.save(orderInfo);
+
+                TravelGroup group = travelGroupRepository.findOne(orderInfo.getGroupid());
+                group.setActualCount(group.getActualCount() + orderInfo.getCount());
+                travelGroupRepository.save(group);
             }
         }
         return orderInfo;

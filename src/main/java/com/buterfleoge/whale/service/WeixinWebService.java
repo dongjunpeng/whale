@@ -3,8 +3,8 @@
  */
 package com.buterfleoge.whale.service;
 
-import com.buterfleoge.whale.type.protocol.wx.WxAccessTokenResponse;
-import com.buterfleoge.whale.type.protocol.wx.WxUserinfoResponse;
+import com.buterfleoge.whale.service.weixin.protocol.WxAccessTokenResponse;
+import com.buterfleoge.whale.service.weixin.protocol.WxUserinfoResponse;
 
 /**
  * @author xiezhenzong

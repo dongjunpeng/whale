@@ -109,7 +109,7 @@ public class AccountBizImpl implements AccountBiz {
         Long contactid = request.getContactid();
         try {
             if (contactid != null) {
-                AccountContacts contact = accountContactsRepository.findByContactidAndValidTrue(contactid);
+                AccountContacts contact = accountContactsRepository.findByContactidAndAccountidAndValidTrue(contactid, accountid);
                 if (contact != null) {
                     response.setContacts(Arrays.asList(contact));
                 }
@@ -131,7 +131,7 @@ public class AccountBizImpl implements AccountBiz {
         } else {
             AccountContacts contact = null;
             try {
-                contact = accountContactsRepository.findByContactidAndValidTrue(contactid);
+                contact = accountContactsRepository.findByContactidAndAccountidAndValidTrue(contactid, accountid);
             } catch (Exception e) {
                 LOG.error("find contact failed, reqid: " + request.getReqid(), e);
                 response.setStatus(Status.DB_ERROR);
@@ -149,7 +149,7 @@ public class AccountBizImpl implements AccountBiz {
     public void deleteContacts(Long accountid, DeleteContactsRequest request, Response response) throws Exception {
         Long contactid = request.getContactid();
         try {
-            AccountContacts contact = accountContactsRepository.findByContactidAndValidTrue(contactid);
+            AccountContacts contact = accountContactsRepository.findByContactidAndAccountidAndValidTrue(contactid, accountid);
             if (contact != null) {
                 contact.setValid(false);
                 accountContactsRepository.save(contact);

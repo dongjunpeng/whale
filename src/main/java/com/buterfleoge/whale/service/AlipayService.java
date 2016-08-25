@@ -16,4 +16,6 @@ public interface AlipayService {
 
     String buildRequest(Map<String, String> sParaTemp);
 
+    boolean verify(Map<String, String[]> paramsMap);
+
 }

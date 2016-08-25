@@ -1,4 +1,4 @@
-package com.buterfleoge.whale.type.protocol.wx;
+package com.buterfleoge.whale.service.weixin.protocol;
 
 /**
  *

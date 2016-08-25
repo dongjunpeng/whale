@@ -18,7 +18,7 @@ public class Response extends BaseObject {
      * 响应状态， 如果业务失败的话，则添加Error对象
      */
     private int status = Status.OK;
-    private List<Error> errors = new ArrayList<Error>(3);
+    private List<Error> errors = new ArrayList<Error>();
 
     public Response() {
     }

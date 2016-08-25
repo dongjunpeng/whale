@@ -60,7 +60,10 @@ public class CreateOrderValidator implements Validator {
     public void validate(Object target, Errors errors) {
         CreateOrderRequest request = (CreateOrderRequest) target;
         try {
-            OrderInfo orderInfo = orderInfoRepository.findOne(request.getOrderid());
+            OrderInfo orderInfo = orderInfoRepository.findByOrderidAndAccountid(request.getOrderid(), request.getAccountid());
+            if (orderInfo == null) {
+                throw new Exception("Can't find this order, orderid: " + request.getOrderid());
+            }
             validateTravellerCount(orderInfo, request, errors);
             validateDiscountPolicy(orderInfo, request, errors);
         } catch (Exception e) {

@@ -33,8 +33,8 @@ import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderTravellers;
 import com.buterfleoge.whale.type.entity.TravelGroup;
+import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderRequest;
-import com.buterfleoge.whale.type.protocol.order.CreateOrderResponse;
 import com.buterfleoge.whale.type.protocol.order.NewOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.NewOrderResponse;
 
@@ -96,9 +96,9 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         }
     }
 
-    @Transactional(noRollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public void createOrder(Long accountid, CreateOrderRequest request, CreateOrderResponse response) throws Exception {
+    public void createOrder(Long accountid, CreateOrderRequest request, Response response) throws Exception {
         List<OrderTravellers> travellers = request.getTravellers();
         for (OrderTravellers traveller : travellers) {
             traveller.setOrderid(request.getOrderid());
@@ -107,7 +107,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         int count = travellers.size();
         int studentCount = request.getStudentCount();
         Long orderid = request.getOrderid();
-        OrderInfo orderInfo = orderInfoRepository.findOne(orderid);
+        OrderInfo orderInfo = orderInfoRepository.findByOrderidAndAccountid(orderid, accountid);
         TravelGroup group = travelGroupRepository.findOne(orderInfo.getGroupid());
 
         orderInfo.setStatus(OrderStatus.WAITING.value);
@@ -191,7 +191,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         return codeOrderDiscount;
     }
 
-    protected List<OrderDiscount> getOrderDiscountList(OrderDiscount policyOrderDiscount, OrderDiscount studentOrderDiscount,
+    private List<OrderDiscount> getOrderDiscountList(OrderDiscount policyOrderDiscount, OrderDiscount studentOrderDiscount,
             OrderDiscount codeOrderDiscount) {
         List<OrderDiscount> discounts = new ArrayList<OrderDiscount>(3);
         if (policyOrderDiscount != null) {

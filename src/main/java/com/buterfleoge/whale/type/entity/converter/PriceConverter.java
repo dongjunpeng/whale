@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.type.entity.converter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
@@ -13,7 +14,7 @@ import javax.persistence.Converter;
 @Converter(autoApply = true)
 public class PriceConverter implements AttributeConverter<BigDecimal, Long> {
 
-    public static final double PRICE_FACTOR = 1000.0;
+    public static final double PRICE_FACTOR = 1000.00;
     public static final BigDecimal PRICE_FACTOR_BIGDECIMAL = BigDecimal.valueOf(PRICE_FACTOR);
 
     @Override
@@ -23,7 +24,7 @@ public class PriceConverter implements AttributeConverter<BigDecimal, Long> {
 
     @Override
     public BigDecimal convertToEntityAttribute(Long dbData) {
-        return dbData != null ? BigDecimal.valueOf(dbData / PRICE_FACTOR) : null;
+        return dbData != null ? BigDecimal.valueOf(dbData / PRICE_FACTOR).setScale(2, RoundingMode.HALF_UP) : null;
     }
 
 }
