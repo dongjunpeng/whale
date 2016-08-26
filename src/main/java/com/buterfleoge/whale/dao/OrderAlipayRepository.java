@@ -14,4 +14,6 @@ public interface OrderAlipayRepository extends CrudRepository<OrderAlipay, Long>
 
     List<OrderAlipay> findByOrderidAndTradeNo(Long orderid, String trade_no);
 
+    List<OrderAlipay> findByOrderid(Long orderid);
+
 }

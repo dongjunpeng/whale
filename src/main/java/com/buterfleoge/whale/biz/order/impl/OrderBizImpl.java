@@ -1,5 +1,6 @@
 package com.buterfleoge.whale.biz.order.impl;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -81,6 +82,9 @@ public class OrderBizImpl implements OrderBiz {
         OrderInfo orderInfo = null;
         try {
             orderInfo = orderInfoRepository.findByOrderidAndAccountid(orderid, accountid);
+            if (orderInfo == null) {
+                throw new Exception("Can't find this order, orderid: " + orderid);
+            }
             orderInfo = changeOrderInfoStatusIfTimeout(orderInfo);
             response.setOrderInfo(orderInfo);
         } catch (Exception e) {
@@ -104,6 +108,9 @@ public class OrderBizImpl implements OrderBiz {
             response.setStatus(Status.DB_ERROR);
             return;
         }
+
+        Date endTime = DateUtils.addHours(orderInfo.getAddTime(), 2);
+        response.setTimeLeft((endTime.getTime() - System.currentTimeMillis()) / 1000);
         response.setStatus(Status.OK);
     }
 
@@ -121,7 +128,7 @@ public class OrderBizImpl implements OrderBiz {
                 orderInfo = orderInfoRepository.save(orderInfo);
 
                 TravelGroup group = travelGroupRepository.findOne(orderInfo.getGroupid());
-                group.setActualCount(group.getActualCount() + orderInfo.getCount());
+                group.setActualCount(group.getActualCount() - orderInfo.getCount());
                 travelGroupRepository.save(group);
             }
         }

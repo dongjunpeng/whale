@@ -1,23 +1,32 @@
 package com.buterfleoge.whale.biz.order.impl;
 
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.order.RefundOrderBiz;
+import com.buterfleoge.whale.biz.order.impl.refund.RefundStrategySelector;
+import com.buterfleoge.whale.dao.OrderAlipayRepository;
+import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.OrderRefoundRepository;
+import com.buterfleoge.whale.dao.TravelGroupRepository;
+import com.buterfleoge.whale.dao.TravelRouteRepository;
+import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.RefundStatus;
-import com.buterfleoge.whale.type.entity.OrderDiscount;
+import com.buterfleoge.whale.type.RefundType;
+import com.buterfleoge.whale.type.entity.OrderAlipay;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderRefund;
-import com.buterfleoge.whale.type.entity.OrderTravellers;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
-import com.buterfleoge.whale.type.protocol.order.OrderRequest;
-import com.buterfleoge.whale.type.protocol.order.RefundResponse;
+import com.buterfleoge.whale.type.protocol.Error;
+import com.buterfleoge.whale.type.protocol.Response;
+import com.buterfleoge.whale.type.protocol.order.RefundOrderRequest;
 
 /**
  * @author xiezhenzong
@@ -27,98 +36,79 @@ import com.buterfleoge.whale.type.protocol.order.RefundResponse;
 public class RefundOrderBizImpl implements RefundOrderBiz {
 
     @Autowired
+    private TravelRouteRepository travelRouteRepository;
+
+    @Autowired
+    private TravelGroupRepository travelGroupRepository;
+
+    @Autowired
+    private OrderInfoRepository orderInfoRepository;
+
+    @Autowired
     private OrderRefoundRepository orderRefoundRepository;
 
+    @Autowired
+    private OrderAlipayRepository orderAlipayRepository;
+
+    @Autowired
+    private RefundStrategySelector refundStrategySelector;
+
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public void getRefundInfo(Long accountid, OrderRequest request, RefundResponse response) throws Exception {
+    public void getRefundInfo(Long accountid, RefundOrderRequest request, Response response) throws Exception {
         Long orderid = request.getOrderid();
-
-        OrderInfo orderInfo = new OrderInfo();
-        TravelGroup travelGroup = new TravelGroup();
-        TravelRoute travelRoute = new TravelRoute();
-        List<OrderTravellers> orderTravellers = new ArrayList<OrderTravellers>();
-        OrderDiscount policy = new OrderDiscount();
-        OrderDiscount code = new OrderDiscount();
-        OrderDiscount student = new OrderDiscount();
-        OrderRefund orderRefound = new OrderRefund();
-
-        // setOrderObjects(orderid, orderInfo, travelRoute, travelGroup,
-        // orderTravellers, policy, code, student,
-        // orderRefound);
-
-        if (orderRefound.getOrderid() != null) {
+        OrderInfo orderInfo = orderInfoRepository.findByOrderidAndAccountid(orderid, accountid);
+        if (orderInfo == null) {
             response.setStatus(Status.PARAM_ERROR);
+            response.addError(new Error("订单不存在"));
+            return;
+        }
+        int orderStatus = orderInfo.getStatus();
+        if (orderStatus != OrderStatus.PAID.value) {
+            response.setStatus(Status.BIZ_ERROR);
+            response.addError(new Error("订单并未支付"));
             return;
         }
 
-        // Long actualPrice = orderInfo.getActualPrice();
-        Integer travelType = travelRoute.getType();
-        Long startDate = travelGroup.getStartDate().getTime();
-        Long now = System.currentTimeMillis();
-        Long leftMinutes = (startDate - now) / 1000 / 60;
-
-        if (leftMinutes <= 0) {
-            response.setStatus(Status.PARAM_ERROR);
+        List<OrderAlipay> orderAlipays = orderAlipayRepository.findByOrderid(orderid);
+        if (CollectionUtils.isEmpty(orderAlipays)) {
+            response.setStatus(Status.BIZ_ERROR);
+            response.addError(new Error("订单没有支付的记录"));
             return;
         }
 
-        orderRefound.setOrderid(orderid);
-        // orderRefound.setAddTime(now);
-        orderRefound.setStatus(RefundStatus.CREATED.value);
+        OrderRefund orderRefund = orderRefoundRepository.findByOrderid(orderid);
+        if (orderRefund != null) {
+            response.setStatus(Status.BIZ_ERROR);
+            response.addError(new Error("订单已经在退款流程中，当前状态： " + RefundStatus.getDesc(orderRefund.getStatus())));
+            return;
+        }
 
-        // switch (travelType) {
-        // case LONG_TRIP:
-        // if (leftMinutes >= 60 * 24 * 21) {
-        // orderRefound.setType(RefoundType.LONG_PCT_95);
-        // // orderRefound.setRefound((long) (actualPrice * 0.95));
-        // } else {
-        // if (leftMinutes >= 60 * 24 * 14) {
-        // orderRefound.setType(RefoundType.LONG_PCT_80);
-        // // orderRefound.setRefound((long) (actualPrice * 0.80));
-        // } else {
-        // if (leftMinutes >= 60 * 24 * 7) {
-        // orderRefound.setType(RefoundType.LONG_PCT_50);
-        // // orderRefound.setRefound((long) (actualPrice * 0.50));
-        // } else {
-        // orderRefound.setType(RefoundType.LONG_PCT_20);
-        // // orderRefound.setRefound((long) (actualPrice * 0.20));
-        // }
-        // }
-        // }
-        // break;
-        // case SHORT_TRIP:
-        // if (leftMinutes >= 60 * 24 * 7) {
-        // orderRefound.setType(RefoundType.SHORT_PCT_100);
-        // // orderRefound.setRefound((long) (actualPrice));
-        // } else {
-        // if (leftMinutes >= 60 * 24 * 4) {
-        // orderRefound.setType(RefoundType.SHORT_PCT_80);
-        // // orderRefound.setRefound((long) (actualPrice * 0.80));
-        // } else {
-        // if (leftMinutes >= 60 * 24 * 1) {
-        // orderRefound.setType(RefoundType.SHORT_PCT_50);
-        // // orderRefound.setRefound((long) (actualPrice * 0.50));
-        // } else {
-        // orderRefound.setType(RefoundType.SHORT_PCT_20);
-        // // orderRefound.setRefound((long) (actualPrice * 0.20));
-        // }
-        // }
-        // break;
-        // }
-        // case WEEKEND:
-        // break;
-        // case PARTY:
-        // break;
-        // case CITY_WALK:
-        // break;
-        // case INTERNATIONAL:
-        // break;
-        // }
-        orderRefound = orderRefoundRepository.save(orderRefound);
-        String leftTime = "剩余时间： " + leftMinutes / 60 / 24 + " 天 " + leftMinutes / 60 % 24 + " 小时 " + leftMinutes % 60 + " 分";
+        TravelGroup travelGroup = travelGroupRepository.findOne(orderInfo.getGroupid());
+        TravelRoute travelRoute = travelRouteRepository.findByRouteidAndVisibleTrue(orderInfo.getRouteid());
 
-        response.setAll(orderInfo, travelGroup, travelRoute, orderTravellers, policy, code, student, leftTime, orderRefound);
-        response.setStatus(Status.OK);
+        RefundType refundType = refundStrategySelector.getRefundType(orderInfo, travelRoute, travelGroup);
+        if (refundType == null) { // FIXME: 设置一个默认退款策略
+            response.setStatus(Status.BIZ_ERROR);
+            response.addError(new Error("没有合适的退款策略"));
+            return;
+        }
+
+        Date now = new Date();
+        orderRefund = new OrderRefund();
+        orderRefund.setOrderid(orderid);
+        orderRefund.setStatus(RefundStatus.CREATED.value);
+        orderRefund.setType(refundType.value);
+        orderRefund.setRefund(refundType.getRefund(orderInfo.getActualPrice()));
+        orderRefund.setDesc(request.getDesc());
+        orderRefund.setAddTime(now);
+        orderRefund = orderRefoundRepository.save(orderRefund);
+
+        orderInfo.setStatus(OrderStatus.REFOUND.value);
+        orderInfoRepository.save(orderInfo);
+
+        travelGroup.setActualCount(travelGroup.getActualCount() - orderInfo.getCount());
+        travelGroupRepository.save(travelGroup);
     }
 
 }

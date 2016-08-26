@@ -24,6 +24,7 @@ public class GetOrderResponse extends Response {
     private OrderDiscount code;
     private OrderDiscount student;
     private OrderRefund orderRefound;
+    private Long timeLeft;
 
     public OrderInfo getOrderInfo() {
         return orderInfo;
@@ -87,6 +88,21 @@ public class GetOrderResponse extends Response {
 
     public void setOrderRefound(OrderRefund orderRefound) {
         this.orderRefound = orderRefound;
+    }
+
+    /**
+     * @return the timeLeft
+     */
+    public Long getTimeLeft() {
+        return timeLeft;
+    }
+
+    /**
+     * @param timeLeft
+     *            the timeLeft to set
+     */
+    public void setTimeLeft(Long timeLeft) {
+        this.timeLeft = timeLeft;
     }
 
 }

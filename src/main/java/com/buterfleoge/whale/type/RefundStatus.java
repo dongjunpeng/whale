@@ -31,4 +31,16 @@ public class RefundStatus extends EnumObject {
         super(value);
     }
 
+    public static String getDesc(int status) {
+        if (status == 0) {
+            return "等待退款";
+        } else if (status == 1) {
+            return "退款确认";
+        } else if (status == 2) {
+            return "退款完成";
+        } else {
+            return "退款完成";
+        }
+    }
+
 }

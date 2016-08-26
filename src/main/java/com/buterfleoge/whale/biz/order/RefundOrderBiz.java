@@ -1,7 +1,7 @@
 package com.buterfleoge.whale.biz.order;
 
-import com.buterfleoge.whale.type.protocol.order.OrderRequest;
-import com.buterfleoge.whale.type.protocol.order.RefundResponse;
+import com.buterfleoge.whale.type.protocol.Response;
+import com.buterfleoge.whale.type.protocol.order.RefundOrderRequest;
 
 /**
  * @author xiezhenzong
@@ -9,6 +9,6 @@ import com.buterfleoge.whale.type.protocol.order.RefundResponse;
  */
 public interface RefundOrderBiz {
 
-    void getRefundInfo(Long accountid, OrderRequest request, RefundResponse response) throws Exception;
+    void getRefundInfo(Long accountid, RefundOrderRequest request, Response response) throws Exception;
 
 }
