@@ -18,27 +18,41 @@ import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
  */
 public class BriefOrder implements Comparable<BriefOrder> {
 
-    private Long routeid;
-    private String name;
-    private String title;
-    @ImagePathFormat(prefix = Prefix.ROUTE)
-    private String headImg;
+    // order info
 
-    @DateTimeFormat(pattern = Pattern.DATE)
-    private Date startDate;
-    @DateTimeFormat(pattern = Pattern.DATE)
-    private Date endDate;
-    private String wxQrCode;
-    private Long dayCount;
-
-    private Long minuteCount;
     private Long orderid;
+
     private Integer status;
+
     @NumberFormat(style = Style.CURRENCY)
     private BigDecimal actualPrice;
 
-    private Set<String> names;
-    private Set<String> avatars;
+    private Long timeLeft;
+
+    private Set<String> travellerNames;
+
+    // route info
+
+    private Long routeid;
+
+    private String name;
+
+    private String title;
+
+    @ImagePathFormat(prefix = Prefix.ROUTE)
+    private String headImg;
+
+    // group info
+
+    @DateTimeFormat(pattern = Pattern.DATE)
+    private Date startDate;
+
+    @DateTimeFormat(pattern = Pattern.DATE)
+    private Date endDate;
+
+    private String wxQrCode;
+
+    private Long dayLeft;
 
     // sort排序顺序
     // public Integer getOrder() {
@@ -70,6 +84,81 @@ public class BriefOrder implements Comparable<BriefOrder> {
     public int compareTo(BriefOrder arg0) {
         // return this.getOrder().compareTo(arg0.getOrder());
         return status - arg0.getStatus();
+    }
+
+    /**
+     * @return the orderid
+     */
+    public Long getOrderid() {
+        return orderid;
+    }
+
+    /**
+     * @param orderid
+     *            the orderid to set
+     */
+    public void setOrderid(Long orderid) {
+        this.orderid = orderid;
+    }
+
+    /**
+     * @return the status
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status
+     *            the status to set
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    /**
+     * @return the actualPrice
+     */
+    public BigDecimal getActualPrice() {
+        return actualPrice;
+    }
+
+    /**
+     * @param actualPrice
+     *            the actualPrice to set
+     */
+    public void setActualPrice(BigDecimal actualPrice) {
+        this.actualPrice = actualPrice;
+    }
+
+    /**
+     * @return the timeLeft
+     */
+    public Long getTimeLeft() {
+        return timeLeft;
+    }
+
+    /**
+     * @param timeLeft
+     *            the timeLeft to set
+     */
+    public void setTimeLeft(Long timeLeft) {
+        this.timeLeft = timeLeft;
+    }
+
+    /**
+     * @return the travellerNames
+     */
+    public Set<String> getTravellerNames() {
+        return travellerNames;
+    }
+
+    /**
+     * @param travellerNames
+     *            the travellerNames to set
+     */
+    public void setTravellerNames(Set<String> travellerNames) {
+        this.travellerNames = travellerNames;
     }
 
     /**
@@ -171,101 +260,18 @@ public class BriefOrder implements Comparable<BriefOrder> {
     }
 
     /**
-     * @return the dayCount
+     * @return the dayLeft
      */
-    public Long getDayCount() {
-        return dayCount;
+    public Long getDayLeft() {
+        return dayLeft;
     }
 
     /**
-     * @param dayCount the dayCount to set
+     * @param dayLeft
+     *            the dayLeft to set
      */
-    public void setDayCount(Long dayCount) {
-        this.dayCount = dayCount;
-    }
-
-    /**
-     * @return the minuteCount
-     */
-    public Long getMinuteCount() {
-        return minuteCount;
-    }
-
-    /**
-     * @param minuteCount the minuteCount to set
-     */
-    public void setMinuteCount(Long minuteCount) {
-        this.minuteCount = minuteCount;
-    }
-
-    /**
-     * @return the orderid
-     */
-    public Long getOrderid() {
-        return orderid;
-    }
-
-    /**
-     * @param orderid the orderid to set
-     */
-    public void setOrderid(Long orderid) {
-        this.orderid = orderid;
-    }
-
-    /**
-     * @return the status
-     */
-    public Integer getStatus() {
-        return status;
-    }
-
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    /**
-     * @return the actualPrice
-     */
-    public BigDecimal getActualPrice() {
-        return actualPrice;
-    }
-
-    /**
-     * @param actualPrice the actualPrice to set
-     */
-    public void setActualPrice(BigDecimal actualPrice) {
-        this.actualPrice = actualPrice;
-    }
-
-    /**
-     * @return the names
-     */
-    public Set<String> getNames() {
-        return names;
-    }
-
-    /**
-     * @param names the names to set
-     */
-    public void setNames(Set<String> names) {
-        this.names = names;
-    }
-
-    /**
-     * @return the avatars
-     */
-    public Set<String> getAvatars() {
-        return avatars;
-    }
-
-    /**
-     * @param avatars the avatars to set
-     */
-    public void setAvatars(Set<String> avatars) {
-        this.avatars = avatars;
+    public void setDayLeft(Long dayLeft) {
+        this.dayLeft = dayLeft;
     }
 
 }

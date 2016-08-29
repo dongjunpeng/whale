@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
@@ -75,6 +76,15 @@ public class OrderInfo extends BaseObject {
     @Column(name = "mod_time")
     @Convert(converter = DateTimeConverter.class)
     private Date modTime;
+
+    /**
+     * 获取两小时时限的剩余秒数
+     *
+     * @return timeLeft
+     */
+    public long getTimeLeft() {
+        return (DateUtils.addHours(getAddTime(), 2).getTime() - System.currentTimeMillis()) / DateUtils.MILLIS_PER_SECOND;
+    }
 
     /**
      * @return the orderid
