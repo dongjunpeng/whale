@@ -20,7 +20,6 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
-import com.buterfleoge.whale.type.DiscountCodeStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
@@ -46,7 +45,7 @@ public class DiscountCode extends BaseObject {
     private Long accountid;
 
     @Column(name = "status")
-    private DiscountCodeStatus status;
+    private Integer status;
 
     @Column(name = "agent")
     private Long agent;
@@ -121,14 +120,14 @@ public class DiscountCode extends BaseObject {
     /**
      * @return the status
      */
-    public DiscountCodeStatus getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
     /**
      * @param status the status to set
      */
-    public void setStatus(DiscountCodeStatus status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

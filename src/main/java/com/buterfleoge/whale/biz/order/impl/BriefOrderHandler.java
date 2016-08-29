@@ -16,14 +16,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.buterfleoge.whale.Constants.Status;
-import com.buterfleoge.whale.dao.AccountSettingRepository;
+import com.buterfleoge.whale.dao.AccountBindingRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.OrderTravellersRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
-import com.buterfleoge.whale.type.OrderStatus;
-import com.buterfleoge.whale.type.OrderStatusType;
-import com.buterfleoge.whale.type.entity.AccountSetting;
+import com.buterfleoge.whale.type.OrderStatusCategory;
+import com.buterfleoge.whale.type.entity.AccountBinding;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderTravellers;
 import com.buterfleoge.whale.type.entity.TravelGroup;
@@ -49,7 +48,7 @@ public class BriefOrderHandler {
     private OrderTravellersRepository orderTravellersRepository;
 
     @Autowired
-    private AccountSettingRepository accountSettingRepository;
+    private AccountBindingRepository accountSettingRepository;
 
     @Autowired
     private TravelRouteRepository travelRouteRepository;
@@ -57,7 +56,7 @@ public class BriefOrderHandler {
     @Autowired
     private TravelGroupRepository travelGroupRepository;
 
-    public Integer countOrderInfoByStatus(Long accountid, OrderStatusType orderStatusType, String reqid) {
+    public Integer countOrderInfoByStatus(Long accountid, OrderStatusCategory orderStatusType, String reqid) {
         try {
             return orderInfoRepository.countByAccountidAndStatusIn(accountid, orderStatusType.getOrderStatuses());
         } catch (Exception e) {
@@ -66,52 +65,41 @@ public class BriefOrderHandler {
         }
     }
 
-    public OrderInfo changeOrderInfoStatusIfTimeout(OrderInfo orderInfo, String reqid) {
-        if (orderInfo.getStatus() == OrderStatus.WAITING
-                && DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() < System.currentTimeMillis()) {
-            orderInfo.setStatus(OrderStatus.TIMEOUT);
-            try {
-                return orderInfoRepository.save(orderInfo);
-            } catch (Exception e) {
-                LOG.error("save order info failed, reqid: " + reqid, e);
-            }
-        }
-        return orderInfo;
-    }
-
     public void getBriefOrders(Long accountid, GetBriefOrdersRequest request, GetBriefOrdersResponse response) throws Exception {
         String reqid = request.getReqid();
-        response.setCurrentOrderCount(countOrderInfoByStatus(accountid, OrderStatusType.CURRENT, reqid));
-        response.setHistoryOrderCount(countOrderInfoByStatus(accountid, OrderStatusType.HISTORY, reqid));
+        response.setCurrentOrderCount(countOrderInfoByStatus(accountid, OrderStatusCategory.CURRENT, reqid));
+        response.setHistoryOrderCount(countOrderInfoByStatus(accountid, OrderStatusCategory.HISTORY, reqid));
+        response.setAllOrderCount(countOrderInfoByStatus(accountid, OrderStatusCategory.VISIBLE, reqid));
 
-        Set<OrderStatus> statusSet = request.getOrderType() != null ? request.getOrderType().getOrderStatuses()
-                : OrderStatusType.VISIBLE.getOrderStatuses();
+        Set<Integer> statusSet = request.getOrderType() != null
+                ? OrderStatusCategory.HELPER.valueOf(request.getOrderType()).getOrderStatuses()
+                        : OrderStatusCategory.VISIBLE.getOrderStatuses();
 
-        List<OrderInfo> orderInfos = null;
-        try {
-            orderInfos = orderInfoRepository.findByAccountidAndStatusIn(accountid, statusSet);
-        } catch (Exception e) {
-            LOG.error("find order info failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
-            return;
-        }
-        if (CollectionUtils.isEmpty(orderInfos)) {
-            return;
-        }
-        List<BriefOrder> briefOrders = new ArrayList<BriefOrder>(orderInfos.size());
-        Map<Long, TravelRoute> routes = getRoutes(getRouteids(orderInfos), reqid);
-        Map<Long, TravelGroup> groups = getGroups(getGroupids(orderInfos), reqid);
+                List<OrderInfo> orderInfos = null;
+                try {
+                    orderInfos = orderInfoRepository.findByAccountidAndStatusIn(accountid, statusSet);
+                } catch (Exception e) {
+                    LOG.error("find order info failed, reqid: " + request.getReqid(), e);
+                    response.setStatus(Status.DB_ERROR);
+                    return;
+                }
+                if (CollectionUtils.isEmpty(orderInfos)) {
+                    return;
+                }
+                List<BriefOrder> briefOrders = new ArrayList<BriefOrder>(orderInfos.size());
+                Map<Long, TravelRoute> routes = getRoutes(getRouteids(orderInfos), reqid);
+                Map<Long, TravelGroup> groups = getGroups(getGroupids(orderInfos), reqid);
 
-        for (OrderInfo orderInfo : orderInfos) {
-            orderInfo = changeOrderInfoStatusIfTimeout(orderInfo, reqid);
-            if (statusSet.contains(orderInfo.getStatus())) {
-                TravelRoute travelRoute = routes.get(orderInfo.getRouteid());
-                TravelGroup travelGroup = groups.get(orderInfo.getGroupid());
-                briefOrders.add(createBriefOrder(orderInfo, travelRoute, travelGroup, reqid));
-            }
-        }
-        Collections.sort(briefOrders);
-        response.setBriefOrders(briefOrders);
+                for (OrderInfo orderInfo : orderInfos) {
+                    // orderInfo = changeOrderInfoStatusIfTimeout(orderInfo, reqid);
+                    if (statusSet.contains(orderInfo.getStatus())) {
+                        TravelRoute travelRoute = routes.get(orderInfo.getRouteid());
+                        TravelGroup travelGroup = groups.get(orderInfo.getGroupid());
+                        briefOrders.add(createBriefOrder(orderInfo, travelRoute, travelGroup, reqid));
+                    }
+                }
+                Collections.sort(briefOrders);
+                response.setBriefOrders(briefOrders);
     }
 
     private Map<Long, TravelRoute> getRoutes(Set<Long> routeids, String reqid) {
@@ -190,13 +178,15 @@ public class BriefOrderHandler {
             List<OrderTravellers> orderTravellers = orderTravellersRepository.findByOrderid(orderInfo.getOrderid());
             if (!CollectionUtils.isEmpty(orderTravellers)) {
                 Set<Long> accountids = getAccountid(orderTravellers);
-                Map<Long, AccountSetting> accountSettingMap = getAccountSettings(accountids, reqid);
+                Map<Long, AccountBinding> accountSettingMap = getAccountSettings(accountids, reqid);
 
                 Set<String> avatars = new HashSet<String>(orderTravellers.size() + 2);
                 Set<String> names = new HashSet<String>(orderTravellers.size());
                 for (OrderTravellers tempTraveller : orderTravellers) {
                     names.add(tempTraveller.getName());
-                    avatars.add(getAvatartUrl(tempTraveller.getAccountid(), accountSettingMap));
+                    // FIXME
+                    // avatars.add(getAvatartUrl(tempTraveller.getAccountid(),
+                    // accountSettingMap));
                 }
                 // 添加领队头像
                 // avatars.addAll();
@@ -216,11 +206,11 @@ public class BriefOrderHandler {
         return accountids;
     }
 
-    private Map<Long, AccountSetting> getAccountSettings(Set<Long> accountids, String reqid) {
+    private Map<Long, AccountBinding> getAccountSettings(Set<Long> accountids, String reqid) {
         try {
-            Iterable<AccountSetting> accountSettings = accountSettingRepository.findAll(accountids);
-            Map<Long, AccountSetting> accountSettingMap = new HashMap<Long, AccountSetting>();
-            for (AccountSetting accountSetting : accountSettings) {
+            Iterable<AccountBinding> accountSettings = accountSettingRepository.findAll(accountids);
+            Map<Long, AccountBinding> accountSettingMap = new HashMap<Long, AccountBinding>();
+            for (AccountBinding accountSetting : accountSettings) {
                 accountSettingMap.put(accountSetting.getAccountid(), accountSetting);
             }
             return accountSettingMap;
@@ -230,9 +220,12 @@ public class BriefOrderHandler {
         }
     }
 
-    private String getAvatartUrl(Long accountid, Map<Long, AccountSetting> accountSettings) {
-        AccountSetting accountSetting = accountSettings.get(accountid);
-        return accountSetting != null && accountSetting.getAvatarUrl() != null ? accountSetting.getAvatarUrl() : "";
-    }
+    // FIXME
+    // private String getAvatartUrl(Long accountid, Map<Long, AccountBinding>
+    // accountSettings) {
+    // AccountBinding accountSetting = accountSettings.get(accountid);
+    // return accountSetting != null && accountSetting.getAvatarUrl() != null ?
+    // accountSetting.getAvatarUrl() : "";
+    // }
 
 }

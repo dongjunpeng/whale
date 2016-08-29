@@ -30,8 +30,6 @@ import com.buterfleoge.whale.type.protocol.Request;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.travel.GetGroupRequest;
 import com.buterfleoge.whale.type.protocol.travel.GetGroupResponse;
-import com.buterfleoge.whale.type.protocol.travel.GetQuotaRequest;
-import com.buterfleoge.whale.type.protocol.travel.GetQuotaResponse;
 import com.buterfleoge.whale.type.protocol.travel.GetRouteRequest;
 import com.buterfleoge.whale.type.protocol.travel.GetRouteResponse;
 import com.buterfleoge.whale.type.protocol.travel.imgtext.Imgtext;
@@ -129,34 +127,21 @@ public class TravelBizImpl implements TravelBiz {
     }
 
     @Override
-    public void getQuota(GetQuotaRequest request, GetQuotaResponse response) {
+    public int getQuota(Long groupid, Request request, Response response) {
         try {
-            TravelGroup group = travelGroupRepository.findOne(request.getGroupid());
+            TravelGroup group = travelGroupRepository.findOne(groupid);
             if (group != null) {
-                response.setQuota(group.getMaxCount() - group.getActualCount());
+                return group.getMaxCount() - group.getActualCount();
             } else {
                 response.setStatus(Status.BIZ_ERROR);
                 response.addError(new Error(BizCode.GROUP_NOT_EXIST, ErrorMsg.GROUP_NOT_EXIST));
+                return -1;
             }
         } catch (Exception e) {
             LOG.error("get group's quota failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
+            return -1;
         }
-    }
-
-    @Override
-    public int getQuota(Long groupid, Request request, Response response) {
-        GetQuotaRequest getQuotaRequest = new GetQuotaRequest();
-        GetQuotaResponse getQuotaResponse = new GetQuotaResponse();
-        getQuotaRequest.setGroupid(groupid);
-        getQuotaRequest.setReqid(request.getReqid());
-
-        getQuota(getQuotaRequest, getQuotaResponse);
-
-        response.setStatus(getQuotaResponse.getStatus());
-        response.getErrors().addAll(getQuotaResponse.getErrors());
-
-        return getQuotaResponse.getQuota();
     }
 
     private Imgtext getImgtextInJson(Long routeid) throws JsonParseException, JsonMappingException, IOException {

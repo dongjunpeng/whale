@@ -6,6 +6,8 @@ import java.net.SocketException;
 import java.util.Enumeration;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,8 +55,19 @@ public abstract class Utils {
         return null;
     }
 
-    public static String stringMD5(String input) {
+    public static final String stringMD5(String input) {
         return DigestUtils.md5Hex(input);
+    }
+
+    /**
+     * 返回枚举的toString字符串
+     *
+     * @param enumObj
+     *            枚举对象
+     * @return string
+     */
+    public static final String enumToString(Enum<?> enumObj) {
+        return ReflectionToStringBuilder.toString(enumObj, ToStringStyle.SHORT_PREFIX_STYLE);
     }
 
     public static void main(String[] args) {

@@ -23,5 +23,4 @@ public interface AccountBiz {
 
     void deleteContacts(Long accountid, DeleteContactsRequest request, Response response) throws Exception;
 
-
 }

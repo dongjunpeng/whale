@@ -1,7 +1,6 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 账户状态
@@ -9,42 +8,27 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @author xiezhenzong
  *
  */
-public enum AccountStatus {
+public class AccountStatus extends EnumObject {
 
     /**
      * 刚注册
      */
-    WAIT_COMPLETE_INFO(0),
+    public static final AccountStatus WAIT_COMPLETE_INFO = new AccountStatus(0);
 
     /**
      * 账户正常
      */
-    OK(1),
+    public static final AccountStatus OK = new AccountStatus(1);
 
     /**
      * 账户注销
      */
-    DELETE(2)
+    public static final AccountStatus DELETE = new AccountStatus(2);
 
-    ;
+    public static final EnumObjectHelper<AccountStatus> helper = EnumObjectHelper.create(WAIT_COMPLETE_INFO, OK, DELETE);
 
-    private int status;
-
-    private AccountStatus(int status) {
-        this.status = status;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    private AccountStatus(int value) {
+        super(value);
     }
 
 }

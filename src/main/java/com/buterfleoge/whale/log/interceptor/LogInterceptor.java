@@ -9,9 +9,9 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-import com.buterfleoge.whale.NullResponseException;
-import com.buterfleoge.whale.StatusRegistry;
+import com.buterfleoge.whale.exception.NullResponseException;
 import com.buterfleoge.whale.log.LogProxy;
+import com.buterfleoge.whale.log.StatusRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

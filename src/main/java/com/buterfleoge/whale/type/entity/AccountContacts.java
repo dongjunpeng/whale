@@ -14,8 +14,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
-import com.buterfleoge.whale.type.Gender;
-import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 
 /**
@@ -46,7 +44,7 @@ public class AccountContacts extends BaseObject {
     private String id;
 
     @Column(name = "id_type")
-    private IdType idType;
+    private Integer idType;
 
     @Column(name = "email")
     private String email;
@@ -55,7 +53,7 @@ public class AccountContacts extends BaseObject {
     private String mobile;
 
     @Column(name = "gender")
-    private Gender gender;
+    private Integer gender;
 
     @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "birthday")
@@ -154,14 +152,14 @@ public class AccountContacts extends BaseObject {
     /**
      * @return the idType
      */
-    public IdType getIdType() {
+    public Integer getIdType() {
         return idType;
     }
 
     /**
      * @param idType the idType to set
      */
-    public void setIdType(IdType idType) {
+    public void setIdType(Integer idType) {
         this.idType = idType;
     }
 
@@ -196,14 +194,14 @@ public class AccountContacts extends BaseObject {
     /**
      * @return the gender
      */
-    public Gender getGender() {
+    public Integer getGender() {
         return gender;
     }
 
     /**
      * @param gender the gender to set
      */
-    public void setGender(Gender gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 

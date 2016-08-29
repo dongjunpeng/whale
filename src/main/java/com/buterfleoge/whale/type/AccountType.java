@@ -1,7 +1,6 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 账户类型
@@ -9,57 +8,42 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @author xiezhenzong
  *
  */
-public enum AccountType {
+public class AccountType extends EnumObject {
 
     /**
      * 普通账户
      */
-    USER(0),
+    public static final AccountType USER = new AccountType(0);
 
     /**
      * 领队
      */
-    LEADER(1),
+    public static final AccountType LEADER = new AccountType(1);
 
     /**
      * 管理员
      */
-    MANAGER(2),
+    public static final AccountType MANAGER = new AccountType(2);
 
     /**
      * 合作伙伴
      */
-    PARTNER(3),
+    public static final AccountType PARTNER = new AccountType(3);
 
     /**
      * 代理商
      */
-    AGENT(4),
+    public static final AccountType AGENT = new AccountType(4);
 
     /**
      * 超级管理员
      */
-    ROOT(5)
+    public static final AccountType ROOT = new AccountType(5);
+    
+    public static final EnumObjectHelper<AccountType> helper = EnumObjectHelper.create(USER, LEADER, MANAGER, PARTNER, AGENT, ROOT);
 
-    ;
-
-    private int type;
-
-    private AccountType(int type) {
-        this.type = type;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    private AccountType(int value) {
+        super(value);
     }
 
 }

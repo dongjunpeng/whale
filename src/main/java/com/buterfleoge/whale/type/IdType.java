@@ -1,54 +1,39 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 证件类型
- * 
+ *
  * @author Brent24
  *
  */
-public enum IdType {
+public class IdType extends EnumObject {
 
     /**
      * 身份证
      */
-    IDENTIFICATION(0),
+    public static final IdType IDENTIFICATION = new IdType(0);
 
     /**
      * 护照
      */
-    PASSPORT(1),
+    public static final IdType PASSPORT = new IdType(1);
 
     /**
      * 港澳通行证
      */
-    H_PASSER(2),
+    public static final IdType H_PASSER = new IdType(2);
 
     /**
      * 台胞证
      */
-    T_PASSER(3)
+    public static final IdType T_PASSER = new IdType(3);
 
-    ;
-
-    private int type;
-
-    private IdType(int type) {
-        this.type = type;
+    public static final EnumObjectHelper<IdType> HELPER = EnumObjectHelper.create(IDENTIFICATION, PASSPORT, H_PASSER, T_PASSER);
+    
+    private IdType(int value) {
+        super(value);
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
 }

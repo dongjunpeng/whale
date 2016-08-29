@@ -5,8 +5,6 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.buterfleoge.whale.Constants.Pattern;
-import com.buterfleoge.whale.type.Gender;
-import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.protocol.Request;
 
 /**
@@ -22,13 +20,13 @@ public class PostContactsRequest extends Request {
 
     private String id;
 
-    private IdType idType;
+    private Integer idType;
 
     private String email;
 
     private String mobile;
 
-    private Gender gender;
+    private Integer gender;
 
     @DateTimeFormat(pattern = Pattern.DATE)
     private Date birthday;
@@ -84,14 +82,14 @@ public class PostContactsRequest extends Request {
     /**
      * @return the idType
      */
-    public IdType getIdType() {
+    public Integer getIdType() {
         return idType;
     }
 
     /**
      * @param idType the idType to set
      */
-    public void setIdType(IdType idType) {
+    public void setIdType(Integer idType) {
         this.idType = idType;
     }
 
@@ -126,14 +124,14 @@ public class PostContactsRequest extends Request {
     /**
      * @return the gender
      */
-    public Gender getGender() {
+    public Integer getGender() {
         return gender;
     }
 
     /**
      * @param gender the gender to set
      */
-    public void setGender(Gender gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 
