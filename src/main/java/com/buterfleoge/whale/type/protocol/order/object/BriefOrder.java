@@ -9,6 +9,7 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.Constants.Pattern;
+import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.formatter.ImagePathFormat;
 import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
 
@@ -54,35 +55,13 @@ public class BriefOrder implements Comparable<BriefOrder> {
 
     private Long dayLeft;
 
-    // sort排序顺序
-    // public Integer getOrder() {
-    // switch (status.value) {
-    // case PAID:
-    // return 1;
-    // case WAITING:
-    // return 2;
-    // case PAYING:
-    // return 3;
-    // case REFOUNDING:
-    // return 4;
-    // case REFOUNDED:
-    // return 5;
-    // case FINISH:
-    // return 6;
-    // case CANCELPAYMENT:
-    // return 7;
-    // case CANCEL:
-    // return 8;
-    // case TIMEOUT:
-    // return 9;
-    // default:
-    // return 100;
-    // }
-    // }
-
+    /**
+     * {@inheritDoc}
+     *
+     * @see OrderStatus
+     */
     @Override
     public int compareTo(BriefOrder arg0) {
-        // return this.getOrder().compareTo(arg0.getOrder());
         return status - arg0.getStatus();
     }
 
