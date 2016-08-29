@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.dao.DiscountRepository;
-import com.buterfleoge.whale.type.entity.TravelGroup;
+import com.buterfleoge.whale.dao.TravelGroupRepository;
+import com.buterfleoge.whale.dao.TravelRouteRepository;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountResponse;
 
@@ -22,36 +22,12 @@ public abstract class DiscountStrategy {
     @Autowired
     protected DiscountRepository discountRepository;
 
-    public abstract void handleDiscount(Long accountid, GetDiscountRequest request, GetDiscountResponse response,
-            DiscountStrategyContext context);
+    @Autowired
+    protected TravelRouteRepository travelRouteRepository;
 
-    public static class DiscountStrategyContext extends BaseObject {
+    @Autowired
+    protected TravelGroupRepository travelGroupRepository;
 
-        private TravelGroup group;
-
-        /**
-         * @param request
-         * @param response
-         * @param group
-         */
-        public DiscountStrategyContext(TravelGroup group) {
-            this.group = group;
-        }
-
-        /**
-         * @return the group
-         */
-        public TravelGroup getGroup() {
-            return group;
-        }
-
-        /**
-         * @param group the group to set
-         */
-        public void setGroup(TravelGroup group) {
-            this.group = group;
-        }
-
-    }
+    public abstract void handleDiscount(Long accountid, GetDiscountRequest request, GetDiscountResponse response);
 
 }

@@ -5,11 +5,11 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * 覆盖toString方法
- * 
+ *
  * @author xiezhenzong
  *
  */
-public class BaseObject {
+public abstract class BaseObject {
 
     @Override
     public String toString() {

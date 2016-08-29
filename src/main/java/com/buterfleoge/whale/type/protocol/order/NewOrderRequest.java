@@ -3,6 +3,8 @@ package com.buterfleoge.whale.type.protocol.order;
 import javax.validation.constraints.NotNull;
 
 import com.buterfleoge.whale.type.protocol.Request;
+import com.buterfleoge.whale.validator.IdExist;
+import com.buterfleoge.whale.validator.IdExist.IdType;
 
 /**
  *
@@ -11,10 +13,12 @@ import com.buterfleoge.whale.type.protocol.Request;
  */
 public class NewOrderRequest extends Request {
 
-    @NotNull
+    @NotNull(message = "")
+    @IdExist(type = IdType.ROUTE_ID, message = "")
     private Long routeid;
 
-    @NotNull
+    @NotNull(message = "")
+    @IdExist(type = IdType.GROUP_ID, message = "")
     private Long groupid;
 
     /**

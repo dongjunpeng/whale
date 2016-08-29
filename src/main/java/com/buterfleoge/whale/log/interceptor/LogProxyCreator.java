@@ -10,9 +10,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import com.buterfleoge.whale.StatusRegistry;
 import com.buterfleoge.whale.log.LogProxy;
 import com.buterfleoge.whale.log.MinorTagCreator;
+import com.buterfleoge.whale.log.StatusRegistry;
 
 /**
  * 创建log proxy

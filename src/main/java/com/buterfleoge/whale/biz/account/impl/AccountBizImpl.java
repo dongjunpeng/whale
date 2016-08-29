@@ -14,13 +14,9 @@ import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.account.AccountBiz;
 import com.buterfleoge.whale.dao.AccountContactsRepository;
 import com.buterfleoge.whale.dao.AccountInfoRepository;
-import com.buterfleoge.whale.dao.AccountSettingRepository;
 import com.buterfleoge.whale.type.AccountStatus;
-import com.buterfleoge.whale.type.Gender;
-import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.entity.AccountContacts;
 import com.buterfleoge.whale.type.entity.AccountInfo;
-import com.buterfleoge.whale.type.entity.AccountSetting;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.account.DeleteContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsRequest;
@@ -43,83 +39,19 @@ public class AccountBizImpl implements AccountBiz {
     private AccountInfoRepository accountInfoRepository;
 
     @Autowired
-    private AccountSettingRepository accountSettingRepository;
-
-    @Autowired
     private AccountContactsRepository accountContactsRepository;
 
     @Override
     public void updateBasicInfo(Long accountid, PostBasicInfoRequest request, Response response) throws Exception {
-        updateAccountInfo(accountid, request, response);
-        if (response.hasError()) {
-            return;
-        }
-        updateAccountSetting(accountid, request, response);
-    }
-
-    @Override
-    public void getContacts(Long accountid, GetContactsRequest request, GetContactsResponse response) throws Exception {
-        Long contactid = request.getContactid();
-        try {
-            if (contactid != null) {
-                AccountContacts contact = accountContactsRepository.findByContactidAndValidTrue(contactid);
-                if (contact != null) {
-                    response.setContacts(Arrays.asList(contact));
-                }
-            } else {
-                List<AccountContacts> contacts = accountContactsRepository.findByAccountidAndValidTrue(accountid);
-                response.setContacts(contacts);
-            }
-        } catch (Exception e) {
-            LOG.error("find contacts failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
-        }
-    }
-
-    @Override
-    public void postContacts(Long accountid, PostContactsRequest request, Response response) throws Exception {
-        Long contactid = request.getContactid();
-        if (contactid == null) {
-            insertContact(accountid, request, response);
-        } else {
-            AccountContacts contact = null;
-            try {
-                contact = accountContactsRepository.findByContactidAndValidTrue(contactid);
-            } catch (Exception e) {
-                LOG.error("find contact failed, reqid: " + request.getReqid(), e);
-                response.setStatus(Status.DB_ERROR);
-                return;
-            }
-            if (contact == null) {
-                insertContact(accountid, request, response);
-            } else {
-                updateContacts(accountid, request, response, contact);
-            }
-        }
-    }
-
-    @Override
-    public void deleteContacts(Long accountid, DeleteContactsRequest request, Response response) throws Exception {
-        Long contactid = request.getContactid();
-        try {
-            AccountContacts contact = accountContactsRepository.findByContactidAndValidTrue(contactid);
-            if (contact != null) {
-                contact.setValid(false);
-                accountContactsRepository.save(contact);
-            }
-        } catch (Exception e) {
-            LOG.error("delete contacts failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
-            throw new Exception("rollback");
-        }
-    }
-
-    private void updateAccountInfo(Long accountid, PostBasicInfoRequest request, Response response) {
         String name = request.getName();
-        IdType idType = request.getIdType();
+        Integer idType = request.getIdType();
         String id = request.getId();
         String email = request.getEmail();
         String mobile = request.getMobile();
+        Integer gender = request.getGender();
+        Date birthday = request.getBirthday();
+        String address = request.getAddress();
+
         boolean isNeedSave = false;
         AccountInfo accountInfo = null;
         try {
@@ -146,10 +78,22 @@ public class AccountBizImpl implements AccountBiz {
             accountInfo.setMobile(mobile);
             isNeedSave = true;
         }
+        if (gender != null && !gender.equals(accountInfo.getGender())) {
+            accountInfo.setGender(gender);
+            isNeedSave = true;
+        }
+        if (birthday != null && !birthday.equals(accountInfo.getBirthday())) {
+            accountInfo.setBirthday(birthday);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(address) && !address.equals(accountInfo.getAddress())) {
+            accountInfo.setAddress(address);
+            isNeedSave = true;
+        }
         if (isNeedSave) {
             try {
-                if (AccountStatus.WAIT_COMPLETE_INFO.equals(accountInfo.getStatus())) {
-                    accountInfo.setStatus(AccountStatus.OK);
+                if (AccountStatus.WAIT_COMPLETE_INFO.value == accountInfo.getStatus()) {
+                    accountInfo.setStatus(AccountStatus.OK.value);
                 }
                 accountInfo.setModTime(new Date());
                 accountInfoRepository.save(accountInfo);
@@ -160,41 +104,60 @@ public class AccountBizImpl implements AccountBiz {
         }
     }
 
-    private void updateAccountSetting(Long accountid, PostBasicInfoRequest request, Response response) {
-        Gender gender = request.getGender();
-        Date birthday = request.getBirthday();
-        String address = request.getAddress();
-        boolean isNeedSave = false;
-        AccountSetting accountSetting = null;
+    @Override
+    public void getContacts(Long accountid, GetContactsRequest request, GetContactsResponse response) throws Exception {
+        Long contactid = request.getContactid();
         try {
-            accountSetting = accountSettingRepository.findOne(accountid);
+            if (contactid != null) {
+                AccountContacts contact = accountContactsRepository.findByContactidAndAccountidAndValidTrue(contactid, accountid);
+                if (contact != null) {
+                    response.setContacts(Arrays.asList(contact));
+                }
+            } else {
+                List<AccountContacts> contacts = accountContactsRepository.findByAccountidAndValidTrue(accountid);
+                response.setContacts(contacts);
+            }
         } catch (Exception e) {
-            LOG.error("find account setting failed, reqid: " + request.getReqid(), e);
+            LOG.error("find contacts failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
-            return;
         }
-        if (gender != null && !gender.equals(accountSetting.getGender())) {
-            accountSetting.setGender(gender);
-            isNeedSave = true;
-        }
-        if (birthday != null && !birthday.equals(accountSetting.getBirthday())) {
-            accountSetting.setBirthday(birthday);
-            isNeedSave = true;
-        }
-        if (StringUtils.hasText(address) && !address.equals(accountSetting.getAddress())) {
-            accountSetting.setAddress(address);
-            isNeedSave = true;
-        }
-        if (isNeedSave) {
+    }
+
+    @Override
+    public void postContacts(Long accountid, PostContactsRequest request, Response response) throws Exception {
+        Long contactid = request.getContactid();
+        if (contactid == null) {
+            insertContact(accountid, request, response);
+        } else {
+            AccountContacts contact = null;
             try {
-                accountSetting.setModTime(new Date());
-                accountSettingRepository.save(accountSetting);
+                contact = accountContactsRepository.findByContactidAndAccountidAndValidTrue(contactid, accountid);
             } catch (Exception e) {
-                LOG.error("save account setting failed, reqid: " + request.getReqid(), e);
+                LOG.error("find contact failed, reqid: " + request.getReqid(), e);
                 response.setStatus(Status.DB_ERROR);
+                return;
+            }
+            if (contact == null) {
+                insertContact(accountid, request, response);
+            } else {
+                updateContacts(accountid, request, response, contact);
             }
         }
+    }
 
+    @Override
+    public void deleteContacts(Long accountid, DeleteContactsRequest request, Response response) throws Exception {
+        Long contactid = request.getContactid();
+        try {
+            AccountContacts contact = accountContactsRepository.findByContactidAndAccountidAndValidTrue(contactid, accountid);
+            if (contact != null) {
+                contact.setValid(false);
+                accountContactsRepository.save(contact);
+            }
+        } catch (Exception e) {
+            LOG.error("delete contacts failed, reqid: " + request.getReqid(), e);
+            response.setStatus(Status.DB_ERROR);
+        }
     }
 
     private void insertContact(Long accountid, PostContactsRequest request, Response response) throws Exception {
@@ -224,11 +187,11 @@ public class AccountBizImpl implements AccountBiz {
     private void updateContacts(Long accountid, PostContactsRequest request, Response response, AccountContacts contact)
             throws Exception {
         String name = request.getName();
-        IdType idType = request.getIdType();
+        Integer idType = request.getIdType();
         String id = request.getId();
         String email = request.getEmail();
         String mobile = request.getMobile();
-        Gender gender = request.getGender();
+        Integer gender = request.getGender();
         Date birthday = request.getBirthday();
         String address = request.getAddress();
         String emergencyContact = request.getEmergencyContact();

@@ -2,7 +2,6 @@ package com.buterfleoge.whale.type.protocol.account.object;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.type.entity.AccountInfo;
-import com.buterfleoge.whale.type.entity.AccountSetting;
 
 /**
  * @author Brent24
@@ -11,7 +10,6 @@ import com.buterfleoge.whale.type.entity.AccountSetting;
 public class AccountBasicInfo extends BaseObject {
 
     private AccountInfo accountInfo;
-    private AccountSetting accountSetting;
 
     /**
      * @return the accountInfo
@@ -25,20 +23,6 @@ public class AccountBasicInfo extends BaseObject {
      */
     public void setAccountInfo(AccountInfo accountInfo) {
         this.accountInfo = accountInfo;
-    }
-
-    /**
-     * @return the accountSetting
-     */
-    public AccountSetting getAccountSetting() {
-        return accountSetting;
-    }
-
-    /**
-     * @param accountSetting the accountSetting to set
-     */
-    public void setAccountSetting(AccountSetting accountSetting) {
-        this.accountSetting = accountSetting;
     }
 
 }

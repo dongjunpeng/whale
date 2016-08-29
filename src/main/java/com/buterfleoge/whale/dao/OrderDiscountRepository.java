@@ -4,7 +4,6 @@ import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
 
 /**
@@ -13,7 +12,7 @@ import com.buterfleoge.whale.type.entity.OrderDiscount;
  */
 public interface OrderDiscountRepository extends CrudRepository<OrderDiscount, Long> {
 
-    OrderDiscount findByOrderidAndTypeIn(Long orderid, Set<DiscountType> type);
+    OrderDiscount findByOrderidAndTypeIn(Long orderid, Set<Integer> type);
 
-    OrderDiscount findByOrderidAndType(Long orderid, DiscountType type);
+    OrderDiscount findByOrderidAndType(Long orderid, Integer type);
 }

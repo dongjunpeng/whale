@@ -1,48 +1,33 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 性别
- * 
+ *
  * @author Brent24
  *
  */
-public enum Gender {
+public class Gender extends EnumObject {
     /**
      * 未知
      */
-    UNKNOW(0),
+    public static final Gender UNKNOW = new Gender(0);
 
     /**
      * 男
      */
-    MALE(1),
+    public static final Gender MALE = new Gender(1);
 
     /**
      * 女
      */
-    FEMALE(2)
+    public static final Gender FEMALE = new Gender(2);
+    
+    public static final EnumObjectHelper<Gender> HELPER = EnumObjectHelper.create(UNKNOW, MALE, FEMALE);
 
-    ;
-
-    private int gender;
-
-    private Gender(int gender) {
-        this.gender = gender;
+    private Gender(int value) {
+        super(value);
     }
-
-    public int getGender() {
-        return gender;
-    }
-
-    public void setGender(int gender) {
-        this.gender = gender;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
+    
 }

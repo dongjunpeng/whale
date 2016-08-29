@@ -17,7 +17,6 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
-import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
@@ -46,7 +45,7 @@ public class OrderInfo extends BaseObject {
     private Long groupid;
 
     @Column(name = "status")
-    private OrderStatus status;
+    private Integer status;
 
     @Column(name = "count")
     private Integer count = 0;
@@ -71,6 +70,11 @@ public class OrderInfo extends BaseObject {
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
     private Date addTime;
+
+    @DateTimeFormat(pattern = Pattern.DATE)
+    @Column(name = "mod_time")
+    @Convert(converter = DateTimeConverter.class)
+    private Date modTime;
 
     /**
      * @return the orderid
@@ -131,14 +135,14 @@ public class OrderInfo extends BaseObject {
     /**
      * @return the status
      */
-    public OrderStatus getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
     /**
      * @param status the status to set
      */
-    public void setStatus(OrderStatus status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -224,6 +228,21 @@ public class OrderInfo extends BaseObject {
      */
     public void setAddTime(Date addTime) {
         this.addTime = addTime;
+    }
+
+    /**
+     * @return the modTime
+     */
+    public Date getModTime() {
+        return modTime;
+    }
+
+    /**
+     * @param modTime
+     *            the modTime to set
+     */
+    public void setModTime(Date modTime) {
+        this.modTime = modTime;
     }
 
 }

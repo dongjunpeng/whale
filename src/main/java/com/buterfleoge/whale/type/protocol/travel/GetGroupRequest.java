@@ -1,9 +1,11 @@
 /**
- * 
+ *
  */
 package com.buterfleoge.whale.type.protocol.travel;
 
 import com.buterfleoge.whale.type.protocol.Request;
+import com.buterfleoge.whale.validator.IdExist;
+import com.buterfleoge.whale.validator.IdExist.IdType;
 
 /**
  * @author Brent24
@@ -11,8 +13,12 @@ import com.buterfleoge.whale.type.protocol.Request;
  */
 public class GetGroupRequest extends Request {
 
+    @IdExist(type = IdType.GROUP_ID)
     private Long groupid;
+
+    @IdExist(type = IdType.ROUTE_ID)
     private Long routeid;
+
     private String name;
 
     public Long getGroupid() {

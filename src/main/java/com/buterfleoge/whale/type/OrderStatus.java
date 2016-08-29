@@ -1,95 +1,79 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 订单状态，几种流程：有可能需要更加细化一点
- * 
+ *
  * <ol>
+ * <li>NEW -> WATING
  * <li>WATING -> CANCEL
  * <li>WATING -> TIMEOUT
- * <li>WATING -> PAYING -> CANCELPAYMENT
- * <li>WATING -> PAYING -> PAID -> REFOUNDING -> REFOUNDED
- * <li>WATING -> PAYING -> FINISH
+ * <li>WATING -> PAYING -> PAID -> REFOUND
+ * <li>WATING -> PAYING -> PAID -> FINISH
+ * <li>WATING -> CLOSED -> REFOUND
  * </ol>
- * 
+ *
  * @author Brent24
  *
  */
-public enum OrderStatus {
+public class OrderStatus  extends EnumObject{
 
     /**
-     * 
+     * 点击报名
      */
-    NEW(0),
+    public static final OrderStatus NEW = new OrderStatus(0);
 
     /**
      * 生成等待付款
      */
-    WAITING(1),
-
-    /**
-     * 取消
-     */
-    CANCEL(2),
-
-    /**
-     * 超时
-     */
-    TIMEOUT(3),
-
-    /**
-     * 取消支付
-     */
-    CANCELPAYMENT(4),
-
-    /**
-     * 已退款
-     */
-    REFOUNDED(5),
+    public static final OrderStatus WAITING = new OrderStatus(1);
 
     /**
      * 付款中
      */
-    PAYING(6),
+    public static final OrderStatus PAYING = new OrderStatus(2);
 
     /**
      * 付款到账
      */
-    PAID(7),
-
-    /**
-     * 退款中
-     */
-    REFOUNDING(8),
+    public static final OrderStatus PAID = new OrderStatus(3);
 
     /**
      * 开始旅行
      */
-    FINISH(9),
+    public static final OrderStatus FINISH = new OrderStatus(4);
+
+    /**
+     * 退款
+     */
+    public static final OrderStatus REFUNDING = new OrderStatus(5);
+
+    /**
+     * 退款
+     */
+    public static final OrderStatus REFUNDED = new OrderStatus(6);
+
+    /**
+     * 取消
+     */
+    public static final OrderStatus CANCEL = new OrderStatus(7);
+
+    /**
+     * 超时
+     */
+    public static final OrderStatus TIMEOUT = new OrderStatus(8);
 
     /**
      * 行程取消
      */
-    CLOSED(10);
+    public static final OrderStatus CLOSED = new OrderStatus(9);
 
-    private int status;
+    public static final EnumObjectHelper<OrderStatus> HELPER = EnumObjectHelper.create(NEW, WAITING, PAYING, PAID, FINISH,
+            REFUNDING, REFUNDED, CANCEL, TIMEOUT, CLOSED);
 
-    private OrderStatus(int status) {
-        this.status = status;
+    private OrderStatus(int value) {
+        super(value);
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
 }

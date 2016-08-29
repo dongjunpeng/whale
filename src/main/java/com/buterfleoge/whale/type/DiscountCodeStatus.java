@@ -1,66 +1,54 @@
 /**
- * 
+ *
  */
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.EnumObject;
 
 /**
- * 
+ *
  * <ol>
  * <li>CREATED -> TIMEOUT
  * <li>CREATED -> VERIFIED -> TIMEOUT
  * <li>CREATED -> VERIFIED -> OCCUPIED -> USED
  * <li>CREATED -> VERIFIED -> OCCUPIED -> VERIFIED
  * </ol>
- * 
+ *
  * @author Brent24
  *
  */
-public enum DiscountCodeStatus {
+public class DiscountCodeStatus extends EnumObject {
 
     /**
      * 已生成，等待验证
      */
-    CREATED(0),
+    public static final DiscountCodeStatus CREATED = new DiscountCodeStatus(0);
 
     /**
      * 已过期
      */
-    TIMEOUT(1),
+    public static final DiscountCodeStatus TIMEOUT = new DiscountCodeStatus(1);
 
     /**
      * 用户提交，验证通过
      */
-    VERIFIED(2),
+    public static final DiscountCodeStatus VERIFIED = new DiscountCodeStatus(2);
 
     /**
      * 用户下单，占用中
      */
-    OCCUPIED(3),
+    public static final DiscountCodeStatus OCCUPIED = new DiscountCodeStatus(3);
 
     /**
      * 付款完成，优惠券不再有效
      */
-    USED(4);
+    public static final DiscountCodeStatus USED = new DiscountCodeStatus(4);
 
-    private int status;
+    public static final EnumObjectHelper<DiscountCodeStatus> HELPER = EnumObjectHelper.create(CREATED, TIMEOUT,
+            VERIFIED, OCCUPIED, USED);
 
-    private DiscountCodeStatus(int status) {
-        this.status = status;
+    private DiscountCodeStatus(int value) {
+        super(value);
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-    }
 }

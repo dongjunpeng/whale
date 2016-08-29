@@ -16,6 +16,7 @@ import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.AccountStatus;
 import com.buterfleoge.whale.type.AccountType;
+import com.buterfleoge.whale.type.Gender;
 import com.buterfleoge.whale.type.IdType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 
@@ -41,22 +42,39 @@ public class AccountInfo extends BaseObject {
     private String password = "";
 
     @Column(name = "type")
-    private AccountType type = AccountType.USER;
+    private Integer type = AccountType.USER.value;
 
     @Column(name = "status")
-    private AccountStatus status = AccountStatus.OK;
+    private Integer status = AccountStatus.OK.value;
 
     @Column(name = "id")
     private String id = "";
 
     @Column(name = "id_type")
-    private IdType idType = IdType.IDENTIFICATION;
+    private Integer idType = IdType.IDENTIFICATION.value;
 
     @Column(name = "email")
     private String email = "";
 
     @Column(name = "mobile")
     private String mobile = "";
+
+    @Column(name = "nickname")
+    private String nickname = "";
+
+    @Column(name = "gender")
+    private Integer gender = Gender.UNKNOW.value;
+
+    @DateTimeFormat(pattern = Pattern.DATE)
+    @Column(name = "birthday")
+    @Convert(converter = DateTimeConverter.class)
+    private Date birthday;
+
+    @Column(name = "address")
+    private String address = "";
+
+    @Column(name = "avatar_url")
+    private String avatarUrl = "";
 
     @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "add_time")
@@ -117,7 +135,7 @@ public class AccountInfo extends BaseObject {
      * @return the type
      */
 
-    public AccountType getType() {
+    public Integer getType() {
         return type;
     }
 
@@ -125,7 +143,7 @@ public class AccountInfo extends BaseObject {
      * @param type
      *            the type to set
      */
-    public void setType(AccountType type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -133,7 +151,7 @@ public class AccountInfo extends BaseObject {
      * @return the status
      */
 
-    public AccountStatus getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -141,7 +159,7 @@ public class AccountInfo extends BaseObject {
      * @param status
      *            the status to set
      */
-    public void setStatus(AccountStatus status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -164,7 +182,7 @@ public class AccountInfo extends BaseObject {
      * @return the idType
      */
 
-    public IdType getIdType() {
+    public Integer getIdType() {
         return idType;
     }
 
@@ -172,7 +190,7 @@ public class AccountInfo extends BaseObject {
      * @param idType
      *            the idType to set
      */
-    public void setIdType(IdType idType) {
+    public void setIdType(Integer idType) {
         this.idType = idType;
     }
 
@@ -204,6 +222,82 @@ public class AccountInfo extends BaseObject {
      */
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    /**
+     * @return the nickname
+     */
+    public String getNickname() {
+        return nickname;
+    }
+
+    /**
+     * @param nickname
+     *            the nickname to set
+     */
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    /**
+     * @return the gender
+     */
+
+    public Integer getGender() {
+        return gender;
+    }
+
+    /**
+     * @param gender
+     *            the gender to set
+     */
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
+    /**
+     * @return the birthday
+     */
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    /**
+     * @param birthday
+     *            the birthday to set
+     */
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    /**
+     * @return the address
+     */
+    public String getAddress() {
+        return address;
+    }
+
+    /**
+     * @param address
+     *            the address to set
+     */
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    /**
+     * @return the avatarUrl
+     */
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    /**
+     * @param avatarUrl
+     *            the avatarUrl to set
+     */
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     /**

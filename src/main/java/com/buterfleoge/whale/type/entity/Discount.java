@@ -20,7 +20,6 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
-import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
@@ -40,7 +39,7 @@ public class Discount extends BaseObject {
     private Long discountid;
 
     @Column(name = "type")
-    private DiscountType type;
+    private Integer type;
 
     @Column(name = "routeid")
     private Long routeid;
@@ -85,14 +84,14 @@ public class Discount extends BaseObject {
     /**
      * @return the type
      */
-    public DiscountType getType() {
+    public Integer getType() {
         return type;
     }
 
     /**
      * @param type the type to set
      */
-    public void setType(DiscountType type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 

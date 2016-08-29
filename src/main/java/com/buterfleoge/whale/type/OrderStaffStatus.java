@@ -1,7 +1,6 @@
 package com.buterfleoge.whale.type;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import com.buterfleoge.whale.EnumObject;
 
 /**
  * 订单中人员的状态
@@ -9,34 +8,19 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @author xiezhenzong
  *
  */
-public enum OrderStaffStatus {
+public class OrderStaffStatus extends EnumObject {
 
-    OK(0),
+    public static final OrderStaffStatus OK = new OrderStaffStatus(0);
 
     /**
      * 删除了这个人
      */
-    CANCEL(1)
+    public static final OrderStaffStatus CANCEL = new OrderStaffStatus(1);
+    
+    public static final EnumObjectHelper<OrderStaffStatus> HELPER = EnumObjectHelper.create(OK, CANCEL);
 
-    ;
-
-    private int status;
-
-    private OrderStaffStatus(int status) {
-        this.status = status;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    private OrderStaffStatus(int value) {
+        super(value);
     }
 
 }

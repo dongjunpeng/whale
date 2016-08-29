@@ -15,13 +15,14 @@ import com.buterfleoge.whale.type.entity.OrderInfo;
  */
 public interface OrderInfoRepository extends CrudRepository<OrderInfo, Long> {
 
-    OrderInfo findByAccountidAndRouteidAndGroupidAndStatusIn(Long accountid, Long routeid, Long groupid, Set<OrderStatus> status);
+    OrderInfo findByAccountidAndRouteidAndGroupidAndStatusIn(Long accountid, Long routeid, Long groupid,
+            Set<Integer> status);
 
     OrderInfo findByOrderidAndAccountid(Long orderid, Long accountid);
 
-    List<OrderInfo> findByAccountidAndStatusIn(Long accountid, Set<OrderStatus> status);
+    List<OrderInfo> findByAccountidAndStatusIn(Long accountid, Set<Integer> status);
 
-    Integer countByAccountidAndStatusIn(Long accountid, Set<OrderStatus> status);
+    Integer countByAccountidAndStatusIn(Long accountid, Set<Integer> status);
 
     List<OrderInfo> findByStatusAndAddTimeLessThan(OrderStatus status, Date time);
 
