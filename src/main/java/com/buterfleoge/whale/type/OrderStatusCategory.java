@@ -16,22 +16,23 @@ import com.buterfleoge.whale.EnumObject;
 public class OrderStatusCategory extends EnumObject {
 
     /**
-     * 当前订单{创建等待付款,付款中,付款完成到账,退款中}
+     * 当前订单{创建等待付款,付款中,付款完成到账}
      */
     public static final OrderStatusCategory CURRENT = new OrderStatusCategory(0, OrderStatus.WAITING.value,
-            OrderStatus.PAYING.value, OrderStatus.PAID.value);
+            OrderStatus.PAYING.value, OrderStatus.PAID.value, OrderStatus.REFUNDING.value);
 
     /**
      * 历史订单{退款完成,已出行}
      */
-    public static final OrderStatusCategory HISTORY = new OrderStatusCategory(1, OrderStatus.REFOUND.value,
+    public static final OrderStatusCategory HISTORY = new OrderStatusCategory(1, OrderStatus.REFUNDED.value,
             OrderStatus.FINISH.value);
 
     /**
      * 可见订单
      */
     public static final OrderStatusCategory VISIBLE = new OrderStatusCategory(2, OrderStatus.WAITING.value,
-            OrderStatus.PAYING.value, OrderStatus.PAID.value, OrderStatus.REFOUND.value, OrderStatus.FINISH.value);
+            OrderStatus.PAYING.value, OrderStatus.PAID.value, OrderStatus.FINISH.value, OrderStatus.REFUNDING.value,
+            OrderStatus.REFUNDED.value, OrderStatus.CANCEL.value, OrderStatus.TIMEOUT.value, OrderStatus.CLOSED.value);
 
     /**
      * 不允许新建订单的

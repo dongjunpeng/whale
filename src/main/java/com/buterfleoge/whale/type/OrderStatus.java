@@ -6,6 +6,7 @@ import com.buterfleoge.whale.EnumObject;
  * 订单状态，几种流程：有可能需要更加细化一点
  *
  * <ol>
+ * <li>NEW -> WATING
  * <li>WATING -> CANCEL
  * <li>WATING -> TIMEOUT
  * <li>WATING -> PAYING -> PAID -> REFOUND
@@ -29,42 +30,47 @@ public class OrderStatus  extends EnumObject{
     public static final OrderStatus WAITING = new OrderStatus(1);
 
     /**
-     * 取消
-     */
-    public static final OrderStatus CANCEL = new OrderStatus(2);
-
-    /**
-     * 超时
-     */
-    public static final OrderStatus TIMEOUT = new OrderStatus(3);
-
-    /**
-     * 退款
-     */
-    public static final OrderStatus REFOUND = new OrderStatus(4);
-
-    /**
      * 付款中
      */
-    public static final OrderStatus PAYING = new OrderStatus(5);
+    public static final OrderStatus PAYING = new OrderStatus(2);
 
     /**
      * 付款到账
      */
-    public static final OrderStatus PAID = new OrderStatus(6);
+    public static final OrderStatus PAID = new OrderStatus(3);
 
     /**
      * 开始旅行
      */
-    public static final OrderStatus FINISH = new OrderStatus(7);
+    public static final OrderStatus FINISH = new OrderStatus(4);
+
+    /**
+     * 退款
+     */
+    public static final OrderStatus REFUNDING = new OrderStatus(5);
+
+    /**
+     * 退款
+     */
+    public static final OrderStatus REFUNDED = new OrderStatus(6);
+
+    /**
+     * 取消
+     */
+    public static final OrderStatus CANCEL = new OrderStatus(7);
+
+    /**
+     * 超时
+     */
+    public static final OrderStatus TIMEOUT = new OrderStatus(8);
 
     /**
      * 行程取消
      */
-    public static final OrderStatus CLOSED = new OrderStatus(8);
+    public static final OrderStatus CLOSED = new OrderStatus(9);
 
-    public static final EnumObjectHelper<OrderStatus> HELPER = EnumObjectHelper.create(NEW, WAITING, CANCEL, TIMEOUT, REFOUND, PAYING, PAID,
-            FINISH, CLOSED);
+    public static final EnumObjectHelper<OrderStatus> HELPER = EnumObjectHelper.create(NEW, WAITING, PAYING, PAID, FINISH,
+            REFUNDING, REFUNDED, CANCEL, TIMEOUT, CLOSED);
 
     private OrderStatus(int value) {
         super(value);

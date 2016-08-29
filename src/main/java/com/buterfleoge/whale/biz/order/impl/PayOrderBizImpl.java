@@ -131,7 +131,7 @@ public class PayOrderBizImpl implements PayOrderBiz {
                 orderInfoRepository.save(orderInfo);
             } else if (request.getRefund_status() != null && AlipayRefundStatus.REFUND_SUCCESS.equals(request.getRefund_status())
                     && request.getGmt_refund() != null) {
-                orderInfo.setStatus(OrderStatus.REFOUND.value);
+                orderInfo.setStatus(OrderStatus.REFUNDING.value);
                 orderInfoRepository.save(orderInfo);
             }
             orderAlipayRepository.save(orderAlipay);

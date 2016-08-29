@@ -104,7 +104,7 @@ public class RefundOrderBizImpl implements RefundOrderBiz {
         orderRefund.setAddTime(now);
         orderRefund = orderRefoundRepository.save(orderRefund);
 
-        orderInfo.setStatus(OrderStatus.REFOUND.value);
+        orderInfo.setStatus(OrderStatus.REFUNDING.value);
         orderInfoRepository.save(orderInfo);
 
         travelGroup.setActualCount(travelGroup.getActualCount() - orderInfo.getCount());

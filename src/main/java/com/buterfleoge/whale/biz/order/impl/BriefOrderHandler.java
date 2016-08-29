@@ -69,36 +69,37 @@ public class BriefOrderHandler {
         String reqid = request.getReqid();
         response.setCurrentOrderCount(countOrderInfoByStatus(accountid, OrderStatusCategory.CURRENT, reqid));
         response.setHistoryOrderCount(countOrderInfoByStatus(accountid, OrderStatusCategory.HISTORY, reqid));
+        response.setAllOrderCount(countOrderInfoByStatus(accountid, OrderStatusCategory.VISIBLE, reqid));
 
         Set<Integer> statusSet = request.getOrderType() != null
                 ? OrderStatusCategory.HELPER.valueOf(request.getOrderType()).getOrderStatuses()
-                : OrderStatusCategory.VISIBLE.getOrderStatuses();
+                        : OrderStatusCategory.VISIBLE.getOrderStatuses();
 
-        List<OrderInfo> orderInfos = null;
-        try {
-            orderInfos = orderInfoRepository.findByAccountidAndStatusIn(accountid, statusSet);
-        } catch (Exception e) {
-            LOG.error("find order info failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
-            return;
-        }
-        if (CollectionUtils.isEmpty(orderInfos)) {
-            return;
-        }
-        List<BriefOrder> briefOrders = new ArrayList<BriefOrder>(orderInfos.size());
-        Map<Long, TravelRoute> routes = getRoutes(getRouteids(orderInfos), reqid);
-        Map<Long, TravelGroup> groups = getGroups(getGroupids(orderInfos), reqid);
+                List<OrderInfo> orderInfos = null;
+                try {
+                    orderInfos = orderInfoRepository.findByAccountidAndStatusIn(accountid, statusSet);
+                } catch (Exception e) {
+                    LOG.error("find order info failed, reqid: " + request.getReqid(), e);
+                    response.setStatus(Status.DB_ERROR);
+                    return;
+                }
+                if (CollectionUtils.isEmpty(orderInfos)) {
+                    return;
+                }
+                List<BriefOrder> briefOrders = new ArrayList<BriefOrder>(orderInfos.size());
+                Map<Long, TravelRoute> routes = getRoutes(getRouteids(orderInfos), reqid);
+                Map<Long, TravelGroup> groups = getGroups(getGroupids(orderInfos), reqid);
 
-        for (OrderInfo orderInfo : orderInfos) {
-            // orderInfo = changeOrderInfoStatusIfTimeout(orderInfo, reqid);
-            if (statusSet.contains(orderInfo.getStatus())) {
-                TravelRoute travelRoute = routes.get(orderInfo.getRouteid());
-                TravelGroup travelGroup = groups.get(orderInfo.getGroupid());
-                briefOrders.add(createBriefOrder(orderInfo, travelRoute, travelGroup, reqid));
-            }
-        }
-        Collections.sort(briefOrders);
-        response.setBriefOrders(briefOrders);
+                for (OrderInfo orderInfo : orderInfos) {
+                    // orderInfo = changeOrderInfoStatusIfTimeout(orderInfo, reqid);
+                    if (statusSet.contains(orderInfo.getStatus())) {
+                        TravelRoute travelRoute = routes.get(orderInfo.getRouteid());
+                        TravelGroup travelGroup = groups.get(orderInfo.getGroupid());
+                        briefOrders.add(createBriefOrder(orderInfo, travelRoute, travelGroup, reqid));
+                    }
+                }
+                Collections.sort(briefOrders);
+                response.setBriefOrders(briefOrders);
     }
 
     private Map<Long, TravelRoute> getRoutes(Set<Long> routeids, String reqid) {

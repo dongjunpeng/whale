@@ -21,6 +21,7 @@ import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
 import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.OrderStatus;
+import com.buterfleoge.whale.type.OrderStatusCategory;
 import com.buterfleoge.whale.type.RefundStatus;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.TravelGroup;
@@ -133,6 +134,15 @@ public class OrderBizImpl implements OrderBiz {
             }
         }
         return orderInfo;
+    }
+
+    public Integer countOrderInfoByStatus(Long accountid, OrderStatusCategory orderStatusType, String reqid) {
+        try {
+            return orderInfoRepository.countByAccountidAndStatusIn(accountid, orderStatusType.getOrderStatuses());
+        } catch (Exception e) {
+            LOG.error("count order info failed, reqid: " + reqid, e);
+            return null;
+        }
     }
 
 }

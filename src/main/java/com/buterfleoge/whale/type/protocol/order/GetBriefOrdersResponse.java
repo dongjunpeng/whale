@@ -14,6 +14,7 @@ public class GetBriefOrdersResponse extends Response {
     private List<BriefOrder> briefOrders;
     private Integer currentOrderCount;
     private Integer historyOrderCount;
+    private Integer allOrderCount;
 
     /**
      * @return the briefOrders
@@ -55,6 +56,21 @@ public class GetBriefOrdersResponse extends Response {
      */
     public void setHistoryOrderCount(Integer historyOrderCount) {
         this.historyOrderCount = historyOrderCount;
+    }
+
+    /**
+     * @return the allOrderCount
+     */
+    public Integer getAllOrderCount() {
+        return allOrderCount;
+    }
+
+    /**
+     * @param allOrderCount
+     *            the allOrderCount to set
+     */
+    public void setAllOrderCount(Integer allOrderCount) {
+        this.allOrderCount = allOrderCount;
     }
 
 }
