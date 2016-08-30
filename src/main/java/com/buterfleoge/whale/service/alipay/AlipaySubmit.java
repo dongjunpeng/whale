@@ -31,7 +31,8 @@ public class AlipaySubmit {
         Map<String, String> sPara = buildRequestPara(sParaTemp, key);
 
         StringBuffer builder = new StringBuffer();
-        builder.append("<form id=\"alipaysubmit\" name=\"alipaysubmit\" action=\"")
+        builder.append("<html><head><script src=\"https://cdn.bootcss.com/jquery/1.12.0/jquery.min.js\"></script></head>");
+        builder.append("<body><form id=\"alipaysubmit\" name=\"alipaysubmit\" action=\"")
         .append(gateway).append("_input_charset=").append(AlipayConfig.INPUT_CHARSET)
         .append("\" method=\"get\">");
         for (Entry<String, String> entry : sPara.entrySet()) {
@@ -41,7 +42,7 @@ public class AlipaySubmit {
 
         // submit按钮控件请不要含有name属性
         builder.append("<input id=\"submit-btn\" type=\"submit\" value=\"确认\" style=\"display:none;\"></form>");
-        builder.append("<script>document.getElementById(\"submit-btn\").click();</script>");
+        builder.append("<script>$(\"#alipaysubmit\").submit();</script></body></html>");
         return builder.toString();
     }
 
