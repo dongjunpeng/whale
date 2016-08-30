@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
@@ -80,6 +81,16 @@ public class TravelGroup extends BaseObject {
     @Column(name = "mod_time")
     @Convert(converter = DateTimeConverter.class)
     private Date modTime;
+
+    /**
+     * 获取距离出发日期还有几天
+     *
+     * @return dayLeft
+     */
+    public long getDayLeft() {
+        long daycount = getStartDate().getTime() - System.currentTimeMillis();
+        return daycount / DateUtils.MILLIS_PER_DAY + (daycount % DateUtils.MILLIS_PER_DAY == 0 ? 0 : 1);
+    }
 
     public Long getGroupid() {
         return groupid;
