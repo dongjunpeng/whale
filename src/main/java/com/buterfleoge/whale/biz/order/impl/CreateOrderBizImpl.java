@@ -116,6 +116,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         orderInfo.setPrice(group.getPrice().multiply(BigDecimal.valueOf(count)));
         orderInfo.setActualPrice(request.getActualPrice());
         orderInfo.setIsAgreed(Boolean.TRUE);
+        orderInfo.setCreateTime(now);
         orderInfo.setModTime(now);
 
         group.setActualCount(group.getActualCount() + count);

@@ -73,6 +73,11 @@ public class OrderInfo extends BaseObject {
     private Date addTime;
 
     @DateTimeFormat(pattern = Pattern.DATE)
+    @Column(name = "create_time")
+    @Convert(converter = DateTimeConverter.class)
+    private Date createTime;
+
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "mod_time")
     @Convert(converter = DateTimeConverter.class)
     private Date modTime;
@@ -83,7 +88,7 @@ public class OrderInfo extends BaseObject {
      * @return timeLeft
      */
     public long getTimeLeft() {
-        return (DateUtils.addHours(getAddTime(), 2).getTime() - System.currentTimeMillis()) / DateUtils.MILLIS_PER_SECOND;
+        return (DateUtils.addHours(getModTime(), 2).getTime() - System.currentTimeMillis()) / DateUtils.MILLIS_PER_SECOND;
     }
 
     /**
@@ -238,6 +243,21 @@ public class OrderInfo extends BaseObject {
      */
     public void setAddTime(Date addTime) {
         this.addTime = addTime;
+    }
+
+    /**
+     * @return the createTime
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * @param createTime
+     *            the createTime to set
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     /**
