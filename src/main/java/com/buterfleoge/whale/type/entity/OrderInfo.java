@@ -73,6 +73,11 @@ public class OrderInfo extends BaseObject {
     private Date addTime;
 
     @DateTimeFormat(pattern = Pattern.DATE)
+    @Column(name = "create_time")
+    @Convert(converter = DateTimeConverter.class)
+    private Date createTime;
+
+    @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "mod_time")
     @Convert(converter = DateTimeConverter.class)
     private Date modTime;
@@ -83,7 +88,8 @@ public class OrderInfo extends BaseObject {
      * @return timeLeft
      */
     public long getTimeLeft() {
-        return (DateUtils.addHours(getAddTime(), 2).getTime() - System.currentTimeMillis()) / DateUtils.MILLIS_PER_SECOND;
+        Date modTime = getModTime();
+        return modTime != null ? (DateUtils.addHours(modTime, 2).getTime() - System.currentTimeMillis()) / DateUtils.MILLIS_PER_SECOND : 0L;
     }
 
     /**
@@ -94,7 +100,8 @@ public class OrderInfo extends BaseObject {
     }
 
     /**
-     * @param orderid the orderid to set
+     * @param orderid
+     *            the orderid to set
      */
     public void setOrderid(Long orderid) {
         this.orderid = orderid;
@@ -108,7 +115,8 @@ public class OrderInfo extends BaseObject {
     }
 
     /**
-     * @param accountid the accountid to set
+     * @param accountid
+     *            the accountid to set
      */
     public void setAccountid(Long accountid) {
         this.accountid = accountid;
@@ -122,7 +130,8 @@ public class OrderInfo extends BaseObject {
     }
 
     /**
-     * @param routeid the routeid to set
+     * @param routeid
+     *            the routeid to set
      */
     public void setRouteid(Long routeid) {
         this.routeid = routeid;
@@ -136,7 +145,8 @@ public class OrderInfo extends BaseObject {
     }
 
     /**
-     * @param groupid the groupid to set
+     * @param groupid
+     *            the groupid to set
      */
     public void setGroupid(Long groupid) {
         this.groupid = groupid;
@@ -150,7 +160,8 @@ public class OrderInfo extends BaseObject {
     }
 
     /**
-     * @param status the status to set
+     * @param status
+     *            the status to set
      */
     public void setStatus(Integer status) {
         this.status = status;
@@ -164,7 +175,8 @@ public class OrderInfo extends BaseObject {
     }
 
     /**
-     * @param count the count to set
+     * @param count
+     *            the count to set
      */
     public void setCount(Integer count) {
         this.count = count;
@@ -178,7 +190,8 @@ public class OrderInfo extends BaseObject {
     }
 
     /**
-     * @param studentCount the studentCount to set
+     * @param studentCount
+     *            the studentCount to set
      */
     public void setStudentCount(Integer studentCount) {
         this.studentCount = studentCount;
@@ -192,7 +205,8 @@ public class OrderInfo extends BaseObject {
     }
 
     /**
-     * @param price the price to set
+     * @param price
+     *            the price to set
      */
     public void setPrice(BigDecimal price) {
         this.price = price;
@@ -206,7 +220,8 @@ public class OrderInfo extends BaseObject {
     }
 
     /**
-     * @param actualPrice the actualPrice to set
+     * @param actualPrice
+     *            the actualPrice to set
      */
     public void setActualPrice(BigDecimal actualPrice) {
         this.actualPrice = actualPrice;
@@ -220,7 +235,8 @@ public class OrderInfo extends BaseObject {
     }
 
     /**
-     * @param isAgreed the isAgreed to set
+     * @param isAgreed
+     *            the isAgreed to set
      */
     public void setIsAgreed(Boolean isAgreed) {
         this.isAgreed = isAgreed;
@@ -234,10 +250,26 @@ public class OrderInfo extends BaseObject {
     }
 
     /**
-     * @param addTime the addTime to set
+     * @param addTime
+     *            the addTime to set
      */
     public void setAddTime(Date addTime) {
         this.addTime = addTime;
+    }
+
+    /**
+     * @return the createTime
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * @param createTime
+     *            the createTime to set
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     /**
