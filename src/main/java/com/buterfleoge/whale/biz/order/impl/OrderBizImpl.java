@@ -25,6 +25,7 @@ import com.buterfleoge.whale.dao.OrderTravellersRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
 import com.buterfleoge.whale.type.DiscountType;
+import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.OrderStatusCategory;
 import com.buterfleoge.whale.type.RefundStatus;
@@ -238,7 +239,9 @@ public class OrderBizImpl implements OrderBiz {
         briefOrder.setOrderid(orderInfo.getOrderid());
         briefOrder.setStatus(orderInfo.getStatus());
         briefOrder.setActualPrice(orderInfo.getActualPrice());
-        briefOrder.setTimeLeft(orderInfo.getTimeLeft());
+        if (orderInfo.getStatus() == OrderStatus.WAITING.value) {
+            briefOrder.setTimeLeft(orderInfo.getTimeLeft());
+        }
         briefOrder.setTravellerNames(getOrderTravellersNames(orderInfo, reqid));
 
         briefOrder.setRouteid(travelRoute.getRouteid());
@@ -249,8 +252,9 @@ public class OrderBizImpl implements OrderBiz {
         briefOrder.setStartDate(travelGroup.getStartDate());
         briefOrder.setEndDate(travelGroup.getEndDate());
         briefOrder.setWxQrCode(travelGroup.getWxQrcode());
-        briefOrder.setDayLeft(travelGroup.getDayLeft());
-
+        if (travelGroup.getStatus() == GroupStatus.OPEN.value || travelGroup.getStatus() == GroupStatus.FULL.value) {
+            briefOrder.setDayLeft(travelGroup.getDayLeft());
+        }
         return briefOrder;
     }
 
