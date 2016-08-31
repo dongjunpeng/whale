@@ -45,6 +45,9 @@ public class BriefOrder implements Comparable<BriefOrder> {
 
     // group info
 
+    @NumberFormat(style = Style.CURRENCY)
+    private BigDecimal price;
+
     @DateTimeFormat(pattern = Pattern.DATE)
     private Date startDate;
 
@@ -194,6 +197,21 @@ public class BriefOrder implements Comparable<BriefOrder> {
      */
     public void setHeadImg(String headImg) {
         this.headImg = headImg;
+    }
+
+    /**
+     * @return the price
+     */
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    /**
+     * @param price
+     *            the price to set
+     */
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     /**
