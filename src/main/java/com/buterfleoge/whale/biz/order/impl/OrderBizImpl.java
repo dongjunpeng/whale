@@ -249,6 +249,7 @@ public class OrderBizImpl implements OrderBiz {
         briefOrder.setTitle(travelRoute.getTitle());
         briefOrder.setHeadImg(travelRoute.getHeadImg());
 
+        briefOrder.setPrice(travelGroup.getPrice());
         briefOrder.setStartDate(travelGroup.getStartDate());
         briefOrder.setEndDate(travelGroup.getEndDate());
         briefOrder.setWxQrCode(travelGroup.getWxQrcode());
