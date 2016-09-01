@@ -1,17 +1,14 @@
 package com.buterfleoge.whale.type.protocol.order.object;
 
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.Set;
 
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.NumberFormat;
-import org.springframework.format.annotation.NumberFormat.Style;
-
-import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.OrderStatus;
-import com.buterfleoge.whale.type.formatter.ImagePathFormat;
-import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
+import com.buterfleoge.whale.type.entity.AccountInfo;
+import com.buterfleoge.whale.type.entity.OrderDiscount;
+import com.buterfleoge.whale.type.entity.OrderInfo;
+import com.buterfleoge.whale.type.entity.OrderRefund;
+import com.buterfleoge.whale.type.entity.TravelGroup;
+import com.buterfleoge.whale.type.entity.TravelRoute;
 
 /**
  * @author Brent24
@@ -19,44 +16,17 @@ import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
  */
 public class BriefOrder implements Comparable<BriefOrder> {
 
-    // order info
-
-    private Long orderid;
-
-    private Integer status;
-
-    @NumberFormat(style = Style.CURRENCY)
-    private BigDecimal actualPrice;
-
+    private OrderInfo orderInfo;
+    private TravelGroup travelGroup;
+    private TravelRoute travelRoute;
+    private OrderDiscount policy;
+    private OrderDiscount code;
+    private OrderDiscount student;
+    private OrderRefund orderRefound;
     private Long timeLeft;
-
-    private Set<String> travellerNames;
-
-    // route info
-
-    private Long routeid;
-
-    private String name;
-
-    private String title;
-
-    @ImagePathFormat(prefix = Prefix.ROUTE)
-    private String headImg;
-
-    // group info
-
-    @NumberFormat(style = Style.CURRENCY)
-    private BigDecimal price;
-
-    @DateTimeFormat(pattern = Pattern.DATE)
-    private Date startDate;
-
-    @DateTimeFormat(pattern = Pattern.DATE)
-    private Date endDate;
-
-    private String wxQrCode;
-
     private Long dayLeft;
+    private Set<String> travellerNames;
+    private Set<AccountInfo> otherTravellers;
 
     /**
      * {@inheritDoc}
@@ -65,52 +35,114 @@ public class BriefOrder implements Comparable<BriefOrder> {
      */
     @Override
     public int compareTo(BriefOrder arg0) {
-        return status - arg0.getStatus();
+        int status = getOrderInfo().getStatus();
+        int status0 = arg0.getOrderInfo().getStatus();
+        return status != status0 ? status - status0 : (int) (getOrderInfo().getOrderid() - arg0.getOrderInfo().getOrderid());
     }
 
     /**
-     * @return the orderid
+     * @return the orderInfo
      */
-    public Long getOrderid() {
-        return orderid;
+    public OrderInfo getOrderInfo() {
+        return orderInfo;
     }
 
     /**
-     * @param orderid
-     *            the orderid to set
+     * @param orderInfo
+     *            the orderInfo to set
      */
-    public void setOrderid(Long orderid) {
-        this.orderid = orderid;
+    public void setOrderInfo(OrderInfo orderInfo) {
+        this.orderInfo = orderInfo;
     }
 
     /**
-     * @return the status
+     * @return the travelGroup
      */
-    public Integer getStatus() {
-        return status;
+    public TravelGroup getTravelGroup() {
+        return travelGroup;
     }
 
     /**
-     * @param status
-     *            the status to set
+     * @param travelGroup
+     *            the travelGroup to set
      */
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setTravelGroup(TravelGroup travelGroup) {
+        this.travelGroup = travelGroup;
     }
 
     /**
-     * @return the actualPrice
+     * @return the travelRoute
      */
-    public BigDecimal getActualPrice() {
-        return actualPrice;
+    public TravelRoute getTravelRoute() {
+        return travelRoute;
     }
 
     /**
-     * @param actualPrice
-     *            the actualPrice to set
+     * @param travelRoute
+     *            the travelRoute to set
      */
-    public void setActualPrice(BigDecimal actualPrice) {
-        this.actualPrice = actualPrice;
+    public void setTravelRoute(TravelRoute travelRoute) {
+        this.travelRoute = travelRoute;
+    }
+
+    /**
+     * @return the policy
+     */
+    public OrderDiscount getPolicy() {
+        return policy;
+    }
+
+    /**
+     * @param policy
+     *            the policy to set
+     */
+    public void setPolicy(OrderDiscount policy) {
+        this.policy = policy;
+    }
+
+    /**
+     * @return the code
+     */
+    public OrderDiscount getCode() {
+        return code;
+    }
+
+    /**
+     * @param code
+     *            the code to set
+     */
+    public void setCode(OrderDiscount code) {
+        this.code = code;
+    }
+
+    /**
+     * @return the student
+     */
+    public OrderDiscount getStudent() {
+        return student;
+    }
+
+    /**
+     * @param student
+     *            the student to set
+     */
+    public void setStudent(OrderDiscount student) {
+        this.student = student;
+    }
+
+    /**
+     * @return the orderRefound
+     */
+    public OrderRefund getOrderRefound() {
+        return orderRefound;
+    }
+
+    /**
+     * @param orderRefound
+     *            the orderRefound to set
+     */
+    public void setOrderRefound(OrderRefund orderRefound) {
+        this.orderRefound = orderRefound;
     }
 
     /**
@@ -129,6 +161,21 @@ public class BriefOrder implements Comparable<BriefOrder> {
     }
 
     /**
+     * @return the dayLeft
+     */
+    public Long getDayLeft() {
+        return dayLeft;
+    }
+
+    /**
+     * @param dayLeft
+     *            the dayLeft to set
+     */
+    public void setDayLeft(Long dayLeft) {
+        this.dayLeft = dayLeft;
+    }
+
+    /**
      * @return the travellerNames
      */
     public Set<String> getTravellerNames() {
@@ -144,131 +191,18 @@ public class BriefOrder implements Comparable<BriefOrder> {
     }
 
     /**
-     * @return the routeid
+     * @return the otherTravellers
      */
-    public Long getRouteid() {
-        return routeid;
+    public Set<AccountInfo> getOtherTravellers() {
+        return otherTravellers;
     }
 
     /**
-     * @param routeid the routeid to set
+     * @param otherTravellers
+     *            the otherTravellers to set
      */
-    public void setRouteid(Long routeid) {
-        this.routeid = routeid;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    /**
-     * @return the headImg
-     */
-    public String getHeadImg() {
-        return headImg;
-    }
-
-    /**
-     * @param headImg the headImg to set
-     */
-    public void setHeadImg(String headImg) {
-        this.headImg = headImg;
-    }
-
-    /**
-     * @return the price
-     */
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    /**
-     * @param price
-     *            the price to set
-     */
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    /**
-     * @return the startDate
-     */
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    /**
-     * @param startDate the startDate to set
-     */
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    /**
-     * @return the endDate
-     */
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    /**
-     * @param endDate the endDate to set
-     */
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    /**
-     * @return the wxQrCode
-     */
-    public String getWxQrCode() {
-        return wxQrCode;
-    }
-
-    /**
-     * @param wxQrCode the wxQrCode to set
-     */
-    public void setWxQrCode(String wxQrCode) {
-        this.wxQrCode = wxQrCode;
-    }
-
-    /**
-     * @return the dayLeft
-     */
-    public Long getDayLeft() {
-        return dayLeft;
-    }
-
-    /**
-     * @param dayLeft
-     *            the dayLeft to set
-     */
-    public void setDayLeft(Long dayLeft) {
-        this.dayLeft = dayLeft;
+    public void setOtherTravellers(Set<AccountInfo> otherTravellers) {
+        this.otherTravellers = otherTravellers;
     }
 
 }

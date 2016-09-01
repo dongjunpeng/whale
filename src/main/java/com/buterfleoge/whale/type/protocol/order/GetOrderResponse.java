@@ -25,6 +25,7 @@ public class GetOrderResponse extends Response {
     private OrderDiscount student;
     private OrderRefund orderRefound;
     private Long timeLeft;
+    private Long dayLeft;
 
     public OrderInfo getOrderInfo() {
         return orderInfo;
@@ -103,6 +104,21 @@ public class GetOrderResponse extends Response {
      */
     public void setTimeLeft(Long timeLeft) {
         this.timeLeft = timeLeft;
+    }
+
+    /**
+     * @return the dayLeft
+     */
+    public Long getDayLeft() {
+        return dayLeft;
+    }
+
+    /**
+     * @param dayLeft
+     *            the dayLeft to set
+     */
+    public void setDayLeft(Long dayLeft) {
+        this.dayLeft = dayLeft;
     }
 
 }

@@ -18,6 +18,8 @@ import org.springframework.util.CollectionUtils;
 
 import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.order.OrderBiz;
+import com.buterfleoge.whale.biz.order.OrderDiscountBiz;
+import com.buterfleoge.whale.dao.AccountInfoRepository;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.OrderRefoundRepository;
@@ -25,11 +27,13 @@ import com.buterfleoge.whale.dao.OrderTravellersRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
 import com.buterfleoge.whale.type.DiscountType;
-import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.OrderStatusCategory;
 import com.buterfleoge.whale.type.RefundStatus;
+import com.buterfleoge.whale.type.entity.AccountInfo;
+import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.OrderInfo;
+import com.buterfleoge.whale.type.entity.OrderRefund;
 import com.buterfleoge.whale.type.entity.OrderTravellers;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
@@ -82,6 +86,12 @@ public class OrderBizImpl implements OrderBiz {
     @Autowired
     private OrderRefoundRepository orderRefoundRepository;
 
+    @Autowired
+    private AccountInfoRepository accountInfoRepository;
+
+    @Autowired
+    private OrderDiscountBiz orderDiscountBiz;
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void getOrder(Long accountid, OrderRequest request, GetOrderResponse response) throws Exception {
@@ -102,21 +112,28 @@ public class OrderBizImpl implements OrderBiz {
 
         Long routeid = orderInfo.getRouteid();
         Long groupid = orderInfo.getGroupid();
+
         try {
+            TravelGroup travelGroup = travelGroupRepository.findOne(groupid);
             response.setTravelRoute(travelRouteRepository.findOne(routeid));
-            response.setTravelGroup(travelGroupRepository.findOne(groupid));
+            response.setTravelGroup(travelGroup);
             response.setOrderTravellers(orderTravellersRepository.findByOrderidAndAccountid(orderid, accountid));
-            response.setPolicy(orderDiscountRepository.findByOrderidAndTypeIn(orderid, DiscountType.getDiscountPolicy()));
-            response.setCode(orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.COUPON.value));
-            response.setStudent(orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.STUDENT.value));
+
+            List<OrderDiscount> discounts = orderDiscountRepository.findByOrderid(orderid);
+            if (!CollectionUtils.isEmpty(discounts)) {
+                response.setPolicy(orderDiscountBiz.filterDiscounts(discounts, DiscountType.getDiscountPolicy()));
+                response.setCode(orderDiscountBiz.filterDiscounts(discounts, DiscountType.COUPON.value));
+                response.setStudent(orderDiscountBiz.filterDiscounts(discounts, DiscountType.STUDENT.value));
+            }
             response.setOrderRefound(orderRefoundRepository.findByOrderidAndStatusIn(orderid, CONFIRM));
+            response.setTimeLeft(orderInfo.getTimeLeft());
+            response.setDayLeft(travelGroup.getDayLeft());
+            response.setStatus(Status.OK);
         } catch (Exception e) {
             LOG.error("find order info detail failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
             return;
         }
-        response.setTimeLeft(orderInfo.getTimeLeft());
-        response.setStatus(Status.OK);
     }
 
     @Override
@@ -133,17 +150,21 @@ public class OrderBizImpl implements OrderBiz {
         if (CollectionUtils.isEmpty(orderInfos)) {
             return;
         }
-        List<BriefOrder> briefOrders = new ArrayList<BriefOrder>(orderInfos.size());
+        Set<Long> orderids = getOrderids(orderInfos);
         Map<Long, TravelRoute> routes = getRoutes(orderInfos, reqid);
         Map<Long, TravelGroup> groups = getGroups(orderInfos, reqid);
+        List<OrderDiscount> discounts = getOrderDiscounts(reqid, orderids);
+        Map<Long, OrderRefund> orderRefounds = getOrderRefund(orderids, reqid);
 
+        List<BriefOrder> briefOrders = new ArrayList<BriefOrder>(orderInfos.size());
         for (OrderInfo orderInfo : orderInfos) {
             try {
                 orderInfo = changeOrderInfoStatusIfTimeout(orderInfo);
                 if (statusSet.contains(orderInfo.getStatus())) {
                     TravelRoute travelRoute = routes.get(orderInfo.getRouteid());
                     TravelGroup travelGroup = groups.get(orderInfo.getGroupid());
-                    briefOrders.add(createBriefOrder(orderInfo, travelRoute, travelGroup, reqid));
+                    OrderRefund orderRefund = orderRefounds.get(orderInfo.getOrderid());
+                    briefOrders.add(createBriefOrder(orderInfo, travelRoute, travelGroup, discounts, orderRefund, reqid));
                 }
             } catch (Exception e) {
                 LOG.error("create brief order failed, reqid: " + reqid, e);
@@ -188,11 +209,28 @@ public class OrderBizImpl implements OrderBiz {
         }
     }
 
+    private List<OrderDiscount> getOrderDiscounts(String reqid, Set<Long> orderids) {
+        try {
+            return orderDiscountRepository.findByOrderidIn(orderids);
+        } catch (Exception e) {
+            LOG.error("find order discount by orderids failed, reqid: " + reqid, e);
+            return Collections.emptyList();
+        }
+    }
+
+    private Set<Long> getOrderids(List<OrderInfo> orderInfos) {
+        Set<Long> orderids = new HashSet<Long>(orderInfos.size());
+        for (OrderInfo orderInfo : orderInfos) {
+            orderids.add(orderInfo.getOrderid());
+        }
+        return orderids;
+    }
+
     private Map<Long, TravelRoute> getRoutes(List<OrderInfo> orderInfos, String reqid) {
         try {
             Set<Long> routeids = getRouteids(orderInfos);
             Iterable<TravelRoute> routes = travelRouteRepository.findAll(routeids);
-            Map<Long, TravelRoute> routeMap = new HashMap<Long, TravelRoute>();
+            Map<Long, TravelRoute> routeMap = new HashMap<Long, TravelRoute>(routeids.size());
             for (TravelRoute travelRoute : routes) {
                 routeMap.put(travelRoute.getRouteid(), travelRoute);
             }
@@ -215,7 +253,7 @@ public class OrderBizImpl implements OrderBiz {
         try {
             Set<Long> groupids = getGroupids(orderInfos);
             Iterable<TravelGroup> groups = travelGroupRepository.findAll(groupids);
-            Map<Long, TravelGroup> groupMap = new HashMap<Long, TravelGroup>();
+            Map<Long, TravelGroup> groupMap = new HashMap<Long, TravelGroup>(groupids.size());
             for (TravelGroup travelGroup : groups) {
                 groupMap.put(travelGroup.getGroupid(), travelGroup);
             }
@@ -234,28 +272,37 @@ public class OrderBizImpl implements OrderBiz {
         return groupids;
     }
 
-    private BriefOrder createBriefOrder(OrderInfo orderInfo, TravelRoute travelRoute, TravelGroup travelGroup, String reqid) {
+    private Map<Long, OrderRefund> getOrderRefund(Set<Long> orderids, String reqid) {
+        try {
+            Iterable<OrderRefund> orderRefunds = orderRefoundRepository.findByOrderidIn(orderids);
+            Map<Long, OrderRefund> refundMap = new HashMap<Long, OrderRefund>(orderids.size());
+            for (OrderRefund refund : orderRefunds) {
+                refundMap.put(refund.getOrderid(), refund);
+            }
+            return refundMap;
+        } catch (Exception e) {
+            LOG.error("find order refunds failed, reqid: " + reqid, e);
+            return Collections.emptyMap();
+        }
+    }
+
+    private BriefOrder createBriefOrder(OrderInfo orderInfo, TravelRoute travelRoute, TravelGroup travelGroup,
+            List<OrderDiscount> discounts, OrderRefund orderRefund, String reqid) {
+        Long orderid = orderInfo.getOrderid();
         BriefOrder briefOrder = new BriefOrder();
-        briefOrder.setOrderid(orderInfo.getOrderid());
-        briefOrder.setStatus(orderInfo.getStatus());
-        briefOrder.setActualPrice(orderInfo.getActualPrice());
-        if (orderInfo.getStatus() == OrderStatus.WAITING.value) {
-            briefOrder.setTimeLeft(orderInfo.getTimeLeft());
+        briefOrder.setOrderInfo(orderInfo);
+        briefOrder.setTravelRoute(travelRoute);
+        briefOrder.setTravelGroup(travelGroup);
+        if (!CollectionUtils.isEmpty(discounts)) {
+            briefOrder.setPolicy(orderDiscountBiz.filterDiscounts(discounts, orderid, DiscountType.getDiscountPolicy()));
+            briefOrder.setCode(orderDiscountBiz.filterDiscounts(discounts, orderid, DiscountType.COUPON.value));
+            briefOrder.setStudent(orderDiscountBiz.filterDiscounts(discounts, orderid, DiscountType.STUDENT.value));
         }
+        briefOrder.setOrderRefound(orderRefund);
+        briefOrder.setTimeLeft(orderInfo.getTimeLeft());
+        briefOrder.setDayLeft(travelGroup.getDayLeft());
         briefOrder.setTravellerNames(getOrderTravellersNames(orderInfo, reqid));
-
-        briefOrder.setRouteid(travelRoute.getRouteid());
-        briefOrder.setName(travelRoute.getName());
-        briefOrder.setTitle(travelRoute.getTitle());
-        briefOrder.setHeadImg(travelRoute.getHeadImg());
-
-        briefOrder.setPrice(travelGroup.getPrice());
-        briefOrder.setStartDate(travelGroup.getStartDate());
-        briefOrder.setEndDate(travelGroup.getEndDate());
-        briefOrder.setWxQrCode(travelGroup.getWxQrcode());
-        if (travelGroup.getStatus() == GroupStatus.OPEN.value || travelGroup.getStatus() == GroupStatus.FULL.value) {
-            briefOrder.setDayLeft(travelGroup.getDayLeft());
-        }
+        briefOrder.setOtherTravellers(getOtherTravellers(orderInfo, reqid));
         return briefOrder;
     }
 
@@ -271,6 +318,43 @@ public class OrderBizImpl implements OrderBiz {
             LOG.error("find order travellers failed, reqid: " + reqid, e);
             return Collections.emptySet();
         }
+    }
+
+    private Set<AccountInfo> getOtherTravellers(OrderInfo orderInfo, String reqid) {
+        Long routeid = orderInfo.getRouteid();
+        Long groupid = orderInfo.getGroupid();
+        List<OrderInfo> orderInfos = orderInfoRepository.findByRouteidAndGroupidAndStatusIn(routeid, groupid,
+                Collections.singleton(OrderStatus.PAID.value));
+        if (CollectionUtils.isEmpty(orderInfos)) {
+            return Collections.emptySet();
+        }
+        try {
+            Set<Long> accountids = getAccountids(orderInfos);
+            accountids.remove(orderInfo.getAccountid());
+            Iterable<AccountInfo> accounts = accountInfoRepository.findAll(accountids);
+            List<AccountInfo> otherTravellers = new ArrayList<AccountInfo>(accountids.size());
+            for (AccountInfo account : accounts) {
+                AccountInfo info = new AccountInfo(); // 避免其它信息泄露
+                info.setNickname(account.getNickname());
+                info.setAvatarUrl(account.getAvatarUrl());
+                otherTravellers.add(account);
+            }
+            if (otherTravellers.size() >= 5) {
+                otherTravellers = otherTravellers.subList(0, 6);
+            }
+            return new HashSet<AccountInfo>(otherTravellers);
+        } catch (Exception e) {
+            LOG.error("find travel route failed, reqid: " + reqid, e);
+            return Collections.emptySet();
+        }
+    }
+
+    private Set<Long> getAccountids(List<OrderInfo> orderInfos) {
+        Set<Long> accountids = new HashSet<Long>(orderInfos.size());
+        for (OrderInfo orderInfo : orderInfos) {
+            accountids.add(orderInfo.getAccountid());
+        }
+        return accountids;
     }
 
 }
