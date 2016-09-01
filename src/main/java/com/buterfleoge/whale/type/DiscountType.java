@@ -79,9 +79,9 @@ public class DiscountType extends EnumObject {
         POLICY.add(DiscountType.COUNT_3.value);
         POLICY.add(DiscountType.COUNT_4.value);
         POLICY.add(DiscountType.COUNT_5.value);
-        POLICY.add(DiscountType.ROUTE.value);
         POLICY.add(DiscountType.TIME_ORDER.value);
         POLICY.add(DiscountType.TIME_TRAVEL.value);
+        POLICY.add(DiscountType.ROUTE.value);
     }
 
     public static Set<Integer> getDiscountPolicy() {
