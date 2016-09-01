@@ -1,7 +1,10 @@
 package com.buterfleoge.whale.biz.order.impl;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.slf4j.Logger;
@@ -19,8 +22,10 @@ import com.buterfleoge.whale.biz.order.OrderDiscountBiz;
 import com.buterfleoge.whale.biz.order.impl.discount.DiscountStrategy;
 import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
+import com.buterfleoge.whale.type.DiscountCodeStatus;
 import com.buterfleoge.whale.type.entity.Discount;
 import com.buterfleoge.whale.type.entity.DiscountCode;
+import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.protocol.Error;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
@@ -44,6 +49,14 @@ public class OrderDiscountBizImpl extends ApplicationObjectSupport implements Or
     private DiscountCodeRepository discountCodeRepository;
 
     private List<DiscountStrategy> discountStrategies = new CopyOnWriteArrayList<DiscountStrategy>();
+
+    private Map<Integer, String> errMsgMap = new HashMap<Integer, String>();
+
+    {
+        errMsgMap.put(DiscountCodeStatus.OCCUPIED.value, ErrorMsg.DISCOUNT_CODE_OCCUPIED);
+        errMsgMap.put(DiscountCodeStatus.TIMEOUT.value, ErrorMsg.DISCOUNT_CODE_TIMEOUT);
+        errMsgMap.put(DiscountCodeStatus.USED.value, ErrorMsg.DISCOUNT_CODE_USED);
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -92,29 +105,56 @@ public class OrderDiscountBizImpl extends ApplicationObjectSupport implements Or
             response.addError(new Error(BizCode.DISCOUNT_CODE_NOT_EXIST, ErrorMsg.DISCOUNT_CODE_NOT_EXIST));
             return;
         }
-        // FIXME
-        // switch (discountCode.getStatus().getValue()) {
-        // case CREATED:
-        // discountCode.setStatus(DiscountCodeStatus.VERIFIED);
-        // discountCodeRepository.save(discountCode);
-        // response.setValue(discountCode.getValue());
-        // break;
-        // case VERIFIED:
-        // response.setValue(discountCode.getValue());
-        // break;
-        // case OCCUPIED:
-        // response.setStatus(Status.BIZ_ERROR);
-        // response.addError(new Error(ErrorMsg.DISCOUNT_CODE_OCCUPIED));
-        // break;
-        // case TIMEOUT:
-        // response.setStatus(Status.BIZ_ERROR);
-        // response.addError(new Error(ErrorMsg.DISCOUNT_CODE_TIMEOUT));
-        // break;
-        // case USED:
-        // response.setStatus(Status.BIZ_ERROR);
-        // response.addError(new Error(ErrorMsg.DISCOUNT_CODE_USED));
-        // break;
-        // }
+        if (discountCode.getStatus() != DiscountCodeStatus.CREATED.value && discountCode.getStatus() != DiscountCodeStatus.VERIFIED.value) {
+            response.setStatus(Status.BIZ_ERROR);
+            response.addError(new Error(errMsgMap.get(discountCode.getStatus())));
+            return;
+        }
+        if (discountCode.getStatus() == DiscountCodeStatus.CREATED.value) {
+            discountCode.setStatus(DiscountCodeStatus.VERIFIED.value);
+            discountCodeRepository.save(discountCode);
+        }
+        response.setValue(discountCode.getValue());
+    }
+
+    @Override
+    public OrderDiscount filterDiscounts(List<OrderDiscount> orderDiscounts, int type) {
+        for (OrderDiscount orderDiscount : orderDiscounts) {
+            if (orderDiscount.getType() == type) {
+                return orderDiscount;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public OrderDiscount filterDiscounts(List<OrderDiscount> orderDiscounts, Long orderid, int type) {
+        for (OrderDiscount orderDiscount : orderDiscounts) {
+            if (orderid.equals(orderDiscount.getOrderid()) && orderDiscount.getType() == type) {
+                return orderDiscount;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public OrderDiscount filterDiscounts(List<OrderDiscount> orderDiscounts, Set<Integer> types) {
+        for (OrderDiscount orderDiscount : orderDiscounts) {
+            if (types.contains(orderDiscount.getType())) {
+                return orderDiscount;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public OrderDiscount filterDiscounts(List<OrderDiscount> orderDiscounts, Long orderid, Set<Integer> types) {
+        for (OrderDiscount orderDiscount : orderDiscounts) {
+            if (orderid.equals(orderDiscount.getOrderid()) && types.contains(orderDiscount.getType())) {
+                return orderDiscount;
+            }
+        }
+        return null;
     }
 
 }

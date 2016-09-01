@@ -18,6 +18,7 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
+import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
@@ -88,8 +89,12 @@ public class TravelGroup extends BaseObject {
      * @return dayLeft
      */
     public long getDayLeft() {
-        long daycount = getStartDate().getTime() - System.currentTimeMillis();
-        return daycount / DateUtils.MILLIS_PER_DAY + (daycount % DateUtils.MILLIS_PER_DAY == 0 ? 0 : 1);
+        if (getStatus() == GroupStatus.OPEN.value || getStatus() == GroupStatus.FULL.value) {
+            long daycount = getStartDate().getTime() - System.currentTimeMillis();
+            return daycount / DateUtils.MILLIS_PER_DAY + (daycount % DateUtils.MILLIS_PER_DAY == 0 ? 0 : 1);
+        } else {
+            return 0L;
+        }
     }
 
     public Long getGroupid() {

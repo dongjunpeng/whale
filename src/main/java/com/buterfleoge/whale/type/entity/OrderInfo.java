@@ -18,6 +18,7 @@ import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
+import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
@@ -88,8 +89,8 @@ public class OrderInfo extends BaseObject {
      * @return timeLeft
      */
     public long getTimeLeft() {
-        Date modTime = getModTime();
-        return modTime != null ? (DateUtils.addHours(modTime, 2).getTime() - System.currentTimeMillis()) / DateUtils.MILLIS_PER_SECOND : 0L;
+        return getStatus() != OrderStatus.WAITING.value || createTime == null ? 0L
+                : (DateUtils.addHours(createTime, 2).getTime() - System.currentTimeMillis()) / DateUtils.MILLIS_PER_SECOND;
     }
 
     /**
