@@ -37,7 +37,7 @@ public class BriefOrder implements Comparable<BriefOrder> {
     public int compareTo(BriefOrder arg0) {
         int status = getOrderInfo().getStatus();
         int status0 = arg0.getOrderInfo().getStatus();
-        return status != status0 ? status - status0 : (int) (getOrderInfo().getOrderid() - arg0.getOrderInfo().getOrderid());
+        return status != status0 ? status - status0 : (int) (arg0.getOrderInfo().getOrderid() - getOrderInfo().getOrderid());
     }
 
     /**

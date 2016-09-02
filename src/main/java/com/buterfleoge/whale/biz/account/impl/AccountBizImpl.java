@@ -171,8 +171,7 @@ public class AccountBizImpl implements AccountBiz {
             contact.setId(request.getId());
             contact.setIdType(request.getIdType());
             contact.setBirthday(request.getBirthday());
-            contact.setEmergencyContact(request.getEmergencyContact());
-            contact.setEmergencyMobile(request.getEmergencyMobile());
+            contact.setEmergency(request.getEmergency());
             contact.setGender(request.getGender());
             contact.setAddTime(new Date());
             contact.setModTime(contact.getAddTime());
@@ -194,8 +193,7 @@ public class AccountBizImpl implements AccountBiz {
         Integer gender = request.getGender();
         Date birthday = request.getBirthday();
         String address = request.getAddress();
-        String emergencyContact = request.getEmergencyContact();
-        String emergencyMobile = request.getEmergencyMobile();
+        Boolean emergency = request.getEmergency();
         boolean isNeedSave = false;
         if (StringUtils.hasText(name) && !name.equals(contact.getName())) {
             contact.setName(name);
@@ -226,12 +224,8 @@ public class AccountBizImpl implements AccountBiz {
             contact.setAddress(address);
             isNeedSave = true;
         }
-        if (StringUtils.hasText(emergencyContact) && !emergencyContact.equals(contact.getEmergencyContact())) {
-            contact.setEmergencyContact(emergencyContact);
-            isNeedSave = true;
-        }
-        if (StringUtils.hasText(emergencyMobile) && !emergencyMobile.equals(contact.getEmergencyMobile())) {
-            contact.setEmergencyMobile(emergencyMobile);
+        if (emergency != null && !emergency.equals(contact.getEmergency())) {
+            contact.setEmergency(emergency);
             isNeedSave = true;
         }
         if (isNeedSave) {

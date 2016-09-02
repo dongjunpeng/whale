@@ -33,9 +33,7 @@ public class PostContactsRequest extends Request {
 
     private String address;
 
-    private String emergencyContact;
-
-    private String emergencyMobile;
+    private Boolean emergency;
 
     /**
      * @return the contactid
@@ -164,31 +162,18 @@ public class PostContactsRequest extends Request {
     }
 
     /**
-     * @return the emergencyContact
+     * @return the emergency
      */
-    public String getEmergencyContact() {
-        return emergencyContact;
+    public Boolean getEmergency() {
+        return emergency;
     }
 
     /**
-     * @param emergencyContact the emergencyContact to set
+     * @param emergency
+     *            the emergency to set
      */
-    public void setEmergencyContact(String emergencyContact) {
-        this.emergencyContact = emergencyContact;
-    }
-
-    /**
-     * @return the emergencyMobile
-     */
-    public String getEmergencyMobile() {
-        return emergencyMobile;
-    }
-
-    /**
-     * @param emergencyMobile the emergencyMobile to set
-     */
-    public void setEmergencyMobile(String emergencyMobile) {
-        this.emergencyMobile = emergencyMobile;
+    public void setEmergency(Boolean emergency) {
+        this.emergency = emergency;
     }
 
 }
