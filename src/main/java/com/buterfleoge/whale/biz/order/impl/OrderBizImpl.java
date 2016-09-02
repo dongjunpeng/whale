@@ -175,8 +175,9 @@ public class OrderBizImpl implements OrderBiz {
         response.setBriefOrders(briefOrders);
     }
 
+    @Override
     @Transactional(rollbackFor = Exception.class)
-    public OrderInfo changeOrderInfoStatusIfTimeout(OrderInfo orderInfo) {
+    public OrderInfo changeOrderInfoStatusIfTimeout(OrderInfo orderInfo) throws Exception {
         Integer status = orderInfo.getStatus();
         if (status == OrderStatus.NEW.value || status == OrderStatus.WAITING.value || status == OrderStatus.PAYING.value) {
             if (DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() < System.currentTimeMillis()) {

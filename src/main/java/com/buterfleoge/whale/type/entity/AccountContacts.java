@@ -63,11 +63,11 @@ public class AccountContacts extends BaseObject {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "emergency_contact")
-    private String emergencyContact;
-
-    @Column(name = "emergency_mobile")
-    private String emergencyMobile;
+    /**
+     * 是否是紧急联系人，0，不是，1是
+     */
+    @Column(name = "emergency")
+    private Boolean emergency;
 
     @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "add_time")
@@ -234,31 +234,18 @@ public class AccountContacts extends BaseObject {
     }
 
     /**
-     * @return the emergencyContact
+     * @return the emergency
      */
-    public String getEmergencyContact() {
-        return emergencyContact;
+    public Boolean getEmergency() {
+        return emergency;
     }
 
     /**
-     * @param emergencyContact the emergencyContact to set
+     * @param emergency
+     *            the emergency to set
      */
-    public void setEmergencyContact(String emergencyContact) {
-        this.emergencyContact = emergencyContact;
-    }
-
-    /**
-     * @return the emergencyMobile
-     */
-    public String getEmergencyMobile() {
-        return emergencyMobile;
-    }
-
-    /**
-     * @param emergencyMobile the emergencyMobile to set
-     */
-    public void setEmergencyMobile(String emergencyMobile) {
-        this.emergencyMobile = emergencyMobile;
+    public void setEmergency(Boolean emergency) {
+        this.emergency = emergency;
     }
 
     /**

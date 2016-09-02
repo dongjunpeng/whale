@@ -33,6 +33,10 @@ public class CreateOrderRequest extends OrderRequest {
     @NumberFormat(style = Style.CURRENCY)
     private BigDecimal actualPrice;
 
+    private String emergencyContact;
+
+    private String emergencyMobile;
+
     public List<OrderTravellers> getTravellers() {
         return travellers;
     }
@@ -79,6 +83,36 @@ public class CreateOrderRequest extends OrderRequest {
 
     public void setActualPrice(BigDecimal actualPrice) {
         this.actualPrice = actualPrice;
+    }
+
+    /**
+     * @return the emergencyContact
+     */
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    /**
+     * @param emergencyContact
+     *            the emergencyContact to set
+     */
+    public void setEmergencyContact(String emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
+
+    /**
+     * @return the emergencyMobile
+     */
+    public String getEmergencyMobile() {
+        return emergencyMobile;
+    }
+
+    /**
+     * @param emergencyMobile
+     *            the emergencyMobile to set
+     */
+    public void setEmergencyMobile(String emergencyMobile) {
+        this.emergencyMobile = emergencyMobile;
     }
 
 }

@@ -68,6 +68,12 @@ public class OrderInfo extends BaseObject {
     @Column(name = "is_agreed")
     private Boolean isAgreed;
 
+    @Column(name = "emergency_contact")
+    private String emergencyContact;
+
+    @Column(name = "emergency_mobile")
+    private String emergencyMobile;
+
     @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
@@ -241,6 +247,36 @@ public class OrderInfo extends BaseObject {
      */
     public void setIsAgreed(Boolean isAgreed) {
         this.isAgreed = isAgreed;
+    }
+
+    /**
+     * @return the emergencyContact
+     */
+    public String getEmergencyContact() {
+        return emergencyContact;
+    }
+
+    /**
+     * @param emergencyContact
+     *            the emergencyContact to set
+     */
+    public void setEmergencyContact(String emergencyContact) {
+        this.emergencyContact = emergencyContact;
+    }
+
+    /**
+     * @return the emergencyMobile
+     */
+    public String getEmergencyMobile() {
+        return emergencyMobile;
+    }
+
+    /**
+     * @param emergencyMobile
+     *            the emergencyMobile to set
+     */
+    public void setEmergencyMobile(String emergencyMobile) {
+        this.emergencyMobile = emergencyMobile;
     }
 
     /**
