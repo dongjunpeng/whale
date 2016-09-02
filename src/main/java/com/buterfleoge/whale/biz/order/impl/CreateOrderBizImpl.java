@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.order.CreateOrderBiz;
+import com.buterfleoge.whale.biz.order.OrderBiz;
 import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.dao.DiscountRepository;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
@@ -65,14 +66,20 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
     @Autowired
     private DiscountCodeRepository discountCodeRepository;
 
+    @Autowired
+    private OrderBiz orderBiz;
+
     @Override
     public void newOrder(Long accountid, NewOrderRequest request, NewOrderResponse response) throws Exception {
         try {
             OrderInfo orderInfo = orderInfoRepository.findByAccountidAndRouteidAndGroupidAndStatusIn(accountid,
                     request.getRouteid(), request.getGroupid(), OrderStatusCategory.NO_ALLOW_NEW.getOrderStatuses());
             if (orderInfo != null) {
-                response.setOrderid(orderInfo.getOrderid());
-                return;
+                orderInfo = orderBiz.changeOrderInfoStatusIfTimeout(orderInfo);
+                if (orderInfo.getStatus() != OrderStatus.TIMEOUT.value) {
+                    response.setOrderid(orderInfo.getOrderid());
+                    return;
+                }
             }
         } catch (Exception e) {
             LOG.error("find order info failed, reqid: " + request.getReqid(), e);
@@ -116,6 +123,8 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         orderInfo.setPrice(group.getPrice().multiply(BigDecimal.valueOf(count)));
         orderInfo.setActualPrice(request.getActualPrice());
         orderInfo.setIsAgreed(Boolean.TRUE);
+        orderInfo.setEmergencyContact(request.getEmergencyContact());
+        orderInfo.setEmergencyMobile(request.getEmergencyMobile());
         orderInfo.setCreateTime(now);
         orderInfo.setModTime(now);
 
