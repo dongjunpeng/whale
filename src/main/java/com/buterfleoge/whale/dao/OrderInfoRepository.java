@@ -1,5 +1,6 @@
 package com.buterfleoge.whale.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -23,5 +24,7 @@ public interface OrderInfoRepository extends CrudRepository<OrderInfo, Long> {
     List<OrderInfo> findByAccountidAndStatusIn(Long accountid, Set<Integer> status);
 
     List<OrderInfo> findByRouteidAndGroupidAndStatusIn(Long routeid, Long groupid, Set<Integer> status);
+
+    List<OrderInfo> findByStatusInAndAddTimeLessThan(Set<Integer> status, Date currentMinusTwoHour);
 
 }
