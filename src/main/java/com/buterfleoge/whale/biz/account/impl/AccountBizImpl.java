@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.biz.account.impl;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -14,13 +15,17 @@ import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.account.AccountBiz;
 import com.buterfleoge.whale.dao.AccountContactsRepository;
 import com.buterfleoge.whale.dao.AccountInfoRepository;
+import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.type.AccountStatus;
 import com.buterfleoge.whale.type.entity.AccountContacts;
 import com.buterfleoge.whale.type.entity.AccountInfo;
+import com.buterfleoge.whale.type.entity.DiscountCode;
+import com.buterfleoge.whale.type.protocol.Request;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.account.DeleteContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsResponse;
+import com.buterfleoge.whale.type.protocol.account.GetDiscountCodeResponse;
 import com.buterfleoge.whale.type.protocol.account.PostBasicInfoRequest;
 import com.buterfleoge.whale.type.protocol.account.PostContactsRequest;
 
@@ -40,6 +45,9 @@ public class AccountBizImpl implements AccountBiz {
 
     @Autowired
     private AccountContactsRepository accountContactsRepository;
+
+    @Autowired
+    private DiscountCodeRepository discountCodeRepository;
 
     @Override
     public void updateBasicInfo(Long accountid, PostBasicInfoRequest request, Response response) throws Exception {
@@ -236,6 +244,17 @@ public class AccountBizImpl implements AccountBiz {
                 LOG.error("post contacts failed, reqid: " + request.getReqid(), e);
                 response.setStatus(Status.DB_ERROR);
             }
+        }
+    }
+
+    @Override
+    public void getDiscountCode(Long accoutid, Request request, GetDiscountCodeResponse response) throws Exception {
+        try {
+            response.setDiscountCodes(discountCodeRepository.findByAccountid(accoutid));
+        } catch (Exception e) {
+            LOG.error("find discount code failed, reqid: " + request.getReqid(), e);
+            response.setStatus(Status.DB_ERROR);
+            response.setDiscountCodes(Collections.<DiscountCode> emptyList());
         }
     }
 

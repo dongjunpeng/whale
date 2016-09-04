@@ -1,9 +1,11 @@
 package com.buterfleoge.whale.biz.account;
 
+import com.buterfleoge.whale.type.protocol.Request;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.account.DeleteContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsResponse;
+import com.buterfleoge.whale.type.protocol.account.GetDiscountCodeResponse;
 import com.buterfleoge.whale.type.protocol.account.PostBasicInfoRequest;
 import com.buterfleoge.whale.type.protocol.account.PostContactsRequest;
 
@@ -22,5 +24,7 @@ public interface AccountBiz {
     void postContacts(Long accountid, PostContactsRequest request, Response response) throws Exception;
 
     void deleteContacts(Long accountid, DeleteContactsRequest request, Response response) throws Exception;
+
+    void getDiscountCode(Long accoutid, Request request, GetDiscountCodeResponse response) throws Exception;
 
 }

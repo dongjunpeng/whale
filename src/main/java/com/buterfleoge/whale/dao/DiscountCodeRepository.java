@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.buterfleoge.whale.type.DiscountCodeStatus;
 import com.buterfleoge.whale.type.entity.DiscountCode;
 
 /**
@@ -18,6 +17,8 @@ public interface DiscountCodeRepository extends CrudRepository<DiscountCode, Lon
 
     DiscountCode findByAccountidAndDiscountCode(Long accountid, String code);
 
-    List<DiscountCode> findByStatusIn(Set<DiscountCodeStatus> status);
+    List<DiscountCode> findByAccountid(Long accountid);
+
+    List<DiscountCode> findByStatusIn(Set<Integer> status);
 
 }
