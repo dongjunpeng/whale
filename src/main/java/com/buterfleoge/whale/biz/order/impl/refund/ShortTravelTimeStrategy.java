@@ -17,15 +17,15 @@ public class ShortTravelTimeStrategy implements RefundStrategy {
 
     @Override
     public RefundType getRefundType(OrderInfo orderInfo, TravelRoute travelRoute, TravelGroup travelGroup) {
-        long timeLeft = travelGroup.getEndDate().getTime() - System.currentTimeMillis();
+        long timeLeft = travelGroup.getStartDate().getTime() - System.currentTimeMillis();
         if (timeLeft >= DateUtils.MILLIS_PER_DAY * 7) {
             return RefundType.SHORT_PCT_100;
-        } else if (timeLeft >= DateUtils.MILLIS_PER_DAY * 4) {
+        } else if (timeLeft >= DateUtils.MILLIS_PER_DAY * 3) {
             return RefundType.SHORT_PCT_80;
-        } else if (timeLeft >= DateUtils.MILLIS_PER_DAY * 1) {
+        } else if (timeLeft >= DateUtils.MILLIS_PER_DAY * 0) {
             return RefundType.SHORT_PCT_50;
         } else {
-            return RefundType.LONG_PCT_20;
+            return RefundType.SHORT_PCT_20;
         }
     }
 
