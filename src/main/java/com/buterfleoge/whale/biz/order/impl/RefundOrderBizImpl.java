@@ -16,6 +16,7 @@ import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.OrderRefoundRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
+import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.RefundStatus;
 import com.buterfleoge.whale.type.RefundType;
@@ -107,6 +108,7 @@ public class RefundOrderBizImpl implements RefundOrderBiz {
         orderInfo.setStatus(OrderStatus.REFUNDING.value);
         orderInfoRepository.save(orderInfo);
 
+        travelGroup.setStatus(GroupStatus.OPEN.value);
         travelGroup.setActualCount(travelGroup.getActualCount() - orderInfo.getCount());
         travelGroupRepository.save(travelGroup);
     }

@@ -20,17 +20,21 @@ import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.order.OrderBiz;
 import com.buterfleoge.whale.biz.order.OrderDiscountBiz;
 import com.buterfleoge.whale.dao.AccountInfoRepository;
+import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.OrderRefoundRepository;
 import com.buterfleoge.whale.dao.OrderTravellersRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
+import com.buterfleoge.whale.type.DiscountCodeStatus;
 import com.buterfleoge.whale.type.DiscountType;
+import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.OrderStatusCategory;
 import com.buterfleoge.whale.type.RefundStatus;
 import com.buterfleoge.whale.type.entity.AccountInfo;
+import com.buterfleoge.whale.type.entity.DiscountCode;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderRefund;
@@ -73,6 +77,9 @@ public class OrderBizImpl implements OrderBiz {
 
     @Autowired
     private TravelGroupRepository travelGroupRepository;
+
+    @Autowired
+    private DiscountCodeRepository discountCodeRepository;
 
     @Autowired
     private OrderInfoRepository orderInfoRepository;
@@ -179,14 +186,23 @@ public class OrderBizImpl implements OrderBiz {
     @Transactional(rollbackFor = Exception.class)
     public OrderInfo changeOrderInfoStatusIfTimeout(OrderInfo orderInfo) throws Exception {
         Integer status = orderInfo.getStatus();
-        if (status == OrderStatus.NEW.value || status == OrderStatus.WAITING.value || status == OrderStatus.PAYING.value) {
-            if (DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() < System.currentTimeMillis()) {
-                orderInfo.setStatus(OrderStatus.TIMEOUT.value);
-                orderInfo = orderInfoRepository.save(orderInfo);
+        if (!OrderStatusCategory.NO_ALLOW_NEW.getOrderStatuses().contains(status)) {
+            return orderInfo;
+        }
+        if (DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() < System.currentTimeMillis()) {
+            orderInfo.setStatus(OrderStatus.TIMEOUT.value);
+            orderInfo = orderInfoRepository.save(orderInfo);
 
-                TravelGroup group = travelGroupRepository.findOne(orderInfo.getGroupid());
-                group.setActualCount(group.getActualCount() - orderInfo.getCount());
-                travelGroupRepository.save(group);
+            TravelGroup group = travelGroupRepository.findOne(orderInfo.getGroupid());
+            group.setStatus(GroupStatus.OPEN.value);
+            group.setActualCount(group.getActualCount() - orderInfo.getCount());
+            travelGroupRepository.save(group);
+
+            OrderDiscount orderDiscount = orderDiscountRepository.findByOrderidAndType(orderInfo.getOrderid(), DiscountType.COUPON.value);
+            if (orderDiscount != null) {
+                DiscountCode discountCode = discountCodeRepository.findByDiscountCode(orderDiscount.getDiscountCode());
+                discountCode.setStatus(DiscountCodeStatus.VERIFIED.value);
+                discountCodeRepository.save(discountCode);
             }
         }
         return orderInfo;
