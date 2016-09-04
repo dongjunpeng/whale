@@ -21,7 +21,8 @@ public class StudentDiscountStrategy extends DiscountStrategy {
             Long routeid = request.getRouteid();
             TravelRoute travelRoute = travelRouteRepository.findByRouteidAndVisibleTrue(routeid);
             if (travelRoute != null) {
-                response.setStudentDiscount(discountRepository.findByTypeAndRouteid(DiscountType.STUDENT.value, routeid));
+                response.setStudentDiscount(
+                        discountRepository.findByTypeAndRouteid(DiscountType.STUDENT.value, routeid));
             }
         } catch (Exception e) {
             LOG.error("find student discount type failed, reqid: " + request.getReqid(), e);
