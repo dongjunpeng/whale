@@ -12,8 +12,6 @@ import com.buterfleoge.whale.type.entity.OrderRefund;
  */
 public interface OrderRefoundRepository extends CrudRepository<OrderRefund, Long> {
 
-    OrderRefund findByOrderidAndStatusIn(Long orderid, Set<Integer> status);
-
     OrderRefund findByOrderid(Long orderid);
 
     Iterable<OrderRefund> findByOrderidIn(Set<Long> orderid);
