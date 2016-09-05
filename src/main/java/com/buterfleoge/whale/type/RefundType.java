@@ -59,6 +59,8 @@ public class RefundType extends EnumObject {
     public static final EnumObjectHelper<RefundType> HELPER = EnumObjectHelper.create(LONG_PCT_95, LONG_PCT_80, LONG_PCT_50, LONG_PCT_20,
             SHORT_PCT_100, SHORT_PCT_80, SHORT_PCT_50, SHORT_PCT_20);
 
+    private static final BigDecimal HUNDRED_PERCENT = BigDecimal.ONE;
+
     private BigDecimal percent;
 
     private RefundType(int value, int percent) {
@@ -66,8 +68,19 @@ public class RefundType extends EnumObject {
         this.percent = BigDecimal.valueOf(percent / 100.00).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public BigDecimal getRefund(BigDecimal actualPrice) {
+    public BigDecimal getDeductPrice(BigDecimal actualPrice) {
+        return actualPrice.multiply(HUNDRED_PERCENT.subtract(percent));
+    }
+
+    public BigDecimal getRefundPrice(BigDecimal actualPrice) {
         return actualPrice.multiply(percent);
+    }
+
+    /**
+     * @return the percent
+     */
+    public BigDecimal getPercent() {
+        return percent;
     }
 
 }

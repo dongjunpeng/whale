@@ -32,7 +32,6 @@ import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.OrderStatusCategory;
-import com.buterfleoge.whale.type.RefundStatus;
 import com.buterfleoge.whale.type.entity.AccountInfo;
 import com.buterfleoge.whale.type.entity.DiscountCode;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
@@ -55,22 +54,6 @@ import com.buterfleoge.whale.type.protocol.order.object.BriefOrder;
 public class OrderBizImpl implements OrderBiz {
 
     private static final Logger LOG = LoggerFactory.getLogger(OrderBizImpl.class);
-
-    // 领队头像
-    private static final Set<String> LEADERS = new HashSet<String>();
-
-    // 退款状态
-    private static final Set<Integer> CONFIRM = new HashSet<Integer>();
-
-    static {
-        // 领队头像
-        LEADERS.add("/imgs/1.jpg");
-        LEADERS.add("/imgs/2.jpg");
-
-        // 退款已确认状态
-        CONFIRM.add(RefundStatus.CONFIRMED.value);
-        CONFIRM.add(RefundStatus.REFOUNDED.value);
-    }
 
     @Autowired
     private TravelRouteRepository travelRouteRepository;
@@ -132,7 +115,7 @@ public class OrderBizImpl implements OrderBiz {
                 response.setCode(orderDiscountBiz.filterDiscounts(discounts, DiscountType.COUPON.value));
                 response.setStudent(orderDiscountBiz.filterDiscounts(discounts, DiscountType.STUDENT.value));
             }
-            response.setOrderRefound(orderRefoundRepository.findByOrderidAndStatusIn(orderid, CONFIRM));
+            response.setOrderRefound(orderRefoundRepository.findByOrderid(orderid));
             response.setTimeLeft(orderInfo.getTimeLeft());
             response.setDayLeft(travelGroup.getDayLeft());
             response.setStatus(Status.OK);
