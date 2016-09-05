@@ -27,6 +27,8 @@ import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 import com.buterfleoge.whale.type.protocol.Error;
 import com.buterfleoge.whale.type.protocol.Response;
+import com.buterfleoge.whale.type.protocol.order.GetRefundTypeResponse;
+import com.buterfleoge.whale.type.protocol.order.OrderRequest;
 import com.buterfleoge.whale.type.protocol.order.RefundOrderRequest;
 
 /**
@@ -54,9 +56,36 @@ public class RefundOrderBizImpl implements RefundOrderBiz {
     @Autowired
     private RefundStrategySelector refundStrategySelector;
 
+    @Override
+    public void getRefundType(Long accountid, OrderRequest request, GetRefundTypeResponse response) throws Exception {
+        Long orderid = request.getOrderid();
+        OrderInfo orderInfo = orderInfoRepository.findByOrderidAndAccountid(orderid, accountid);
+        if (orderInfo == null) {
+            response.setStatus(Status.PARAM_ERROR);
+            response.addError(new Error("订单不存在"));
+            return;
+        }
+
+        TravelGroup travelGroup = travelGroupRepository.findOne(orderInfo.getGroupid());
+        TravelRoute travelRoute = travelRouteRepository.findByRouteidAndVisibleTrue(orderInfo.getRouteid());
+
+        RefundType refundType = refundStrategySelector.getRefundType(orderInfo, travelRoute, travelGroup);
+        if (refundType == null) { // FIXME: 设置一个默认退款策略
+            response.setStatus(Status.BIZ_ERROR);
+            response.addError(new Error("没有合适的退款策略"));
+            return;
+        }
+
+        response.setActualPrice(orderInfo.getActualPrice());
+        response.setDayLeft(travelGroup.getDayLeft());
+        response.setType(refundType.value);
+        response.setDeductPrice(refundType.getDeductPrice(orderInfo.getActualPrice()));
+        response.setRefundPrice(refundType.getRefundPrice(orderInfo.getActualPrice()));
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void getRefundInfo(Long accountid, RefundOrderRequest request, Response response) throws Exception {
+    public void refundOrder(Long accountid, RefundOrderRequest request, Response response) throws Exception {
         Long orderid = request.getOrderid();
         OrderInfo orderInfo = orderInfoRepository.findByOrderidAndAccountid(orderid, accountid);
         if (orderInfo == null) {
@@ -100,7 +129,7 @@ public class RefundOrderBizImpl implements RefundOrderBiz {
         orderRefund.setOrderid(orderid);
         orderRefund.setStatus(RefundStatus.CREATED.value);
         orderRefund.setType(refundType.value);
-        orderRefund.setRefund(refundType.getRefund(orderInfo.getActualPrice()));
+        orderRefund.setRefund(refundType.getRefundPrice(orderInfo.getActualPrice()));
         orderRefund.setDesc(request.getDesc());
         orderRefund.setAddTime(now);
         orderRefund = orderRefoundRepository.save(orderRefund);

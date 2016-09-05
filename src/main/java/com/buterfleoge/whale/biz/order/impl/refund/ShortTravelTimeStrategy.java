@@ -22,7 +22,7 @@ public class ShortTravelTimeStrategy implements RefundStrategy {
             return RefundType.SHORT_PCT_100;
         } else if (timeLeft >= DateUtils.MILLIS_PER_DAY * 3) {
             return RefundType.SHORT_PCT_80;
-        } else if (timeLeft >= DateUtils.MILLIS_PER_DAY * 0) {
+        } else if (timeLeft >= 0) {
             return RefundType.SHORT_PCT_50;
         } else {
             return RefundType.SHORT_PCT_20;
