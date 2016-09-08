@@ -117,6 +117,26 @@
 			<groupId>com.sun.mail</groupId>
 			<artifactId>javax.mail</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.aspose</groupId>
+			<artifactId>aspose-words</artifactId>
+			<version>16.0.0</version>
+			<scope>system</scope>
+			<systemPath>/Users/xiezhenzong/Downloads/aspose-words-16/lib/aspose-words-16.7.0-jdk16.jar</systemPath>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox-app</artifactId>
+			<version>2.0.2</version>
+		</dependency>
 		<!-- test -->
 		<dependency>
 			<groupId>junit</groupId>

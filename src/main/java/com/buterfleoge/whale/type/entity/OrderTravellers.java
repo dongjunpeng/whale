@@ -21,7 +21,7 @@ import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
  *
  */
 @Entity(name = "order_travellers")
-public class OrderTravellers extends BaseObject {
+public class OrderTravellers extends BaseObject implements Comparable<OrderTravellers> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -71,6 +71,11 @@ public class OrderTravellers extends BaseObject {
 
     @Column(name = "roommate")
     private String roommate;
+
+    @Override
+    public int compareTo(OrderTravellers o) {
+        return accountid.equals(o.getAccountid()) ? contactid.compareTo(o.getContactid()) : accountid.compareTo(o.getAccountid());
+    }
 
     public Long getTravellerid() {
         return travellerid;
