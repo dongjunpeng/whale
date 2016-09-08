@@ -1,15 +1,21 @@
 package com.buterfleoge.whale;
 
+import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.Locale;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.number.CurrencyStyleFormatter;
+
+import com.buterfleoge.whale.type.entity.TravelGroup;
+import com.buterfleoge.whale.type.entity.TravelRoute;
 
 /**
  *
@@ -68,6 +74,34 @@ public abstract class Utils {
      */
     public static final String enumToString(Enum<?> enumObj) {
         return ReflectionToStringBuilder.toString(enumObj, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
+
+    /**
+     * 格式化价格
+     *
+     * @param price
+     *            price
+     * @return price
+     */
+    public static final String formatPrice(BigDecimal price) {
+        CurrencyStyleFormatter formatter = new CurrencyStyleFormatter();
+        formatter.setFractionDigits(0);
+        return formatter.print(price, Locale.CHINA);
+    }
+
+    /**
+     * 获取产品名称
+     *
+     * @param route
+     *            route
+     * @param group
+     *            group
+     * @return product
+     */
+    public static final String getProductName(TravelRoute route, TravelGroup group) {
+        StringBuilder subject = new StringBuilder(route.getName());
+        subject.append("(").append(group.getTitle()).append(")");
+        return subject.toString();
     }
 
     public static void main(String[] args) {
