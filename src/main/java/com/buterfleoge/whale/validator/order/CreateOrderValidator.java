@@ -116,7 +116,7 @@ public class CreateOrderValidator implements Validator {
         if (discountPolicy != null) {
             price = price.subtract(discountPolicy.getValue());
         }
-        if (studentDiscount != null) {
+        if (studentDiscount != null && studentCount > 0) {
             price = price.subtract(studentDiscount.getValue().multiply(BigDecimal.valueOf(studentCount)));
         }
         if (discountCode != null) {

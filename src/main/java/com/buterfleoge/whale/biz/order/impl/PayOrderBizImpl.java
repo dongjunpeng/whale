@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.buterfleoge.whale.Constants.Status;
+import com.buterfleoge.whale.Utils;
 import com.buterfleoge.whale.biz.order.PayOrderBiz;
 import com.buterfleoge.whale.dao.OrderAlipayRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
@@ -74,10 +75,8 @@ public class PayOrderBizImpl implements PayOrderBiz {
         order.setStatus(OrderStatus.PAYING.value);
         orderInfoRepository.save(order);
 
-        StringBuilder subject = new StringBuilder(route.getName());
-        subject.append("(").append(group.getTitle()).append(")");
-
-        String alipayForm = alipayService.createDirectPay(orderid, order.getActualPrice(), group.getPrice(), subject.toString());
+        String productName = Utils.getProductName(route, group);
+        String alipayForm = alipayService.createDirectPay(orderid, order.getActualPrice(), group.getPrice(), productName);
         response.setAlipayFrom(alipayForm);
     }
 
