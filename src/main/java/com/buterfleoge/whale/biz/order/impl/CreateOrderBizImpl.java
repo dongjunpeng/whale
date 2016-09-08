@@ -126,8 +126,8 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
     @Override
     public void newOrder(Long accountid, NewOrderRequest request, NewOrderResponse response) throws Exception {
         try {
-            OrderInfo orderInfo = orderInfoRepository.findByAccountidAndRouteidAndGroupidAndStatusIn(accountid, request.getRouteid(),
-                    request.getGroupid(), OrderStatusCategory.NO_ALLOW_NEW.getOrderStatuses());
+            OrderInfo orderInfo = orderInfoRepository.findByAccountidAndRouteidAndGroupidAndStatusIn(accountid,
+                    request.getRouteid(), request.getGroupid(), OrderStatusCategory.NO_ALLOW_NEW.getOrderStatuses());
             if (orderInfo != null) {
                 orderInfo = orderBiz.changeOrderInfoStatusIfTimeout(orderInfo);
                 if (orderInfo.getStatus() != OrderStatus.TIMEOUT.value) {
@@ -189,9 +189,11 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
 
         DiscountCode discountCode = discountCodeRepository.findByDiscountCode(request.getDiscountCode());
         OrderDiscount policyOrderDiscount = createPolicyOrderDiscount(orderid, request.getPolicyDiscountid(), now);
-        OrderDiscount studentOrderDiscount = createStudentOrderDiscount(orderid, request.getStudentDiscountid(), studentCount, now);
+        OrderDiscount studentOrderDiscount = createStudentOrderDiscount(orderid, request.getStudentDiscountid(),
+                studentCount, now);
         OrderDiscount codeOrderDiscount = createCodeOrderDiscount(orderid, request.getDiscountCode(), now);
-        List<OrderDiscount> discountList = getOrderDiscountList(policyOrderDiscount, studentOrderDiscount, codeOrderDiscount);
+        List<OrderDiscount> discountList = getOrderDiscountList(policyOrderDiscount, studentOrderDiscount,
+                codeOrderDiscount);
 
         try {
             orderInfoRepository.save(orderInfo);
@@ -246,9 +248,10 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         return policyOrderDiscount;
     }
 
-    private OrderDiscount createStudentOrderDiscount(Long orderid, Long sutdentDiscountid, int studentCount, Date addTime) {
+    private OrderDiscount createStudentOrderDiscount(Long orderid, Long studentDiscountid, int studentCount,
+            Date addTime) {
         OrderDiscount studentOrderDiscount = null;
-        Discount studentDiscount = discountRepository.findOne(sutdentDiscountid);
+        Discount studentDiscount = discountRepository.findOne(studentDiscountid);
         if (studentDiscount != null && studentCount > 0) {
             studentOrderDiscount = new OrderDiscount();
             studentOrderDiscount.setOrderid(orderid);
@@ -275,8 +278,8 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         return codeOrderDiscount;
     }
 
-    private List<OrderDiscount> getOrderDiscountList(OrderDiscount policyOrderDiscount, OrderDiscount studentOrderDiscount,
-            OrderDiscount codeOrderDiscount) {
+    private List<OrderDiscount> getOrderDiscountList(OrderDiscount policyOrderDiscount,
+            OrderDiscount studentOrderDiscount, OrderDiscount codeOrderDiscount) {
         List<OrderDiscount> discounts = new ArrayList<OrderDiscount>(3);
         if (policyOrderDiscount != null) {
             discounts.add(policyOrderDiscount);
@@ -290,8 +293,8 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         return discounts;
     }
 
-    private Map<String, String> createContractDataMapping(GetContractRequest request, OrderInfo orderInfo, TravelRoute route,
-            TravelGroup group) throws Exception {
+    private Map<String, String> createContractDataMapping(GetContractRequest request, OrderInfo orderInfo,
+            TravelRoute route, TravelGroup group) throws Exception {
         HashMap<String, String> contractDataMapping = new HashMap<String, String>();
         contractDataMapping.put("${travellers}", request.getTravellers());
         contractDataMapping.put("${groupName}", Utils.getProductName(route, group));
@@ -304,12 +307,14 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         contractDataMapping.put("${count}", String.valueOf(request.getCount()));
         contractDataMapping.put("${totalPrice}", Utils.formatPrice(request.getPrice()));
         contractDataMapping.put("${actualPrice}", Utils.formatPrice(request.getActualPrice()));
-        contractDataMapping.put("${currenttime}", DateFormatUtils.format(System.currentTimeMillis(), Pattern.DATE_TIME));
+        contractDataMapping.put("${currenttime}",
+                DateFormatUtils.format(System.currentTimeMillis(), Pattern.DATE_TIME));
         return contractDataMapping;
     }
 
     private String createContractPath(OrderInfo orderInfo, String suffix) {
-        String path = new StringBuilder(contractPath).append("contract_").append(orderInfo.getOrderid()).append(suffix).toString();
+        String path = new StringBuilder(contractPath).append("contract_").append(orderInfo.getOrderid()).append(suffix)
+                .toString();
         try {
             File file = new File(path);
             if (file.exists()) {
