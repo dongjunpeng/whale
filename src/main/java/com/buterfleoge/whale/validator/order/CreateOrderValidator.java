@@ -79,12 +79,7 @@ public class CreateOrderValidator implements Validator {
     private void validateTravellerCount(OrderInfo orderInfo, CreateOrderRequest request, Errors errors) throws Exception {
         int count = request.getTravellers().size();
         Response response = new Response();
-        int quota = travelBiz.getQuota(orderInfo.getGroupid(), request, response);
-        if (response.hasError() || quota < 0) {
-            errors.reject("人数错误");
-            return;
-        }
-        if (quota < count) {
+        if (!travelBiz.isGroupAvailable(orderInfo.getGroupid(), count, request, response)) {
             errors.reject(ErrorMsg.GROUP_QUOTA_FULL);
         }
     }

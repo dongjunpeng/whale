@@ -23,6 +23,7 @@ import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.travel.TravelBiz;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
+import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 import com.buterfleoge.whale.type.protocol.Error;
@@ -127,21 +128,15 @@ public class TravelBizImpl implements TravelBiz {
     }
 
     @Override
-    public int getQuota(Long groupid, Request request, Response response) {
-        try {
-            TravelGroup group = travelGroupRepository.findOne(groupid);
-            if (group != null) {
-                return group.getMaxCount() - group.getActualCount();
-            } else {
-                response.setStatus(Status.BIZ_ERROR);
-                response.addError(new Error(BizCode.GROUP_NOT_EXIST, ErrorMsg.GROUP_NOT_EXIST));
-                return -1;
-            }
-        } catch (Exception e) {
-            LOG.error("get group's quota failed, reqid: " + request.getReqid(), e);
-            response.setStatus(Status.DB_ERROR);
-            return -1;
-        }
+    public boolean isGroupAvailable(Long groupid, Request request, Response response) {
+        TravelGroup travelGroup = getTravelGroup(groupid, request, response);
+        return travelGroup != null && travelGroup.getStatus() == GroupStatus.OPEN.value;
+    }
+
+    @Override
+    public boolean isGroupAvailable(Long groupid, int count, Request request, Response response) {
+        boolean isAvailable = isGroupAvailable(groupid, request, response);
+        return isAvailable && getQuota(groupid, request, response) >= count;
     }
 
     private Imgtext getImgtextInJson(Long routeid) throws JsonParseException, JsonMappingException, IOException {
@@ -154,6 +149,26 @@ public class TravelBizImpl implements TravelBiz {
             return imgtext;
         } else {
             throw new RuntimeException("can't find json file, " + productRootPath + jsonPath);
+        }
+    }
+
+    private int getQuota(Long groupid, Request request, Response response) {
+        TravelGroup group = getTravelGroup(groupid, request, response);
+        return group != null ? group.getMaxCount() - group.getActualCount() : -1;
+    }
+
+    private TravelGroup getTravelGroup(Long groupid, Request request, Response response) {
+        try {
+            TravelGroup group = travelGroupRepository.findOne(groupid);
+            if (group == null) {
+                response.setStatus(Status.BIZ_ERROR);
+                response.addError(new Error(BizCode.GROUP_NOT_EXIST, ErrorMsg.GROUP_NOT_EXIST));
+            }
+            return group;
+        } catch (Exception e) {
+            LOG.error("get group's quota failed, reqid: " + request.getReqid(), e);
+            response.setStatus(Status.DB_ERROR);
+            return null;
         }
     }
 
