@@ -22,42 +22,42 @@ public class RefundType extends EnumObject {
     public static final RefundType LONG_PCT_95 = new RefundType(0, 95);
 
     /**
-     * 21天-15天退还80%
+     * 20天-8天退还80%
      */
     public static final RefundType LONG_PCT_80 = new RefundType(1, 80);
 
     /**
-     * 14天-8天退还80%
+     * 7天-1天退还50%
      */
     public static final RefundType LONG_PCT_50 = new RefundType(2, 50);
 
     /**
-     * 7天至未出行
+     * 集合日当天退20%
      */
     public static final RefundType LONG_PCT_20 = new RefundType(3, 20);
 
     /**
-     * 8天以上退100%
+     * 7天以上退100%
      */
     public static final RefundType SHORT_PCT_100 = new RefundType(4, 100);
 
     /**
-     * 7天-5天退80%
+     * 6天-4天退80%
      */
     public static final RefundType SHORT_PCT_80 = new RefundType(5, 80);
 
     /**
-     * 4天-2天退50%
+     * 3天-1天退50%
      */
     public static final RefundType SHORT_PCT_50 = new RefundType(6, 50);
 
     /**
-     * 1天至未出行退20%
+     * 出行日当天
      */
     public static final RefundType SHORT_PCT_20 = new RefundType(7, 20);
 
-    public static final EnumObjectHelper<RefundType> HELPER = EnumObjectHelper.create(LONG_PCT_95, LONG_PCT_80, LONG_PCT_50, LONG_PCT_20,
-            SHORT_PCT_100, SHORT_PCT_80, SHORT_PCT_50, SHORT_PCT_20);
+    public static final EnumObjectHelper<RefundType> HELPER = EnumObjectHelper.create(LONG_PCT_95, LONG_PCT_80,
+            LONG_PCT_50, LONG_PCT_20, SHORT_PCT_100, SHORT_PCT_80, SHORT_PCT_50, SHORT_PCT_20);
 
     private static final BigDecimal HUNDRED_PERCENT = BigDecimal.ONE;
 
