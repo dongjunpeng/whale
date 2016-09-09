@@ -261,6 +261,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         return policyOrderDiscount;
     }
 
+<<<<<<< HEAD
     private OrderDiscount createStudentOrderDiscount(Long orderid, Long sutdentDiscountid, int studentCount, Date addTime) {
         if (sutdentDiscountid == null || studentCount <= 0) {
             return null;
@@ -268,6 +269,13 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         OrderDiscount studentOrderDiscount = null;
         Discount studentDiscount = discountRepository.findOne(sutdentDiscountid);
         if (studentDiscount != null) {
+=======
+    private OrderDiscount createStudentOrderDiscount(Long orderid, Long studentDiscountid, int studentCount,
+            Date addTime) {
+        OrderDiscount studentOrderDiscount = null;
+        Discount studentDiscount = discountRepository.findOne(studentDiscountid);
+        if (studentDiscount != null && studentCount > 0) {
+>>>>>>> buterfleoge/master
             studentOrderDiscount = new OrderDiscount();
             studentOrderDiscount.setOrderid(orderid);
             studentOrderDiscount.setDiscountid(studentDiscount.getDiscountid());
