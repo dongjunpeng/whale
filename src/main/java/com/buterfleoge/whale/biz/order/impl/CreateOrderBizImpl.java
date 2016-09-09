@@ -145,7 +145,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
             response.setStatus(Status.DB_ERROR);
             return;
         }
-        if (travelBiz.isGroupAvailable(request.getGroupid(), request, response)) {
+        if (!travelBiz.isGroupAvailable(request.getGroupid(), request, response)) {
             response.setStatus(Status.BIZ_ERROR);
             response.addError(new Error("本团人数已经满，您可直接致电海逍遥进行咨询。"));
             return;
