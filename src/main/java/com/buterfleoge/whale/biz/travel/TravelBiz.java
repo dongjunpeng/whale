@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.buterfleoge.whale.biz.travel;
 
@@ -20,6 +20,8 @@ public interface TravelBiz {
 
     void getGroups(GetGroupRequest request, GetGroupResponse response) throws Exception;
 
-    int getQuota(Long groupid, Request request, Response response);
+    boolean isGroupAvailable(Long groupid, Request request, Response response);
+
+    boolean isGroupAvailable(Long groupid, int count, Request request, Response response);
 
 }

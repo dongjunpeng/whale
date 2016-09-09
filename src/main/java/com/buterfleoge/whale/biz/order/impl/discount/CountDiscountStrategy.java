@@ -20,7 +20,11 @@ public class CountDiscountStrategy extends DiscountStrategy {
     @Override
     public void handleDiscount(Long accountid, GetDiscountRequest request, GetDiscountResponse response) {
         try {
-            DiscountType countDiscountType = DiscountType.getDiscountByCount(request.getCount());
+            Integer count = request.getCount();
+            if (count == null || count <= 0) {
+                return;
+            }
+            DiscountType countDiscountType = DiscountType.getDiscountByCount(count);
             Date now = new Date();
             Discount countDiscount =
                     discountRepository.findByTypeAndStartTimeLessThanAndEndTimeGreaterThan(countDiscountType.value, now, now);

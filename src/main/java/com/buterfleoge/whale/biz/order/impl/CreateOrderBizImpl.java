@@ -44,6 +44,7 @@ import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.Utils;
 import com.buterfleoge.whale.biz.order.CreateOrderBiz;
 import com.buterfleoge.whale.biz.order.OrderBiz;
+import com.buterfleoge.whale.biz.travel.TravelBiz;
 import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.dao.DiscountRepository;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
@@ -63,6 +64,7 @@ import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderTravellers;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
+import com.buterfleoge.whale.type.protocol.Error;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.GetContractRequest;
@@ -102,6 +104,9 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
     @Autowired
     private OrderBiz orderBiz;
 
+    @Autowired
+    private TravelBiz travelBiz;
+
     @Value("${order.contractTemplatePath}")
     private String contractTemplatePath;
 
@@ -138,6 +143,11 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         } catch (Exception e) {
             LOG.error("find order info failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
+            return;
+        }
+        if (travelBiz.isGroupAvailable(request.getGroupid(), request, response)) {
+            response.setStatus(Status.BIZ_ERROR);
+            response.addError(new Error("本团人数已经满，您可直接致电海逍遥进行咨询。"));
             return;
         }
         OrderInfo orderInfo = new OrderInfo();
@@ -234,6 +244,9 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
     }
 
     private OrderDiscount createPolicyOrderDiscount(Long orderid, Long discountPolicyid, Date addTime) {
+        if (discountPolicyid == null || discountPolicyid <= 0) {
+            return null;
+        }
         OrderDiscount policyOrderDiscount = null;
         Discount policyDiscount = discountRepository.findOne(discountPolicyid);
         if (policyDiscount != null) {
@@ -248,11 +261,13 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         return policyOrderDiscount;
     }
 
-    private OrderDiscount createStudentOrderDiscount(Long orderid, Long studentDiscountid, int studentCount,
-            Date addTime) {
+    private OrderDiscount createStudentOrderDiscount(Long orderid, Long sutdentDiscountid, int studentCount, Date addTime) {
+        if (sutdentDiscountid == null || studentCount <= 0) {
+            return null;
+        }
         OrderDiscount studentOrderDiscount = null;
-        Discount studentDiscount = discountRepository.findOne(studentDiscountid);
-        if (studentDiscount != null && studentCount > 0) {
+        Discount studentDiscount = discountRepository.findOne(sutdentDiscountid);
+        if (studentDiscount != null) {
             studentOrderDiscount = new OrderDiscount();
             studentOrderDiscount.setOrderid(orderid);
             studentOrderDiscount.setDiscountid(studentDiscount.getDiscountid());
