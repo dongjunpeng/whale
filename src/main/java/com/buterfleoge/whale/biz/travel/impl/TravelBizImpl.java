@@ -109,15 +109,15 @@ public class TravelBizImpl implements TravelBiz {
             }
             if (routeid != null) {
                 groups = travelGroupRepository.findByRouteidAndEndDateGreaterThanOrderByStartDateAsc(routeid,
-                        DateUtils.addWeeks(new Date(), -1));
+                        DateUtils.addWeeks(new Date(), -4));
                 response.setGroups(groups);
                 return;
             }
             if (StringUtils.hasText(name)) {
                 TravelRoute route = travelRouteRepository.findByName(name);
                 if (route != null) {
-                    groups = travelGroupRepository.findByRouteidAndEndDateGreaterThanOrderByStartDateAsc(route.getRouteid(),
-                            DateUtils.addWeeks(new Date(), -1));
+                    groups = travelGroupRepository.findByRouteidAndEndDateGreaterThanOrderByStartDateAsc(
+                            route.getRouteid(), DateUtils.addWeeks(new Date(), -1));
                     response.setGroups(groups);
                 }
             }
