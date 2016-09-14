@@ -61,9 +61,6 @@ public class TravelGroup extends BaseObject {
     @Column(name = "status")
     private Integer status;
 
-    @Column(name = "real")
-    private Integer real;
-
     @Column(name = "min_count")
     private Integer minCount;
 
@@ -154,14 +151,6 @@ public class TravelGroup extends BaseObject {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Integer getReal() {
-        return real;
-    }
-
-    public void setReal(Integer real) {
-        this.real = real;
     }
 
     public Integer getMinCount() {
