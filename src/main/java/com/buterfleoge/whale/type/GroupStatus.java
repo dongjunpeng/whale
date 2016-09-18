@@ -21,9 +21,9 @@ public class GroupStatus extends EnumObject {
     public static final GroupStatus OPEN = new GroupStatus(1);
 
     /**
-     * 未成行关闭
+     * 暂停
      */
-    public static final GroupStatus CLOSE = new GroupStatus(2);
+    public static final GroupStatus STOP = new GroupStatus(2);
 
     /**
      * 满员
@@ -40,7 +40,7 @@ public class GroupStatus extends EnumObject {
      */
     public static final GroupStatus FINISHED = new GroupStatus(5);
 
-    public static final EnumObjectHelper<GroupStatus> HELPER = EnumObjectHelper.create(UNPUBLISHED, OPEN, CLOSE, FULL,
+    public static final EnumObjectHelper<GroupStatus> HELPER = EnumObjectHelper.create(UNPUBLISHED, OPEN, STOP, FULL,
             TRAVELLING, FINISHED);
 
     private GroupStatus(int value) {

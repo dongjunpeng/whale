@@ -381,6 +381,7 @@ CREATE TABLE `travel_group` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `price` bigint(20) NOT NULL DEFAULT '0' COMMENT '价格',
   `status` smallint(4) NOT NULL DEFAULT '0' COMMENT '发团状态:未发布,招募,成行,结束,取消',
+  `real` smallint(4) NOT NULL DEFAULT '0' COMMENT '发团状态:未发布,招募,成行,结束,取消',
   `max_count` smallint(4) NOT NULL DEFAULT '0' COMMENT '最大人数',
   `min_count` smallint(4) NOT NULL DEFAULT '0' COMMENT '最小人数',
   `actual_count` smallint(4) NOT NULL DEFAULT '0' COMMENT '实际人数',
