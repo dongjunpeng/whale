@@ -12,12 +12,12 @@ public class AlipayRefundStatusConverter implements AttributeConverter<AlipayRef
 
     @Override
     public Integer convertToDatabaseColumn(AlipayRefundStatus attribute) {
-        return attribute.getValue();
+        return attribute == null ? null : attribute.getValue();
     }
 
     @Override
     public AlipayRefundStatus convertToEntityAttribute(Integer dbData) {
-        return AlipayRefundStatus.value(dbData);
+        return dbData == null ? null : AlipayRefundStatus.value(dbData);
     }
 
 }
