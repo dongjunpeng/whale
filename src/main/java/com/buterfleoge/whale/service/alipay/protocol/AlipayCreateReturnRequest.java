@@ -4,7 +4,7 @@ package com.buterfleoge.whale.service.alipay.protocol;
  * @author xiezhenzong
  *
  */
-public class AlipayReturnRequest extends AlipayCallbackRequest {
+public class AlipayCreateReturnRequest extends AlipayCallbackRequest {
 
     public static final String SUCCESS_TAG = "T";
 

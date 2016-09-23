@@ -22,7 +22,7 @@ import com.buterfleoge.whale.service.AlipayService;
 import com.buterfleoge.whale.service.alipay.AlipayConfig;
 import com.buterfleoge.whale.service.alipay.protocol.AlipayCallbackRequest;
 import com.buterfleoge.whale.service.alipay.protocol.AlipayCreateNotifyRequest;
-import com.buterfleoge.whale.service.alipay.protocol.AlipayReturnRequest;
+import com.buterfleoge.whale.service.alipay.protocol.AlipayCreateReturnRequest;
 import com.buterfleoge.whale.type.AlipayRefundStatus;
 import com.buterfleoge.whale.type.AlipayTradeStatus;
 import com.buterfleoge.whale.type.OrderStatus;
@@ -82,7 +82,7 @@ public class PayOrderBizImpl implements PayOrderBiz {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void handlePayReturn(Long accountid, Map<String, String[]> paramsMap, AlipayReturnRequest request, Response response)
+    public void handlePayReturn(Long accountid, Map<String, String[]> paramsMap, AlipayCreateReturnRequest request, Response response)
             throws Exception {
         Long orderid = request.getOut_trade_no();
         OrderInfo orderInfo = orderInfoRepository.findByOrderidAndAccountid(orderid, accountid);

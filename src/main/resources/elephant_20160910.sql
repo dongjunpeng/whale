@@ -194,9 +194,9 @@ DROP TABLE IF EXISTS `order_alipay`;
 CREATE TABLE `order_alipay` (
   `alipayid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
   `orderid` bigint(20) NOT NULL COMMENT '订单id',
-  `trade_no` varchar(45) NOT NULL COMMENT '支付宝交易id',
+  `trade_no` varchar(255) NOT NULL COMMENT '支付宝交易id',
   `trade_status` smallint(4) NOT NULL COMMENT '交易状态',
-  `notify_id` varchar(45) NOT NULL COMMENT '支付宝通知id',
+  `notify_id` varchar(255) NOT NULL COMMENT '支付宝通知id',
   `notify_type` smallint(4) NOT NULL,
   `notify_time` bigint(20) NOT NULL,
   `total_fee` bigint(20) NOT NULL COMMENT '总金额',
@@ -207,11 +207,11 @@ CREATE TABLE `order_alipay` (
   `gmt_payment` bigint(20) DEFAULT NULL,
   `gmt_close` bigint(20) DEFAULT NULL,
   `refund_status` smallint(4) DEFAULT NULL,
-  `gmt_refund` varchar(45) DEFAULT NULL,
+  `gmt_refund` bigint(20) DEFAULT NULL,
   `add_time` bigint(20) NOT NULL COMMENT '添加时间',
   PRIMARY KEY (`alipayid`),
   UNIQUE KEY `alipayid_UNIQUE` (`alipayid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='支付宝支付信息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='支付宝支付信息表'
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
