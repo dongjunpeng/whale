@@ -1,7 +1,5 @@
 package com.buterfleoge.whale.service.alipay;
 
-import java.net.URLEncoder;
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -81,8 +79,8 @@ public class AlipayConfig implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         seller_id = partner;
-        notify_url = URLEncoder.encode(notify_url, "UTF-8");
-        return_url = URLEncoder.encode(return_url, "UTF-8");
+        // notify_url = URLEncoder.encode(notify_url, "UTF-8");
+        // return_url = URLEncoder.encode(return_url, "UTF-8");
     }
 
 }

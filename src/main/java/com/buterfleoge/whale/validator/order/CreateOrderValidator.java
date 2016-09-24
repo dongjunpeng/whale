@@ -65,6 +65,7 @@ public class CreateOrderValidator implements Validator {
                 throw new Exception("Can't find this order, orderid: " + request.getOrderid());
             }
             validateTravellerCount(orderInfo, request, errors);
+            validateActualPrice(orderInfo, request, errors);
             validateDiscountPolicy(orderInfo, request, errors);
         } catch (Exception e) {
             LOG.error("validate discount failed, reqid: " + request.getReqid(), e);
@@ -81,6 +82,12 @@ public class CreateOrderValidator implements Validator {
         Response response = new Response();
         if (!travelBiz.isGroupAvailable(orderInfo.getGroupid(), count, request, response)) {
             errors.reject(ErrorMsg.GROUP_QUOTA_FULL);
+        }
+    }
+
+    private void validateActualPrice(OrderInfo orderInfo, CreateOrderRequest request, Errors errors) throws Exception {
+        if (request.getActualPrice() == null || BigDecimal.ZERO.compareTo(request.getActualPrice()) >= 0) { // 如果比0小
+            errors.reject("金额有误！");
         }
     }
 
