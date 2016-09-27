@@ -100,7 +100,7 @@ public class OrderDiscountBizImpl extends ApplicationObjectSupport implements Or
             throws Exception {
         String code = request.getCode();
         DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);
-        if (discountCode == null) {
+        if (discountCode == null || (discountCode.getAccountid() != null && !discountCode.getAccountid().equals(accountid))) {
             response.setStatus(Status.BIZ_ERROR);
             response.addError(new Error(BizCode.DISCOUNT_CODE_NOT_EXIST, ErrorMsg.DISCOUNT_CODE_NOT_EXIST));
             return;
