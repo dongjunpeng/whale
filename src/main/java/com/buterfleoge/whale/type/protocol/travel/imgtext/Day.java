@@ -15,6 +15,7 @@ public class Day {
     @ImagePathFormat(prefix = Prefix.ROUTE, isComposite = true)
     private List<String> imgs;
     private List<String> descriptions;
+    private List<String> spots;
     private String mdtext;
     private String distance;
     private String altitude;
@@ -98,5 +99,13 @@ public class Day {
 
     public void setStar(String star) {
         this.star = star;
+    }
+
+    public List<String> getSpots() {
+        return spots;
+    }
+
+    public void setSpots(List<String> spots) {
+        this.spots = spots;
     }
 }
