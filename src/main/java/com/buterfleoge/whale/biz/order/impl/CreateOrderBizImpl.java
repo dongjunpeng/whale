@@ -323,7 +323,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         contractDataMapping.put("${totalPrice}", Utils.formatPrice(request.getPrice()));
         contractDataMapping.put("${actualPrice}", Utils.formatPrice(request.getActualPrice()));
         contractDataMapping.put("${currenttime}",
-                DateFormatUtils.format(System.currentTimeMillis(), Pattern.DATE_TIME));
+                DateFormatUtils.format(System.currentTimeMillis(), Pattern.DATE));
         return contractDataMapping;
     }
 

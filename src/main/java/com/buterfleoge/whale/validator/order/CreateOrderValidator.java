@@ -158,7 +158,7 @@ public class CreateOrderValidator implements Validator {
         String code = request.getDiscountCode();
         if (StringUtils.hasText(code)) {
             DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);
-            if (discountCode == null) {
+            if (discountCode == null || (discountCode.getAccountid() != null && !discountCode.getAccountid().equals(accountid))) {
                 throw new Exception("Invalid discount code.");
             }
             return discountCode;
