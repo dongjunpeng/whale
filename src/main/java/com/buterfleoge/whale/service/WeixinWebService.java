@@ -4,6 +4,7 @@
 package com.buterfleoge.whale.service;
 
 import com.buterfleoge.whale.service.weixin.protocol.WxAccessTokenResponse;
+import com.buterfleoge.whale.service.weixin.protocol.WxLoginScope;
 import com.buterfleoge.whale.service.weixin.protocol.WxUserinfoResponse;
 
 /**
@@ -12,7 +13,7 @@ import com.buterfleoge.whale.service.weixin.protocol.WxUserinfoResponse;
  */
 public interface WeixinWebService {
 
-    String getLoginUri(String state, String redirectUri);
+    String getLoginUri(String state, String redirectUri, WxLoginScope scope);
 
     WxAccessTokenResponse getAccessToken(String code);
 

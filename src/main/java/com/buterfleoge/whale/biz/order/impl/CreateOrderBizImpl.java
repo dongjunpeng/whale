@@ -213,7 +213,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
                 orderDiscountRepository.save(discountList);
             }
             if (discountCode != null) {
-                discountCode.setStatus(DiscountCodeStatus.OCCUPIED.value);
+                discountCode.setStatus(DiscountCodeStatus.USED.value);
                 discountCodeRepository.save(discountCode);
             }
         } catch (Exception e) {
