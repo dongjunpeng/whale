@@ -43,4 +43,13 @@ public class WeiXinCgibinServiceImpl extends WeixinWebServiceImpl implements Wei
         return queryWeixin(wxApiAccessToken, uri, WxAccessTokenResponse.class);
     }
 
+    @Override
+    public WxAccessTokenResponse refreshToken(String refreshToken) {
+        String uri = new StringBuilder(wxApiRefreshToken) //
+                .append("?appid=").append(appid) //
+                .append("&grant_type=refresh_token") //
+                .append("&refresh_token=").append(refreshToken).toString();
+        return queryWeixin(wxApiRefreshToken, uri, WxAccessTokenResponse.class);
+    }
+
 }
