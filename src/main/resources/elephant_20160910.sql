@@ -44,6 +44,18 @@ LOCK TABLES `account_binding` WRITE;
 /*!40000 ALTER TABLE `account_binding` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+CREATE TABLE `elephant`.`wx_id_mapping` (
+  `mappingid` BIGINT(20) NOT NULL AUTO_INCREMENT COMMENT '映射id',
+  `accountid` BIGINT(20) NOT NULL COMMENT '账户id',
+  `openid` VARCHAR(255) NOT NULL COMMENT 'openid',
+  `unionid` VARCHAR(255) NOT NULL COMMENT 'unionid',
+  `add_time` BIGINT(20) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`mappingid`)  COMMENT '',
+  UNIQUE INDEX `mappingid_UNIQUE` (`mappingid` ASC)  COMMENT '')
+COMMENT = '微信的openid，union与accountid的映射';
+
+
 --
 -- Table structure for table `account_contacts`
 --
