@@ -20,6 +20,7 @@ import com.buterfleoge.whale.log.InvokeLogger;
 import com.buterfleoge.whale.service.WeixinWebService;
 import com.buterfleoge.whale.service.weixin.protocol.WxAccessTokenResponse;
 import com.buterfleoge.whale.service.weixin.protocol.WxAuthResponse;
+import com.buterfleoge.whale.service.weixin.protocol.WxLoginScope;
 import com.buterfleoge.whale.service.weixin.protocol.WxResponse;
 import com.buterfleoge.whale.service.weixin.protocol.WxUserinfoResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -43,7 +44,7 @@ public class WeixinWebServiceImpl implements WeixinWebService {
     private String wxLoginQrconnect;
 
     @Value("${wx.api.accessToken}")
-    private String wxApiAccessToken;
+    protected String wxApiAccessToken;
 
     @Value("${wx.api.refreshToken}")
     private String wxApiRefreshToken;
@@ -55,11 +56,11 @@ public class WeixinWebServiceImpl implements WeixinWebService {
     private String wxApiUserinfo;
 
     @Override
-    public String getLoginUri(String state, String redirectUri) {
+    public String getLoginUri(String state, String redirectUri, WxLoginScope scope) {
         StringBuilder sb = new StringBuilder(wxLoginQrconnect) //
                 .append("?appid=").append(appid) //
                 .append("&redirect_uri=").append(redirectUri) //
-                .append("&response_type=code&scope=snsapi_login") //
+                .append("&response_type=code&scope=").append(scope.value) //
                 .append("&state=").append(state).append("#wechat_redirect");
         return sb.toString();
     }
@@ -100,7 +101,7 @@ public class WeixinWebServiceImpl implements WeixinWebService {
         return queryWeixin(wxApiUserinfo, uri, WxUserinfoResponse.class);
     }
 
-    private <T> T queryWeixin(String tag, String uri, Class<T> responseType) {
+    protected <T> T queryWeixin(String tag, String uri, Class<T> responseType) {
         CloseableHttpClient httpclient = null;
         CloseableHttpResponse httpResponse = null;
         T response = null;

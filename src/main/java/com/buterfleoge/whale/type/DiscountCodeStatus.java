@@ -37,10 +37,11 @@ public class DiscountCodeStatus extends EnumObject {
     /**
      * 用户下单，占用中
      */
+    @Deprecated
     public static final DiscountCodeStatus OCCUPIED = new DiscountCodeStatus(3);
 
     /**
-     * 付款完成，优惠券不再有效
+     * 已经被占用
      */
     public static final DiscountCodeStatus USED = new DiscountCodeStatus(4);
 
