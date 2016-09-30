@@ -47,7 +47,7 @@ public class WeixinWebServiceImpl implements WeixinWebService {
     protected String wxApiAccessToken;
 
     @Value("${wx.api.refreshToken}")
-    private String wxApiRefreshToken;
+    protected String wxApiRefreshToken;
 
     @Value("${wx.api.auth}")
     private String wxApiAuth;
