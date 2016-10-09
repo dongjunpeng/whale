@@ -48,7 +48,10 @@ public class TravelBizImpl implements TravelBiz {
     private static final Logger LOG = LoggerFactory.getLogger(TravelBizImpl.class);
 
     @Value("${route.imgtext.path}")
-    private String productRootPath;
+    private String imgtextPath;
+
+    @Value("${route.mdtext.path}")
+    private String mdtextPath;
 
     @Autowired
     private TravelRouteRepository travelRouteRepository;
@@ -84,8 +87,12 @@ public class TravelBizImpl implements TravelBiz {
         }
         try {
             if (routeids != null && routeids.size() == 1 && request.getIsImgtextRequired()) {
-                imgtext = getImgtextInJson(routeids.get(0));
-                response.setImgtext(imgtext);
+                if (request.isFromWx()) {
+                    response.setMdtext(getMdtext(routeids.get(0)));
+                } else {
+                    imgtext = getImgtextInJson(routeids.get(0));
+                    response.setImgtext(imgtext);
+                }
             }
         } catch (Exception e) {
             LOG.error("get imgtext failed, reqid: " + request.getReqid(), e);
@@ -141,14 +148,24 @@ public class TravelBizImpl implements TravelBiz {
 
     private Imgtext getImgtextInJson(Long routeid) throws JsonParseException, JsonMappingException, IOException {
         String jsonPath = routeid < 10 ? "p0" + routeid + ".json" : "p" + routeid + ".json";
-        File file = new File(productRootPath + jsonPath);
+        File file = new File(imgtextPath + jsonPath);
         if (file.exists()) {
             String content = FileUtils.readFileToString(file, "UTF-8");
             ObjectMapper mapper = new ObjectMapper();
             Imgtext imgtext = mapper.readValue(content, Imgtext.class);
             return imgtext;
         } else {
-            throw new RuntimeException("can't find json file, " + productRootPath + jsonPath);
+            throw new RuntimeException("can't find json file, " + imgtextPath + jsonPath);
+        }
+    }
+
+    private String getMdtext(Long routeid) throws IOException {
+        String filePath = routeid < 10 ? "p0" + routeid + ".md" : "p" + routeid + ".md";
+        File file = new File(mdtextPath + filePath);
+        if (file.exists()) {
+            return FileUtils.readFileToString(file, "UTF-8");
+        } else {
+            throw new RuntimeException("can't find md file, " + mdtextPath + filePath);
         }
     }
 
