@@ -10,8 +10,24 @@ import com.buterfleoge.whale.BaseObject;
  */
 public class Request extends BaseObject {
 
+    private boolean fromWx;
     private String reqid;
     private Long accountid;
+
+    /**
+     * @return the fromWx
+     */
+    public boolean isFromWx() {
+        return fromWx;
+    }
+
+    /**
+     * @param fromWx
+     *            the fromWx to set
+     */
+    public void setFromWx(boolean fromWx) {
+        this.fromWx = fromWx;
+    }
 
     /**
      * @return the reqid
