@@ -89,10 +89,9 @@ public class TravelBizImpl implements TravelBiz {
             if (routeids != null && routeids.size() == 1 && request.getIsImgtextRequired()) {
                 if (request.isFromWx()) {
                     response.setMdtext(getMdtext(routeids.get(0)));
-                } else {
-                    imgtext = getImgtextInJson(routeids.get(0));
-                    response.setImgtext(imgtext);
                 }
+                imgtext = getImgtextInJson(routeids.get(0));
+                response.setImgtext(imgtext);
             }
         } catch (Exception e) {
             LOG.error("get imgtext failed, reqid: " + request.getReqid(), e);
@@ -123,8 +122,8 @@ public class TravelBizImpl implements TravelBiz {
             if (StringUtils.hasText(name)) {
                 TravelRoute route = travelRouteRepository.findByName(name);
                 if (route != null) {
-                    groups = travelGroupRepository.findByRouteidAndEndDateGreaterThanOrderByStartDateAsc(
-                            route.getRouteid(), DateUtils.addWeeks(new Date(), -1));
+                    groups = travelGroupRepository.findByRouteidAndEndDateGreaterThanOrderByStartDateAsc(route.getRouteid(),
+                            DateUtils.addWeeks(new Date(), -1));
                     response.setGroups(groups);
                 }
             }
