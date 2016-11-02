@@ -70,9 +70,6 @@ public class TravelGroup extends BaseObject {
     @Column(name = "actual_count")
     private Integer actualCount = 0;
 
-    @Column(name = "wx_qrcode")
-    private String wxQrcode;
-
     @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
@@ -175,14 +172,6 @@ public class TravelGroup extends BaseObject {
 
     public void setActualCount(Integer actualCount) {
         this.actualCount = actualCount;
-    }
-
-    public String getWxQrcode() {
-        return wxQrcode;
-    }
-
-    public void setWxQrcode(String wxQrcode) {
-        this.wxQrcode = wxQrcode;
     }
 
     public Date getAddTime() {
