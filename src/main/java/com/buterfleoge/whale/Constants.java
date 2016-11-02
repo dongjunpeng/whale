@@ -138,6 +138,7 @@ public interface Constants {
     public interface Pattern {
         String DATE = "yyyy-MM-dd";
         String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
+        String ORDER_PREFIX = "yyMMddHHmm";
     }
 
     /**
