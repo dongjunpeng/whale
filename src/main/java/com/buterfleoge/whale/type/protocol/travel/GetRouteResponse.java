@@ -54,4 +54,16 @@ public class GetRouteResponse extends Response {
         this.mdtext = mdtext;
     }
 
+    @Override
+    public String toString() {
+        Imgtext imgtext = getImgtext();
+        String mdtext = getMdtext();
+        setImgtext(null);
+        setMdtext(null);
+        String toString = super.toString();
+        setImgtext(imgtext);
+        setMdtext(mdtext);
+        return toString;
+    }
+
 }

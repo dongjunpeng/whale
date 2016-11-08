@@ -87,7 +87,7 @@ public class TravelBizImpl implements TravelBiz {
         }
         try {
             if (routeids != null && routeids.size() == 1 && request.getIsImgtextRequired()) {
-                if (request.isFromWx()) {
+                if (true) {
                     response.setMdtext(getMdtext(routeids.get(0)));
                 }
                 imgtext = getImgtextInJson(routeids.get(0));

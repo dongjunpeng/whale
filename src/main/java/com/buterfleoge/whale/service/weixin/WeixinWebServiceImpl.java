@@ -6,6 +6,7 @@ package com.buterfleoge.whale.service.weixin;
 import java.io.IOException;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -72,7 +73,7 @@ public class WeixinWebServiceImpl implements WeixinWebService {
                 .append("&secret=").append(appsecret) //
                 .append("&code=").append(code) //
                 .append("&grant_type=authorization_code").toString();
-        return queryWeixin(wxApiAccessToken, uri, WxAccessTokenResponse.class);
+        return queryWeixin("wxApiAccessToken", uri, WxAccessTokenResponse.class);
     }
 
     @Override
@@ -81,7 +82,7 @@ public class WeixinWebServiceImpl implements WeixinWebService {
                 .append("?appid=").append(appid) //
                 .append("&grant_type=refresh_token") //
                 .append("&refresh_token=").append(refreshToken).toString();
-        return queryWeixin(wxApiRefreshToken, uri, WxAccessTokenResponse.class);
+        return queryWeixin("wxApiRefreshToken", uri, WxAccessTokenResponse.class);
     }
 
     @Override
@@ -89,7 +90,7 @@ public class WeixinWebServiceImpl implements WeixinWebService {
         String uri = new StringBuilder(wxApiAuth) //
                 .append("?access_token=").append(accessToken) //
                 .append("&openid=").append(openid).toString();
-        WxAuthResponse response = queryWeixin(wxApiAuth, uri, WxAuthResponse.class);
+        WxAuthResponse response = queryWeixin("wxApiAuth", uri, WxAuthResponse.class);
         return response != null && response.getErrcode() == WxResponse.CODE_OK;
     }
 
@@ -98,10 +99,13 @@ public class WeixinWebServiceImpl implements WeixinWebService {
         String uri = new StringBuilder(wxApiUserinfo) //
                 .append("?access_token=").append(accessToken) //
                 .append("&openid=").append(openid).toString();
-        return queryWeixin(wxApiUserinfo, uri, WxUserinfoResponse.class);
+        return queryWeixin("wxApiUserinfo", uri, WxUserinfoResponse.class);
     }
 
     protected <T> T queryWeixin(String tag, String uri, Class<T> responseType) {
+        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(5000).setConnectTimeout(5000)
+                .setConnectionRequestTimeout(5000).build();
+
         CloseableHttpClient httpclient = null;
         CloseableHttpResponse httpResponse = null;
         T response = null;
@@ -110,6 +114,7 @@ public class WeixinWebServiceImpl implements WeixinWebService {
         try {
             httpclient = HttpClients.createDefault();
             HttpGet httpget = new HttpGet(uri);
+            httpget.setConfig(requestConfig);
             httpResponse = httpclient.execute(httpget);
             HttpEntity entity = httpResponse.getEntity();
             if (entity != null) {

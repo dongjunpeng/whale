@@ -133,9 +133,11 @@ public class OrderBizImpl implements OrderBiz {
         response.setHistoryOrderCount(countOrderInfoByStatus(accountid, OrderStatusCategory.HISTORY, reqid));
         response.setAllOrderCount(countOrderInfoByStatus(accountid, OrderStatusCategory.VISIBLE, reqid));
 
-        Set<Integer> statusSet = request.getOrderType() != null
-                ? OrderStatusCategory.HELPER.valueOf(request.getOrderType()).getOrderStatuses()
-                : OrderStatusCategory.VISIBLE.getOrderStatuses();
+        if (request.getOrderType() == null) { // 不传orderType则只获取订单数量
+            return;
+        }
+
+        Set<Integer> statusSet = OrderStatusCategory.HELPER.valueOf(request.getOrderType()).getOrderStatuses();
         List<OrderInfo> orderInfos = getOrderInfosByStatus(accountid, statusSet, reqid);
         if (CollectionUtils.isEmpty(orderInfos)) {
             return;

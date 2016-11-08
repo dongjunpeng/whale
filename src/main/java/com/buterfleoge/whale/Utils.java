@@ -4,10 +4,16 @@ import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.slf4j.Logger;
@@ -102,6 +108,64 @@ public abstract class Utils {
         StringBuilder subject = new StringBuilder(route.getName());
         subject.append("(").append(group.getTitle()).append(")");
         return subject.toString();
+    }
+
+    /**
+     * 除去数组中的空值和签名参数
+     *
+     * @param sArray
+     *            签名参数组
+     * @return 去掉空值与签名参数后的新签名参数组
+     */
+    public static Map<String, Object> paraFilter(Map<String, Object> sArray) {
+        if (MapUtils.isEmpty(sArray)) {
+            return new HashMap<String, Object>(0);
+        }
+        Map<String, Object> result = new HashMap<String, Object>(sArray.size());
+        for (String key : sArray.keySet()) {
+            Object value = sArray.get(key);
+            if (value != null && !key.equalsIgnoreCase("sign")) {
+                result.put(key, value);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 把数组所有元素排序，并按照“参数=参数值”的模式用“&”字符拼接成字符串
+     *
+     * @param params
+     *            需要排序并参与字符拼接的参数组
+     * @return 拼接后字符串
+     */
+    public static String createLinkString(Map<String, Object> params) {
+        if (MapUtils.isEmpty(params)) {
+            throw new IllegalArgumentException("params can't be null or empty");
+        }
+        List<String> keys = new ArrayList<String>(params.keySet());
+        Collections.sort(keys);
+        StringBuilder builder = new StringBuilder();
+        String firstKey = keys.get(0);
+        builder.append(firstKey).append("=").append(params.get(firstKey));
+        for (int i = 1, n = keys.size(); i < n; i++) {
+            String key = keys.get(i);
+            Object value = params.get(key);
+            builder.append("&").append(key).append("=").append(value);
+        }
+        return builder.toString();
+    }
+
+    /**
+     * 创建微信的加密串
+     * 
+     * @param param
+     * @param key
+     * @return
+     */
+    public static String createWxSign(Map<String, Object> param, String key) {
+        param = paraFilter(param);
+        String linkString = Utils.createLinkString(param) + "&key=" + key;
+        return Utils.stringMD5(linkString).toUpperCase();
     }
 
     public static void main(String[] args) {

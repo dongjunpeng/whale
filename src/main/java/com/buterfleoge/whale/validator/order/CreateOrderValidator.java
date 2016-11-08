@@ -124,8 +124,7 @@ public class CreateOrderValidator implements Validator {
         if (discountCode != null) {
             price = price.subtract(discountCode.getValue());
         }
-        if (price.multiply(PriceConverter.PRICE_FACTOR_BIGDECIMAL).longValue() != request.getActualPrice()
-                .multiply(PriceConverter.PRICE_FACTOR_BIGDECIMAL).longValue()) { // 转化为整数来比较
+        if (PriceConverter.yuanToLi(price).longValue() != PriceConverter.yuanToLi(request.getActualPrice()).longValue()) { // 转化为整数来比较
             errors.reject("实付金额有误");
         }
     }

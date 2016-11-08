@@ -19,61 +19,34 @@ import com.buterfleoge.whale.EnumObject;
  */
 public class OrderStatus  extends EnumObject{
 
-    /**
-     * 点击报名
-     */
-    public static final OrderStatus NEW = new OrderStatus(0);
+    public static final OrderStatus NEW = new OrderStatus(0, "点击报名");
 
-    /**
-     * 生成等待付款
-     */
-    public static final OrderStatus WAITING = new OrderStatus(1);
+    public static final OrderStatus WAITING = new OrderStatus(1, "生成等待付款");
 
-    /**
-     * 付款中
-     */
-    public static final OrderStatus PAYING = new OrderStatus(2);
+    public static final OrderStatus PAYING = new OrderStatus(2, "付款中");
 
-    /**
-     * 付款到账
-     */
-    public static final OrderStatus PAID = new OrderStatus(3);
+    public static final OrderStatus PAID = new OrderStatus(3, "付款到账");
 
-    /**
-     * 开始旅行
-     */
-    public static final OrderStatus FINISH = new OrderStatus(4);
+    public static final OrderStatus FINISH = new OrderStatus(4, "开始旅行");
 
-    /**
-     * 退款
-     */
-    public static final OrderStatus REFUNDING = new OrderStatus(5);
+    public static final OrderStatus REFUNDING = new OrderStatus(5, "申请退款");
 
-    /**
-     * 退款
-     */
-    public static final OrderStatus REFUNDED = new OrderStatus(6);
+    public static final OrderStatus REFUNDED = new OrderStatus(6, "退款成功");
 
-    /**
-     * 取消
-     */
-    public static final OrderStatus CANCEL = new OrderStatus(7);
+    public static final OrderStatus CANCEL = new OrderStatus(7, "取消");
 
-    /**
-     * 超时
-     */
-    public static final OrderStatus TIMEOUT = new OrderStatus(8);
+    public static final OrderStatus TIMEOUT = new OrderStatus(8, "超时");
 
-    /**
-     * 行程取消
-     */
-    public static final OrderStatus CLOSED = new OrderStatus(9);
+    public static final OrderStatus CLOSED = new OrderStatus(9, "行程取消");
 
     public static final EnumObjectHelper<OrderStatus> HELPER = EnumObjectHelper.create(NEW, WAITING, PAYING, PAID, FINISH,
             REFUNDING, REFUNDED, CANCEL, TIMEOUT, CLOSED);
 
-    private OrderStatus(int value) {
+    public final String desc;
+
+    private OrderStatus(int value, String desc) {
         super(value);
+        this.desc = desc;
     }
 
 }

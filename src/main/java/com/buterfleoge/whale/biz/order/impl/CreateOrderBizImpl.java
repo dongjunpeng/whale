@@ -48,6 +48,7 @@ import com.buterfleoge.whale.biz.travel.TravelBiz;
 import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.dao.DiscountRepository;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
+import com.buterfleoge.whale.dao.OrderHistoryRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.OrderTravellersRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
@@ -60,6 +61,7 @@ import com.buterfleoge.whale.type.OrderStatusCategory;
 import com.buterfleoge.whale.type.entity.Discount;
 import com.buterfleoge.whale.type.entity.DiscountCode;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
+import com.buterfleoge.whale.type.entity.OrderHistory;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderTravellers;
 import com.buterfleoge.whale.type.entity.TravelGroup;
@@ -100,6 +102,9 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
 
     @Autowired
     private DiscountCodeRepository discountCodeRepository;
+
+    @Autowired
+    private OrderHistoryRepository orderHistoryRepository;
 
     @Autowired
     private OrderBiz orderBiz;
@@ -189,6 +194,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         orderInfo.setIsAgreed(Boolean.TRUE);
         orderInfo.setEmergencyContact(request.getEmergencyContact());
         orderInfo.setEmergencyMobile(request.getEmergencyMobile());
+        orderInfo.setRoommate(request.getRoommate());
         orderInfo.setCreateTime(now);
         orderInfo.setModTime(now);
 
@@ -216,6 +222,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
                 discountCode.setStatus(DiscountCodeStatus.USED.value);
                 discountCodeRepository.save(discountCode);
             }
+            orderHistoryRepository.save(OrderHistory.newInstance(orderid, orderInfo.getStatus(), "用户新建订单"));
         } catch (Exception e) {
             LOG.error("save order info failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
