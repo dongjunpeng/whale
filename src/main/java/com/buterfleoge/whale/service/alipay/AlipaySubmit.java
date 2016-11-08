@@ -40,7 +40,7 @@ public class AlipaySubmit {
         }
 
         // submit按钮控件请不要含有name属性
-        builder.append("<input type=\"submit\" value=\"确认\" style=\"display:none;\"></form>");
+        builder.append("<input type=\"submit\" value=\"确认\" style=\"display:none;\"/></form>");
         builder.append("<script>document.forms['alipaysubmit'].submit();</script>");
         return builder.toString();
     }
@@ -54,7 +54,7 @@ public class AlipaySubmit {
      *            key
      * @return 要请求的参数数组
      */
-    private static Map<String, String> buildRequestPara(Map<String, String> sParaTemp, String key) {
+    public static Map<String, String> buildRequestPara(Map<String, String> sParaTemp, String key) {
         // 除去数组中的空值和签名参数
         Map<String, String> sPara = AlipayCore.paraFilter(sParaTemp);
         // 生成签名结果

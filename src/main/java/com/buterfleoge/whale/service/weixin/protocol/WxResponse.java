@@ -23,6 +23,10 @@ public class WxResponse extends BaseObject implements Serializable {
     private Integer errcode;
     private String errmsg;
 
+    public boolean isOk() {
+        return errcode == null || CODE_OK.equals(errcode);
+    }
+
     /**
      * @return the errcode
      */

@@ -74,6 +74,7 @@ CREATE TABLE `account_contacts` (
   `mobile` varchar(255) NOT NULL DEFAULT '' COMMENT '手机',
   `gender` smallint(4) NOT NULL DEFAULT '0' COMMENT '性别:未知,男,女',
   `birthday` bigint(20) NOT NULL DEFAULT '0' COMMENT '出生日期',
+  `area` varchar(45) DEFAULT NULL COMMENT '省市地区',
   `address` varchar(255) DEFAULT '' COMMENT '地址',
   `emergency` tinyint(1) DEFAULT '0' COMMENT '紧急联系人',
   `add_time` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
@@ -113,6 +114,7 @@ CREATE TABLE `account_info` (
   `nickname` varchar(255) DEFAULT NULL,
   `gender` smallint(4) DEFAULT NULL,
   `birthday` bigint(20) DEFAULT NULL,
+  `area` varchar(45) DEFAULT NULL COMMENT '省市地区',
   `address` varchar(255) DEFAULT NULL,
   `avatar_url` varchar(255) DEFAULT NULL,
   `add_time` bigint(20) NOT NULL DEFAULT '0' COMMENT '创建时间',
@@ -235,6 +237,33 @@ LOCK TABLES `order_alipay` WRITE;
 /*!40000 ALTER TABLE `order_alipay` ENABLE KEYS */;
 UNLOCK TABLES;
 
+CREATE TABLE `order_wxpay` (
+  `wxpayid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `orderid` bigint(20) NOT NULL COMMENT '订单id',
+  `type` smallint(1) NOT NULL DEFAULT '0' COMMENT '0 微信主动通知\n1 主动查询微信',
+  `return_code` varchar(45) NOT NULL COMMENT '微信通信返回码',
+  `result_code` varchar(45) NOT NULL COMMENT '微信支付结果码',
+  `trade_status` varchar(45) DEFAULT NULL COMMENT '交易状态，主动查询微信支付信息的时候存在',
+  `openid` varchar(255) NOT NULL COMMENT '支付的openid',
+  `total_fee` bigint(20) NOT NULL COMMENT '支付金额',
+  `transaction_id` varchar(255) NOT NULL COMMENT '微信订单id',
+  `time_end` bigint(20) NOT NULL COMMENT '支付完成时间',
+  `param` text NOT NULL COMMENT '微信支付通知参数',
+  `add_time` bigint(20) NOT NULL COMMENT '记录添加时间',
+  PRIMARY KEY (`wxpayid`),
+  UNIQUE KEY `wxpayid_UNIQUE` (`wxpayid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='微信支付信息'
+
+CREATE TABLE `order_history` (
+  `historyid` bigint(20) NOT NULL AUTO_INCREMENT,
+  `orderid` bigint(20) NOT NULL COMMENT '订单id',
+  `type` int(11) NOT NULL COMMENT '修改类型，新建，保存订单，保存并支付，微信支付，支付宝支付，支付取消，退款等等',
+  `attach` varchar(255) NOT NULL COMMENT '额外信息',
+  `add_time` bigint(255) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`historyid`),
+  UNIQUE KEY `historyid_UNIQUE` (`historyid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单操作历史'
+
 --
 -- Table structure for table `order_discount`
 --
@@ -289,6 +318,7 @@ CREATE TABLE `order_info` (
   `is_agreed` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否同意条款',
   `emergency_contact` varchar(255) DEFAULT NULL,
   `emergency_mobile` varchar(255) DEFAULT NULL,
+  `roommate` tinyint(1) DEFAULT '0' COMMENT '睡友是否服从组织安排',
   `add_time` bigint(20) DEFAULT NULL COMMENT '创建时间',
   `create_time` bigint(20) DEFAULT NULL,
   `mod_time` bigint(20) DEFAULT NULL,
@@ -296,7 +326,7 @@ CREATE TABLE `order_info` (
   UNIQUE KEY `orderid_UNIQUE` (`orderid`) COMMENT '主键',
   KEY `accountid_INDEX` (`accountid`) COMMENT 'accountid索引',
   KEY `groupid_INDEX` (`groupid`) COMMENT 'groupid索引'
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COMMENT='订单信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单信息';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

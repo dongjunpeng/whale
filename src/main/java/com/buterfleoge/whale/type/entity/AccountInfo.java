@@ -70,6 +70,9 @@ public class AccountInfo extends BaseObject {
     @Convert(converter = DateTimeConverter.class)
     private Date birthday;
 
+    @Column(name = "area")
+    private String area = "";
+
     @Column(name = "address")
     private String address = "";
 
@@ -268,6 +271,21 @@ public class AccountInfo extends BaseObject {
      */
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    /**
+     * @return the area
+     */
+    public String getArea() {
+        return area;
+    }
+
+    /**
+     * @param area
+     *            the area to set
+     */
+    public void setArea(String area) {
+        this.area = area;
     }
 
     /**

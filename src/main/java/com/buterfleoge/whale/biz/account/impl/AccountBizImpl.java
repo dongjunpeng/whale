@@ -58,6 +58,7 @@ public class AccountBizImpl implements AccountBiz {
         String mobile = request.getMobile();
         Integer gender = request.getGender();
         Date birthday = request.getBirthday();
+        String area = request.getArea();
         String address = request.getAddress();
 
         boolean isNeedSave = false;
@@ -92,6 +93,10 @@ public class AccountBizImpl implements AccountBiz {
         }
         if (birthday != null && !birthday.equals(accountInfo.getBirthday())) {
             accountInfo.setBirthday(birthday);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(area) && !area.equals(accountInfo.getArea())) {
+            accountInfo.setArea(area);
             isNeedSave = true;
         }
         if (StringUtils.hasText(address) && !address.equals(accountInfo.getAddress())) {
@@ -172,6 +177,7 @@ public class AccountBizImpl implements AccountBiz {
         AccountContacts contact = new AccountContacts();
         try {
             contact.setAccountid(accountid);
+            contact.setArea(request.getArea());
             contact.setAddress(request.getAddress());
             contact.setName(request.getName());
             contact.setEmail(request.getEmail());
@@ -200,6 +206,7 @@ public class AccountBizImpl implements AccountBiz {
         String mobile = request.getMobile();
         Integer gender = request.getGender();
         Date birthday = request.getBirthday();
+        String area = request.getArea();
         String address = request.getAddress();
         Boolean emergency = request.getEmergency();
         boolean isNeedSave = false;
@@ -226,6 +233,10 @@ public class AccountBizImpl implements AccountBiz {
         }
         if (birthday != null && !birthday.equals(contact.getBirthday())) {
             contact.setBirthday(birthday);
+            isNeedSave = true;
+        }
+        if (StringUtils.hasText(area) && !area.equals(contact.getArea())) {
+            contact.setArea(area);
             isNeedSave = true;
         }
         if (StringUtils.hasText(address) && !address.equals(contact.getAddress())) {

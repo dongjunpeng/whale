@@ -31,7 +31,7 @@ public class AlipayServiceImpl implements AlipayService {
     private AlipayConfig alipayConfig;
 
     @Override
-    public String createDirectPay(Long orderid, BigDecimal totalFee, BigDecimal price, String subject) {
+    public Map<String, String> createDirectPay(Long orderid, BigDecimal totalFee, BigDecimal price, String subject) {
         Map<String, String> sParaTemp = new HashMap<String, String>();
         sParaTemp.put("service", AlipayConfig.CREATE_DIRECT_PAY_BY_USER_SERVICE);
         sParaTemp.put("partner", alipayConfig.partner);
@@ -40,19 +40,16 @@ public class AlipayServiceImpl implements AlipayService {
         sParaTemp.put("payment_type", AlipayConfig.PAYMENT_TYPE);
         sParaTemp.put("notify_url", alipayConfig.notify_url);
         sParaTemp.put("return_url", alipayConfig.return_url);
+        sParaTemp.put("out_trade_no", String.valueOf(orderid));
+        sParaTemp.put("subject", subject);
+        sParaTemp.put("total_fee", totalFee.setScale(2, RoundingMode.HALF_UP).toString());
         // sParaTemp.put("anti_phishing_key", AlipayConfig.anti_phishing_key);
         // sParaTemp.put("exter_invoke_ip", AlipayConfig.exter_invoke_ip);
         // sParaTemp.put("show_url", value);
         // sParaTemp.put("it_b_pay", value);
-        sParaTemp.put("out_trade_no", String.valueOf(orderid));
-        sParaTemp.put("subject", subject);
-        sParaTemp.put("total_fee", totalFee.setScale(2, RoundingMode.HALF_UP).toString());
-        return AlipaySubmit.buildRequest(sParaTemp, alipayConfig.alipay_gateway_new, alipayConfig.key);
-    }
-
-    @Override
-    public String buildRequest(Map<String, String> sParaTemp) {
-        return AlipaySubmit.buildRequest(sParaTemp, alipayConfig.alipay_gateway_new, alipayConfig.key);
+        sParaTemp =  AlipaySubmit.buildRequestPara(sParaTemp, alipayConfig.key); // 根据要发送的表单数据进行加密
+        sParaTemp.put("gateway", alipayConfig.alipay_gateway_new); // gateway不参与加密计算
+        return sParaTemp;
     }
 
     @Override

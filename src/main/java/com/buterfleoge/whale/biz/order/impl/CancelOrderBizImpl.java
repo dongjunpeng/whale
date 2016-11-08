@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.buterfleoge.whale.biz.order.CancelOrderBiz;
 import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
+import com.buterfleoge.whale.dao.OrderHistoryRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.type.DiscountCodeStatus;
@@ -15,6 +16,7 @@ import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.entity.DiscountCode;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
+import com.buterfleoge.whale.type.entity.OrderHistory;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.protocol.Response;
@@ -39,11 +41,15 @@ public class CancelOrderBizImpl implements CancelOrderBiz {
     @Autowired
     private DiscountCodeRepository discountCodeRepository;
 
+    @Autowired
+    private OrderHistoryRepository orderHistoryRepository;
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void cancelOrder(Long accountid, OrderRequest request, Response response) throws Exception {
         Long orderid = request.getOrderid();
         OrderInfo orderInfo = orderInfoRepository.findOne(orderid);
+        Integer oldOrderStatus = orderInfo.getStatus();
         orderInfo.setStatus(OrderStatus.CANCEL.value);
         orderInfoRepository.save(orderInfo);
 
@@ -61,6 +67,7 @@ public class CancelOrderBizImpl implements CancelOrderBiz {
             discountCode.setStatus(DiscountCodeStatus.VERIFIED.value);
             discountCodeRepository.save(discountCode);
         }
+        orderHistoryRepository.save(OrderHistory.newInstance(oldOrderStatus, orderInfo));
     }
 
 }
