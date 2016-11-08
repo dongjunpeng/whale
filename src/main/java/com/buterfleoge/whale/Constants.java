@@ -139,6 +139,7 @@ public interface Constants {
         String DATE = "yyyy-MM-dd";
         String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
         String DATE_TIME_WX = "yyyyMMddHHmmss";
+        String ORDER_PREFIX = "yyMMddHHmm";
     }
 
     /**
