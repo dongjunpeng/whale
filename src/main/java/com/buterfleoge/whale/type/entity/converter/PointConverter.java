@@ -1,59 +1,25 @@
 package com.buterfleoge.whale.type.entity.converter;
 
-import java.text.ParseException;
-import java.util.List;
-import java.util.Locale;
+import java.util.Objects;
 
 import javax.persistence.AttributeConverter;
 
-import org.springframework.format.Parser;
-
-import com.buterfleoge.whale.Constants.DefaultValue;
-import com.buterfleoge.whale.Utils;
-import com.buterfleoge.whale.type.entity.converter.PointConverter.Point;
+import com.buterfleoge.whale.type.entity.converter.PointsConverter.Point;
 
 /**
  * @author xiezhenzong
  *
  */
-public class PointConverter implements AttributeConverter<List<Point>, String> {
+public class PointConverter implements AttributeConverter<Point, String> {
 
     @Override
-    public String convertToDatabaseColumn(List<Point> attribute) {
-        return Utils.join(attribute, DefaultValue.DB_SEPARATOR);
+    public String convertToDatabaseColumn(Point attribute) {
+        return Objects.toString(attribute, "");
     }
 
     @Override
-    public List<Point> convertToEntityAttribute(String dbData) {
-        return Utils.split(dbData, DefaultValue.DB_SEPARATOR, new Parser<Point>() {
-
-            @Override
-            public Point parse(String text, Locale locale) throws ParseException {
-                String[] items = text.split(Point.SEPARATOR);
-                return new Point(items[0], items[1]);
-            }
-        });
-    }
-
-    public static class Point {
-
-        public static final String SEPARATOR = ",";
-
-        public String longitude;
-
-        public String latitude;
-
-        public Point() {
-        }
-
-        public Point(String longitude, String latitude) {
-            this.longitude = longitude;
-            this.latitude = latitude;
-        }
-
-        @Override
-        public String toString() {
-            return longitude + SEPARATOR + latitude;
-        }
+    public Point convertToEntityAttribute(String dbData) {
+        String[] items = dbData.split(Point.SEPARATOR);
+        return new Point(items[0], items[1]);
     }
 }

@@ -13,7 +13,8 @@ import javax.persistence.Table;
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.type.entity.converter.ListConverter;
 import com.buterfleoge.whale.type.entity.converter.PointConverter;
-import com.buterfleoge.whale.type.entity.converter.PointConverter.Point;
+import com.buterfleoge.whale.type.entity.converter.PointsConverter;
+import com.buterfleoge.whale.type.entity.converter.PointsConverter.Point;
 
 /**
  * @author xiezhenzong
@@ -47,7 +48,7 @@ public class TravelRoutePcInfo extends BaseObject {
     private List<String> cities;
 
     @Column(name = "points")
-    @Convert(converter = PointConverter.class)
+    @Convert(converter = PointsConverter.class)
     private List<Point> points;
 
     /**
