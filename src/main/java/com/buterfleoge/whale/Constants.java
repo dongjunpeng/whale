@@ -138,6 +138,7 @@ public interface Constants {
     public interface Pattern {
         String DATE = "yyyy-MM-dd";
         String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
+        String DATE_TIME_WX = "yyyyMMddHHmmss";
         String ORDER_PREFIX = "yyMMddHHmm";
     }
 
@@ -179,6 +180,10 @@ public interface Constants {
 
         String WX_LOGIN_STATE_PREFIX = "wx_state";
 
+        String CGIBIN_ACCESSTOKEN_KEY = "cgibin_accesstoken_key";
+
+        String CGIBIN_JSAPI_TICKET_KEY = "cgibin_jsapi_ticket_key";
+
     }
 
     /**
@@ -195,6 +200,8 @@ public interface Constants {
 
         String SEPARATOR = "_";
 
+        String DB_SEPARATOR = ";";
+
         String EMAIL_FROM = "zhenzong.peng@icloud.com";
 
         String WX_SCOPE_SEPARATOR = ",";
@@ -202,6 +209,8 @@ public interface Constants {
         int COOKIE_EXPIRY = 7 * 24 * 60 * 60;
 
         int MAX_ORDER_TRAVELLER_COUNT = 5;
+
+        String HOTLINE = "18510248672";
     }
 
 }

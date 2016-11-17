@@ -14,17 +14,33 @@ import javax.persistence.Converter;
 @Converter(autoApply = true)
 public class PriceConverter implements AttributeConverter<BigDecimal, Long> {
 
-    public static final double PRICE_FACTOR = 1000.00;
-    public static final BigDecimal PRICE_FACTOR_BIGDECIMAL = BigDecimal.valueOf(PRICE_FACTOR);
+    public static final BigDecimal YUAN_LI_FACTOR = BigDecimal.valueOf(1000); // 元 - 厘
+    public static final BigDecimal YUAN_FEN_FACTOR = BigDecimal.valueOf(100); // 元 - 分
 
     @Override
     public Long convertToDatabaseColumn(BigDecimal attribute) {
-        return attribute != null ? attribute.multiply(PRICE_FACTOR_BIGDECIMAL).longValue() : null;
+        return yuanToLi(attribute);
     }
 
     @Override
     public BigDecimal convertToEntityAttribute(Long dbData) {
-        return dbData != null ? BigDecimal.valueOf(dbData / PRICE_FACTOR).setScale(2, RoundingMode.HALF_UP) : null;
+        return liToYuan(dbData);
+    }
+
+    public static final Long yuanToLi(BigDecimal yuan) {
+        return yuan != null ? yuan.multiply(YUAN_LI_FACTOR).longValue() : null;
+    }
+
+    public static final BigDecimal liToYuan(Long li) {
+        return li != null ? BigDecimal.valueOf(li).divide(YUAN_LI_FACTOR, 2, RoundingMode.HALF_UP) : null;
+    }
+
+    public static final Long yuanToFen(BigDecimal yuan) {
+        return yuan != null ? yuan.multiply(YUAN_FEN_FACTOR).longValue() : null;
+    }
+
+    public static final BigDecimal fenToYuan(Long fen) {
+        return fen != null ? BigDecimal.valueOf(fen).divide(YUAN_FEN_FACTOR, 2, RoundingMode.HALF_UP) : null;
     }
 
 }

@@ -6,6 +6,8 @@ import com.buterfleoge.whale.type.protocol.account.DeleteContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsResponse;
 import com.buterfleoge.whale.type.protocol.account.GetDiscountCodeResponse;
+import com.buterfleoge.whale.type.protocol.account.GetWxShareConfigRequest;
+import com.buterfleoge.whale.type.protocol.account.GetWxShareConfigResponse;
 import com.buterfleoge.whale.type.protocol.account.PostBasicInfoRequest;
 import com.buterfleoge.whale.type.protocol.account.PostContactsRequest;
 
@@ -26,5 +28,7 @@ public interface AccountBiz {
     void deleteContacts(Long accountid, DeleteContactsRequest request, Response response) throws Exception;
 
     void getDiscountCode(Long accoutid, Request request, GetDiscountCodeResponse response) throws Exception;
+
+    void getWxShareConfig(Long accountid, GetWxShareConfigRequest request, GetWxShareConfigResponse response) throws Exception;
 
 }

@@ -12,9 +12,7 @@ import java.util.Map;
  */
 public interface AlipayService {
 
-    String createDirectPay(Long orderid, BigDecimal totalFee, BigDecimal price, String subject);
-
-    String buildRequest(Map<String, String> sParaTemp);
+    Map<String, String> createDirectPay(Long orderid, BigDecimal totalFee, BigDecimal price, String subject);
 
     boolean verify(Map<String, String[]> paramsMap);
 

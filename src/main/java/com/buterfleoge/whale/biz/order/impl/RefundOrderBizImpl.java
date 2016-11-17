@@ -12,6 +12,7 @@ import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.order.RefundOrderBiz;
 import com.buterfleoge.whale.biz.order.impl.refund.RefundStrategySelector;
 import com.buterfleoge.whale.dao.OrderAlipayRepository;
+import com.buterfleoge.whale.dao.OrderHistoryRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.OrderRefoundRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
@@ -21,6 +22,7 @@ import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.RefundStatus;
 import com.buterfleoge.whale.type.RefundType;
 import com.buterfleoge.whale.type.entity.OrderAlipay;
+import com.buterfleoge.whale.type.entity.OrderHistory;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderRefund;
 import com.buterfleoge.whale.type.entity.TravelGroup;
@@ -52,6 +54,9 @@ public class RefundOrderBizImpl implements RefundOrderBiz {
 
     @Autowired
     private OrderAlipayRepository orderAlipayRepository;
+
+    @Autowired
+    private OrderHistoryRepository orderHistoryRepository;
 
     @Autowired
     private RefundStrategySelector refundStrategySelector;
@@ -136,6 +141,7 @@ public class RefundOrderBizImpl implements RefundOrderBiz {
 
         orderInfo.setStatus(OrderStatus.REFUNDING.value);
         orderInfoRepository.save(orderInfo);
+        orderHistoryRepository.save(OrderHistory.newInstance(orderid, OrderStatus.REFUNDING));
 
         travelGroup.setStatus(GroupStatus.OPEN.value);
         travelGroup.setActualCount(travelGroup.getActualCount() - orderInfo.getCount());

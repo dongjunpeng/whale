@@ -37,6 +37,8 @@ public class CreateOrderRequest extends OrderRequest {
 
     private String emergencyMobile;
 
+    private boolean roommate;
+
     public List<OrderTravellers> getTravellers() {
         return travellers;
     }
@@ -113,6 +115,21 @@ public class CreateOrderRequest extends OrderRequest {
      */
     public void setEmergencyMobile(String emergencyMobile) {
         this.emergencyMobile = emergencyMobile;
+    }
+
+    /**
+     * @return the roommate
+     */
+    public boolean getRoommate() {
+        return roommate;
+    }
+
+    /**
+     * @param roommate
+     *            the roommate to set
+     */
+    public void setRoommate(boolean roommate) {
+        this.roommate = roommate;
     }
 
 }

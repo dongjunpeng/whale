@@ -3,6 +3,8 @@
  */
 package com.buterfleoge.whale.type.protocol.order;
 
+import java.util.Map;
+
 import com.buterfleoge.whale.type.protocol.Response;
 
 /**
@@ -11,12 +13,13 @@ import com.buterfleoge.whale.type.protocol.Response;
  */
 public class PayOrderByAlipayResponse extends Response {
 
-    private String alipayFrom;
+    private Map<String, String> alipayFrom;
+    private Map<String, Object> wxJsapiModel;
 
     /**
      * @return the alipayFrom
      */
-    public String getAlipayFrom() {
+    public Map<String, String> getAlipayFrom() {
         return alipayFrom;
     }
 
@@ -24,8 +27,23 @@ public class PayOrderByAlipayResponse extends Response {
      * @param alipayFrom
      *            the alipayFrom to set
      */
-    public void setAlipayFrom(String alipayFrom) {
+    public void setAlipayFrom(Map<String, String> alipayFrom) {
         this.alipayFrom = alipayFrom;
+    }
+
+    /**
+     * @return the wxJsapiModel
+     */
+    public Map<String, Object> getWxJsapiModel() {
+        return wxJsapiModel;
+    }
+
+    /**
+     * @param wxJsapiModel
+     *            the wxJsapiModel to set
+     */
+    public void setWxJsapiModel(Map<String, Object> wxJsapiModel) {
+        this.wxJsapiModel = wxJsapiModel;
     }
 
 }

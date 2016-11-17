@@ -31,6 +31,8 @@ public class PostContactsRequest extends Request {
     @DateTimeFormat(pattern = Pattern.DATE)
     private Date birthday;
 
+    private String area;
+
     private String address;
 
     private Boolean emergency;
@@ -145,6 +147,21 @@ public class PostContactsRequest extends Request {
      */
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    /**
+     * @return the area
+     */
+    public String getArea() {
+        return area;
+    }
+
+    /**
+     * @param area
+     *            the area to set
+     */
+    public void setArea(String area) {
+        this.area = area;
     }
 
     /**

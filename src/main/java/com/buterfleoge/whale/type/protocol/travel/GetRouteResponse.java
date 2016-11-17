@@ -3,8 +3,11 @@ package com.buterfleoge.whale.type.protocol.travel;
 import java.util.List;
 
 import com.buterfleoge.whale.type.entity.TravelRoute;
+import com.buterfleoge.whale.type.entity.TravelRouteDays;
+import com.buterfleoge.whale.type.entity.TravelRouteMore;
+import com.buterfleoge.whale.type.entity.TravelRoutePcInfo;
+import com.buterfleoge.whale.type.entity.TravelRouteWapInfo;
 import com.buterfleoge.whale.type.protocol.Response;
-import com.buterfleoge.whale.type.protocol.travel.imgtext.Imgtext;
 
 /**
  * @author Brent24
@@ -13,7 +16,10 @@ import com.buterfleoge.whale.type.protocol.travel.imgtext.Imgtext;
 public class GetRouteResponse extends Response {
 
     private List<TravelRoute> routes;
-    private Imgtext imgtext;
+    private TravelRouteMore more;
+    private List<TravelRouteDays> days;
+    private TravelRoutePcInfo pcInfo;
+    private TravelRouteWapInfo wapInfo;
     private String mdtext;
 
     /**
@@ -31,12 +37,64 @@ public class GetRouteResponse extends Response {
         this.routes = routes;
     }
 
-    public Imgtext getImgtext() {
-        return imgtext;
+    /**
+     * @return the more
+     */
+    public TravelRouteMore getMore() {
+        return more;
     }
 
-    public void setImgtext(Imgtext imgtext) {
-        this.imgtext = imgtext;
+    /**
+     * @param more
+     *            the more to set
+     */
+    public void setMore(TravelRouteMore more) {
+        this.more = more;
+    }
+
+    /**
+     * @return the days
+     */
+    public List<TravelRouteDays> getDays() {
+        return days;
+    }
+
+    /**
+     * @param days
+     *            the days to set
+     */
+    public void setDays(List<TravelRouteDays> days) {
+        this.days = days;
+    }
+
+    /**
+     * @return the pcInfo
+     */
+    public TravelRoutePcInfo getPcInfo() {
+        return pcInfo;
+    }
+
+    /**
+     * @param pcInfo
+     *            the pcInfo to set
+     */
+    public void setPcInfo(TravelRoutePcInfo pcInfo) {
+        this.pcInfo = pcInfo;
+    }
+
+    /**
+     * @return the wapInfo
+     */
+    public TravelRouteWapInfo getWapInfo() {
+        return wapInfo;
+    }
+
+    /**
+     * @param wapInfo
+     *            the wapInfo to set
+     */
+    public void setWapInfo(TravelRouteWapInfo wapInfo) {
+        this.wapInfo = wapInfo;
     }
 
     /**
@@ -52,6 +110,11 @@ public class GetRouteResponse extends Response {
      */
     public void setMdtext(String mdtext) {
         this.mdtext = mdtext;
+    }
+
+    @Override
+    public String toString() {
+        return routes.toString();
     }
 
 }

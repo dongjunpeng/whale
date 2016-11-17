@@ -8,12 +8,13 @@ import com.buterfleoge.whale.type.PayType;
  */
 public class PayOrderRequest extends OrderRequest {
 
-    private Integer payType = PayType.ALIPAY.value;
+    private int payType = PayType.ALIPAY.value;
+    private String ip;
 
     /**
      * @return the payType
      */
-    public Integer getPayType() {
+    public int getPayType() {
         return payType;
     }
 
@@ -21,8 +22,23 @@ public class PayOrderRequest extends OrderRequest {
      * @param payType
      *            the payType to set
      */
-    public void setPayType(Integer payType) {
+    public void setPayType(int payType) {
         this.payType = payType;
+    }
+
+    /**
+     * @return the ip
+     */
+    public String getIp() {
+        return ip;
+    }
+
+    /**
+     * @param ip
+     *            the ip to set
+     */
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 
 }
