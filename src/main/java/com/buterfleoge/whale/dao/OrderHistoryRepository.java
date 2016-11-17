@@ -1,5 +1,7 @@
 package com.buterfleoge.whale.dao;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
 import com.buterfleoge.whale.type.entity.OrderHistory;
@@ -10,6 +12,6 @@ import com.buterfleoge.whale.type.entity.OrderHistory;
  */
 public interface OrderHistoryRepository extends CrudRepository<OrderHistory, Long> {
 
-
+    List<OrderHistory> findByOrderid(Long orderid);
 
 }

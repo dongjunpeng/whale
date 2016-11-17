@@ -121,7 +121,8 @@ public class PayOrderBizImpl implements PayOrderBiz {
             orderHistoryRepository.save(OrderHistory.newInstance(orderid, order.getStatus(), "支付宝支付"));
         } else {
             WxUnifiedOrderResponse unifiedOrderResponse = weixinPayService.unifiedOrder(orderid, order, productName, request.getIp());
-            Map<String, Object> wxJsapiModel = weixinPayService.geneJsapiParam(orderid, unifiedOrderResponse.getPrepay_id());
+            Map<String, Object> wxJsapiModel = weixinPayService.geneJsapiParam(orderid, order.getActualPrice(),
+                    unifiedOrderResponse.getPrepay_id());
             response.setWxJsapiModel(wxJsapiModel);
             orderHistoryRepository.save(OrderHistory.newInstance(orderid, order.getStatus(), "微信公众号H5内支付"));
         }
@@ -187,7 +188,7 @@ public class PayOrderBizImpl implements PayOrderBiz {
                 }
             } else if (request.getRefund_status() != null && AlipayRefundStatus.REFUND_SUCCESS.equals(request.getRefund_status())
                     && request.getGmt_refund() != null) {
-                orderInfo.setStatus(OrderStatus.REFUNDING.value);
+                orderInfo.setStatus(OrderStatus.REFUNDED.value);
                 orderInfo.setModTime(new Date());
                 orderInfoRepository.save(orderInfo);
                 orderHistoryRepository.save(OrderHistory.newInstance(oldOrderStatus, orderInfo));

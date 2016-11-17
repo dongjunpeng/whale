@@ -26,7 +26,7 @@ public class WxCgibinAccessTokenResponse extends WxResponse {
      * @return
      */
     public boolean isExpires() {
-        return System.currentTimeMillis() - add_time >= expires_in;
+        return System.currentTimeMillis() - add_time >= expires_in * 1000;
     }
 
     /**

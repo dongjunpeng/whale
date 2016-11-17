@@ -45,9 +45,10 @@ public class TravelArea extends EnumObject {
      */
     public static final TravelArea TIBET = new TravelArea(6);
 
-    public static final EnumObjectHelper<TravelArea> HELPER = EnumObjectHelper.create(UNKNOW, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEST, COAST, TIBET);
+    public static final EnumObjectHelper<TravelArea> HELPER = EnumObjectHelper.create(UNKNOW, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEST,
+            COAST, TIBET);
 
-            private TravelArea(int value) {
+    private TravelArea(int value) {
         super(value);
     }
 

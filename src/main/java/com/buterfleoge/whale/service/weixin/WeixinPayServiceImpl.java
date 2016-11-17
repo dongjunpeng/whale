@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -92,7 +93,7 @@ public class WeixinPayServiceImpl implements WeixinPayService {
         request.setAppid(appid);
         request.setMch_id(mchid);
         request.setNotify_url(notifyUrl);
-        request.setNonce_str(createNonceStr());
+        request.setNonce_str(Utils.createNonceStr());
         request.setBody(createBody(subject));
         request.setDetail(createDetail(orderInfo, subject));
         request.setOut_trade_no(String.valueOf(orderid));
@@ -111,7 +112,7 @@ public class WeixinPayServiceImpl implements WeixinPayService {
     }
 
     @Override
-    public Map<String, Object> geneJsapiParam(Long orderid, String prepayId) throws Exception {
+    public Map<String, Object> geneJsapiParam(Long orderid, BigDecimal actualPrice, String prepayId) throws Exception {
         WxCgibinAccessTokenResponse accessToken = weixinCgibinService.getCgibinAccessToken();
         if (accessToken == null) {
             throw new WeixinException("获取accessToken失败");
@@ -121,7 +122,7 @@ public class WeixinPayServiceImpl implements WeixinPayService {
             throw new WeixinException("获取jsapiTicket失败");
         }
 
-        String nonceStr = createNonceStr();
+        String nonceStr = Utils.createNonceStr();
         String jsapiTicket = ticket.getTicket();
         long timeStamp = System.currentTimeMillis();
         String url = new StringBuilder(jsapiUrl).append("?orderid=").append(orderid).append("&payType=1").toString();
@@ -135,10 +136,11 @@ public class WeixinPayServiceImpl implements WeixinPayService {
 
         Thread.sleep(3);
         timeStamp = System.currentTimeMillis();
-        nonceStr = createNonceStr();
+        nonceStr = Utils.createNonceStr();
         String packageStr = "prepay_id=" + prepayId;
         String paySign = createPaySignForJsapi(timeStamp, nonceStr, packageStr, "MD5");
 
+        param.put("pay_actualPrice", Utils.formatPrice(actualPrice));
         param.put("pay_timestamp", String.valueOf(timeStamp));
         param.put("pay_nonceStr", nonceStr);
         param.put("pay_package", packageStr);
@@ -155,7 +157,7 @@ public class WeixinPayServiceImpl implements WeixinPayService {
         request.setAppid(appid);
         request.setMch_id(mchid);
         request.setOut_trade_no(String.valueOf(orderid));
-        request.setNonce_str(createNonceStr());
+        request.setNonce_str(Utils.createNonceStr());
         request.fillSign(key);
 
         WxOrderQueryResponse response = queryWeixin("orderQuery", orderQueryUrl, request, WxOrderQueryResponse.class);
@@ -173,13 +175,6 @@ public class WeixinPayServiceImpl implements WeixinPayService {
         return WxGoodsDetail
                 .newInstance(orderInfo.getGroupid(), productName, orderInfo.getCount(), orderInfo.getActualPrice(), orderInfo.getRouteid())
                 .toJsonString();
-    }
-
-    private String createNonceStr() {
-        StringBuilder builder = new StringBuilder(DefaultValue.TOKEN) //
-                .append(DefaultValue.SEPARATOR).append(System.currentTimeMillis()) //
-                .append(DefaultValue.SEPARATOR).append(Math.random());
-        return Utils.stringMD5(builder.toString());
     }
 
     private String getOpenid(Long accountid) {
