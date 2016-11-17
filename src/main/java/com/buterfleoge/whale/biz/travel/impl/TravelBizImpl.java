@@ -22,7 +22,11 @@ import com.buterfleoge.whale.Constants.ErrorMsg;
 import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.travel.TravelBiz;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
+import com.buterfleoge.whale.dao.TravelRouteDaysRepository;
+import com.buterfleoge.whale.dao.TravelRouteMoreRepository;
+import com.buterfleoge.whale.dao.TravelRoutePcInfoRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
+import com.buterfleoge.whale.dao.TravelRouteWapInfoRepository;
 import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
@@ -33,10 +37,6 @@ import com.buterfleoge.whale.type.protocol.travel.GetGroupRequest;
 import com.buterfleoge.whale.type.protocol.travel.GetGroupResponse;
 import com.buterfleoge.whale.type.protocol.travel.GetRouteRequest;
 import com.buterfleoge.whale.type.protocol.travel.GetRouteResponse;
-import com.buterfleoge.whale.type.protocol.travel.imgtext.Imgtext;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * @author Brent24
@@ -57,6 +57,18 @@ public class TravelBizImpl implements TravelBiz {
     private TravelRouteRepository travelRouteRepository;
 
     @Autowired
+    private TravelRouteMoreRepository travelRouteMoreRepository;
+
+    @Autowired
+    private TravelRouteDaysRepository travelRouteDaysRepository;
+
+    @Autowired
+    private TravelRoutePcInfoRepository travelRoutePcInfoRepository;
+
+    @Autowired
+    private TravelRouteWapInfoRepository travelRouteWapInfoRepository;
+
+    @Autowired
     private TravelGroupRepository travelGroupRepository;
 
     @Override
@@ -64,7 +76,6 @@ public class TravelBizImpl implements TravelBiz {
         List<Long> routeids = request.getRouteids();
 
         List<TravelRoute> routes = Collections.<TravelRoute> emptyList();
-        Imgtext imgtext = null;
         try {
             if (CollectionUtils.isEmpty(routeids)) {
                 routes = travelRouteRepository.findByVisibleTrue();
@@ -86,12 +97,19 @@ public class TravelBizImpl implements TravelBiz {
             response.setStatus(Status.DB_ERROR);
         }
         try {
-            if (routeids != null && routeids.size() == 1 && request.getIsImgtextRequired()) {
-                if (true) {
+            if (routeids != null && routeids.size() == 1) {
+                Long routeid = routeids.get(0);
+                response.setMore(travelRouteMoreRepository.findOne(routeid));
+                response.setDays(travelRouteDaysRepository.findByRouteid(routeid));
+                if (request.isFromWx()) {
                     response.setMdtext(getMdtext(routeids.get(0)));
+                    response.setWapInfo(travelRouteWapInfoRepository.findOne(routeid));
+                } else {
+                    response.setPcInfo(travelRoutePcInfoRepository.findOne(routeid));
+
+                    response.setMdtext(getMdtext(routeids.get(0)));
+                    response.setWapInfo(travelRouteWapInfoRepository.findOne(routeid));
                 }
-                imgtext = getImgtextInJson(routeids.get(0));
-                response.setImgtext(imgtext);
             }
         } catch (Exception e) {
             LOG.error("get imgtext failed, reqid: " + request.getReqid(), e);
@@ -145,29 +163,6 @@ public class TravelBizImpl implements TravelBiz {
         return isAvailable && getQuota(groupid, request, response) >= count;
     }
 
-    private Imgtext getImgtextInJson(Long routeid) throws JsonParseException, JsonMappingException, IOException {
-        String jsonPath = routeid < 10 ? "p0" + routeid + ".json" : "p" + routeid + ".json";
-        File file = new File(imgtextPath + jsonPath);
-        if (file.exists()) {
-            String content = FileUtils.readFileToString(file, "UTF-8");
-            ObjectMapper mapper = new ObjectMapper();
-            Imgtext imgtext = mapper.readValue(content, Imgtext.class);
-            return imgtext;
-        } else {
-            throw new RuntimeException("can't find json file, " + imgtextPath + jsonPath);
-        }
-    }
-
-    private String getMdtext(Long routeid) throws IOException {
-        String filePath = routeid < 10 ? "p0" + routeid + ".md" : "p" + routeid + ".md";
-        File file = new File(mdtextPath + filePath);
-        if (file.exists()) {
-            return FileUtils.readFileToString(file, "UTF-8");
-        } else {
-            throw new RuntimeException("can't find md file, " + mdtextPath + filePath);
-        }
-    }
-
     private int getQuota(Long groupid, Request request, Response response) {
         TravelGroup group = getTravelGroup(groupid, request, response);
         return group != null ? group.getMaxCount() - group.getActualCount() : -1;
@@ -185,6 +180,16 @@ public class TravelBizImpl implements TravelBiz {
             LOG.error("get group's quota failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
             return null;
+        }
+    }
+
+    private String getMdtext(Long routeid) throws IOException {
+        String filePath = routeid < 10 ? "p0" + routeid + ".md" : "p" + routeid + ".md";
+        File file = new File(mdtextPath + filePath);
+        if (file.exists()) {
+            return FileUtils.readFileToString(file, "UTF-8");
+        } else {
+            throw new RuntimeException("can't find md file, " + mdtextPath + filePath);
         }
     }
 

@@ -3,19 +3,28 @@ package com.buterfleoge.whale.biz.account.impl;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.buterfleoge.whale.Constants.Status;
+import com.buterfleoge.whale.Utils;
 import com.buterfleoge.whale.biz.account.AccountBiz;
 import com.buterfleoge.whale.dao.AccountContactsRepository;
 import com.buterfleoge.whale.dao.AccountInfoRepository;
 import com.buterfleoge.whale.dao.DiscountCodeRepository;
+import com.buterfleoge.whale.exception.WeixinException;
+import com.buterfleoge.whale.service.WeixinCgibinService;
+import com.buterfleoge.whale.service.weixin.protocol.WxCgibinAccessTokenResponse;
+import com.buterfleoge.whale.service.weixin.protocol.WxGetTicketResponse;
 import com.buterfleoge.whale.type.AccountStatus;
 import com.buterfleoge.whale.type.entity.AccountContacts;
 import com.buterfleoge.whale.type.entity.AccountInfo;
@@ -26,6 +35,8 @@ import com.buterfleoge.whale.type.protocol.account.DeleteContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsRequest;
 import com.buterfleoge.whale.type.protocol.account.GetContactsResponse;
 import com.buterfleoge.whale.type.protocol.account.GetDiscountCodeResponse;
+import com.buterfleoge.whale.type.protocol.account.GetWxShareConfigRequest;
+import com.buterfleoge.whale.type.protocol.account.GetWxShareConfigResponse;
 import com.buterfleoge.whale.type.protocol.account.PostBasicInfoRequest;
 import com.buterfleoge.whale.type.protocol.account.PostContactsRequest;
 
@@ -40,6 +51,9 @@ public class AccountBizImpl implements AccountBiz {
 
     private static final Logger LOG = LoggerFactory.getLogger(AccountBizImpl.class);
 
+    @Value("${wx.cgi-bin.appid}")
+    private String appid;
+
     @Autowired
     private AccountInfoRepository accountInfoRepository;
 
@@ -48,6 +62,9 @@ public class AccountBizImpl implements AccountBiz {
 
     @Autowired
     private DiscountCodeRepository discountCodeRepository;
+
+    @Autowired
+    private WeixinCgibinService weixinCgibinService;
 
     @Override
     public void updateBasicInfo(Long accountid, PostBasicInfoRequest request, Response response) throws Exception {
@@ -267,6 +284,39 @@ public class AccountBizImpl implements AccountBiz {
             response.setStatus(Status.DB_ERROR);
             response.setDiscountCodes(Collections.<DiscountCode> emptyList());
         }
+    }
+
+    @Override
+    public void getWxShareConfig(Long accountid, GetWxShareConfigRequest request, GetWxShareConfigResponse response) throws Exception {
+        WxCgibinAccessTokenResponse accessToken = weixinCgibinService.getCgibinAccessToken();
+        if (accessToken == null) {
+            throw new WeixinException("获取accessToken失败");
+        }
+        WxGetTicketResponse ticket = weixinCgibinService.getTicket(accessToken.getAccess_token(), "jsapi");
+        if (ticket == null) {
+            throw new WeixinException("获取jsapiTicket失败");
+        }
+
+        String nonceStr = Utils.createNonceStr();
+        String jsapiTicket = ticket.getTicket();
+        long timeStamp = System.currentTimeMillis();
+        String url = request.getRouteUrl();
+        String signature = createSignatur(nonceStr, jsapiTicket, timeStamp, url);
+
+        response.setAppid(appid);
+        response.setTimestamp(timeStamp);
+        response.setNonceStr(nonceStr);
+        response.setSignature(signature);
+    }
+
+    private String createSignatur(String nonceStr, String jsapiTicket, long timeStamp, String url) {
+        Map<String, Object> paramToEncry = new HashMap<String, Object>();
+        paramToEncry.put("noncestr", nonceStr);
+        paramToEncry.put("jsapi_ticket", jsapiTicket);
+        paramToEncry.put("timestamp", timeStamp);
+        paramToEncry.put("url", url);
+        String link = Utils.createLinkString(paramToEncry);
+        return DigestUtils.sha1Hex(link);
     }
 
 }

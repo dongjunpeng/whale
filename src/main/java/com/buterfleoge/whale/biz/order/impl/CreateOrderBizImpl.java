@@ -397,6 +397,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         out.close();
         page.setContents(newContents);
         document.save(pdfPath);
+        document.close();
     }
 
 }

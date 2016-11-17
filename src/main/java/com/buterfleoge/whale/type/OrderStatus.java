@@ -21,11 +21,11 @@ public class OrderStatus  extends EnumObject{
 
     public static final OrderStatus NEW = new OrderStatus(0, "点击报名");
 
-    public static final OrderStatus WAITING = new OrderStatus(1, "生成等待付款");
+    public static final OrderStatus WAITING = new OrderStatus(1, "新建订单");
 
-    public static final OrderStatus PAYING = new OrderStatus(2, "付款中");
+    public static final OrderStatus PAYING = new OrderStatus(2, "等待支付");
 
-    public static final OrderStatus PAID = new OrderStatus(3, "付款到账");
+    public static final OrderStatus PAID = new OrderStatus(3, "支付成功");
 
     public static final OrderStatus FINISH = new OrderStatus(4, "开始旅行");
 
@@ -33,9 +33,9 @@ public class OrderStatus  extends EnumObject{
 
     public static final OrderStatus REFUNDED = new OrderStatus(6, "退款成功");
 
-    public static final OrderStatus CANCEL = new OrderStatus(7, "取消");
+    public static final OrderStatus CANCEL = new OrderStatus(7, "订单取消");
 
-    public static final OrderStatus TIMEOUT = new OrderStatus(8, "超时");
+    public static final OrderStatus TIMEOUT = new OrderStatus(8, "订单超时");
 
     public static final OrderStatus CLOSED = new OrderStatus(9, "行程取消");
 

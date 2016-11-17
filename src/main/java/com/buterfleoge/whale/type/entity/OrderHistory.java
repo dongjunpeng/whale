@@ -27,7 +27,7 @@ public class OrderHistory extends BaseObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "history_id")
+    @Column(name = "historyid")
     private Long historyid;
 
     @Column(name = "orderid")

@@ -2,6 +2,7 @@ package com.buterfleoge.whale.biz.order.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -22,6 +23,7 @@ import com.buterfleoge.whale.biz.order.OrderDiscountBiz;
 import com.buterfleoge.whale.dao.AccountInfoRepository;
 import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
+import com.buterfleoge.whale.dao.OrderHistoryRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.OrderRefoundRepository;
 import com.buterfleoge.whale.dao.OrderTravellersRepository;
@@ -35,6 +37,7 @@ import com.buterfleoge.whale.type.OrderStatusCategory;
 import com.buterfleoge.whale.type.entity.AccountInfo;
 import com.buterfleoge.whale.type.entity.DiscountCode;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
+import com.buterfleoge.whale.type.entity.OrderHistory;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderRefund;
 import com.buterfleoge.whale.type.entity.OrderTravellers;
@@ -42,6 +45,7 @@ import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 import com.buterfleoge.whale.type.protocol.order.GetBriefOrdersRequest;
 import com.buterfleoge.whale.type.protocol.order.GetBriefOrdersResponse;
+import com.buterfleoge.whale.type.protocol.order.GetOrderHistoryResponse;
 import com.buterfleoge.whale.type.protocol.order.GetOrderResponse;
 import com.buterfleoge.whale.type.protocol.order.OrderRequest;
 import com.buterfleoge.whale.type.protocol.order.object.BriefOrder;
@@ -78,6 +82,9 @@ public class OrderBizImpl implements OrderBiz {
 
     @Autowired
     private AccountInfoRepository accountInfoRepository;
+
+    @Autowired
+    private OrderHistoryRepository orderHistoryRepository;
 
     @Autowired
     private OrderDiscountBiz orderDiscountBiz;
@@ -168,6 +175,45 @@ public class OrderBizImpl implements OrderBiz {
     }
 
     @Override
+    public void getOrderHistory(Long accountid, OrderRequest request, GetOrderHistoryResponse response) throws Exception {
+        Long orderid = request.getOrderid();
+        OrderInfo orderInfo = orderInfoRepository.findByOrderidAndAccountid(orderid, accountid);
+        if (orderInfo == null) {
+            response.setStatus(Status.PARAM_ERROR);
+            return;
+        }
+        List<OrderHistory> historys = orderHistoryRepository.findByOrderid(orderid);
+        // 只是点了报名, 然后就超时了，那就显示一个完整的订单流程
+        if (CollectionUtils.isEmpty(historys) || (historys.size() == 1 && historys.get(0).getType() == OrderStatus.TIMEOUT.value)) {
+            response.addHistoryItem(OrderStatus.NEW.desc).addNextItem(OrderStatus.WAITING.desc).addNextItem(OrderStatus.PAYING.desc)
+                    .addNextItem(OrderStatus.FINISH.desc);
+            return;
+        }
+        boolean hasPaid = false;
+        for (OrderHistory orderHistory : historys) {
+            Integer type = orderHistory.getType();
+            response.addHistoryItem(OrderStatus.HELPER.valueOf(type).desc);
+            hasPaid |= type.equals(OrderStatus.PAID); // 只要有一个等于PAID
+        }
+        int status = orderInfo.getStatus().intValue();
+        if (status == OrderStatus.WAITING.value) {
+            response.addNextItem(OrderStatus.PAYING.desc);
+            response.addNextItem(OrderStatus.PAID.desc);
+            response.addNextItem(OrderStatus.FINISH.desc);
+        } else if (status == OrderStatus.PAYING.value) {
+            response.addNextItem(OrderStatus.PAID.desc);
+            response.addNextItem(OrderStatus.FINISH.desc);
+        } else if (status == OrderStatus.PAID.value) {
+            response.addNextItem(OrderStatus.FINISH.desc);
+        } else if (status == OrderStatus.REFUNDING.value) {
+            response.addNextItem(OrderStatus.REFUNDED.desc);
+        } else if (status == OrderStatus.CLOSED.value && hasPaid) {
+            response.addNextItem(OrderStatus.REFUNDING.desc);
+            response.addNextItem(OrderStatus.REFUNDED.desc);
+        }
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public OrderInfo changeOrderInfoStatusIfTimeout(OrderInfo orderInfo) throws Exception {
         Integer status = orderInfo.getStatus();
@@ -175,8 +221,11 @@ public class OrderBizImpl implements OrderBiz {
             return orderInfo;
         }
         if (DateUtils.addHours(orderInfo.getAddTime(), 2).getTime() < System.currentTimeMillis()) {
+            Integer oldOrderStatus = orderInfo.getStatus();
             orderInfo.setStatus(OrderStatus.TIMEOUT.value);
+            orderInfo.setModTime(new Date());
             orderInfo = orderInfoRepository.save(orderInfo);
+            orderHistoryRepository.save(OrderHistory.newInstance(oldOrderStatus, orderInfo));
 
             TravelGroup group = travelGroupRepository.findOne(orderInfo.getGroupid());
             group.setStatus(GroupStatus.OPEN.value);
@@ -341,7 +390,7 @@ public class OrderBizImpl implements OrderBiz {
                 info.setAvatarUrl(account.getAvatarUrl());
                 otherTravellers.add(account);
             }
-            if (otherTravellers.size() >= 5) {
+            if (otherTravellers.size() > 5) {
                 otherTravellers = otherTravellers.subList(0, 6);
             }
             return new HashSet<AccountInfo>(otherTravellers);

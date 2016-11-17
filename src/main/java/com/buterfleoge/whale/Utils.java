@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.MapUtils;
@@ -18,8 +20,13 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.format.Parser;
+import org.springframework.format.Printer;
 import org.springframework.format.number.CurrencyStyleFormatter;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
+import com.buterfleoge.whale.Constants.DefaultValue;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 
@@ -157,7 +164,7 @@ public abstract class Utils {
 
     /**
      * 创建微信的加密串
-     * 
+     *
      * @param param
      * @param key
      * @return
@@ -166,6 +173,65 @@ public abstract class Utils {
         param = paraFilter(param);
         String linkString = Utils.createLinkString(param) + "&key=" + key;
         return Utils.stringMD5(linkString).toUpperCase();
+    }
+
+    /**
+     * 创建随机字符串
+     *
+     * @return
+     */
+    public static String createNonceStr() {
+        StringBuilder builder = new StringBuilder(DefaultValue.TOKEN) //
+                .append(DefaultValue.SEPARATOR).append(System.currentTimeMillis()) //
+                .append(DefaultValue.SEPARATOR).append(Math.random());
+        return Utils.stringMD5(builder.toString());
+    }
+
+    public static <T> String join(List<T> list, String separator) {
+        return join(list, separator, new Printer<T>() {
+
+            @Override
+            public String print(T object, Locale locale) {
+                return Objects.toString(object, "");
+            }
+        });
+    }
+
+    public static <T> String join(List<T> list, String separator, Printer<T> printer) {
+        if (CollectionUtils.isEmpty(list)) {
+            return "";
+        }
+        StringBuilder builder = new StringBuilder(printer.print(list.get(0), Locale.CHINA));
+        for (int i = 1, n = list.size(); i < n; i++) {
+            builder.append(separator).append(printer.print(list.get(i), Locale.CHINA));
+        }
+        return builder.toString();
+    }
+
+    public static List<String> split(String string, String separator) {
+        return split(string, separator, new Parser<String>() {
+
+            @Override
+            public String parse(String text, Locale locale) throws ParseException {
+                return text;
+            }
+        });
+    }
+
+    public static <T> List<T> split(String string, String separator, Parser<T> parser) {
+        if (StringUtils.isEmpty(string)) {
+            return new ArrayList<T>(0);
+        }
+        String[] items = string.split(separator);
+        List<T> result = new ArrayList<T>(items.length);
+        for (String item : items) {
+            try {
+                result.add(parser.parse(item, Locale.CHINA));
+            } catch (ParseException e) {
+                LOG.error("parse fail, item: " + item, e);
+            }
+        }
+        return result;
     }
 
     public static void main(String[] args) {

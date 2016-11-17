@@ -200,6 +200,8 @@ public interface Constants {
 
         String SEPARATOR = "_";
 
+        String DB_SEPARATOR = ";";
+
         String EMAIL_FROM = "zhenzong.peng@icloud.com";
 
         String WX_SCOPE_SEPARATOR = ",";
