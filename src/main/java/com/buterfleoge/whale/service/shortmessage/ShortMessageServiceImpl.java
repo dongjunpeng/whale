@@ -57,11 +57,12 @@ public class ShortMessageServiceImpl implements ShortMessageService {
     /**
      * 付款成功
      * 
-     * 管理员->付款成功：${routeName}，${startDate}，${count}人，实付${actualPrice}，已报$
-     * {groupCount}人，姓名：${travellerList}
+     * 管理员->付款成功！路线${routeName}，日期${startDate}，共${count}人，实付${actualPrice}，该团已报$
+     * {groupCount}人。姓名列表：${travellerList}
      * 
-     * 付款账户->${travellerList}已成功报名“${routeName}”，订单号${createTime}${
-     * orderid}，${startDate}出发！
+     * 付款账户->恭喜！${travellerList}已成功报名“${routeName}”旅行，订单号${prefixOrderid}，将于${
+     * startDate}日出发！
+     * 
      * 
      * @return
      */
@@ -75,8 +76,8 @@ public class ShortMessageServiceImpl implements ShortMessageService {
         String count = orderInfo.getCount().toString();
         String groupCount = travelGroup.getActualCount().toString();
         String actualPrice = Utils.formatPrice(orderInfo.getActualPrice());
-        String createTime = DateFormatUtils.format(orderInfo.getCreateTime(), Pattern.ORDER_PREFIX);
-        String orderid = orderInfo.getOrderid().toString();
+        String prefixOrderid = DateFormatUtils.format(orderInfo.getCreateTime(), Pattern.ORDER_PREFIX)
+                + orderInfo.getOrderid();
 
         // 拼出行人字符串
         StringBuilder travellerList = new StringBuilder(orderTravellers.get(0).getName());
@@ -114,8 +115,7 @@ public class ShortMessageServiceImpl implements ShortMessageService {
             userParam.append("{");
             userParam.append("\"travellerList\":").append(travellerList).append("\",");
             userParam.append("\"routeName\":").append(routeName).append("\",");
-            userParam.append("\"createTime\":").append(createTime).append("\",");
-            userParam.append("\"orderid\":").append(orderid).append("\",");
+            userParam.append("\"prefixOrderid\":").append(prefixOrderid).append("\",");
             userParam.append("\"startDate\":").append(startDate).append("\"");
             userParam.append("}");
 
@@ -130,8 +130,8 @@ public class ShortMessageServiceImpl implements ShortMessageService {
     }
 
     /**
-     * 每个出行人->${travellerName}，【${routeName}】${startDate}至${endDate}马上就要出发啦！领队${
-     * leader}，微信/手机${mobile}，${hotel}见！详细见公众号/网站集合文件。
+     * 每个出行人->亲爱的${travellerName}，您报名的“${routeName}”马上就要出发啦！${startDate}日，${
+     * hotel}不见不散！领队${leader}，微信/手机${mobile}。（物资准备/当地天气等请在“我的行程”中查看详细哦）。
      * 
      * @return
      */
