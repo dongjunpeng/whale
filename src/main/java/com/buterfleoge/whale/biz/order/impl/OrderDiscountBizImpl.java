@@ -20,7 +20,7 @@ import com.buterfleoge.whale.Constants.ErrorMsg;
 import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.order.OrderDiscountBiz;
 import com.buterfleoge.whale.biz.order.impl.discount.DiscountStrategy;
-import com.buterfleoge.whale.dao.DiscountCodeRepository;
+import com.buterfleoge.whale.dao.CouponRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.type.CouponStatus;
 import com.buterfleoge.whale.type.entity.Discount;
@@ -46,7 +46,7 @@ public class OrderDiscountBizImpl extends ApplicationObjectSupport implements Or
     private TravelGroupRepository travelGroupRepository;
 
     @Autowired
-    private DiscountCodeRepository discountCodeRepository;
+    private CouponRepository couponRepository;
 
     private List<DiscountStrategy> discountStrategies = new CopyOnWriteArrayList<DiscountStrategy>();
 
@@ -99,7 +99,7 @@ public class OrderDiscountBizImpl extends ApplicationObjectSupport implements Or
     public void validateDiscountCode(Long accountid, ValidateCodeRequest request, ValidateCodeResponse response)
             throws Exception {
         String code = request.getCode();
-        Coupon discountCode = discountCodeRepository.findByDiscountCode(code);
+        Coupon discountCode = couponRepository.findByDiscountCode(code);
         if (discountCode == null || (discountCode.getAccountid() != null && !discountCode.getAccountid().equals(accountid))) {
             response.setStatus(Status.BIZ_ERROR);
             response.addError(new Error(BizCode.DISCOUNT_CODE_NOT_EXIST, ErrorMsg.DISCOUNT_CODE_NOT_EXIST));
@@ -112,7 +112,7 @@ public class OrderDiscountBizImpl extends ApplicationObjectSupport implements Or
         }
         if (discountCode.getStatus() == CouponStatus.CREATED.value) {
             discountCode.setStatus(CouponStatus.VERIFIED.value);
-            discountCodeRepository.save(discountCode);
+            couponRepository.save(discountCode);
         }
         response.setValue(discountCode.getValue());
     }

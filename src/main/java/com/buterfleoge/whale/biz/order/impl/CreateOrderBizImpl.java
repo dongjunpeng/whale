@@ -48,7 +48,7 @@ import com.buterfleoge.whale.Utils;
 import com.buterfleoge.whale.biz.order.CreateOrderBiz;
 import com.buterfleoge.whale.biz.order.OrderBiz;
 import com.buterfleoge.whale.biz.travel.TravelBiz;
-import com.buterfleoge.whale.dao.DiscountCodeRepository;
+import com.buterfleoge.whale.dao.CouponRepository;
 import com.buterfleoge.whale.dao.DiscountRepository;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
 import com.buterfleoge.whale.dao.OrderHistoryRepository;
@@ -105,7 +105,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
     private DiscountRepository discountRepository;
 
     @Autowired
-    private DiscountCodeRepository discountCodeRepository;
+    private CouponRepository couponRepository;
 
     @Autowired
     private OrderHistoryRepository orderHistoryRepository;
@@ -207,7 +207,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
             group.setStatus(GroupStatus.FULL.value);
         }
 
-        Coupon discountCode = discountCodeRepository.findByDiscountCode(request.getDiscountCode());
+        Coupon discountCode = couponRepository.findByDiscountCode(request.getDiscountCode());
         OrderDiscount policyOrderDiscount = createPolicyOrderDiscount(orderid, request.getPolicyDiscountid(), now);
         OrderDiscount studentOrderDiscount = createStudentOrderDiscount(orderid, request.getStudentDiscountid(),
                 studentCount, now);
@@ -224,7 +224,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
             }
             if (discountCode != null) {
                 discountCode.setStatus(CouponStatus.USED.value);
-                discountCodeRepository.save(discountCode);
+                couponRepository.save(discountCode);
             }
             orderHistoryRepository.save(OrderHistory.newInstance(orderid, orderInfo.getStatus(), "用户新建订单"));
         } catch (Exception e) {
@@ -300,7 +300,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
 
     private OrderDiscount createCodeOrderDiscount(Long orderid, String code, Date addTime) {
         OrderDiscount codeOrderDiscount = null;
-        Coupon discountCode = discountCodeRepository.findByDiscountCode(code);
+        Coupon discountCode = couponRepository.findByDiscountCode(code);
         if (discountCode != null) {
             codeOrderDiscount = new OrderDiscount();
             codeOrderDiscount.setOrderid(orderid);

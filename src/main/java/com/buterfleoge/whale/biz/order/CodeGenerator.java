@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.buterfleoge.whale.Utils;
-import com.buterfleoge.whale.dao.DiscountCodeRepository;
+import com.buterfleoge.whale.dao.CouponRepository;
 import com.buterfleoge.whale.type.CouponStatus;
 import com.buterfleoge.whale.type.entity.Coupon;
 
@@ -21,7 +21,7 @@ import com.buterfleoge.whale.type.entity.Coupon;
 public class CodeGenerator {
 
     @Autowired
-    private DiscountCodeRepository discountCodeRepository;
+    private CouponRepository discountCodeRepository;
     private Coupon discountCode;
     private String code;
 

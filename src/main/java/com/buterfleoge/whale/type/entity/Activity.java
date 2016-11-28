@@ -1,5 +1,6 @@
 package com.buterfleoge.whale.type.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.JsonObjectConverter;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
@@ -25,6 +28,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 @Table(name = "activity")
 public class Activity extends BaseObject {
 
+    public static final Long ACTIVITY_NEW = Long.valueOf(0);
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "activity")
@@ -34,6 +39,7 @@ public class Activity extends BaseObject {
     private String name;
 
     @Column(name = "param")
+    @Convert(converter = JsonObjectConverter.class)
     private ObjectNode param;
 
     @DateTimeFormat(pattern = Pattern.DATE)
@@ -45,6 +51,22 @@ public class Activity extends BaseObject {
     @Column(name = "end_time")
     @Convert(converter = DateTimeConverter.class)
     private Date endTime;
+
+    public boolean isOpen() {
+        Date now = new Date();
+        return startTime.before(now) && endTime.after(now);
+    }
+
+    public boolean isClose() {
+        Date row = new Date();
+        return startTime.after(row) && endTime.before(row);
+    }
+
+    public BigDecimal findValue() {
+        ObjectNode param = getParam();
+        JsonNode value = param.get("value");
+        return value != null ? BigDecimal.valueOf(value.asLong(), 2) : BigDecimal.ZERO;
+    }
 
     /**
      * @return the activity

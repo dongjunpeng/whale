@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.buterfleoge.whale.biz.order.CancelOrderBiz;
-import com.buterfleoge.whale.dao.DiscountCodeRepository;
+import com.buterfleoge.whale.dao.CouponRepository;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
 import com.buterfleoge.whale.dao.OrderHistoryRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
@@ -39,7 +39,7 @@ public class CancelOrderBizImpl implements CancelOrderBiz {
     private OrderDiscountRepository orderDiscountRepository;
 
     @Autowired
-    private DiscountCodeRepository discountCodeRepository;
+    private CouponRepository couponRepository;
 
     @Autowired
     private OrderHistoryRepository orderHistoryRepository;
@@ -63,9 +63,9 @@ public class CancelOrderBizImpl implements CancelOrderBiz {
         OrderDiscount orderDiscount = orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.COUPON.value);
         if (orderDiscount != null) {
             String code = orderDiscount.getDiscountCode();
-            Coupon discountCode = discountCodeRepository.findByDiscountCode(code);
+            Coupon discountCode = couponRepository.findByDiscountCode(code);
             discountCode.setStatus(CouponStatus.VERIFIED.value);
-            discountCodeRepository.save(discountCode);
+            couponRepository.save(discountCode);
         }
         orderHistoryRepository.save(OrderHistory.newInstance(oldOrderStatus, orderInfo));
     }

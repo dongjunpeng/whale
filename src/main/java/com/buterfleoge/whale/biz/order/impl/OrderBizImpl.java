@@ -21,7 +21,7 @@ import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.order.OrderBiz;
 import com.buterfleoge.whale.biz.order.OrderDiscountBiz;
 import com.buterfleoge.whale.dao.AccountInfoRepository;
-import com.buterfleoge.whale.dao.DiscountCodeRepository;
+import com.buterfleoge.whale.dao.CouponRepository;
 import com.buterfleoge.whale.dao.OrderDiscountRepository;
 import com.buterfleoge.whale.dao.OrderHistoryRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
@@ -66,7 +66,7 @@ public class OrderBizImpl implements OrderBiz {
     private TravelGroupRepository travelGroupRepository;
 
     @Autowired
-    private DiscountCodeRepository discountCodeRepository;
+    private CouponRepository couponRepository;
 
     @Autowired
     private OrderInfoRepository orderInfoRepository;
@@ -234,9 +234,9 @@ public class OrderBizImpl implements OrderBiz {
 
             OrderDiscount orderDiscount = orderDiscountRepository.findByOrderidAndType(orderInfo.getOrderid(), DiscountType.COUPON.value);
             if (orderDiscount != null) {
-                Coupon discountCode = discountCodeRepository.findByDiscountCode(orderDiscount.getDiscountCode());
+                Coupon discountCode = couponRepository.findByDiscountCode(orderDiscount.getDiscountCode());
                 discountCode.setStatus(CouponStatus.VERIFIED.value);
-                discountCodeRepository.save(discountCode);
+                couponRepository.save(discountCode);
             }
         }
         return orderInfo;

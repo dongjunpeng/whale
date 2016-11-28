@@ -14,7 +14,7 @@ import org.springframework.validation.Validator;
 import com.buterfleoge.whale.Constants.ErrorMsg;
 import com.buterfleoge.whale.biz.order.OrderDiscountBiz;
 import com.buterfleoge.whale.biz.travel.TravelBiz;
-import com.buterfleoge.whale.dao.DiscountCodeRepository;
+import com.buterfleoge.whale.dao.CouponRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.type.entity.Discount;
@@ -49,7 +49,7 @@ public class CreateOrderValidator implements Validator {
     private TravelGroupRepository travelGroupRepository;
 
     @Autowired
-    private DiscountCodeRepository discountCodeRepository;
+    private CouponRepository couponRepository;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -156,7 +156,7 @@ public class CreateOrderValidator implements Validator {
     private Coupon findDiscountCode(Long accountid, CreateOrderRequest request) throws Exception {
         String code = request.getDiscountCode();
         if (StringUtils.hasText(code)) {
-            Coupon discountCode = discountCodeRepository.findByDiscountCode(code);
+            Coupon discountCode = couponRepository.findByDiscountCode(code);
             if (discountCode == null || (discountCode.getAccountid() != null && !discountCode.getAccountid().equals(accountid))) {
                 throw new Exception("Invalid discount code.");
             }

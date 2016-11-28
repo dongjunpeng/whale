@@ -11,7 +11,7 @@ import com.buterfleoge.whale.type.entity.Coupon;
  * @author Brent24
  *
  */
-public interface DiscountCodeRepository extends CrudRepository<Coupon, Long> {
+public interface CouponRepository extends CrudRepository<Coupon, Long> {
 
     Coupon findByDiscountCode(String code);
 

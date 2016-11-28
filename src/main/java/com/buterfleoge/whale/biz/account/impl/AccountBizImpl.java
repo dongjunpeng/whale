@@ -20,7 +20,7 @@ import com.buterfleoge.whale.Utils;
 import com.buterfleoge.whale.biz.account.AccountBiz;
 import com.buterfleoge.whale.dao.AccountContactsRepository;
 import com.buterfleoge.whale.dao.AccountInfoRepository;
-import com.buterfleoge.whale.dao.DiscountCodeRepository;
+import com.buterfleoge.whale.dao.CouponRepository;
 import com.buterfleoge.whale.exception.WeixinException;
 import com.buterfleoge.whale.service.WeixinCgibinService;
 import com.buterfleoge.whale.service.weixin.protocol.WxCgibinAccessTokenResponse;
@@ -61,7 +61,7 @@ public class AccountBizImpl implements AccountBiz {
     private AccountContactsRepository accountContactsRepository;
 
     @Autowired
-    private DiscountCodeRepository discountCodeRepository;
+    private CouponRepository couponRepository;
 
     @Autowired
     private WeixinCgibinService weixinCgibinService;
@@ -278,7 +278,7 @@ public class AccountBizImpl implements AccountBiz {
     @Override
     public void getDiscountCode(Long accoutid, Request request, GetDiscountCodeResponse response) throws Exception {
         try {
-            response.setDiscountCodes(discountCodeRepository.findByAccountid(accoutid));
+            response.setDiscountCodes(couponRepository.findByAccountid(accoutid));
         } catch (Exception e) {
             LOG.error("find discount code failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
