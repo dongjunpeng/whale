@@ -9,7 +9,7 @@ import org.springframework.format.annotation.NumberFormat.Style;
  * @author xiezhenzong
  *
  */
-public class GetContractRequest extends OrderRequest {
+public class PreviewContractRequest extends OrderRequest {
 
     private String travellers;
 

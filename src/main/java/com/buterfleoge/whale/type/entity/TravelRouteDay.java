@@ -20,8 +20,8 @@ import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
  *
  */
 @Entity
-@Table(name = "travel_route_days")
-public class TravelRouteDays extends BaseObject {
+@Table(name = "travel_route_day")
+public class TravelRouteDay extends BaseObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -7,13 +7,13 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.buterfleoge.whale.type.entity.TravelRouteDays;
+import com.buterfleoge.whale.type.entity.TravelRouteDay;
 
 /**
  * @author xiezhenzong
  *
  */
-public interface TravelRouteDaysRepository extends CrudRepository<TravelRouteDays, Long> {
+public interface TravelRouteDaysRepository extends CrudRepository<TravelRouteDay, Long> {
 
-    List<TravelRouteDays> findByRouteid(Long routeid);
+    List<TravelRouteDay> findByRouteid(Long routeid);
 }

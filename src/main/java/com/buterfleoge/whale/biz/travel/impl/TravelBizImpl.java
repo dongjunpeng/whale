@@ -47,9 +47,6 @@ public class TravelBizImpl implements TravelBiz {
 
     private static final Logger LOG = LoggerFactory.getLogger(TravelBizImpl.class);
 
-    @Value("${route.imgtext.path}")
-    private String imgtextPath;
-
     @Value("${route.mdtext.path}")
     private String mdtextPath;
 
@@ -110,6 +107,8 @@ public class TravelBizImpl implements TravelBiz {
                     response.setMdtext(getMdtext(routeids.get(0)));
                     response.setWapInfo(travelRouteWapInfoRepository.findOne(routeid));
                 }
+            } else {
+                Collections.sort(response.getRoutes(), TravelRoute.getComparator(request.isFromWx()));
             }
         } catch (Exception e) {
             LOG.error("get imgtext failed, reqid: " + request.getReqid(), e);

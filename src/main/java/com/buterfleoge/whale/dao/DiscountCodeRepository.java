@@ -5,20 +5,20 @@ import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.buterfleoge.whale.type.entity.DiscountCode;
+import com.buterfleoge.whale.type.entity.Coupon;
 
 /**
  * @author Brent24
  *
  */
-public interface DiscountCodeRepository extends CrudRepository<DiscountCode, Long> {
+public interface DiscountCodeRepository extends CrudRepository<Coupon, Long> {
 
-    DiscountCode findByDiscountCode(String code);
+    Coupon findByDiscountCode(String code);
 
-    DiscountCode findByAccountidAndDiscountCode(Long accountid, String code);
+    Coupon findByAccountidAndDiscountCode(Long accountid, String code);
 
-    List<DiscountCode> findByAccountid(Long accountid);
+    List<Coupon> findByAccountid(Long accountid);
 
-    List<DiscountCode> findByStatusIn(Set<Integer> status);
+    List<Coupon> findByStatusIn(Set<Integer> status);
 
 }

@@ -5,7 +5,7 @@ import java.util.List;
 import com.buterfleoge.whale.type.entity.AccountInfo;
 import com.buterfleoge.whale.type.entity.AssemblyInfo;
 import com.buterfleoge.whale.type.entity.OrderInfo;
-import com.buterfleoge.whale.type.entity.OrderTravellers;
+import com.buterfleoge.whale.type.entity.OrderTraveller;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 
@@ -27,7 +27,7 @@ public interface ShortMessageService {
      * @return
      */
     boolean sendPaySuccessMessage(TravelRoute travelRoute, TravelGroup travelGroup, OrderInfo orderInfo,
-            List<OrderTravellers> orderTravellers, AccountInfo accoutInfo);
+            List<OrderTraveller> orderTravellers, AccountInfo accoutInfo);
 
     /**
      * 每个出行人->${travellerName}，【${routeName}】${startDate}至${endDate}马上就要出发啦！领队${
@@ -36,7 +36,7 @@ public interface ShortMessageService {
      * @return
      */
     int sendAssemblyInfo(TravelRoute travelRoute, TravelGroup travelGroup, AssemblyInfo assembleInfo,
-            List<OrderTravellers> orderTravellers);
+            List<OrderTraveller> orderTravellers);
 
     /**
      * 重大事项->管理员
@@ -51,7 +51,7 @@ public interface ShortMessageService {
      * @return
      */
     boolean sendRefundApplyMessage(TravelRoute travelRoute, TravelGroup travelGroup, OrderInfo orderInfo,
-            List<OrderTravellers> orderTravellers);
+            List<OrderTraveller> orderTravellers);
 
     /**
      * 退款成功->管理员+付款账户
@@ -59,7 +59,7 @@ public interface ShortMessageService {
      * @return
      */
     boolean sendRefundSuccessMessage(TravelRoute travelRoute, TravelGroup travelGroup, OrderInfo orderInfo,
-            List<OrderTravellers> orderTravellers);
+            List<OrderTraveller> orderTravellers);
 
     /**
      * 验证码

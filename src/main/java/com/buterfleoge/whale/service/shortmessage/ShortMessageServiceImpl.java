@@ -17,7 +17,7 @@ import com.buterfleoge.whale.service.ShortMessageService;
 import com.buterfleoge.whale.type.entity.AccountInfo;
 import com.buterfleoge.whale.type.entity.AssemblyInfo;
 import com.buterfleoge.whale.type.entity.OrderInfo;
-import com.buterfleoge.whale.type.entity.OrderTravellers;
+import com.buterfleoge.whale.type.entity.OrderTraveller;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -67,7 +67,7 @@ public class ShortMessageServiceImpl implements ShortMessageService {
      */
     @Override
     public boolean sendPaySuccessMessage(TravelRoute travelRoute, TravelGroup travelGroup, OrderInfo orderInfo,
-            List<OrderTravellers> orderTravellers, AccountInfo accountInfo) {
+            List<OrderTraveller> orderTravellers, AccountInfo accountInfo) {
 
         // 基本信息
         String routeName = travelRoute.getName();
@@ -137,7 +137,7 @@ public class ShortMessageServiceImpl implements ShortMessageService {
      */
     @Override
     public int sendAssemblyInfo(TravelRoute travelRoute, TravelGroup travelGroup, AssemblyInfo assembleInfo,
-            List<OrderTravellers> orderTravellers) {
+            List<OrderTraveller> orderTravellers) {
 
         // 成功发送条数
         int sent = 0;
@@ -166,7 +166,7 @@ public class ShortMessageServiceImpl implements ShortMessageService {
             return sent;
         }
 
-        for (OrderTravellers traveller : orderTravellers) {
+        for (OrderTraveller traveller : orderTravellers) {
 
             StringBuilder builder = new StringBuilder();
             builder.append("{");
@@ -193,13 +193,13 @@ public class ShortMessageServiceImpl implements ShortMessageService {
 
     @Override
     public boolean sendRefundApplyMessage(TravelRoute travelRoute, TravelGroup travelGroup, OrderInfo orderInfo,
-            List<OrderTravellers> orderTravellers) {
+            List<OrderTraveller> orderTravellers) {
         return false;
     }
 
     @Override
     public boolean sendRefundSuccessMessage(TravelRoute travelRoute, TravelGroup travelGroup, OrderInfo orderInfo,
-            List<OrderTravellers> orderTravellers) {
+            List<OrderTraveller> orderTravellers) {
         return false;
     }
 

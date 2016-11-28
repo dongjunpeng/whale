@@ -10,11 +10,11 @@ import com.buterfleoge.whale.dao.OrderDiscountRepository;
 import com.buterfleoge.whale.dao.OrderHistoryRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
-import com.buterfleoge.whale.type.DiscountCodeStatus;
+import com.buterfleoge.whale.type.CouponStatus;
 import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.OrderStatus;
-import com.buterfleoge.whale.type.entity.DiscountCode;
+import com.buterfleoge.whale.type.entity.Coupon;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.OrderHistory;
 import com.buterfleoge.whale.type.entity.OrderInfo;
@@ -63,8 +63,8 @@ public class CancelOrderBizImpl implements CancelOrderBiz {
         OrderDiscount orderDiscount = orderDiscountRepository.findByOrderidAndType(orderid, DiscountType.COUPON.value);
         if (orderDiscount != null) {
             String code = orderDiscount.getDiscountCode();
-            DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);
-            discountCode.setStatus(DiscountCodeStatus.VERIFIED.value);
+            Coupon discountCode = discountCodeRepository.findByDiscountCode(code);
+            discountCode.setStatus(CouponStatus.VERIFIED.value);
             discountCodeRepository.save(discountCode);
         }
         orderHistoryRepository.save(OrderHistory.newInstance(oldOrderStatus, orderInfo));

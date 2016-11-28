@@ -18,7 +18,7 @@ import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.type.entity.Discount;
-import com.buterfleoge.whale.type.entity.DiscountCode;
+import com.buterfleoge.whale.type.entity.Coupon;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
@@ -100,7 +100,7 @@ public class CreateOrderValidator implements Validator {
         }
         Discount discountPolicy = findDiscountPolicy(accountid, request, getDiscountResponse.getPolicy());
         Discount studentDiscount = getDiscountResponse.getStudentDiscount();
-        DiscountCode discountCode = findDiscountCode(accountid, request);
+        Coupon discountCode = findDiscountCode(accountid, request);
 
         // 校验学生优惠
         Long studentDiscountid = request.getStudentDiscountid();
@@ -153,10 +153,10 @@ public class CreateOrderValidator implements Validator {
         return null;
     }
 
-    private DiscountCode findDiscountCode(Long accountid, CreateOrderRequest request) throws Exception {
+    private Coupon findDiscountCode(Long accountid, CreateOrderRequest request) throws Exception {
         String code = request.getDiscountCode();
         if (StringUtils.hasText(code)) {
-            DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);
+            Coupon discountCode = discountCodeRepository.findByDiscountCode(code);
             if (discountCode == null || (discountCode.getAccountid() != null && !discountCode.getAccountid().equals(accountid))) {
                 throw new Exception("Invalid discount code.");
             }

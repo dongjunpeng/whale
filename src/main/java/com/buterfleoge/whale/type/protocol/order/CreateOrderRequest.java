@@ -10,7 +10,7 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.Constants;
-import com.buterfleoge.whale.type.entity.OrderTravellers;
+import com.buterfleoge.whale.type.entity.OrderTraveller;
 
 /**
  * @author Brent24
@@ -20,7 +20,7 @@ public class CreateOrderRequest extends OrderRequest {
 
     @NotNull(message = "")
     @Size(min = 1, max = Constants.DefaultValue.MAX_ORDER_TRAVELLER_COUNT, message = "")
-    private List<OrderTravellers> travellers;
+    private List<OrderTraveller> travellers;
 
     private Long policyDiscountid;
 
@@ -39,11 +39,11 @@ public class CreateOrderRequest extends OrderRequest {
 
     private boolean roommate;
 
-    public List<OrderTravellers> getTravellers() {
+    public List<OrderTraveller> getTravellers() {
         return travellers;
     }
 
-    public void setTravellers(List<OrderTravellers> travellers) {
+    public void setTravellers(List<OrderTraveller> travellers) {
         this.travellers = travellers;
     }
 

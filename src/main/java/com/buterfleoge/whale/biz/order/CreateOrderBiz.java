@@ -5,9 +5,10 @@ package com.buterfleoge.whale.biz.order;
 
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderRequest;
-import com.buterfleoge.whale.type.protocol.order.GetContractRequest;
 import com.buterfleoge.whale.type.protocol.order.NewOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.NewOrderResponse;
+import com.buterfleoge.whale.type.protocol.order.OrderRequest;
+import com.buterfleoge.whale.type.protocol.order.PreviewContractRequest;
 
 /**
  * @author xiezhenzong
@@ -19,6 +20,8 @@ public interface CreateOrderBiz {
 
     void createOrder(Long accountid, CreateOrderRequest request, Response response) throws Exception;
 
-    String createContract(Long accountid, GetContractRequest request, Response response) throws Exception;
+    String getContract(Long accountid, OrderRequest request, Response response) throws Exception;
+
+    String previewContract(Long accountid, PreviewContractRequest request, Response response) throws Exception;
 
 }

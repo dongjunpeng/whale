@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,8 +36,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.Printer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.aspose.words.Document;
 import com.buterfleoge.whale.Constants.Pattern;
@@ -53,25 +56,26 @@ import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.OrderTravellersRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
-import com.buterfleoge.whale.type.DiscountCodeStatus;
+import com.buterfleoge.whale.type.CouponStatus;
 import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.OrderStatusCategory;
 import com.buterfleoge.whale.type.entity.Discount;
-import com.buterfleoge.whale.type.entity.DiscountCode;
+import com.buterfleoge.whale.type.entity.Coupon;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.OrderHistory;
 import com.buterfleoge.whale.type.entity.OrderInfo;
-import com.buterfleoge.whale.type.entity.OrderTravellers;
+import com.buterfleoge.whale.type.entity.OrderTraveller;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 import com.buterfleoge.whale.type.protocol.Error;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.order.CreateOrderRequest;
-import com.buterfleoge.whale.type.protocol.order.GetContractRequest;
 import com.buterfleoge.whale.type.protocol.order.NewOrderRequest;
 import com.buterfleoge.whale.type.protocol.order.NewOrderResponse;
+import com.buterfleoge.whale.type.protocol.order.OrderRequest;
+import com.buterfleoge.whale.type.protocol.order.PreviewContractRequest;
 
 /**
  * @author xiezhenzong
@@ -175,8 +179,8 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void createOrder(Long accountid, CreateOrderRequest request, Response response) throws Exception {
-        List<OrderTravellers> travellers = request.getTravellers();
-        for (OrderTravellers traveller : travellers) {
+        List<OrderTraveller> travellers = request.getTravellers();
+        for (OrderTraveller traveller : travellers) {
             traveller.setOrderid(request.getOrderid());
         }
         Date now = new Date();
@@ -203,7 +207,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
             group.setStatus(GroupStatus.FULL.value);
         }
 
-        DiscountCode discountCode = discountCodeRepository.findByDiscountCode(request.getDiscountCode());
+        Coupon discountCode = discountCodeRepository.findByDiscountCode(request.getDiscountCode());
         OrderDiscount policyOrderDiscount = createPolicyOrderDiscount(orderid, request.getPolicyDiscountid(), now);
         OrderDiscount studentOrderDiscount = createStudentOrderDiscount(orderid, request.getStudentDiscountid(),
                 studentCount, now);
@@ -219,7 +223,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
                 orderDiscountRepository.save(discountList);
             }
             if (discountCode != null) {
-                discountCode.setStatus(DiscountCodeStatus.USED.value);
+                discountCode.setStatus(CouponStatus.USED.value);
                 discountCodeRepository.save(discountCode);
             }
             orderHistoryRepository.save(OrderHistory.newInstance(orderid, orderInfo.getStatus(), "用户新建订单"));
@@ -231,23 +235,31 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
     }
 
     @Override
-    public String createContract(Long accountid, GetContractRequest request, Response response) throws Exception {
+    public String getContract(Long accountid, OrderRequest request, Response response) throws Exception {
         OrderInfo orderInfo = orderInfoRepository.findByOrderidAndAccountid(request.getOrderid(), accountid);
         if (orderInfo == null) {
             throw new Exception("Can't find this order, orderid: " + request.getOrderid());
         }
-        TravelRoute route = travelRouteRepository.findByRouteidAndVisibleTrue(orderInfo.getRouteid());
-        TravelGroup group = travelGroupRepository.findOne(orderInfo.getGroupid());
+        List<OrderTraveller> orderTravellers = orderTravellersRepository.findByOrderid(orderInfo.getOrderid());
+        if (CollectionUtils.isEmpty(orderTravellers)) {
+            throw new Exception("empty order travellers, orderid: " + request.getOrderid());
+        }
+        String travellers = Utils.join(orderTravellers, ",", new Printer<OrderTraveller>() {
+            @Override
+            public String print(OrderTraveller object, Locale locale) {
+                return object.getName();
+            }
+        });
+        return createContract(orderInfo, travellers, orderInfo.getCount(), orderInfo.getPrice(), orderInfo.getActualPrice());
+    }
 
-        Map<String, String> mappings = createContractDataMapping(request, orderInfo, route, group);
-        String docPath = createContractPath(orderInfo, ".docx");
-        String pdfPath = createContractPath(orderInfo, ".pdf");
-
-        createContractDocxFile(mappings, docPath);
-        new Document(docPath).save(pdfPath); // convert docx to pdf
-        removeWaterMark(pdfPath); // docx转pdf的工具是免费版，会被加上水印，用pdfbox去掉
-
-        return pdfPath;
+    @Override
+    public String previewContract(Long accountid, PreviewContractRequest request, Response response) throws Exception {
+        OrderInfo orderInfo = orderInfoRepository.findByOrderidAndAccountid(request.getOrderid(), accountid);
+        if (orderInfo == null) {
+            throw new Exception("Can't find this order, orderid: " + request.getOrderid());
+        }
+        return createContract(orderInfo, request.getTravellers(), request.getCount(), request.getPrice(), request.getActualPrice());
     }
 
     private OrderDiscount createPolicyOrderDiscount(Long orderid, Long discountPolicyid, Date addTime) {
@@ -288,7 +300,7 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
 
     private OrderDiscount createCodeOrderDiscount(Long orderid, String code, Date addTime) {
         OrderDiscount codeOrderDiscount = null;
-        DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);
+        Coupon discountCode = discountCodeRepository.findByDiscountCode(code);
         if (discountCode != null) {
             codeOrderDiscount = new OrderDiscount();
             codeOrderDiscount.setOrderid(orderid);
@@ -315,10 +327,25 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         return discounts;
     }
 
-    private Map<String, String> createContractDataMapping(GetContractRequest request, OrderInfo orderInfo,
+    private String createContract(OrderInfo orderInfo, String travellers, Integer count, BigDecimal price, BigDecimal actualPrice)
+            throws Exception {
+        TravelRoute route = travelRouteRepository.findByRouteidAndVisibleTrue(orderInfo.getRouteid());
+        TravelGroup group = travelGroupRepository.findOne(orderInfo.getGroupid());
+
+        Map<String, String> mappings = createContractDataMapping(travellers, count, price, actualPrice, route, group);
+        String docPath = createContractPath(orderInfo, ".docx");
+        String pdfPath = createContractPath(orderInfo, ".pdf");
+
+        createContractDocxFile(mappings, docPath);
+        new Document(docPath).save(pdfPath); // convert docx to pdf
+        removeWaterMark(pdfPath); // docx转pdf的工具是免费版，会被加上水印，用pdfbox去掉
+        return pdfPath;
+    }
+
+    private Map<String, String> createContractDataMapping(String travellers, Integer count, BigDecimal price, BigDecimal actualPrice,
             TravelRoute route, TravelGroup group) throws Exception {
         HashMap<String, String> contractDataMapping = new HashMap<String, String>();
-        contractDataMapping.put("${travellers}", request.getTravellers());
+        contractDataMapping.put("${travellers}", travellers);
         contractDataMapping.put("${groupName}", Utils.getProductName(route, group));
         contractDataMapping.put("${startDate}", DateFormatUtils.format(group.getStartDate(), Pattern.DATE));
         contractDataMapping.put("${endDate}", DateFormatUtils.format(group.getEndDate(), Pattern.DATE));
@@ -326,11 +353,10 @@ public class CreateOrderBizImpl implements CreateOrderBiz {
         contractDataMapping.put("${distination}", route.getDistination());
         contractDataMapping.put("${route}", route.getRoute());
         contractDataMapping.put("${price}", Utils.formatPrice(group.getPrice()));
-        contractDataMapping.put("${count}", String.valueOf(request.getCount()));
-        contractDataMapping.put("${totalPrice}", Utils.formatPrice(request.getPrice()));
-        contractDataMapping.put("${actualPrice}", Utils.formatPrice(request.getActualPrice()));
-        contractDataMapping.put("${currenttime}",
-                DateFormatUtils.format(System.currentTimeMillis(), Pattern.DATE));
+        contractDataMapping.put("${count}", String.valueOf(count));
+        contractDataMapping.put("${totalPrice}", Utils.formatPrice(price));
+        contractDataMapping.put("${actualPrice}", Utils.formatPrice(actualPrice));
+        contractDataMapping.put("${currenttime}", DateFormatUtils.format(System.currentTimeMillis(), Pattern.DATE));
         return contractDataMapping;
     }
 

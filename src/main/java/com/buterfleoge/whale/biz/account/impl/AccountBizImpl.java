@@ -26,9 +26,9 @@ import com.buterfleoge.whale.service.WeixinCgibinService;
 import com.buterfleoge.whale.service.weixin.protocol.WxCgibinAccessTokenResponse;
 import com.buterfleoge.whale.service.weixin.protocol.WxGetTicketResponse;
 import com.buterfleoge.whale.type.AccountStatus;
-import com.buterfleoge.whale.type.entity.AccountContacts;
+import com.buterfleoge.whale.type.entity.AccountContact;
 import com.buterfleoge.whale.type.entity.AccountInfo;
-import com.buterfleoge.whale.type.entity.DiscountCode;
+import com.buterfleoge.whale.type.entity.Coupon;
 import com.buterfleoge.whale.type.protocol.Request;
 import com.buterfleoge.whale.type.protocol.Response;
 import com.buterfleoge.whale.type.protocol.account.DeleteContactsRequest;
@@ -139,12 +139,12 @@ public class AccountBizImpl implements AccountBiz {
         Long contactid = request.getContactid();
         try {
             if (contactid != null) {
-                AccountContacts contact = accountContactsRepository.findByContactidAndAccountidAndValidTrue(contactid, accountid);
+                AccountContact contact = accountContactsRepository.findByContactidAndAccountidAndValidTrue(contactid, accountid);
                 if (contact != null) {
                     response.setContacts(Arrays.asList(contact));
                 }
             } else {
-                List<AccountContacts> contacts = accountContactsRepository.findByAccountidAndValidTrue(accountid);
+                List<AccountContact> contacts = accountContactsRepository.findByAccountidAndValidTrue(accountid);
                 response.setContacts(contacts);
             }
         } catch (Exception e) {
@@ -159,7 +159,7 @@ public class AccountBizImpl implements AccountBiz {
         if (contactid == null) {
             insertContact(accountid, request, response);
         } else {
-            AccountContacts contact = null;
+            AccountContact contact = null;
             try {
                 contact = accountContactsRepository.findByContactidAndAccountidAndValidTrue(contactid, accountid);
             } catch (Exception e) {
@@ -179,7 +179,7 @@ public class AccountBizImpl implements AccountBiz {
     public void deleteContacts(Long accountid, DeleteContactsRequest request, Response response) throws Exception {
         Long contactid = request.getContactid();
         try {
-            AccountContacts contact = accountContactsRepository.findByContactidAndAccountidAndValidTrue(contactid, accountid);
+            AccountContact contact = accountContactsRepository.findByContactidAndAccountidAndValidTrue(contactid, accountid);
             if (contact != null) {
                 contact.setValid(false);
                 accountContactsRepository.save(contact);
@@ -191,7 +191,7 @@ public class AccountBizImpl implements AccountBiz {
     }
 
     private void insertContact(Long accountid, PostContactsRequest request, Response response) throws Exception {
-        AccountContacts contact = new AccountContacts();
+        AccountContact contact = new AccountContact();
         try {
             contact.setAccountid(accountid);
             contact.setArea(request.getArea());
@@ -214,7 +214,7 @@ public class AccountBizImpl implements AccountBiz {
         }
     }
 
-    private void updateContacts(Long accountid, PostContactsRequest request, Response response, AccountContacts contact)
+    private void updateContacts(Long accountid, PostContactsRequest request, Response response, AccountContact contact)
             throws Exception {
         String name = request.getName();
         Integer idType = request.getIdType();
@@ -282,7 +282,7 @@ public class AccountBizImpl implements AccountBiz {
         } catch (Exception e) {
             LOG.error("find discount code failed, reqid: " + request.getReqid(), e);
             response.setStatus(Status.DB_ERROR);
-            response.setDiscountCodes(Collections.<DiscountCode> emptyList());
+            response.setDiscountCodes(Collections.<Coupon> emptyList());
         }
     }
 

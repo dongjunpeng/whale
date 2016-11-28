@@ -23,8 +23,8 @@ import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
  *
  */
 @Entity
-@Table(name = "account_contacts")
-public class AccountContacts extends BaseObject {
+@Table(name = "account_contact")
+public class AccountContact extends BaseObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

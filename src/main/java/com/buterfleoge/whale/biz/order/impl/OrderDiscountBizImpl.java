@@ -22,9 +22,9 @@ import com.buterfleoge.whale.biz.order.OrderDiscountBiz;
 import com.buterfleoge.whale.biz.order.impl.discount.DiscountStrategy;
 import com.buterfleoge.whale.dao.DiscountCodeRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
-import com.buterfleoge.whale.type.DiscountCodeStatus;
+import com.buterfleoge.whale.type.CouponStatus;
 import com.buterfleoge.whale.type.entity.Discount;
-import com.buterfleoge.whale.type.entity.DiscountCode;
+import com.buterfleoge.whale.type.entity.Coupon;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.protocol.Error;
@@ -53,9 +53,9 @@ public class OrderDiscountBizImpl extends ApplicationObjectSupport implements Or
     private Map<Integer, String> errMsgMap = new HashMap<Integer, String>();
 
     {
-        errMsgMap.put(DiscountCodeStatus.OCCUPIED.value, ErrorMsg.DISCOUNT_CODE_OCCUPIED);
-        errMsgMap.put(DiscountCodeStatus.TIMEOUT.value, ErrorMsg.DISCOUNT_CODE_TIMEOUT);
-        errMsgMap.put(DiscountCodeStatus.USED.value, ErrorMsg.DISCOUNT_CODE_USED);
+        errMsgMap.put(CouponStatus.OCCUPIED.value, ErrorMsg.DISCOUNT_CODE_OCCUPIED);
+        errMsgMap.put(CouponStatus.TIMEOUT.value, ErrorMsg.DISCOUNT_CODE_TIMEOUT);
+        errMsgMap.put(CouponStatus.USED.value, ErrorMsg.DISCOUNT_CODE_USED);
     }
 
     @Override
@@ -99,19 +99,19 @@ public class OrderDiscountBizImpl extends ApplicationObjectSupport implements Or
     public void validateDiscountCode(Long accountid, ValidateCodeRequest request, ValidateCodeResponse response)
             throws Exception {
         String code = request.getCode();
-        DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);
+        Coupon discountCode = discountCodeRepository.findByDiscountCode(code);
         if (discountCode == null || (discountCode.getAccountid() != null && !discountCode.getAccountid().equals(accountid))) {
             response.setStatus(Status.BIZ_ERROR);
             response.addError(new Error(BizCode.DISCOUNT_CODE_NOT_EXIST, ErrorMsg.DISCOUNT_CODE_NOT_EXIST));
             return;
         }
-        if (discountCode.getStatus() != DiscountCodeStatus.CREATED.value && discountCode.getStatus() != DiscountCodeStatus.VERIFIED.value) {
+        if (discountCode.getStatus() != CouponStatus.CREATED.value && discountCode.getStatus() != CouponStatus.VERIFIED.value) {
             response.setStatus(Status.BIZ_ERROR);
             response.addError(new Error(errMsgMap.get(discountCode.getStatus())));
             return;
         }
-        if (discountCode.getStatus() == DiscountCodeStatus.CREATED.value) {
-            discountCode.setStatus(DiscountCodeStatus.VERIFIED.value);
+        if (discountCode.getStatus() == CouponStatus.CREATED.value) {
+            discountCode.setStatus(CouponStatus.VERIFIED.value);
             discountCodeRepository.save(discountCode);
         }
         response.setValue(discountCode.getValue());

@@ -2,7 +2,7 @@ package com.buterfleoge.whale.type.protocol.account;
 
 import java.util.List;
 
-import com.buterfleoge.whale.type.entity.DiscountCode;
+import com.buterfleoge.whale.type.entity.Coupon;
 import com.buterfleoge.whale.type.protocol.Response;
 
 /**
@@ -11,12 +11,12 @@ import com.buterfleoge.whale.type.protocol.Response;
  */
 public class GetDiscountCodeResponse extends Response {
 
-    private List<DiscountCode> discountCodes;
+    private List<Coupon> discountCodes;
 
     /**
      * @return the discountCodes
      */
-    public List<DiscountCode> getDiscountCodes() {
+    public List<Coupon> getDiscountCodes() {
         return discountCodes;
     }
 
@@ -24,7 +24,7 @@ public class GetDiscountCodeResponse extends Response {
      * @param discountCodes
      *            the discountCodes to set
      */
-    public void setDiscountCodes(List<DiscountCode> discountCodes) {
+    public void setDiscountCodes(List<Coupon> discountCodes) {
         this.discountCodes = discountCodes;
     }
 

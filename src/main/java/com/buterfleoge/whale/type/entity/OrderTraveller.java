@@ -20,8 +20,8 @@ import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
  * @author xiezhenzong
  *
  */
-@Entity(name = "order_travellers")
-public class OrderTravellers extends BaseObject implements Comparable<OrderTravellers> {
+@Entity(name = "order_traveller")
+public class OrderTraveller extends BaseObject implements Comparable<OrderTraveller> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -73,7 +73,7 @@ public class OrderTravellers extends BaseObject implements Comparable<OrderTrave
     private String roommate;
 
     @Override
-    public int compareTo(OrderTravellers o) {
+    public int compareTo(OrderTraveller o) {
         return accountid.equals(o.getAccountid()) ? contactid.compareTo(o.getContactid()) : accountid.compareTo(o.getAccountid());
     }
 

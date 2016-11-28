@@ -29,18 +29,18 @@ import com.buterfleoge.whale.dao.OrderRefoundRepository;
 import com.buterfleoge.whale.dao.OrderTravellersRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
-import com.buterfleoge.whale.type.DiscountCodeStatus;
+import com.buterfleoge.whale.type.CouponStatus;
 import com.buterfleoge.whale.type.DiscountType;
 import com.buterfleoge.whale.type.GroupStatus;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.OrderStatusCategory;
 import com.buterfleoge.whale.type.entity.AccountInfo;
-import com.buterfleoge.whale.type.entity.DiscountCode;
+import com.buterfleoge.whale.type.entity.Coupon;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.OrderHistory;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderRefund;
-import com.buterfleoge.whale.type.entity.OrderTravellers;
+import com.buterfleoge.whale.type.entity.OrderTraveller;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 import com.buterfleoge.whale.type.protocol.order.GetBriefOrdersRequest;
@@ -234,8 +234,8 @@ public class OrderBizImpl implements OrderBiz {
 
             OrderDiscount orderDiscount = orderDiscountRepository.findByOrderidAndType(orderInfo.getOrderid(), DiscountType.COUPON.value);
             if (orderDiscount != null) {
-                DiscountCode discountCode = discountCodeRepository.findByDiscountCode(orderDiscount.getDiscountCode());
-                discountCode.setStatus(DiscountCodeStatus.VERIFIED.value);
+                Coupon discountCode = discountCodeRepository.findByDiscountCode(orderDiscount.getDiscountCode());
+                discountCode.setStatus(CouponStatus.VERIFIED.value);
                 discountCodeRepository.save(discountCode);
             }
         }
@@ -359,9 +359,9 @@ public class OrderBizImpl implements OrderBiz {
 
     private Set<String> getOrderTravellersNames(OrderInfo orderInfo, String reqid) {
         try {
-            List<OrderTravellers> orderTravellers = orderTravellersRepository.findByOrderid(orderInfo.getOrderid());
+            List<OrderTraveller> orderTravellers = orderTravellersRepository.findByOrderid(orderInfo.getOrderid());
             Set<String> names = new HashSet<String>(orderTravellers.size());
-            for (OrderTravellers tempTraveller : orderTravellers) {
+            for (OrderTraveller tempTraveller : orderTravellers) {
                 names.add(tempTraveller.getName());
             }
             return names;
