@@ -4,17 +4,17 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.buterfleoge.whale.type.entity.AccountContacts;
+import com.buterfleoge.whale.type.entity.AccountContact;
 
 /**
  *
  * @author xiezhenzong
  *
  */
-public interface AccountContactsRepository extends CrudRepository<AccountContacts, Long> {
+public interface AccountContactsRepository extends CrudRepository<AccountContact, Long> {
 
-    AccountContacts findByContactidAndAccountidAndValidTrue(Long contactid, Long accountid);
+    AccountContact findByContactidAndAccountidAndValidTrue(Long contactid, Long accountid);
 
-    List<AccountContacts> findByAccountidAndValidTrue(Long accountid);
+    List<AccountContact> findByAccountidAndValidTrue(Long accountid);
 
 }

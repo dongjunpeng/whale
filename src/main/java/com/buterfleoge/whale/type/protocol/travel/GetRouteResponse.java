@@ -3,7 +3,7 @@ package com.buterfleoge.whale.type.protocol.travel;
 import java.util.List;
 
 import com.buterfleoge.whale.type.entity.TravelRoute;
-import com.buterfleoge.whale.type.entity.TravelRouteDays;
+import com.buterfleoge.whale.type.entity.TravelRouteDay;
 import com.buterfleoge.whale.type.entity.TravelRouteMore;
 import com.buterfleoge.whale.type.entity.TravelRoutePcInfo;
 import com.buterfleoge.whale.type.entity.TravelRouteWapInfo;
@@ -17,7 +17,7 @@ public class GetRouteResponse extends Response {
 
     private List<TravelRoute> routes;
     private TravelRouteMore more;
-    private List<TravelRouteDays> days;
+    private List<TravelRouteDay> days;
     private TravelRoutePcInfo pcInfo;
     private TravelRouteWapInfo wapInfo;
     private String mdtext;
@@ -55,7 +55,7 @@ public class GetRouteResponse extends Response {
     /**
      * @return the days
      */
-    public List<TravelRouteDays> getDays() {
+    public List<TravelRouteDay> getDays() {
         return days;
     }
 
@@ -63,7 +63,7 @@ public class GetRouteResponse extends Response {
      * @param days
      *            the days to set
      */
-    public void setDays(List<TravelRouteDays> days) {
+    public void setDays(List<TravelRouteDay> days) {
         this.days = days;
     }
 

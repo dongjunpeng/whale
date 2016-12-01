@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.type;
 
 import com.buterfleoge.whale.EnumObject;
+import com.buterfleoge.whale.EnumObject.EnumObjectHelper;
 
 /**
  * 账户类型
@@ -8,42 +9,37 @@ import com.buterfleoge.whale.EnumObject;
  * @author xiezhenzong
  *
  */
-public class AccountType extends EnumObject {
+public interface AccountType {
 
     /**
      * 普通账户
      */
-    public static final AccountType USER = new AccountType(0);
+    EnumObject USER = new EnumObject(0);
 
     /**
      * 领队
      */
-    public static final AccountType LEADER = new AccountType(1);
+    EnumObject LEADER = new EnumObject(1);
 
     /**
      * 管理员
      */
-    public static final AccountType MANAGER = new AccountType(2);
+    EnumObject MANAGER = new EnumObject(2);
 
     /**
      * 合作伙伴
      */
-    public static final AccountType PARTNER = new AccountType(3);
+    EnumObject PARTNER = new EnumObject(3);
 
     /**
      * 代理商
      */
-    public static final AccountType AGENT = new AccountType(4);
+    EnumObject AGENT = new EnumObject(4);
 
     /**
      * 超级管理员
      */
-    public static final AccountType ROOT = new AccountType(5);
-    
-    public static final EnumObjectHelper<AccountType> helper = EnumObjectHelper.create(USER, LEADER, MANAGER, PARTNER, AGENT, ROOT);
+    EnumObject ROOT = new EnumObject(5);
 
-    private AccountType(int value) {
-        super(value);
-    }
-
+    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(USER, LEADER, MANAGER, PARTNER, AGENT, ROOT);
 }

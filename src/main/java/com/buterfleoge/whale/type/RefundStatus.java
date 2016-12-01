@@ -25,7 +25,7 @@ public class RefundStatus extends EnumObject {
      */
     public static final RefundStatus REFOUNDED = new RefundStatus(2);
 
-    public static final EnumObjectHelper<RefundStatus> HELPER = EnumObjectHelper.create(CREATED, CONFIRMED, REFOUNDED);
+    public static final EnumObjectHelper<RefundStatus> helper = EnumObjectHelper.create(CREATED, CONFIRMED, REFOUNDED);
 
     private RefundStatus(int value) {
         super(value);

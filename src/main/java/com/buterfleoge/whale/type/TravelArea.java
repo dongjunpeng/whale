@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.type;
 
 import com.buterfleoge.whale.EnumObject;
+import com.buterfleoge.whale.EnumObject.EnumObjectHelper;
 
 /**
  * 旅行地区
@@ -8,48 +9,42 @@ import com.buterfleoge.whale.EnumObject;
  * @author Brent24
  *
  */
-public class TravelArea extends EnumObject {
+public interface TravelArea {
 
     /**
      * 未知
      */
-    public static final TravelArea UNKNOW = new TravelArea(0);
+    EnumObject UNKNOW = new EnumObject(0);
 
     /**
      * 西北
      */
-    public static final TravelArea NORTHWEST = new TravelArea(1);
+    EnumObject NORTHWEST = new EnumObject(1);
 
     /**
      * 东北
      */
-    public static final TravelArea NORTHEAST = new TravelArea(2);
+    EnumObject NORTHEAST = new EnumObject(2);
 
     /**
      * 西南
      */
-    public static final TravelArea SOUTHWEST = new TravelArea(3);
+    EnumObject SOUTHWEST = new EnumObject(3);
 
     /**
      * 东南
      */
-    public static final TravelArea SOUTHEST = new TravelArea(4);
+    EnumObject SOUTHEST = new EnumObject(4);
 
     /**
      * 沿海
      */
-    public static final TravelArea COAST = new TravelArea(5);
+    EnumObject COAST = new EnumObject(5);
 
     /**
      * 西藏
      */
-    public static final TravelArea TIBET = new TravelArea(6);
+    EnumObject TIBET = new EnumObject(6);
 
-    public static final EnumObjectHelper<TravelArea> HELPER = EnumObjectHelper.create(UNKNOW, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEST,
-            COAST, TIBET);
-
-    private TravelArea(int value) {
-        super(value);
-    }
-
+    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(UNKNOW, NORTHWEST, NORTHEAST, SOUTHWEST, SOUTHEST, COAST, TIBET);
 }

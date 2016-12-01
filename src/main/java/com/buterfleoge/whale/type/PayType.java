@@ -4,21 +4,17 @@
 package com.buterfleoge.whale.type;
 
 import com.buterfleoge.whale.EnumObject;
+import com.buterfleoge.whale.EnumObject.EnumObjectHelper;
 
 /**
  * @author xiezhenzong
  *
  */
-public class PayType extends EnumObject {
+public interface PayType {
 
-    public static final PayType ALIPAY = new PayType(0);
+    EnumObject ALIPAY = new EnumObject(0);
 
-    public static final PayType WXPAY_JSAPI = new PayType(1);
+    EnumObject WXPAY_JSAPI = new EnumObject(1);
 
-    public static final EnumObjectHelper<PayType> HELPER = EnumObjectHelper.create(ALIPAY, WXPAY_JSAPI);
-
-    public PayType(int value) {
-        super(value);
-    }
-
+    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(ALIPAY, WXPAY_JSAPI);
 }

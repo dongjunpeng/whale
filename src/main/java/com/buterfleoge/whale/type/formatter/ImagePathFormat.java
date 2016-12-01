@@ -21,17 +21,19 @@ public @interface ImagePathFormat {
     boolean isComposite() default false;
 
     enum Prefix {
-        
+
         DEFAULT(""),
-        
-        ROUTE("route");
-        
+
+        ROUTE("route"),
+
+        ACTIVITY("activity");
+
         private String prefix;
-        
+
         private Prefix(String prefix) {
             this.prefix = prefix;
         }
-        
+
         public String getPrefix() {
             return prefix;
         }

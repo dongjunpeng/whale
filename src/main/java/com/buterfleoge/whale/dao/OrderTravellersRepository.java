@@ -4,16 +4,16 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.buterfleoge.whale.type.entity.OrderTravellers;
+import com.buterfleoge.whale.type.entity.OrderTraveller;
 
 /**
  * @author Brent24
  *
  */
-public interface OrderTravellersRepository extends CrudRepository<OrderTravellers, Long> {
+public interface OrderTravellersRepository extends CrudRepository<OrderTraveller, Long> {
 
-    List<OrderTravellers> findByOrderid(Long orderid);
+    List<OrderTraveller> findByOrderid(Long orderid);
 
-    List<OrderTravellers> findByOrderidAndAccountid(Long orderid, Long accountid);
+    List<OrderTraveller> findByOrderidAndAccountid(Long orderid, Long accountid);
 
 }

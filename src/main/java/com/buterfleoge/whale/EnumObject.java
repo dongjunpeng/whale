@@ -18,9 +18,6 @@ public class EnumObject extends BaseObject {
 
     public final int value;
 
-    /**
-     *
-     */
     public EnumObject(int value) {
         this.value = value;
     }
@@ -41,8 +38,8 @@ public class EnumObject extends BaseObject {
          * @param values
          *            values, not null
          */
-        public EnumObjectHelper(List<T> values) {
-            this.values = values;
+        public EnumObjectHelper(T[] values) {
+            this.values = Arrays.asList(values);
             for (T t : values) {
                 T pre = valueMap.put(t.value, t);
                 if (pre != null) {
@@ -60,7 +57,7 @@ public class EnumObject extends BaseObject {
          */
         @SuppressWarnings("unchecked")
         public static final <T extends EnumObject> EnumObjectHelper<T> create(T... values) {
-            return new EnumObjectHelper<T>(Arrays.asList(values));
+            return new EnumObjectHelper<T>(values);
         }
 
         /**
@@ -74,7 +71,7 @@ public class EnumObject extends BaseObject {
 
         /**
          * 返回枚举的int值集合
-         * 
+         *
          * @return values
          */
         public Set<Integer> intValues() {

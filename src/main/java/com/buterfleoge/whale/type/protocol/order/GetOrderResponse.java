@@ -5,7 +5,7 @@ import java.util.List;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderRefund;
-import com.buterfleoge.whale.type.entity.OrderTravellers;
+import com.buterfleoge.whale.type.entity.OrderTraveller;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 import com.buterfleoge.whale.type.protocol.Response;
@@ -19,9 +19,9 @@ public class GetOrderResponse extends Response {
     private OrderInfo orderInfo;
     private TravelGroup travelGroup;
     private TravelRoute travelRoute;
-    private List<OrderTravellers> orderTravellers;
+    private List<OrderTraveller> orderTravellers;
     private OrderDiscount policy;
-    private OrderDiscount code;
+    private OrderDiscount coupon;
     private OrderDiscount student;
     private OrderRefund orderRefound;
     private Long timeLeft;
@@ -51,11 +51,11 @@ public class GetOrderResponse extends Response {
         this.travelRoute = travelRoute;
     }
 
-    public List<OrderTravellers> getOrderTravellers() {
+    public List<OrderTraveller> getOrderTravellers() {
         return orderTravellers;
     }
 
-    public void setOrderTravellers(List<OrderTravellers> orderTravellers) {
+    public void setOrderTravellers(List<OrderTraveller> orderTravellers) {
         this.orderTravellers = orderTravellers;
     }
 
@@ -67,12 +67,19 @@ public class GetOrderResponse extends Response {
         this.policy = policy;
     }
 
-    public OrderDiscount getCode() {
-        return code;
+    /**
+     * @return the coupon
+     */
+    public OrderDiscount getCoupon() {
+        return coupon;
     }
 
-    public void setCode(OrderDiscount code) {
-        this.code = code;
+    /**
+     * @param coupon
+     *            the coupon to set
+     */
+    public void setCoupon(OrderDiscount coupon) {
+        this.coupon = coupon;
     }
 
     public OrderDiscount getStudent() {

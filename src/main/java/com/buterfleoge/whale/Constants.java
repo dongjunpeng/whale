@@ -1,5 +1,7 @@
 package com.buterfleoge.whale;
 
+import java.util.Date;
+
 import com.buterfleoge.whale.type.protocol.Response;
 
 /**
@@ -11,6 +13,8 @@ import com.buterfleoge.whale.type.protocol.Response;
 public interface Constants {
 
     String LOCAL = Utils.getLocalHost();
+
+    Date FUTURE = new Date(32503651199000L); // 2999-12-31 23:59:59
 
     /**
      * 状态码
@@ -118,12 +122,10 @@ public interface Constants {
      *
      */
     public interface ErrorMsg {
-
         String GROUP_NOT_EXIST = "团不存在";
         String DISCOUNT_CODE_NOT_EXIST = "优惠码错误";
         String EXCEED_MAX_ORDER_TRAVELLER_COUNT = "超过报名人数限制";
         String GROUP_QUOTA_FULL = "超过团人数限制";
-        String DISCOUNT_CODE_OCCUPIED = "优惠码已使用，请取消订单后重新验证";
         String DISCOUNT_CODE_TIMEOUT = "优惠码已过期";
         String DISCOUNT_CODE_USED = "优惠码已被使用";
         String CREATE_ORDER_VALIDATE_FAILED = "创建订单校验失败";
