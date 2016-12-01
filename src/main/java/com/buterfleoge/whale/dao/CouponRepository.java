@@ -1,7 +1,6 @@
 package com.buterfleoge.whale.dao;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
 
@@ -13,12 +12,18 @@ import com.buterfleoge.whale.type.entity.Coupon;
  */
 public interface CouponRepository extends CrudRepository<Coupon, Long> {
 
+    List<Coupon> findByStatus(Integer status);
+
+    List<Coupon> findByAccountidAndVerify(Long accountid, Boolean verify);
+
+    List<Coupon> findByAccountidAndTypeAndVerify(Long accountid, Integer type, Boolean verify);
+
+    List<Coupon> findByAccountidAndTypeAndStatusAndVerify(Long accountid, Integer type, Integer status, Boolean verify);
+
+    Coupon findByCouponidAndAccountid(Long couponid, Long accountid);
+
     Coupon findByDiscountCode(String code);
 
     Coupon findByAccountidAndDiscountCode(Long accountid, String code);
-
-    List<Coupon> findByAccountid(Long accountid);
-
-    List<Coupon> findByStatusIn(Set<Integer> status);
 
 }

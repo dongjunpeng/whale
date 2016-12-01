@@ -190,4 +190,9 @@ public class TravelRouteMore extends BaseObject {
         this.refund = refund;
     }
 
+    @Override
+    public String toString() {
+        return "{\"routeid\": " + getRouteid() + "}";
+    }
+
 }

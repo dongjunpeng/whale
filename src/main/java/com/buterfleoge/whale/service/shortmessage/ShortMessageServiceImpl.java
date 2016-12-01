@@ -2,6 +2,7 @@ package com.buterfleoge.whale.service.shortmessage;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.time.DateFormatUtils;
@@ -9,7 +10,9 @@ import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.Printer;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.Utils;
@@ -36,14 +39,10 @@ public class ShortMessageServiceImpl implements ShortMessageService {
     @Value("${sms.host}")
     private String host;
 
-    @Value("${sms.path}")
-    private String path;
+    private String path = "/singleSendSms";
 
     @Value("${sms.appCode}")
     private String appCode;
-
-    @Value("${sms.managerList}")
-    private String managerList;
 
     @SuppressWarnings("serial")
     private Map<String, String> headers = new HashMap<String, String>() {
@@ -54,85 +53,45 @@ public class ShortMessageServiceImpl implements ShortMessageService {
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    /**
-     * 付款成功
-     * 
-     * 管理员->付款成功：${routeName}，${startDate}，${count}人，实付${actualPrice}，已报$
-     * {groupCount}人，姓名：${travellerList}
-     * 
-     * 付款账户->${travellerList}已成功报名“${routeName}”，订单号${createTime}${
-     * orderid}，${startDate}出发！
-     * 
-     * @return
-     */
     @Override
     public boolean sendPaySuccessMessage(TravelRoute travelRoute, TravelGroup travelGroup, OrderInfo orderInfo,
             List<OrderTraveller> orderTravellers, AccountInfo accountInfo) {
-
         // 基本信息
         String routeName = travelRoute.getName();
         String startDate = DateFormatUtils.format(travelGroup.getStartDate(), Pattern.DATE);
-        String count = orderInfo.getCount().toString();
-        String groupCount = travelGroup.getActualCount().toString();
-        String actualPrice = Utils.formatPrice(orderInfo.getActualPrice());
-        String createTime = DateFormatUtils.format(orderInfo.getCreateTime(), Pattern.ORDER_PREFIX);
-        String orderid = orderInfo.getOrderid().toString();
+        Long orderid = orderInfo.getOrderid();
+        String travellerList = Utils.join(orderTravellers, ",", new Printer<OrderTraveller>() {
+            @Override
+            public String print(OrderTraveller object, Locale locale) {
+                return object.getName();
+            }
+        });
 
-        // 拼出行人字符串
-        StringBuilder travellerList = new StringBuilder(orderTravellers.get(0).getName());
-        for (int i = 1; i < orderTravellers.size(); i++) {
-            travellerList.append(",").append(orderTravellers.get(i).getName());
-        }
-
-        // 管理员
-        StringBuilder managerParam = new StringBuilder();
-        managerParam.append("{");
-        managerParam.append("\"routeName\":").append(routeName).append("\",");
-        managerParam.append("\"startDate\":").append(startDate).append("\",");
-        managerParam.append("\"count\":").append(count).append("\",");
-        managerParam.append("\"groupCount\":").append(groupCount).append("\",");
-        managerParam.append("\"actualPrice\":").append(actualPrice).append("\",");
-        managerParam.append("\"travellerList\":").append(travellerList).append("\"");
-        managerParam.append("}");
-
-        Map<String, String> managerQuerys = new HashMap<String, String>();
-        managerQuerys.put("ParamString", managerParam.toString());
-        managerQuerys.put("RecNum", managerList);
-        managerQuerys.put("SignName", "海逍遥旅行");
-        managerQuerys.put("TemplateCode", "managerPaySuccess");
-
-        boolean managerSuccess = sendMessage(managerQuerys);
-
-        // 用户
-        String userNum = accountInfo.getMobile();
-        if (userNum == null || "".equals(userNum)) {
+        String mobile = accountInfo.getMobile();
+        if (StringUtils.isEmpty(mobile)) {
             LOG.error("user mobile is null");
             return false;
-        } else {
-
-            StringBuilder userParam = new StringBuilder();
-            userParam.append("{");
-            userParam.append("\"travellerList\":").append(travellerList).append("\",");
-            userParam.append("\"routeName\":").append(routeName).append("\",");
-            userParam.append("\"createTime\":").append(createTime).append("\",");
-            userParam.append("\"orderid\":").append(orderid).append("\",");
-            userParam.append("\"startDate\":").append(startDate).append("\"");
-            userParam.append("}");
-
-            Map<String, String> userQuerys = new HashMap<String, String>();
-            userQuerys.put("ParamString", userParam.toString());
-            userQuerys.put("RecNum", userNum);
-            userQuerys.put("SignName", "海逍遥旅行");
-            userQuerys.put("TemplateCode", "userPaySuccess");
-            return sendMessage(userQuerys) && managerSuccess;
         }
+        StringBuilder userParam = new StringBuilder();
+        userParam.append("{");
+        userParam.append("\"travellerList\":").append(travellerList).append("\",");
+        userParam.append("\"routeName\":").append(routeName).append("\",");
+        userParam.append("\"orderid\":").append(Long.valueOf(orderid)).append("\",");
+        userParam.append("\"startDate\":").append(startDate).append("\"");
+        userParam.append("}");
 
+        Map<String, String> userQuerys = new HashMap<String, String>();
+        userQuerys.put("ParamString", userParam.toString());
+        userQuerys.put("RecNum", mobile);
+        userQuerys.put("SignName", "海逍遥旅行");
+        userQuerys.put("TemplateCode", "userPaySuccess");
+        return sendMessage(userQuerys);
     }
 
     /**
      * 每个出行人->${travellerName}，【${routeName}】${startDate}至${endDate}马上就要出发啦！领队${
      * leader}，微信/手机${mobile}，${hotel}见！详细见公众号/网站集合文件。
-     * 
+     *
      * @return
      */
     @Override
@@ -160,14 +119,12 @@ public class ShortMessageServiceImpl implements ShortMessageService {
             return sent;
         }
 
-        if (leader == null || mobile == null || hotel == null || "".equals(leader) || "".equals(mobile)
-                || "".equals(hotel)) {
+        if (leader == null || mobile == null || hotel == null || "".equals(leader) || "".equals(mobile) || "".equals(hotel)) {
             LOG.error("assembleInfo is null");
             return sent;
         }
 
         for (OrderTraveller traveller : orderTravellers) {
-
             StringBuilder builder = new StringBuilder();
             builder.append("{");
             builder.append("\"travellerName\":").append(traveller.getName()).append("\",");
@@ -191,35 +148,7 @@ public class ShortMessageServiceImpl implements ShortMessageService {
         return sent;
     }
 
-    @Override
-    public boolean sendRefundApplyMessage(TravelRoute travelRoute, TravelGroup travelGroup, OrderInfo orderInfo,
-            List<OrderTraveller> orderTravellers) {
-        return false;
-    }
-
-    @Override
-    public boolean sendRefundSuccessMessage(TravelRoute travelRoute, TravelGroup travelGroup, OrderInfo orderInfo,
-            List<OrderTraveller> orderTravellers) {
-        return false;
-    }
-
-    @Override
-    public boolean sendVerificationCode(String verificationCode) {
-        return false;
-    }
-
-    @Override
-    public boolean sendGroupAvailable() {
-        return false;
-    }
-
-    @Override
-    public boolean sendManagersImportant(String message) {
-        return false;
-    }
-
     private boolean sendMessage(Map<String, String> querys) {
-
         for (int i = 0; i < 3; i++) {
             try {
                 HttpResponse response = HttpUtils.doGet(host, path, "GET", headers, querys);

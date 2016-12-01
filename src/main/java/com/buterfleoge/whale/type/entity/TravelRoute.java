@@ -382,4 +382,9 @@ public class TravelRoute extends BaseObject {
         this.wapHot = wapHot;
     }
 
+    @Override
+    public String toString() {
+        return "{\"routeid\": " + getRouteid() + "}";
+    }
+
 }

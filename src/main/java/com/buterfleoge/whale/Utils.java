@@ -234,6 +234,24 @@ public abstract class Utils {
         return result;
     }
 
+    public interface ListFilter<T> {
+        boolean filter(T target);
+    }
+
+    public static <T> List<T> filter(List<T> list, ListFilter<T> filter) {
+        if (CollectionUtils.isEmpty(list)) {
+            return list;
+        }
+        List<T> toRemove = new ArrayList<T>(list.size());
+        for (T t : list) {
+            if (!filter.filter(t)) {
+                toRemove.add(t);
+            }
+        }
+        list.removeAll(toRemove);
+        return list;
+    }
+
     public static void main(String[] args) {
         String a = "127.0.0.1?zhenzong@icoud.com,12783734648392";
 

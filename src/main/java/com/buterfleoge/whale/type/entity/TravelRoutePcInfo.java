@@ -155,4 +155,9 @@ public class TravelRoutePcInfo extends BaseObject {
     public void setPoints(List<Point> points) {
         this.points = points;
     }
+
+    @Override
+    public String toString() {
+        return "{\"routeid\": " + getRouteid() + "}";
+    }
 }

@@ -12,12 +12,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.JsonObjectConverter;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.buterfleoge.whale.type.entity.converter.PriceConverter;
+import com.buterfleoge.whale.type.formatter.ImagePathFormat;
+import com.buterfleoge.whale.type.formatter.ImagePathFormat.Prefix;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
@@ -28,15 +32,30 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 @Table(name = "activity")
 public class Activity extends BaseObject {
 
-    public static final Long ACTIVITY_NEW = Long.valueOf(0);
+    public static final Long ACTIVITY_NEW = Long.valueOf(1);
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "activity")
-    private Long activity;
+    @Column(name = "activityid")
+    private Long activityid;
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "description")
+    private String desc;
+
+    @ImagePathFormat(prefix = Prefix.ACTIVITY)
+    @Column(name = "wap_img")
+    private String wapImg;
+
+    @NumberFormat(style = Style.CURRENCY)
+    @Column(name = "value")
+    @Convert(converter = PriceConverter.class)
+    private BigDecimal value;
 
     @Column(name = "param")
     @Convert(converter = JsonObjectConverter.class)
@@ -53,34 +72,28 @@ public class Activity extends BaseObject {
     private Date endTime;
 
     public boolean isOpen() {
-        Date now = new Date();
-        return startTime.before(now) && endTime.after(now);
+        long now = System.currentTimeMillis();
+        return startTime.getTime() <= now && now <= endTime.getTime();
     }
 
     public boolean isClose() {
-        Date row = new Date();
-        return startTime.after(row) && endTime.before(row);
-    }
-
-    public BigDecimal findValue() {
-        ObjectNode param = getParam();
-        JsonNode value = param.get("value");
-        return value != null ? BigDecimal.valueOf(value.asLong(), 2) : BigDecimal.ZERO;
+        long now = System.currentTimeMillis();
+        return startTime.getTime() > now || now > endTime.getTime();
     }
 
     /**
-     * @return the activity
+     * @return the activityid
      */
-    public Long getActivity() {
-        return activity;
+    public Long getActivityid() {
+        return activityid;
     }
 
     /**
-     * @param activity
-     *            the activity to set
+     * @param activityid
+     *            the activityid to set
      */
-    public void setActivity(Long activity) {
-        this.activity = activity;
+    public void setActivityid(Long activityid) {
+        this.activityid = activityid;
     }
 
     /**
@@ -96,6 +109,66 @@ public class Activity extends BaseObject {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return the title
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * @param title
+     *            the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * @return the desc
+     */
+    public String getDesc() {
+        return desc;
+    }
+
+    /**
+     * @param desc
+     *            the desc to set
+     */
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    /**
+     * @return the wapImg
+     */
+    public String getWapImg() {
+        return wapImg;
+    }
+
+    /**
+     * @param wapImg
+     *            the wapImg to set
+     */
+    public void setWapImg(String wapImg) {
+        this.wapImg = wapImg;
+    }
+
+    /**
+     * @return the value
+     */
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    /**
+     * @param value
+     *            the value to set
+     */
+    public void setValue(BigDecimal value) {
+        this.value = value;
     }
 
     /**

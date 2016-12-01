@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.type;
 
 import com.buterfleoge.whale.EnumObject;
+import com.buterfleoge.whale.EnumObject.EnumObjectHelper;
 
 /**
  * 证件类型
@@ -8,32 +9,27 @@ import com.buterfleoge.whale.EnumObject;
  * @author Brent24
  *
  */
-public class IdType extends EnumObject {
+public interface IdType {
 
     /**
      * 身份证
      */
-    public static final IdType IDENTIFICATION = new IdType(0);
+    EnumObject IDENTIFICATION = new EnumObject(0);
 
     /**
      * 护照
      */
-    public static final IdType PASSPORT = new IdType(1);
+    EnumObject PASSPORT = new EnumObject(1);
 
     /**
      * 港澳通行证
      */
-    public static final IdType H_PASSER = new IdType(2);
+    EnumObject H_PASSER = new EnumObject(2);
 
     /**
      * 台胞证
      */
-    public static final IdType T_PASSER = new IdType(3);
+    EnumObject T_PASSER = new EnumObject(3);
 
-    public static final EnumObjectHelper<IdType> HELPER = EnumObjectHelper.create(IDENTIFICATION, PASSPORT, H_PASSER, T_PASSER);
-    
-    private IdType(int value) {
-        super(value);
-    }
-
+    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(IDENTIFICATION, PASSPORT, H_PASSER, T_PASSER);
 }

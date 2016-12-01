@@ -43,9 +43,10 @@ public class OrderStatusCategory extends EnumObject {
     /**
      * 全部订单
      */
-    public static final OrderStatusCategory ALL = new OrderStatusCategory(4, OrderStatus.HELPER.intValues());
+    public static final OrderStatusCategory ALL = new OrderStatusCategory(4, OrderStatus.helper.intValues());
 
-    public static final EnumObjectHelper<OrderStatusCategory> HELPER = EnumObjectHelper.create(CURRENT, HISTORY, VISIBLE, NO_ALLOW_NEW, ALL);
+    public static final EnumObjectHelper<OrderStatusCategory> helper = EnumObjectHelper.create(CURRENT, HISTORY, VISIBLE, NO_ALLOW_NEW,
+            ALL);
 
     private Set<Integer> orderStatuses;
 

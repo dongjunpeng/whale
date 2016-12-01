@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.type;
 
 import com.buterfleoge.whale.EnumObject;
+import com.buterfleoge.whale.EnumObject.EnumObjectHelper;
 
 /**
  * 性别
@@ -8,26 +9,22 @@ import com.buterfleoge.whale.EnumObject;
  * @author Brent24
  *
  */
-public class Gender extends EnumObject {
+public interface Gender {
     /**
      * 未知
      */
-    public static final Gender UNKNOW = new Gender(0);
+    EnumObject UNKNOW = new EnumObject(0);
 
     /**
      * 男
      */
-    public static final Gender MALE = new Gender(1);
+    EnumObject MALE = new EnumObject(1);
 
     /**
      * 女
      */
-    public static final Gender FEMALE = new Gender(2);
-    
-    public static final EnumObjectHelper<Gender> HELPER = EnumObjectHelper.create(UNKNOW, MALE, FEMALE);
+    EnumObject FEMALE = new EnumObject(2);
 
-    private Gender(int value) {
-        super(value);
-    }
-    
+    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(UNKNOW, MALE, FEMALE);
+
 }

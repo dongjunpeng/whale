@@ -49,8 +49,8 @@ public class Discount extends BaseObject {
     @Convert(converter = PriceConverter.class)
     private BigDecimal value;
 
-    @Column(name = "description")
-    private String desc;
+    @Column(name = "name")
+    private String name;
 
     @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "start_time")
@@ -124,17 +124,18 @@ public class Discount extends BaseObject {
     }
 
     /**
-     * @return the desc
+     * @return the name
      */
-    public String getDesc() {
-        return desc;
+    public String getName() {
+        return name;
     }
 
     /**
-     * @param desc the desc to set
+     * @param name
+     *            the name to set
      */
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**

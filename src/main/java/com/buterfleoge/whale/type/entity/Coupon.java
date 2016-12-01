@@ -5,6 +5,8 @@ package com.buterfleoge.whale.type.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
@@ -19,7 +21,11 @@ import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.Constants;
+import com.buterfleoge.whale.Constants.ErrorMsg;
 import com.buterfleoge.whale.Constants.Pattern;
+import com.buterfleoge.whale.EnumObject;
+import com.buterfleoge.whale.type.CouponStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
@@ -33,10 +39,23 @@ import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 @Table(name = "coupon")
 public class Coupon extends BaseObject {
 
+    public static final Boolean VERIFY = Boolean.TRUE;
+    public static final Boolean UNVERIFY = Boolean.FALSE;
+
+    public static final Map<Integer, String> ERRMSG = new HashMap<Integer, String>();
+
+    static {
+        ERRMSG.put(CouponStatus.TIMEOUT.value, ErrorMsg.DISCOUNT_CODE_TIMEOUT);
+        ERRMSG.put(CouponStatus.USED.value, ErrorMsg.DISCOUNT_CODE_USED);
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "codeid")
-    private Long codeid;
+    @Column(name = "couponid")
+    private Long couponid;
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "type")
     private Integer type;
@@ -48,6 +67,12 @@ public class Coupon extends BaseObject {
     @Column(name = "value")
     @Convert(converter = PriceConverter.class)
     private BigDecimal value;
+
+    @Column(name = "verify")
+    private Boolean verify;
+
+    @Column(name = "update_count")
+    private Integer updateCount;
 
     @Column(name = "discount_code")
     private String discountCode;
@@ -83,19 +108,75 @@ public class Coupon extends BaseObject {
     @Convert(converter = DateTimeConverter.class)
     private Date addTime;
 
-    /**
-     * @return the codeid
-     */
-    public Long getCodeid() {
-        return codeid;
+    @DateTimeFormat(pattern = Pattern.DATE)
+    @Column(name = "mod_time")
+    @Convert(converter = DateTimeConverter.class)
+    private Date modTime;
+
+    public static Coupon createCoupon(Long accountid, String name, EnumObject type, BigDecimal value) {
+        Date now = new Date();
+        Coupon coupon = new Coupon();
+        coupon.setName(name);
+        coupon.setType(type.value);
+        coupon.setStatus(CouponStatus.CREATED.value);
+        coupon.setValue(value);
+        coupon.setVerify(Coupon.VERIFY);
+        coupon.setUpdateCount(0);
+        coupon.setAccountid(accountid);
+        coupon.setStartTime(now);
+        coupon.setEndTime(Constants.FUTURE);
+        coupon.setValideTime(now);
+        coupon.setAddTime(now);
+        coupon.setModTime(now);
+        return coupon;
+    }
+
+    public static Coupon createDiscountCode(Long accountid, String name, EnumObject type, BigDecimal value, String discountCode) {
+        Date now = new Date();
+        Coupon coupon = new Coupon();
+        coupon.setName(name);
+        coupon.setType(type.value);
+        coupon.setStatus(CouponStatus.CREATED.value);
+        coupon.setValue(value);
+        coupon.setVerify(Coupon.UNVERIFY);
+        coupon.setUpdateCount(0);
+        coupon.setDiscountCode(discountCode);
+        coupon.setAccountid(accountid);
+        coupon.setStartTime(now);
+        coupon.setEndTime(Constants.FUTURE);
+        coupon.setAddTime(now);
+        coupon.setModTime(now);
+        return coupon;
     }
 
     /**
-     * @param codeid
-     *            the codeid to set
+     * @return the couponid
      */
-    public void setCodeid(Long codeid) {
-        this.codeid = codeid;
+    public Long getCouponid() {
+        return couponid;
+    }
+
+    /**
+     * @param couponid
+     *            the couponid to set
+     */
+    public void setCouponid(Long couponid) {
+        this.couponid = couponid;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name
+     *            the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -133,6 +214,36 @@ public class Coupon extends BaseObject {
      */
     public BigDecimal getValue() {
         return value;
+    }
+
+    /**
+     * @return the verify
+     */
+    public Boolean getVerify() {
+        return verify;
+    }
+
+    /**
+     * @param verify
+     *            the verify to set
+     */
+    public void setVerify(Boolean verify) {
+        this.verify = verify;
+    }
+
+    /**
+     * @return the updateCount
+     */
+    public Integer getUpdateCount() {
+        return updateCount;
+    }
+
+    /**
+     * @param updateCount
+     *            the updateCount to set
+     */
+    public void setUpdateCount(Integer updateCount) {
+        this.updateCount = updateCount;
     }
 
     /**
@@ -261,5 +372,20 @@ public class Coupon extends BaseObject {
      */
     public void setAddTime(Date addTime) {
         this.addTime = addTime;
+    }
+
+    /**
+     * @return the modTime
+     */
+    public Date getModTime() {
+        return modTime;
+    }
+
+    /**
+     * @param modTime
+     *            the modTime to set
+     */
+    public void setModTime(Date modTime) {
+        this.modTime = modTime;
     }
 }

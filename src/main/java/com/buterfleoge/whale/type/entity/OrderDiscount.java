@@ -41,11 +41,8 @@ public class OrderDiscount extends BaseObject {
     @Column(name = "orderid")
     private Long orderid;
 
-    @Column(name = "discount_code")
-    private String discountCode;
-
-    @Column(name = "discountid")
-    private Long discountid;
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "type")
     private Integer type;
@@ -54,6 +51,12 @@ public class OrderDiscount extends BaseObject {
     @Column(name = "value")
     @Convert(converter = PriceConverter.class)
     private BigDecimal value;
+
+    @Column(name = "discountid")
+    private Long discountid = Long.valueOf(0L);
+
+    @Column(name = "couponid")
+    private Long couponid = Long.valueOf(0L);
 
     @Column(name = "description")
     private String desc;
@@ -71,7 +74,8 @@ public class OrderDiscount extends BaseObject {
     }
 
     /**
-     * @param orderDiscountid the orderDiscountid to set
+     * @param orderDiscountid
+     *            the orderDiscountid to set
      */
     public void setOrderDiscountid(Long orderDiscountid) {
         this.orderDiscountid = orderDiscountid;
@@ -85,38 +89,26 @@ public class OrderDiscount extends BaseObject {
     }
 
     /**
-     * @param orderid the orderid to set
+     * @param orderid
+     *            the orderid to set
      */
     public void setOrderid(Long orderid) {
         this.orderid = orderid;
     }
 
     /**
-     * @return the discountCode
+     * @return the name
      */
-    public String getDiscountCode() {
-        return discountCode;
+    public String getName() {
+        return name;
     }
 
     /**
-     * @param discountCode the discountCode to set
+     * @param name
+     *            the name to set
      */
-    public void setDiscountCode(String discountCode) {
-        this.discountCode = discountCode;
-    }
-
-    /**
-     * @return the discountid
-     */
-    public Long getDiscountid() {
-        return discountid;
-    }
-
-    /**
-     * @param discountid the discountid to set
-     */
-    public void setDiscountid(Long discountid) {
-        this.discountid = discountid;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -127,7 +119,8 @@ public class OrderDiscount extends BaseObject {
     }
 
     /**
-     * @param type the type to set
+     * @param type
+     *            the type to set
      */
     public void setType(Integer type) {
         this.type = type;
@@ -141,10 +134,41 @@ public class OrderDiscount extends BaseObject {
     }
 
     /**
-     * @param value the value to set
+     * @param value
+     *            the value to set
      */
     public void setValue(BigDecimal value) {
         this.value = value;
+    }
+
+    /**
+     * @return the discountid
+     */
+    public Long getDiscountid() {
+        return discountid;
+    }
+
+    /**
+     * @param discountid
+     *            the discountid to set
+     */
+    public void setDiscountid(Long discountid) {
+        this.discountid = discountid;
+    }
+
+    /**
+     * @return the couponid
+     */
+    public Long getCouponid() {
+        return couponid;
+    }
+
+    /**
+     * @param couponid
+     *            the couponid to set
+     */
+    public void setCouponid(Long couponid) {
+        this.couponid = couponid;
     }
 
     /**
@@ -155,7 +179,8 @@ public class OrderDiscount extends BaseObject {
     }
 
     /**
-     * @param desc the desc to set
+     * @param desc
+     *            the desc to set
      */
     public void setDesc(String desc) {
         this.desc = desc;
@@ -169,7 +194,8 @@ public class OrderDiscount extends BaseObject {
     }
 
     /**
-     * @param addTime the addTime to set
+     * @param addTime
+     *            the addTime to set
      */
     public void setAddTime(Date addTime) {
         this.addTime = addTime;

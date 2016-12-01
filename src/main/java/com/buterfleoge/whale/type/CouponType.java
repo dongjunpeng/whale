@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.type;
 
 import com.buterfleoge.whale.EnumObject;
+import com.buterfleoge.whale.EnumObject.EnumObjectHelper;
 
 /**
  * 优惠码类型
@@ -8,15 +9,12 @@ import com.buterfleoge.whale.EnumObject;
  * @author xiezhenzong
  *
  */
-public class CouponType extends EnumObject {
+public interface CouponType {
 
     /**
      * 新人优惠
      */
-    public static final CouponType NEW = new CouponType(0);
+    EnumObject NEW = new EnumObject(0);
 
-    private CouponType(int value) {
-        super(value);
-    }
-
+    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(NEW);
 }

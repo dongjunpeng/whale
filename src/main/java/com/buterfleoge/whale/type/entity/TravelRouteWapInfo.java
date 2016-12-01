@@ -81,4 +81,9 @@ public class TravelRouteWapInfo extends BaseObject {
         this.mapImg = mapImg;
     }
 
+    @Override
+    public String toString() {
+        return "{\"routeid\": " + getRouteid() + "}";
+    }
+
 }

@@ -24,7 +24,7 @@ public class CreateOrderRequest extends OrderRequest {
 
     private Long policyDiscountid;
 
-    private String discountCode;
+    private Long couponid;
 
     private Long studentDiscountid;
 
@@ -55,12 +55,19 @@ public class CreateOrderRequest extends OrderRequest {
         this.policyDiscountid = policyDiscountid;
     }
 
-    public String getDiscountCode() {
-        return discountCode;
+    /**
+     * @return the couponid
+     */
+    public Long getCouponid() {
+        return couponid;
     }
 
-    public void setDiscountCode(String discountCode) {
-        this.discountCode = discountCode;
+    /**
+     * @param couponid
+     *            the couponid to set
+     */
+    public void setCouponid(Long couponid) {
+        this.couponid = couponid;
     }
 
     public Long getStudentDiscountid() {

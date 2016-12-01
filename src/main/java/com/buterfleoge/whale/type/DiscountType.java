@@ -63,7 +63,7 @@ public class DiscountType extends EnumObject {
      */
     public static final DiscountType STUDENT = new DiscountType(9);
 
-    public static final EnumObjectHelper<DiscountType> HELPER = EnumObjectHelper.create(COUPON, COUNT_1, COUNT_2,
+    public static final EnumObjectHelper<DiscountType> helper = EnumObjectHelper.create(COUPON, COUNT_1, COUNT_2,
             COUNT_3, COUNT_4, COUNT_5, TIME_ORDER, TIME_TRAVEL, ROUTE, STUDENT);
 
     private DiscountType(int value) {
@@ -89,7 +89,7 @@ public class DiscountType extends EnumObject {
     }
 
     public static DiscountType getDiscountByCount(int count) {
-        return DiscountType.HELPER.valueOf(count);
+        return DiscountType.helper.valueOf(count);
     }
 
 }

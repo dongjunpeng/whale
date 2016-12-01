@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.type;
 
 import com.buterfleoge.whale.EnumObject;
+import com.buterfleoge.whale.EnumObject.EnumObjectHelper;
 
 /**
  * 订单中人员的状态
@@ -8,19 +9,14 @@ import com.buterfleoge.whale.EnumObject;
  * @author xiezhenzong
  *
  */
-public class OrderStaffStatus extends EnumObject {
+public interface OrderStaffStatus {
 
-    public static final OrderStaffStatus OK = new OrderStaffStatus(0);
+    EnumObject OK = new EnumObject(0);
 
     /**
      * 删除了这个人
      */
-    public static final OrderStaffStatus CANCEL = new OrderStaffStatus(1);
-    
-    public static final EnumObjectHelper<OrderStaffStatus> HELPER = EnumObjectHelper.create(OK, CANCEL);
+    EnumObject CANCEL = new EnumObject(1);
 
-    private OrderStaffStatus(int value) {
-        super(value);
-    }
-
+    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(OK, CANCEL);
 }

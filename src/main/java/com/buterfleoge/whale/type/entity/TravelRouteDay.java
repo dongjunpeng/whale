@@ -245,4 +245,9 @@ public class TravelRouteDay extends BaseObject {
         this.hotel = hotel;
     }
 
+    @Override
+    public String toString() {
+        return "{\"routeid\": " + getRouteid() + ", \"dayno\": " + getDayno() + "}";
+    }
+
 }

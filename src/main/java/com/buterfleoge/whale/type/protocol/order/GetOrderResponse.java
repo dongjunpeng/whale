@@ -21,7 +21,7 @@ public class GetOrderResponse extends Response {
     private TravelRoute travelRoute;
     private List<OrderTraveller> orderTravellers;
     private OrderDiscount policy;
-    private OrderDiscount code;
+    private OrderDiscount coupon;
     private OrderDiscount student;
     private OrderRefund orderRefound;
     private Long timeLeft;
@@ -67,12 +67,19 @@ public class GetOrderResponse extends Response {
         this.policy = policy;
     }
 
-    public OrderDiscount getCode() {
-        return code;
+    /**
+     * @return the coupon
+     */
+    public OrderDiscount getCoupon() {
+        return coupon;
     }
 
-    public void setCode(OrderDiscount code) {
-        this.code = code;
+    /**
+     * @param coupon
+     *            the coupon to set
+     */
+    public void setCoupon(OrderDiscount coupon) {
+        this.coupon = coupon;
     }
 
     public OrderDiscount getStudent() {
