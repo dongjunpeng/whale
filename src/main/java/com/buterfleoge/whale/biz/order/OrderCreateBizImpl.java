@@ -122,6 +122,12 @@ public class OrderCreateBizImpl implements OrderCreateBiz {
     @Value("${order.contractPath}")
     private String contractPath;
 
+    @Value("${order.preview.contractTemplatePath}")
+    private String previewContractTemplatePath;
+
+    @Value("${order.preview.contractPath}")
+    private String privewContractPath;
+
     private static final Set<String> NOT_ALLOWED_WORD = new HashSet<String>(10);
 
     static {
@@ -156,7 +162,7 @@ public class OrderCreateBizImpl implements OrderCreateBiz {
         }
         if (!travelBiz.isGroupAvailable(request.getGroupid(), request, response)) {
             response.setStatus(Status.BIZ_ERROR);
-            response.addError(new Error("本团人数已经满，您可直接致电海逍遥进行咨询。"));
+            response.addError(new Error("本团已经不可报名，您可直接致电海逍遥进行咨询。"));
             return;
         }
         OrderInfo orderInfo = new OrderInfo();
@@ -254,7 +260,8 @@ public class OrderCreateBizImpl implements OrderCreateBiz {
                 return object.getName();
             }
         });
-        return createContract(orderInfo, travellers, orderInfo.getCount(), orderInfo.getPrice(), orderInfo.getActualPrice());
+        return createContract(contractPath, contractTemplatePath, orderInfo, travellers, orderInfo.getCount(), orderInfo.getPrice(),
+                orderInfo.getActualPrice());
     }
 
     @Override
@@ -263,7 +270,8 @@ public class OrderCreateBizImpl implements OrderCreateBiz {
         if (orderInfo == null) {
             throw new Exception("Can't find this order, orderid: " + request.getOrderid());
         }
-        return createContract(orderInfo, request.getTravellers(), request.getCount(), request.getPrice(), request.getActualPrice());
+        return createContract(privewContractPath, previewContractTemplatePath, orderInfo, request.getTravellers(), request.getCount(),
+                request.getPrice(), request.getActualPrice());
     }
 
     private OrderDiscount createPolicyOrderDiscount(Long orderid, Long discountPolicyid, Date addTime) {
@@ -331,16 +339,16 @@ public class OrderCreateBizImpl implements OrderCreateBiz {
         return discounts;
     }
 
-    private String createContract(OrderInfo orderInfo, String travellers, Integer count, BigDecimal price, BigDecimal actualPrice)
-            throws Exception {
+    private String createContract(String contactPath, String templateContactPath, OrderInfo orderInfo, String travellers, Integer count,
+            BigDecimal price, BigDecimal actualPrice) throws Exception {
         TravelRoute route = travelRouteRepository.findByRouteidAndVisibleTrue(orderInfo.getRouteid());
         TravelGroup group = travelGroupRepository.findOne(orderInfo.getGroupid());
 
         Map<String, String> mappings = createContractDataMapping(travellers, count, price, actualPrice, route, group);
-        String docPath = createContractPath(orderInfo, ".docx");
-        String pdfPath = createContractPath(orderInfo, ".pdf");
+        String docPath = createContractPath(contactPath, orderInfo, ".docx");
+        String pdfPath = createContractPath(contactPath, orderInfo, ".pdf");
 
-        createContractDocxFile(mappings, docPath);
+        createContractDocxFile(templateContactPath, mappings, docPath);
         new Document(docPath).save(pdfPath); // convert docx to pdf
         removeWaterMark(pdfPath); // docx转pdf的工具是免费版，会被加上水印，用pdfbox去掉
         return pdfPath;
@@ -364,7 +372,7 @@ public class OrderCreateBizImpl implements OrderCreateBiz {
         return contractDataMapping;
     }
 
-    private String createContractPath(OrderInfo orderInfo, String suffix) {
+    private String createContractPath(String contractPath, OrderInfo orderInfo, String suffix) {
         String path = new StringBuilder(contractPath).append("contract_").append(orderInfo.getOrderid()).append(suffix)
                 .toString();
         try {
@@ -378,9 +386,9 @@ public class OrderCreateBizImpl implements OrderCreateBiz {
         return path;
     }
 
-    private void createContractDocxFile(Map<String, String> mappings, String docPath)
+    private void createContractDocxFile(String templatePath, Map<String, String> mappings, String docPath)
             throws IOException, InvalidFormatException, FileNotFoundException {
-        XWPFDocument doc = new XWPFDocument(OPCPackage.open(contractTemplatePath));
+        XWPFDocument doc = new XWPFDocument(OPCPackage.open(templatePath));
         for (XWPFParagraph p : doc.getParagraphs()) {
             List<XWPFRun> runs = p.getRuns();
             if (runs != null) {
