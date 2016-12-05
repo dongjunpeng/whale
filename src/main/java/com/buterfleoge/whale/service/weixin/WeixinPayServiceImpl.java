@@ -108,7 +108,7 @@ public class WeixinPayServiceImpl implements WeixinPayService {
         if (response.isCodeSuccess() && validateResponseSign(response)) {
             return response;
         }
-        throw new WeixinException("预下单失败，wx response: " + response);
+        throw new WeixinException("预下单失败，wx request: " + request + "; response: " + response);
     }
 
     @Override

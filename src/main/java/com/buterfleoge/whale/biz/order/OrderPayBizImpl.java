@@ -103,8 +103,8 @@ public class OrderPayBizImpl implements OrderPayBiz {
         if (order == null) {
             throw new Exception("订单不存在");
         }
-        if (order.getStatus() != OrderStatus.WAITING.value) {
-            throw new IllegalStateException("订单不处于待支付状态");
+        if (order.getStatus() != OrderStatus.WAITING.value && order.getStatus() != OrderStatus.PAYING.value) {
+            throw new IllegalStateException("订单状态错误");
         }
 
         TravelRoute route = travelRouteRepository.findOne(order.getRouteid());
@@ -357,8 +357,8 @@ public class OrderPayBizImpl implements OrderPayBiz {
             return;
         }
         long cost = System.currentTimeMillis() - start;
-        if (cost < 3000L) { // 花费时间不足三秒，补足三秒
-            Thread.sleep(3000L - cost);
+        if (cost < 2000L) { // 花费时间不足两秒，补足两秒
+            Thread.sleep(2000L - cost);
         }
     }
 

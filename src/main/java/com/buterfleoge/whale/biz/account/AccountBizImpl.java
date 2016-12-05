@@ -359,11 +359,16 @@ public class AccountBizImpl implements AccountBiz {
             return;
         }
         if (discountCode.getStatus() == CouponStatus.CREATED.value) {
-            discountCode.setVerify(Coupon.VERIFY);
-            discountCode.setValideTime(now);
-            discountCode.setModTime(now);
-            couponRepository.save(discountCode);
-            response.setValue(discountCode.getValue());
+            if (Coupon.UNVERIFY.equals(discountCode.getVerify())) {
+                discountCode.setVerify(Coupon.VERIFY);
+                discountCode.setValideTime(now);
+                discountCode.setModTime(now);
+                couponRepository.save(discountCode);
+                response.setValue(discountCode.getValue());
+            } else {
+                response.setStatus(Status.BIZ_ERROR);
+                response.addError(new Error("优惠码已经兑换!"));
+            }
         } else {
             response.setStatus(Status.BIZ_ERROR);
             response.addError(new Error(Coupon.ERRMSG.get(discountCode.getStatus())));
