@@ -12,25 +12,9 @@ import com.buterfleoge.whale.type.protocol.Response;
  */
 public class GetDiscountResponse extends Response {
 
-    private Long defaultDiscountid = Long.valueOf(-1L);
-
     private List<Discount> policy = new ArrayList<Discount>(5);;
 
     private Discount studentDiscount;
-
-    /**
-     * @return the defaultDiscountid
-     */
-    public Long getDefaultDiscountid() {
-        return defaultDiscountid;
-    }
-
-    /**
-     * @param defaultDiscountid the defaultDiscountid to set
-     */
-    public void setDefaultDiscountid(Long defaultDiscountid) {
-        this.defaultDiscountid = defaultDiscountid;
-    }
 
     /**
      * @return the policy

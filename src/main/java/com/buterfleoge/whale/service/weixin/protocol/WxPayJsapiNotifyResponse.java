@@ -1,8 +1,10 @@
 package com.buterfleoge.whale.service.weixin.protocol;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import com.buterfleoge.whale.BaseObject;
+import com.buterfleoge.whale.CDATAAdapter;
 
 /**
  * @author xiezhenzong
@@ -18,6 +20,7 @@ public class WxPayJsapiNotifyResponse extends BaseObject {
     /**
      * @return the return_code
      */
+    @XmlJavaTypeAdapter(CDATAAdapter.class)
     public String getReturn_code() {
         return return_code;
     }
@@ -33,6 +36,7 @@ public class WxPayJsapiNotifyResponse extends BaseObject {
     /**
      * @return the return_msg
      */
+    @XmlJavaTypeAdapter(CDATAAdapter.class)
     public String getReturn_msg() {
         return return_msg;
     }

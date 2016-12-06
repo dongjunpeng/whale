@@ -17,7 +17,6 @@ import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.biz.OrderDiscountBiz;
 import com.buterfleoge.whale.biz.order.discount.DiscountStrategy;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
-import com.buterfleoge.whale.type.entity.Discount;
 import com.buterfleoge.whale.type.entity.OrderDiscount;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.protocol.order.GetDiscountRequest;
@@ -60,18 +59,6 @@ public class OrderDiscountBizImpl extends ApplicationObjectSupport implements Or
         for (DiscountStrategy discountStrategy : discountStrategies) {
             discountStrategy.handleDiscount(accountid, request, response);
         }
-        List<Discount> policy = response.getPolicy();
-        if (policy.isEmpty()) {
-            return;
-        }
-        Discount maxDiscount = policy.get(policy.size() - 1);
-        for (int n = policy.size() - 2; n >= 0; n--) {
-            Discount discount = policy.get(n);
-            if (discount.getValue().compareTo(maxDiscount.getValue()) > 0) {
-                maxDiscount = discount;
-            }
-        }
-        response.setDefaultDiscountid(maxDiscount.getDiscountid());
     }
 
     @Override

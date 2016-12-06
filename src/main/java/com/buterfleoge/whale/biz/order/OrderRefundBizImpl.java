@@ -15,6 +15,7 @@ import com.buterfleoge.whale.dao.OrderAlipayRepository;
 import com.buterfleoge.whale.dao.OrderHistoryRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.OrderRefoundRepository;
+import com.buterfleoge.whale.dao.OrderWxpayRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
 import com.buterfleoge.whale.type.GroupStatus;
@@ -25,6 +26,7 @@ import com.buterfleoge.whale.type.entity.OrderAlipay;
 import com.buterfleoge.whale.type.entity.OrderHistory;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.OrderRefund;
+import com.buterfleoge.whale.type.entity.OrderWxpay;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
 import com.buterfleoge.whale.type.protocol.Error;
@@ -54,6 +56,9 @@ public class OrderRefundBizImpl implements OrderRefundBiz {
 
     @Autowired
     private OrderAlipayRepository orderAlipayRepository;
+
+    @Autowired
+    private OrderWxpayRepository orderWxpayRepository;
 
     @Autowired
     private OrderHistoryRepository orderHistoryRepository;
@@ -106,7 +111,8 @@ public class OrderRefundBizImpl implements OrderRefundBiz {
         }
 
         List<OrderAlipay> orderAlipays = orderAlipayRepository.findByOrderid(orderid);
-        if (CollectionUtils.isEmpty(orderAlipays)) {
+        List<OrderWxpay> orderWxpays = orderWxpayRepository.findByOrderid(orderid);
+        if (CollectionUtils.isEmpty(orderAlipays) && CollectionUtils.isEmpty(orderWxpays)) {
             response.setStatus(Status.BIZ_ERROR);
             response.addError(new Error("订单没有支付的记录"));
             return;

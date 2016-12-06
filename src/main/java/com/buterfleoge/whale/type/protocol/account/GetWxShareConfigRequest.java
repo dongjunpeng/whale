@@ -1,8 +1,6 @@
 package com.buterfleoge.whale.type.protocol.account;
 
 import com.buterfleoge.whale.type.protocol.Request;
-import com.buterfleoge.whale.validator.IdExist;
-import com.buterfleoge.whale.validator.IdExist.IdType;
 
 /**
  * @author xiezhenzong
@@ -10,39 +8,21 @@ import com.buterfleoge.whale.validator.IdExist.IdType;
  */
 public class GetWxShareConfigRequest extends Request {
 
-    @IdExist(type = IdType.ROUTE_ID, nullable = false)
-    private Long routeid;
-
-    private String routeUrl;
+    private String url;
 
     /**
-     * @return the routeid
+     * @return the url
      */
-    public Long getRouteid() {
-        return routeid;
+    public String getUrl() {
+        return url;
     }
 
     /**
-     * @param routeid
-     *            the routeid to set
+     * @param url
+     *            the url to set
      */
-    public void setRouteid(Long routeid) {
-        this.routeid = routeid;
-    }
-
-    /**
-     * @return the routeUrl
-     */
-    public String getRouteUrl() {
-        return routeUrl;
-    }
-
-    /**
-     * @param routeUrl
-     *            the routeUrl to set
-     */
-    public void setRouteUrl(String routeUrl) {
-        this.routeUrl = routeUrl;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
 }
