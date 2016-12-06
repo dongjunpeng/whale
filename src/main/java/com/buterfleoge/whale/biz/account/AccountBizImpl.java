@@ -389,7 +389,7 @@ public class AccountBizImpl implements AccountBiz {
         String nonceStr = Utils.createNonceStr();
         String jsapiTicket = ticket.getTicket();
         long timeStamp = System.currentTimeMillis();
-        String url = request.getRouteUrl();
+        String url = request.getUrl();
         String signature = createSignatur(nonceStr, jsapiTicket, timeStamp, url);
 
         response.setAppid(appid);
