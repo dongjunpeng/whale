@@ -159,7 +159,7 @@ public class CreateOrderValidator implements Validator {
 
     private Coupon findCoupon(Long accountid, CreateOrderRequest request) throws Exception {
         Long couponid = request.getCouponid();
-        if (couponid != null) {
+        if (couponid != null && couponid > 0) {
             Coupon coupon = couponRepository.findByCouponidAndAccountid(couponid, accountid);
             if (coupon == null || (coupon.getAccountid() != null && !coupon.getAccountid().equals(accountid))) {
                 throw new Exception("优惠券不存在");

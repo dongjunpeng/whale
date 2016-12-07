@@ -4,8 +4,10 @@
 package com.buterfleoge.whale.type.entity;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Column;
@@ -19,6 +21,7 @@ import javax.persistence.Table;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 import org.springframework.format.annotation.NumberFormat.Style;
+import org.springframework.util.StringUtils;
 
 import com.buterfleoge.whale.BaseObject;
 import com.buterfleoge.whale.Constants;
@@ -27,6 +30,7 @@ import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.EnumObject;
 import com.buterfleoge.whale.type.CouponStatus;
 import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
+import com.buterfleoge.whale.type.entity.converter.ListConverter;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
 
 /**
@@ -56,6 +60,10 @@ public class Coupon extends BaseObject {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "description")
+    @Convert(converter = ListConverter.class)
+    private List<String> desc;
 
     @Column(name = "type")
     private Integer type;
@@ -113,10 +121,11 @@ public class Coupon extends BaseObject {
     @Convert(converter = DateTimeConverter.class)
     private Date modTime;
 
-    public static Coupon createCoupon(Long accountid, String name, EnumObject type, BigDecimal value) {
+    public static Coupon createCoupon(Long accountid, String name, String desc, EnumObject type, BigDecimal value) {
         Date now = new Date();
         Coupon coupon = new Coupon();
         coupon.setName(name);
+        coupon.setDesc(Arrays.asList(desc));
         coupon.setType(type.value);
         coupon.setStatus(CouponStatus.CREATED.value);
         coupon.setValue(value);
@@ -131,10 +140,12 @@ public class Coupon extends BaseObject {
         return coupon;
     }
 
-    public static Coupon createDiscountCode(Long accountid, String name, EnumObject type, BigDecimal value, String discountCode) {
+    public static Coupon createDiscountCode(Long accountid, String name, String desc, EnumObject type, BigDecimal value,
+            String discountCode) {
         Date now = new Date();
         Coupon coupon = new Coupon();
         coupon.setName(name);
+        coupon.setDesc(Arrays.asList(desc));
         coupon.setType(type.value);
         coupon.setStatus(CouponStatus.CREATED.value);
         coupon.setValue(value);
@@ -177,6 +188,27 @@ public class Coupon extends BaseObject {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return the desc
+     */
+    public List<String> getDesc() {
+        return desc;
+    }
+
+    /**
+     * @param desc
+     *            the desc to set
+     */
+    public void setDesc(List<String> desc) {
+        this.desc = desc;
+    }
+
+    public void addDesc(String desc) {
+        if (StringUtils.hasText(desc)) {
+            this.desc.add(desc);
+        }
     }
 
     /**
