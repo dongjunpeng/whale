@@ -6,18 +6,17 @@ import com.buterfleoge.whale.EnumObject;
  * 订单状态，几种流程：有可能需要更加细化一点
  *
  * <ol>
- * <li>NEW -> WATING
+ * <li>NEW -> WATING -> PAYING -> PAID -> FINISH
+ * <li>(NEW | WATING | PAYING) -> TIMEOUT
+ * <li>(WATING | PAYING | PAID) -> CLOSED
  * <li>WATING -> CANCEL
- * <li>WATING -> TIMEOUT
- * <li>WATING -> PAYING -> PAID -> REFOUND
- * <li>WATING -> PAYING -> PAID -> FINISH
- * <li>WATING -> CLOSED -> REFOUND
+ * <li>(PAID | CLOSED) -> REFUNDING -> REFUNDED
  * </ol>
  *
  * @author Brent24
  *
  */
-public class OrderStatus  extends EnumObject{
+public class OrderStatus extends EnumObject {
 
     public static final OrderStatus NEW = new OrderStatus(0, "点击报名");
 
@@ -39,7 +38,7 @@ public class OrderStatus  extends EnumObject{
 
     public static final OrderStatus CLOSED = new OrderStatus(9, "行程取消");
 
-    public static final EnumObjectHelper<OrderStatus> HELPER = EnumObjectHelper.create(NEW, WAITING, PAYING, PAID, FINISH,
+    public static final EnumObjectHelper<OrderStatus> helper = EnumObjectHelper.create(NEW, WAITING, PAYING, PAID, FINISH,
             REFUNDING, REFUNDED, CANCEL, TIMEOUT, CLOSED);
 
     public final String desc;

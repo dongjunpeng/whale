@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.type;
 
 import com.buterfleoge.whale.EnumObject;
+import com.buterfleoge.whale.EnumObject.EnumObjectHelper;
 
 /**
  * 发团状态
@@ -8,43 +9,37 @@ import com.buterfleoge.whale.EnumObject;
  * @author Brent24
  *
  */
-public class GroupStatus extends EnumObject {
+public interface GroupStatus {
 
     /**
      * 未发布
      */
-    public static final GroupStatus UNPUBLISHED = new GroupStatus(0);
+    EnumObject UNPUBLISHED = new EnumObject(0);
 
     /**
      * 招募中
      */
-    public static final GroupStatus OPEN = new GroupStatus(1);
+    EnumObject OPEN = new EnumObject(1);
 
     /**
      * 暂停
      */
-    public static final GroupStatus STOP = new GroupStatus(2);
+    EnumObject STOP = new EnumObject(2);
 
     /**
      * 满员
      */
-    public static final GroupStatus FULL = new GroupStatus(3);
+    EnumObject FULL = new EnumObject(3);
 
     /**
      * 出团中
      */
-    public static final GroupStatus TRAVELLING = new GroupStatus(4);
+    EnumObject TRAVELLING = new EnumObject(4);
 
     /**
      * 结束
      */
-    public static final GroupStatus FINISHED = new GroupStatus(5);
+    EnumObject FINISHED = new EnumObject(5);
 
-    public static final EnumObjectHelper<GroupStatus> HELPER = EnumObjectHelper.create(UNPUBLISHED, OPEN, STOP, FULL,
-            TRAVELLING, FINISHED);
-
-    private GroupStatus(int value) {
-        super(value);
-    }
-
+    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(UNPUBLISHED, OPEN, STOP, FULL, TRAVELLING, FINISHED);
 }

@@ -4,25 +4,21 @@
 package com.buterfleoge.whale.type;
 
 import com.buterfleoge.whale.EnumObject;
+import com.buterfleoge.whale.EnumObject.EnumObjectHelper;
 
 /**
  * @author xiezhenzong
  *
  */
-public class OrderHistoryType extends EnumObject {
+public interface OrderHistoryType {
 
-    public static final OrderHistoryType NEW = new OrderHistoryType(0);
+    EnumObject NEW = new EnumObject(0);
 
-    public static final OrderHistoryType SAVE = new OrderHistoryType(1);
+    EnumObject SAVE = new EnumObject(1);
 
-    public static final OrderHistoryType ALIPAY = new OrderHistoryType(2);
+    EnumObject ALIPAY = new EnumObject(2);
 
-    public static final OrderHistoryType WXPAY_JSAPI = new OrderHistoryType(3);
+    EnumObject WXPAY_JSAPI = new EnumObject(3);
 
-    public static final EnumObjectHelper<OrderHistoryType> HELPER = EnumObjectHelper.create(NEW, SAVE, ALIPAY, WXPAY_JSAPI);
-
-    public OrderHistoryType(int value) {
-        super(value);
-    }
-
+    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(NEW, SAVE, ALIPAY, WXPAY_JSAPI);
 }

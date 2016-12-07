@@ -7,18 +7,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.buterfleoge.whale.Constants.ErrorMsg;
-import com.buterfleoge.whale.biz.order.OrderDiscountBiz;
-import com.buterfleoge.whale.biz.travel.TravelBiz;
-import com.buterfleoge.whale.dao.DiscountCodeRepository;
+import com.buterfleoge.whale.biz.OrderDiscountBiz;
+import com.buterfleoge.whale.biz.TravelBiz;
+import com.buterfleoge.whale.dao.CouponRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
+import com.buterfleoge.whale.type.CouponStatus;
+import com.buterfleoge.whale.type.OrderStatus;
+import com.buterfleoge.whale.type.entity.Coupon;
 import com.buterfleoge.whale.type.entity.Discount;
-import com.buterfleoge.whale.type.entity.DiscountCode;
 import com.buterfleoge.whale.type.entity.OrderInfo;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.converter.PriceConverter;
@@ -49,7 +50,7 @@ public class CreateOrderValidator implements Validator {
     private TravelGroupRepository travelGroupRepository;
 
     @Autowired
-    private DiscountCodeRepository discountCodeRepository;
+    private CouponRepository couponRepository;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -63,6 +64,9 @@ public class CreateOrderValidator implements Validator {
             OrderInfo orderInfo = orderInfoRepository.findByOrderidAndAccountid(request.getOrderid(), request.getAccountid());
             if (orderInfo == null) {
                 throw new Exception("Can't find this order, orderid: " + request.getOrderid());
+            }
+            if (orderInfo.getStatus() != OrderStatus.NEW.value) {
+                throw new IllegalStateException("order in't in new state, orderid: " + request.getOrderid());
             }
             validateTravellerCount(orderInfo, request, errors);
             validateActualPrice(orderInfo, request, errors);
@@ -100,7 +104,7 @@ public class CreateOrderValidator implements Validator {
         }
         Discount discountPolicy = findDiscountPolicy(accountid, request, getDiscountResponse.getPolicy());
         Discount studentDiscount = getDiscountResponse.getStudentDiscount();
-        DiscountCode discountCode = findDiscountCode(accountid, request);
+        Coupon coupon = findCoupon(accountid, request);
 
         // 校验学生优惠
         Long studentDiscountid = request.getStudentDiscountid();
@@ -121,8 +125,8 @@ public class CreateOrderValidator implements Validator {
         if (studentDiscount != null && studentCount > 0) {
             price = price.subtract(studentDiscount.getValue().multiply(BigDecimal.valueOf(studentCount)));
         }
-        if (discountCode != null) {
-            price = price.subtract(discountCode.getValue());
+        if (coupon != null) {
+            price = price.subtract(coupon.getValue());
         }
         if (PriceConverter.yuanToLi(price).longValue() != PriceConverter.yuanToLi(request.getActualPrice()).longValue()) { // 转化为整数来比较
             errors.reject("实付金额有误");
@@ -148,19 +152,26 @@ public class CreateOrderValidator implements Validator {
                     return discount;
                 }
             } // 没有在for内退出，则表示前端传过来的discountid不是正常可选的discountid
-            throw new Exception("Invalid discount policy.");
+            throw new Exception("错误的优惠策略");
         }
         return null;
     }
 
-    private DiscountCode findDiscountCode(Long accountid, CreateOrderRequest request) throws Exception {
-        String code = request.getDiscountCode();
-        if (StringUtils.hasText(code)) {
-            DiscountCode discountCode = discountCodeRepository.findByDiscountCode(code);
-            if (discountCode == null || (discountCode.getAccountid() != null && !discountCode.getAccountid().equals(accountid))) {
-                throw new Exception("Invalid discount code.");
+    private Coupon findCoupon(Long accountid, CreateOrderRequest request) throws Exception {
+        Long couponid = request.getCouponid();
+        if (couponid != null && couponid > 0) {
+            Coupon coupon = couponRepository.findByCouponidAndAccountid(couponid, accountid);
+            if (coupon == null || (coupon.getAccountid() != null && !coupon.getAccountid().equals(accountid))) {
+                throw new Exception("优惠券不存在");
             }
-            return discountCode;
+            if (coupon.getStatus() != CouponStatus.CREATED.value) {
+                throw new Exception(Coupon.ERRMSG.get(coupon.getStatus()));
+            }
+            long now = System.currentTimeMillis();
+            if (now < coupon.getStartTime().getTime() || now > coupon.getEndTime().getTime()) {
+                throw new Exception("不在优惠券的使用时间内");
+            }
+            return coupon;
         }
         return null;
     }

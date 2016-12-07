@@ -48,12 +48,12 @@ public class OrderHistory extends BaseObject {
     private Date add_time;
 
     public static OrderHistory newInstance(Integer oldOrderStatus, OrderInfo orderInfo) {
-        return newInstance(OrderStatus.HELPER.valueOf(oldOrderStatus), orderInfo);
+        return newInstance(OrderStatus.helper.valueOf(oldOrderStatus), orderInfo);
     }
 
     public static OrderHistory newInstance(OrderStatus oldOrderStatus, OrderInfo orderInfo) {
         return newInstance(orderInfo.getOrderid(), orderInfo.getStatus(),
-                "订单状态变更： " + oldOrderStatus.desc + " -> " + OrderStatus.HELPER.valueOf(orderInfo.getStatus()).desc);
+                "订单状态变更： " + oldOrderStatus.desc + " -> " + OrderStatus.helper.valueOf(orderInfo.getStatus()).desc);
     }
 
     public static OrderHistory newInstance(Long orderid, OrderStatus type) {

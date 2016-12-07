@@ -190,4 +190,8 @@ public class TravelGroup extends BaseObject {
         this.modTime = modTime;
     }
 
+    @Override
+    public String toString() {
+        return "{\"groupid\": " + getGroupid() + "}";
+    }
 }

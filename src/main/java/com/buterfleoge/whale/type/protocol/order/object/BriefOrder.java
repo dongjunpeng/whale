@@ -20,7 +20,7 @@ public class BriefOrder implements Comparable<BriefOrder> {
     private TravelGroup travelGroup;
     private TravelRoute travelRoute;
     private OrderDiscount policy;
-    private OrderDiscount code;
+    private OrderDiscount coupon;
     private OrderDiscount student;
     private OrderRefund orderRefound;
     private Long timeLeft;
@@ -101,18 +101,18 @@ public class BriefOrder implements Comparable<BriefOrder> {
     }
 
     /**
-     * @return the code
+     * @return the coupon
      */
-    public OrderDiscount getCode() {
-        return code;
+    public OrderDiscount getCoupon() {
+        return coupon;
     }
 
     /**
-     * @param code
-     *            the code to set
+     * @param coupon
+     *            the coupon to set
      */
-    public void setCode(OrderDiscount code) {
-        this.code = code;
+    public void setCoupon(OrderDiscount coupon) {
+        this.coupon = coupon;
     }
 
     /**

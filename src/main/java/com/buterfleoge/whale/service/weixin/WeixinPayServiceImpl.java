@@ -108,7 +108,7 @@ public class WeixinPayServiceImpl implements WeixinPayService {
         if (response.isCodeSuccess() && validateResponseSign(response)) {
             return response;
         }
-        throw new WeixinException("预下单失败，wx response: " + response);
+        throw new WeixinException("预下单失败，wx request: " + request + "; response: " + response);
     }
 
     @Override
@@ -147,6 +147,7 @@ public class WeixinPayServiceImpl implements WeixinPayService {
         param.put("pay_signType", "MD5");
         param.put("pay_paySign", paySign);
 
+        param.put("orderid", String.valueOf(orderid));
         param.put("hxy_hotline", DefaultValue.HOTLINE);
         return param;
     }

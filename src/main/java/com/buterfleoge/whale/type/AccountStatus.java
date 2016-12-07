@@ -1,6 +1,7 @@
 package com.buterfleoge.whale.type;
 
 import com.buterfleoge.whale.EnumObject;
+import com.buterfleoge.whale.EnumObject.EnumObjectHelper;
 
 /**
  * 账户状态
@@ -8,27 +9,22 @@ import com.buterfleoge.whale.EnumObject;
  * @author xiezhenzong
  *
  */
-public class AccountStatus extends EnumObject {
+public interface AccountStatus {
 
     /**
      * 刚注册
      */
-    public static final AccountStatus WAIT_COMPLETE_INFO = new AccountStatus(0);
+    EnumObject WAIT_COMPLETE_INFO = new EnumObject(0);
 
     /**
      * 账户正常
      */
-    public static final AccountStatus OK = new AccountStatus(1);
+    EnumObject OK = new EnumObject(1);
 
     /**
      * 账户注销
      */
-    public static final AccountStatus DELETE = new AccountStatus(2);
+    EnumObject DELETE = new EnumObject(2);
 
-    public static final EnumObjectHelper<AccountStatus> helper = EnumObjectHelper.create(WAIT_COMPLETE_INFO, OK, DELETE);
-
-    private AccountStatus(int value) {
-        super(value);
-    }
-
+    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(WAIT_COMPLETE_INFO, OK, DELETE);
 }

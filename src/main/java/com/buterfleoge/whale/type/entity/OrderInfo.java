@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
@@ -100,6 +101,15 @@ public class OrderInfo extends BaseObject {
     public long getTimeLeft() {
         return getStatus() != OrderStatus.WAITING.value || createTime == null ? 0L
                 : (DateUtils.addHours(createTime, 2).getTime() - System.currentTimeMillis()) / DateUtils.MILLIS_PER_SECOND;
+    }
+
+    /**
+     * 获取订单编号
+     *
+     * @return orderNo
+     */
+    public String getOrderNo() {
+        return DateFormatUtils.format(addTime, Pattern.ORDER_PREFIX) + orderid;
     }
 
     /**
