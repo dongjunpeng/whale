@@ -147,6 +147,7 @@ public class WeixinPayServiceImpl implements WeixinPayService {
         param.put("pay_signType", "MD5");
         param.put("pay_paySign", paySign);
 
+        param.put("orderid", String.valueOf(orderid));
         param.put("hxy_hotline", DefaultValue.HOTLINE);
         return param;
     }
