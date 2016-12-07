@@ -107,8 +107,11 @@ public class AccountBizImpl implements AccountBiz {
             isNeedSave = true;
         }
         if (StringUtils.hasText(id) && !id.equals(accountInfo.getId())) {
-            accountInfo.setIdType(idType);
             accountInfo.setId(id);
+            isNeedSave = true;
+        }
+        if (idType != null && !idType.equals(accountInfo.getIdType())) {
+            accountInfo.setIdType(idType);
             isNeedSave = true;
         }
         if (StringUtils.hasText(email) && !email.equals(accountInfo.getEmail())) {
@@ -153,8 +156,10 @@ public class AccountBizImpl implements AccountBiz {
                     if (!CollectionUtils.isEmpty(coupons)) {
                         Coupon coupon = coupons.get(0);
                         if (coupon.getUpdateCount() == 0) {
+                            BigDecimal value = coupon.getValue().add(BigDecimal.valueOf(50));
+                            coupon.addDesc("完善信息后升级为" + Utils.formatPrice(value) + "元");
                             coupon.setUpdateCount(1);
-                            coupon.setValue(coupon.getValue().add(BigDecimal.valueOf(50)));
+                            coupon.setValue(value);
                             coupon.setModTime(now);
                             couponRepository.save(coupon);
                         }
