@@ -353,7 +353,7 @@ public class OrderPayBizImpl implements OrderPayBiz {
             }
         } else {
             response.setStatus(Status.PARAM_ERROR);
-            response.addError(new Error("您访问的订单存在异常，请联系海逍遥：" + DefaultValue.HOTLINE));
+            response.addError(new Error("您访问的订单存在异常，请联系走之旅行：" + DefaultValue.HOTLINE));
             return;
         }
         long cost = System.currentTimeMillis() - start;
