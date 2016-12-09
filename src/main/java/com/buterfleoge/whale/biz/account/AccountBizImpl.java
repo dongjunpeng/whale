@@ -351,7 +351,7 @@ public class AccountBizImpl implements AccountBiz {
 
     @Override
     public void validateDiscountCode(Long accountid, ValidateCodeRequest request, ValidateCodeResponse response) throws Exception {
-        Coupon discountCode = couponRepository.findByAccountidAndDiscountCode(accountid, request.getCode());
+        Coupon discountCode = couponRepository.findByDiscountCode(request.getCode());
         if (discountCode == null || (discountCode.getAccountid() != null && !discountCode.getAccountid().equals(accountid))) {
             response.setStatus(Status.BIZ_ERROR);
             response.addError(new Error(BizCode.DISCOUNT_CODE_NOT_EXIST, ErrorMsg.DISCOUNT_CODE_NOT_EXIST));
@@ -365,6 +365,7 @@ public class AccountBizImpl implements AccountBiz {
         }
         if (discountCode.getStatus() == CouponStatus.CREATED.value) {
             if (Coupon.UNVERIFY.equals(discountCode.getVerify())) {
+                discountCode.setAccountid(accountid);
                 discountCode.setVerify(Coupon.VERIFY);
                 discountCode.setValideTime(now);
                 discountCode.setModTime(now);

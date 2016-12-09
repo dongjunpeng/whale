@@ -1,16 +1,18 @@
 package com.buterfleoge.whale.biz;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.buterfleoge.whale.Utils;
 import com.buterfleoge.whale.dao.CouponRepository;
-import com.buterfleoge.whale.type.CouponStatus;
+import com.buterfleoge.whale.type.CouponType;
 import com.buterfleoge.whale.type.entity.Coupon;
 
 /**
@@ -27,37 +29,23 @@ public class CodeGenerator {
 
     private Set<String> codeSet = new HashSet<String>();
 
-    @Transactional(rollbackFor = Exception.class)
-    public void generate(int count, Long value, Long agent, Long startTime, Long endTime) {
-        Iterable<Coupon> discountCodeIterable = discountCodeRepository.findAll();
-        Iterator<Coupon> discountCodeIterator = discountCodeIterable.iterator();
-        while (discountCodeIterator.hasNext()) {
-            codeSet.add(discountCodeIterator.next().getDiscountCode());
+    public void generate(int count, Long value) {
+        for (Coupon coupon : discountCodeRepository.findAll()) {
+            codeSet.add(coupon.getDiscountCode());
         }
-        for (int i = 0; i < count; i++) {
-            code = Utils.stringMD5("hxy" + (Math.random() * 10000000)).substring(0, 10).toUpperCase();
-
+        BigDecimal bValue = BigDecimal.valueOf(value);
+        List<Coupon> toSave = new ArrayList<Coupon>();
+        while (count > 0) {
+            code = Utils.stringMD5(Utils.createNonceStr()).substring(0, 10).toUpperCase();
             if (!codeSet.contains(code)) {
-                discountCode = new Coupon();
-                discountCode.setStatus(CouponStatus.CREATED.value);
-                discountCode.setDiscountCode(code);
-                discountCode.setAgent(agent);
-                // discountCode.setValue(value);
-                // discountCode.setStartTime(startTime);
-                // discountCode.setEndTime(endTime);
-                // discountCode.setAddTime(System.currentTimeMillis());
-                discountCodeRepository.save(discountCode);
-            } else {
-                i--;
+                discountCode = Coupon.createDiscountCode("亲友优惠", "小伙伴快来支持我们呀", CouponType.FRIEND, bValue, code);
+                discountCode.setEndTime(DateUtils.addMonths(discountCode.getAddTime(), 6));
+                toSave.add(discountCode);
+                codeSet.add(code);
+                count--;
             }
         }
+        discountCodeRepository.save(toSave);
     }
 
-    public void generate(int count, Long value, Long startTime, Long endTime) {
-        generate(count, value, null, startTime, endTime);
-    }
-
-    public void generate(Long value, Long startTime, Long endTime) {
-        generate(1, value, null, startTime, endTime);
-    }
 }
