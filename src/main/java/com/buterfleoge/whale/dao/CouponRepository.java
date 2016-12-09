@@ -24,6 +24,4 @@ public interface CouponRepository extends CrudRepository<Coupon, Long> {
 
     Coupon findByDiscountCode(String code);
 
-    Coupon findByAccountidAndDiscountCode(Long accountid, String code);
-
 }

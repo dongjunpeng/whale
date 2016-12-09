@@ -1,9 +1,11 @@
 package com.buterfleoge.whale;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.nio.ByteBuffer;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,7 +115,9 @@ public abstract class Utils {
      */
     public static final String getProductName(TravelRoute route, TravelGroup group) {
         StringBuilder subject = new StringBuilder(route.getName());
-        subject.append("(").append(group.getTitle()).append(")");
+        if (StringUtils.hasText(group.getTitle())) {
+            subject.append("(").append(group.getTitle()).append(")");
+        }
         return subject.toString();
     }
 
@@ -250,6 +254,36 @@ public abstract class Utils {
         }
         list.removeAll(toRemove);
         return list;
+    }
+
+    public static String filterOffUtf8Mb4(String text) {
+        try {
+            byte[] bytes = text.getBytes("UTF-8");
+            ByteBuffer buffer = ByteBuffer.allocate(bytes.length);
+            int i = 0;
+            while (i < bytes.length) {
+                short b = bytes[i];
+                if (b > 0) {
+                    buffer.put(bytes[i++]);
+                    continue;
+                }
+                b += 256;
+                if ((b ^ 0xC0) >> 4 == 0) {
+                    buffer.put(bytes, i, 2);
+                    i += 2;
+                } else if ((b ^ 0xE0) >> 4 == 0) {
+                    buffer.put(bytes, i, 3);
+                    i += 3;
+                } else if ((b ^ 0xF0) >> 4 == 0) {
+                    i += 4;
+                }
+            }
+            buffer.flip();
+            return new String(buffer.array(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            LOG.error("un supported encoding", e);
+            return "";
+        }
     }
 
     public static void main(String[] args) {

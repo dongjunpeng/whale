@@ -27,7 +27,7 @@ public abstract class AlipayCallbackRequest extends Request {
     protected String sign_type;
     protected String sign;
     /**
-     * 海逍遥的id
+     * 走之旅行的id
      */
     @IdExist(type = IdType.ORDER_ID, nullable = false, message = "")
     protected Long out_trade_no;

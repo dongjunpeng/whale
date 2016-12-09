@@ -169,7 +169,7 @@ public class WeixinPayServiceImpl implements WeixinPayService {
     }
 
     private String createBody(String subject) {
-        return "海逍遥旅行工作室-" + subject;
+        return "走之旅行-" + subject;
     }
 
     private String createDetail(OrderInfo orderInfo, String productName) throws Exception {
