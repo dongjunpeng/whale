@@ -16,5 +16,10 @@ public interface CouponType {
      */
     EnumObject NEW = new EnumObject(0);
 
-    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(NEW);
+    /**
+     * 周围好友
+     */
+    EnumObject FRIEND = new EnumObject(1);
+
+    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(NEW, FRIEND);
 }

@@ -4,6 +4,7 @@
 package com.buterfleoge.whale.type.entity;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -160,6 +161,24 @@ public class Coupon extends BaseObject {
         return coupon;
     }
 
+    public static Coupon createDiscountCode(String name, String desc, EnumObject type, BigDecimal value, String discountCode) {
+        Date now = new Date();
+        Coupon coupon = new Coupon();
+        coupon.setName(name);
+        coupon.setDesc(Arrays.asList(desc));
+        coupon.setType(type.value);
+        coupon.setStatus(CouponStatus.CREATED.value);
+        coupon.setValue(value);
+        coupon.setVerify(Coupon.UNVERIFY);
+        coupon.setUpdateCount(0);
+        coupon.setDiscountCode(discountCode);
+        coupon.setStartTime(now);
+        coupon.setEndTime(Constants.FUTURE);
+        coupon.setAddTime(now);
+        coupon.setModTime(now);
+        return coupon;
+    }
+
     /**
      * @return the couponid
      */
@@ -206,6 +225,9 @@ public class Coupon extends BaseObject {
     }
 
     public void addDesc(String desc) {
+        if (this.desc == null) {
+            this.desc = new ArrayList<String>();
+        }
         if (StringUtils.hasText(desc)) {
             this.desc.add(desc);
         }

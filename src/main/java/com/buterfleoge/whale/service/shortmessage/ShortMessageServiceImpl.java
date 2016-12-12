@@ -85,7 +85,7 @@ public class ShortMessageServiceImpl implements ShortMessageService {
         Map<String, String> userQuerys = new HashMap<String, String>();
         userQuerys.put("ParamString", userParam.toString());
         userQuerys.put("RecNum", mobile);
-        userQuerys.put("SignName", "海逍遥旅行");
+        userQuerys.put("SignName", "走之旅行");
         userQuerys.put("TemplateCode", "userPaySuccess");
         return sendMessage(userQuerys);
     }
@@ -143,7 +143,7 @@ public class ShortMessageServiceImpl implements ShortMessageService {
             Map<String, String> querys = new HashMap<String, String>();
             querys.put("ParamString", builder.toString());
             querys.put("RecNum", traveller.getMobile());
-            querys.put("SignName", "海逍遥旅行");
+            querys.put("SignName", "走之旅行");
             querys.put("TemplateCode", "assemblyInfo");
             if (sendMessage(querys)) {
                 sent++;

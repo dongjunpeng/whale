@@ -162,7 +162,7 @@ public class OrderCreateBizImpl implements OrderCreateBiz {
         }
         if (!travelBiz.isGroupAvailable(request.getGroupid(), request, response)) {
             response.setStatus(Status.BIZ_ERROR);
-            response.addError(new Error("本团已经不可报名，您可直接致电海逍遥进行咨询。"));
+            response.addError(new Error("本团已经不可报名，您可直接致电走之旅行进行咨询。"));
             return;
         }
         OrderInfo orderInfo = new OrderInfo();

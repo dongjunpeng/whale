@@ -94,7 +94,7 @@ public class TravelBizImpl implements TravelBiz {
             response.setStatus(Status.DB_ERROR);
         }
         try {
-            if (routeids != null && routeids.size() == 1) {
+            if (routeids != null && routeids.size() == 1 && request.getIsImgtextRequired()) {
                 Long routeid = routeids.get(0);
                 response.setMore(travelRouteMoreRepository.findOne(routeid));
                 response.setDays(travelRouteDaysRepository.findByRouteid(routeid));
