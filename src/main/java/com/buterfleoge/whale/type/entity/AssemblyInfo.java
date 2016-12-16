@@ -18,7 +18,7 @@ import com.buterfleoge.whale.type.entity.converter.DateTimeConverter;
 
 /**
  * 集合信息
- * 
+ *
  * @author Brent24
  *
  */
@@ -37,9 +37,6 @@ public class AssemblyInfo extends BaseObject {
 
     @Column(name = "ready")
     private Boolean ready;
-
-    @Column(name = "sent")
-    private Boolean sent;
 
     @Column(name = "leader")
     private String leader;
@@ -91,14 +88,6 @@ public class AssemblyInfo extends BaseObject {
 
     public void setReady(Boolean ready) {
         this.ready = ready;
-    }
-
-    public Boolean getSent() {
-        return sent;
-    }
-
-    public void setSent(Boolean sent) {
-        this.sent = sent;
     }
 
     public String getLeader() {

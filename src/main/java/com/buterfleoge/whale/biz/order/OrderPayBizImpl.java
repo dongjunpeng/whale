@@ -20,13 +20,16 @@ import com.buterfleoge.whale.Constants.Pattern;
 import com.buterfleoge.whale.Constants.Status;
 import com.buterfleoge.whale.Utils;
 import com.buterfleoge.whale.biz.OrderPayBiz;
+import com.buterfleoge.whale.dao.AccountInfoRepository;
 import com.buterfleoge.whale.dao.OrderAlipayRepository;
 import com.buterfleoge.whale.dao.OrderHistoryRepository;
 import com.buterfleoge.whale.dao.OrderInfoRepository;
+import com.buterfleoge.whale.dao.OrderTravellersRepository;
 import com.buterfleoge.whale.dao.OrderWxpayRepository;
 import com.buterfleoge.whale.dao.TravelGroupRepository;
 import com.buterfleoge.whale.dao.TravelRouteRepository;
 import com.buterfleoge.whale.service.AlipayService;
+import com.buterfleoge.whale.service.ShortMessageService;
 import com.buterfleoge.whale.service.WeixinPayService;
 import com.buterfleoge.whale.service.alipay.AlipayConfig;
 import com.buterfleoge.whale.service.alipay.protocol.AlipayCallbackRequest;
@@ -42,9 +45,11 @@ import com.buterfleoge.whale.type.AlipayTradeStatus;
 import com.buterfleoge.whale.type.OrderStatus;
 import com.buterfleoge.whale.type.PayType;
 import com.buterfleoge.whale.type.WxCode;
+import com.buterfleoge.whale.type.entity.AccountInfo;
 import com.buterfleoge.whale.type.entity.OrderAlipay;
 import com.buterfleoge.whale.type.entity.OrderHistory;
 import com.buterfleoge.whale.type.entity.OrderInfo;
+import com.buterfleoge.whale.type.entity.OrderTraveller;
 import com.buterfleoge.whale.type.entity.OrderWxpay;
 import com.buterfleoge.whale.type.entity.TravelGroup;
 import com.buterfleoge.whale.type.entity.TravelRoute;
@@ -67,6 +72,9 @@ public class OrderPayBizImpl implements OrderPayBiz {
     private static final Logger LOG = LoggerFactory.getLogger(OrderPayBizImpl.class);
 
     @Autowired
+    private AccountInfoRepository accountInfoRepository;
+
+    @Autowired
     private TravelRouteRepository travelRouteRepository;
 
     @Autowired
@@ -74,6 +82,9 @@ public class OrderPayBizImpl implements OrderPayBiz {
 
     @Autowired
     private OrderInfoRepository orderInfoRepository;
+
+    @Autowired
+    private OrderTravellersRepository orderTravellersRepository;
 
     @Autowired
     private OrderAlipayRepository orderAlipayRepository;
@@ -92,6 +103,9 @@ public class OrderPayBizImpl implements OrderPayBiz {
 
     @Autowired
     private WeixinPayService weixinPayService;
+
+    @Autowired
+    private ShortMessageService shortMessageService;
 
     @Value("${wx.pay.key}")
     private String key;
@@ -148,6 +162,7 @@ public class OrderPayBizImpl implements OrderPayBiz {
                     orderInfo.setModTime(new Date());
                     orderInfoRepository.save(orderInfo);
                     orderHistoryRepository.save(OrderHistory.newInstance(oldOrderStatus, orderInfo));
+                    sendPaySuccessMessage(orderInfo, accountid);
                 }
             }
             orderAlipayRepository.save(orderAlipay);
@@ -185,6 +200,7 @@ public class OrderPayBizImpl implements OrderPayBiz {
                     orderInfo.setModTime(new Date());
                     orderInfoRepository.save(orderInfo);
                     orderHistoryRepository.save(OrderHistory.newInstance(oldOrderStatus, orderInfo));
+                    sendPaySuccessMessage(orderInfo, orderInfo.getAccountid());
                 }
             } else if (request.getRefund_status() != null && AlipayRefundStatus.REFUND_SUCCESS.equals(request.getRefund_status())
                     && request.getGmt_refund() != null) {
@@ -260,6 +276,7 @@ public class OrderPayBizImpl implements OrderPayBiz {
             orderInfo.setModTime(new Date());
             orderInfoRepository.save(orderInfo);
             orderHistoryRepository.save(OrderHistory.newInstance(OrderStatus.PAYING, orderInfo));
+            sendPaySuccessMessage(orderInfo, orderInfo.getAccountid());
         }
 
         OrderWxpay orderWxpay = new OrderWxpay();
@@ -343,6 +360,8 @@ public class OrderPayBizImpl implements OrderPayBiz {
                     orderWxpay.setAddTime(new Date());
                     orderWxpayRepository.save(orderWxpay);
 
+                    sendPaySuccessMessage(orderInfo, orderInfo.getAccountid());
+
                     response.setOrderStatus(OrderStatus.PAID.value);
                     response.setPrice(orderInfo.getPrice());
                     response.setActualPrice(orderInfo.getActualPrice());
@@ -359,6 +378,18 @@ public class OrderPayBizImpl implements OrderPayBiz {
         long cost = System.currentTimeMillis() - start;
         if (cost < 2000L) { // 花费时间不足两秒，补足两秒
             Thread.sleep(2000L - cost);
+        }
+    }
+
+    private void sendPaySuccessMessage(OrderInfo orderInfo, Long accountid) {
+        try {
+            TravelRoute route = travelRouteRepository.findOne(orderInfo.getRouteid());
+            TravelGroup group = travelGroupRepository.findOne(orderInfo.getGroupid());
+            List<OrderTraveller> orderTravellers = orderTravellersRepository.findByOrderidAndAccountid(orderInfo.getOrderid(), accountid);
+            AccountInfo accountInfo = accountInfoRepository.findOne(accountid);
+            shortMessageService.sendPaySuccessMessage(route, group, orderInfo, orderTravellers, accountInfo);
+        } catch (Exception e) {
+            LOG.error("send pay success message failed, orderid: " + orderInfo.getOrderid(), e);
         }
     }
 
