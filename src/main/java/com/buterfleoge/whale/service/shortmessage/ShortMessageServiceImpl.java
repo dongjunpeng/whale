@@ -75,7 +75,7 @@ public class ShortMessageServiceImpl implements ShortMessageService {
         userParam.append("{");
         userParam.append("\"travellerList\":").append(travellerList).append("\",");
         userParam.append("\"routeName\":").append(routeName).append("\",");
-        userParam.append("\"orderid\":").append(orderInfo.getOrderNo()).append("\",");
+        userParam.append("\"prefixOrderid\":").append(orderInfo.getOrderNo()).append("\",");
         userParam.append("\"startDate\":").append(startDate).append("\"");
         userParam.append("}");
 
