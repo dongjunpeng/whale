@@ -23,5 +23,7 @@ public interface Device {
 
     EnumObject ANDROID = new EnumObject(5);
 
-    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(PC, PHONE, PAD, IPHONE, ANDROID);
+    EnumObject UNKNOWN = new EnumObject(6);
+
+    EnumObjectHelper<EnumObject> helper = EnumObjectHelper.create(PC, PHONE, PAD, IPHONE, ANDROID, UNKNOWN);
 }

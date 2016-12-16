@@ -11,10 +11,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.MapUtils;
@@ -284,6 +286,15 @@ public abstract class Utils {
             LOG.error("un supported encoding", e);
             return "";
         }
+    }
+
+    @SafeVarargs
+    public static <T> Set<T> asSet(T... elements) {
+        Set<T> set = new HashSet<T>(elements.length);
+        for (int i = 0; i < elements.length; i++) {
+            set.add(elements[i]);
+        }
+        return set;
     }
 
     public static void main(String[] args) {

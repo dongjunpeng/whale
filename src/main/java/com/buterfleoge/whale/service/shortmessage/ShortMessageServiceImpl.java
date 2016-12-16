@@ -60,7 +60,6 @@ public class ShortMessageServiceImpl implements ShortMessageService {
         String routeName = travelRoute.getName();
         String startDate = DateFormatUtils.format(travelGroup.getStartDate(), Pattern.DATE);
 
-        Long orderid = orderInfo.getOrderid();
         String travellerList = Utils.join(orderTravellers, ",", new Printer<OrderTraveller>() {
             @Override
             public String print(OrderTraveller object, Locale locale) {
@@ -78,7 +77,7 @@ public class ShortMessageServiceImpl implements ShortMessageService {
         userParam.append("{");
         userParam.append("\"travellerList\":").append(travellerList).append("\",");
         userParam.append("\"routeName\":").append(routeName).append("\",");
-        userParam.append("\"orderid\":").append(Long.valueOf(orderid)).append("\",");
+        userParam.append("\"prefixOrderid\":").append(orderInfo.getOrderNo()).append("\",");
         userParam.append("\"startDate\":").append(startDate).append("\"");
         userParam.append("}");
 
@@ -86,70 +85,47 @@ public class ShortMessageServiceImpl implements ShortMessageService {
         userQuerys.put("ParamString", userParam.toString());
         userQuerys.put("RecNum", mobile);
         userQuerys.put("SignName", "走之旅行");
-        userQuerys.put("TemplateCode", "userPaySuccess");
+        userQuerys.put("TemplateCode", "SMS_25150343");
         return sendMessage(userQuerys);
     }
 
-    /**
-     * 
-     * 每个出行人->${travellerName}，【${routeName}】${startDate}至${endDate}马上就要出发啦！领队${
-     * leader}，微信/手机${mobile}，${hotel}见！详细见公众号/网站集合文件。
-     *
-     * @return
-     */
     @Override
-    public int sendAssemblyInfo(TravelRoute travelRoute, TravelGroup travelGroup, AssemblyInfo assembleInfo,
+    public boolean sendAssemblyInfo(TravelRoute travelRoute, TravelGroup travelGroup, AssemblyInfo assembleInfo,
             List<OrderTraveller> orderTravellers) {
-
-        // 成功发送条数
-        int sent = 0;
-
         // 基本信息
-        String routeName = travelRoute.getName();
         String startDate = DateFormatUtils.format(travelGroup.getStartDate(), Pattern.DATE);
         String endDate = DateFormatUtils.format(travelGroup.getEndDate(), Pattern.DATE);
         String leader = assembleInfo.getLeader();
         String mobile = assembleInfo.getMobile();
         String hotel = assembleInfo.getHotel();
 
-        if (!assembleInfo.getReady()) {
-            LOG.error("assembleInfo is not ready");
-            return sent;
-        }
-
-        if (assembleInfo.getSent()) {
-            LOG.error("assembleInfo has been sent");
-            return sent;
-        }
-
-        if (leader == null || mobile == null || hotel == null || "".equals(leader) || "".equals(mobile)
-                || "".equals(hotel)) {
+        if (StringUtils.hasText(mobile) || StringUtils.hasText(hotel) || StringUtils.hasText(leader)) {
             LOG.error("assembleInfo is null");
-            return sent;
+            return false;
         }
 
-        for (OrderTraveller traveller : orderTravellers) {
-            StringBuilder builder = new StringBuilder();
-            builder.append("{");
-            builder.append("\"travellerName\":").append(traveller.getName()).append("\",");
-            builder.append("\"routeName\":").append(routeName).append("\",");
-            builder.append("\"startDate\":").append(startDate).append("\"");
-            builder.append("\"endDate\":").append(endDate).append("\",");
-            builder.append("\"leader\":").append(leader).append("\",");
-            builder.append("\"mobile\":").append(mobile).append("\",");
-            builder.append("\"hotel\":").append(hotel).append("\"");
-            builder.append("}");
-
-            Map<String, String> querys = new HashMap<String, String>();
-            querys.put("ParamString", builder.toString());
-            querys.put("RecNum", traveller.getMobile());
-            querys.put("SignName", "走之旅行");
-            querys.put("TemplateCode", "assemblyInfo");
-            if (sendMessage(querys)) {
-                sent++;
+        String mobiles = Utils.join(orderTravellers, ",", new Printer<OrderTraveller>() {
+            @Override
+            public String print(OrderTraveller object, Locale locale) {
+                return object.getMobile();
             }
-        }
-        return sent;
+        });
+        StringBuilder builder = new StringBuilder();
+        builder.append("{");
+        builder.append("\"routeName\":").append(Utils.getProductName(travelRoute, travelGroup)).append("\",");
+        builder.append("\"startDate\":").append(startDate).append("\"");
+        builder.append("\"endDate\":").append(endDate).append("\",");
+        builder.append("\"leader\":").append(leader).append("\",");
+        builder.append("\"mobile\":").append(mobile).append("\",");
+        builder.append("\"hotel\":").append(hotel).append("\"");
+        builder.append("}");
+
+        Map<String, String> querys = new HashMap<String, String>();
+        querys.put("ParamString", builder.toString());
+        querys.put("RecNum", mobiles);
+        querys.put("SignName", "走之旅行");
+        querys.put("TemplateCode", "SMS_34780009");
+        return sendMessage(querys);
     }
 
     private boolean sendMessage(Map<String, String> querys) {
