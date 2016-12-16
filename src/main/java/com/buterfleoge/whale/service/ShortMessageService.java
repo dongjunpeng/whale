@@ -18,12 +18,12 @@ public interface ShortMessageService {
     /**
      * 付款成功
      *
-     * 付款账户->${travellerList}已成功报名“${routeName}”，订单号${orderid}，${startDate}出发！
+     * 恭喜！${travellerList}已成功报名“${routeName}”旅行，订单号${prefixOrderid}，将于${startDate}日出发！
      *
      * @return
      */
     boolean sendPaySuccessMessage(TravelRoute travelRoute, TravelGroup travelGroup, OrderInfo orderInfo,
-            List<OrderTraveller> orderTravellers, AccountInfo accoutInfo);
+            List<OrderTraveller> orderTravellers, AccountInfo accountInfo);
 
     /**
      * 每个出行人->${travellerName}，【${routeName}】${startDate}至${endDate}马上就要出发啦！领队${
@@ -31,7 +31,7 @@ public interface ShortMessageService {
      *
      * @return
      */
-    int sendAssemblyInfo(TravelRoute travelRoute, TravelGroup travelGroup, AssemblyInfo assembleInfo,
+    boolean sendAssemblyInfo(TravelRoute travelRoute, TravelGroup travelGroup, AssemblyInfo assembleInfo,
             List<OrderTraveller> orderTravellers);
 
 }

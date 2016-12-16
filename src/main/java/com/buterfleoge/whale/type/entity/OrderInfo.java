@@ -78,6 +78,9 @@ public class OrderInfo extends BaseObject {
     @Column(name = "roommate")
     private Boolean roommate;
 
+    @Column(name = "sent")
+    private Boolean sent;
+
     @DateTimeFormat(pattern = Pattern.DATE)
     @Column(name = "add_time")
     @Convert(converter = DateTimeConverter.class)
@@ -305,6 +308,21 @@ public class OrderInfo extends BaseObject {
      */
     public void setRoommate(Boolean roommate) {
         this.roommate = roommate;
+    }
+
+    /**
+     * @return the sent
+     */
+    public Boolean getSent() {
+        return sent;
+    }
+
+    /**
+     * @param sent
+     *            the sent to set
+     */
+    public void setSent(Boolean sent) {
+        this.sent = sent;
     }
 
     /**
